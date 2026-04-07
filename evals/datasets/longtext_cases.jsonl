@@ -1,0 +1,2 @@
+{"description":"all quality checks pass (canonical case)","vars":{"result_json":"{\"no_uncited_claims\":true,\"coverage_rate\":1.0,\"missing_count\":0,\"duplicate_count\":0,\"unknown_pid_count\":0}"}}
+{"description":"all quality checks pass (alternate formatting)","vars":{"result_json":"{\"no_uncited_claims\":true,\"coverage_rate\":1,\"missing_count\":0,\"duplicate_count\":0,\"unknown_pid_count\":0}"}}

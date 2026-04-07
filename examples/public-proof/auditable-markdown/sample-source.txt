@@ -1,0 +1,10 @@
+Provenote public proof sample
+
+This sample exists to exercise the auditable markdown lane with one fixed public input.
+
+The goal is simple:
+- create one source
+- run one auditable markdown job
+- download one inspectable markdown file
+
+This sample is intentionally small, stable, and safe to publish.

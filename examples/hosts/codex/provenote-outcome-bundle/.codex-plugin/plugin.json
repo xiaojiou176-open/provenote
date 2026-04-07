@@ -1,0 +1,33 @@
+{
+  "name": "provenote-codex-outcome-bundle",
+  "version": "1.8.4",
+  "description": "Public-ready Codex plugin bundle for Provenote MCP outcome workflows.",
+  "author": {
+    "name": "Provenote maintainers",
+    "url": "https://github.com/xiaojiou176/provenote"
+  },
+  "homepage": "https://github.com/xiaojiou176/provenote/blob/main/examples/hosts/codex/provenote-outcome-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176/provenote",
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "mcp",
+    "provenote",
+    "drafts",
+    "research-threads"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Provenote Codex Outcome Bundle",
+    "shortDescription": "Bundle Provenote MCP workflows for Codex.",
+    "longDescription": "Install repo-owned Provenote MCP workflows, read-first skill guidance, and starter configuration in one Codex bundle.",
+    "developerName": "Provenote",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/xiaojiou176/provenote/blob/main/docs/integrations/codex.md"
+  }
+}

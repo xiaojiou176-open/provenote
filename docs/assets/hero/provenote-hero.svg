@@ -1,0 +1,78 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="90" y1="70" x2="1120" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.46" stop-color="#10243C"/>
+      <stop offset="1" stop-color="#173A4A"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#F8FBFF" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#F8FBFF" stop-opacity="0.06"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="1200" height="760" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#020611" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="760" rx="32" fill="url(#bg)"/>
+  <circle cx="140" cy="140" r="150" fill="#5BA7FF" fill-opacity="0.08"/>
+  <circle cx="1040" cy="150" r="110" fill="#36CFC9" fill-opacity="0.12"/>
+  <circle cx="980" cy="620" r="168" fill="#F3C969" fill-opacity="0.08"/>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="56" width="1088" height="648" rx="28" fill="url(#panel)" stroke="#5C6C7D" stroke-opacity="0.22"/>
+  </g>
+
+  <text x="110" y="150" fill="#EAF4FF" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="2">PROVENOTE</text>
+  <text x="110" y="220" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800">Turn grounded sources</text>
+  <text x="110" y="272" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800">into auditable markdown</text>
+  <text x="110" y="324" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800">and reusable outputs.</text>
+
+  <text x="110" y="392" fill="#C3D5E5" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500">Collect notes, docs, audio, and web content.</text>
+  <text x="110" y="426" fill="#C3D5E5" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500">Search, transform, and organize them in one workbench.</text>
+  <text x="110" y="460" fill="#C3D5E5" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500">Export inspectable reports when traceability matters.</text>
+
+  <rect x="110" y="488" width="228" height="58" rx="18" fill="#36CFC9"/>
+  <text x="146" y="523" fill="#041422" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800">Quick Result Path</text>
+  <rect x="356" y="488" width="186" height="58" rx="18" fill="#FFFFFF" fill-opacity="0.08" stroke="#A0B5C8" stroke-opacity="0.24"/>
+  <text x="396" y="523" fill="#F6FAFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Public Proof</text>
+
+  <g>
+    <rect x="700" y="126" width="354" height="498" rx="28" fill="#0C1625" stroke="#28475F"/>
+
+    <rect x="728" y="154" width="118" height="30" rx="11" fill="#13273B"/>
+    <text x="760" y="174" fill="#D8E8F4" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Sources</text>
+
+    <rect x="860" y="154" width="166" height="30" rx="11" fill="#13273B"/>
+    <text x="886" y="174" fill="#D8E8F4" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Auditable Markdown</text>
+
+    <rect x="728" y="206" width="116" height="132" rx="18" fill="#112338"/>
+    <text x="750" y="242" fill="#F5FAFF" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700">Notes</text>
+    <text x="750" y="272" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="15">Docs</text>
+    <text x="750" y="298" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="15">Audio</text>
+    <text x="750" y="324" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="15">Web</text>
+
+    <rect x="860" y="206" width="166" height="132" rx="18" fill="#12273D"/>
+    <rect x="882" y="234" width="70" height="42" rx="14" fill="#36CFC9"/>
+    <text x="896" y="260" fill="#041422" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800">0.98</text>
+    <text x="964" y="256" fill="#F4FAFF" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Coverage</text>
+    <text x="964" y="279" fill="#D6E6F5" font-family="Arial, Helvetica, sans-serif" font-size="14">Missing 0 · Duplicate 0</text>
+    <text x="882" y="312" fill="#F4FAFF" font-family="Arial, Helvetica, sans-serif" font-size="14">Markdown export ready</text>
+
+    <rect x="728" y="360" width="298" height="112" rx="20" fill="#101D2D"/>
+    <text x="750" y="394" fill="#F5FAFF" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700">Ask and Search</text>
+    <rect x="750" y="414" width="252" height="18" rx="9" fill="#183047"/>
+    <rect x="750" y="444" width="184" height="12" rx="6" fill="#355C7D"/>
+
+    <rect x="728" y="494" width="136" height="98" rx="20" fill="#102438"/>
+    <text x="750" y="528" fill="#F5FAFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Podcasts</text>
+    <text x="750" y="556" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="13">Podcast-ready outputs</text>
+
+    <rect x="890" y="494" width="136" height="98" rx="20" fill="#102438"/>
+    <text x="912" y="528" fill="#F5FAFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Transforms</text>
+    <text x="912" y="556" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="13">Reusable prompt flows</text>
+  </g>
+
+  <text x="110" y="624" fill="#F3C969" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800">RESULT PATH</text>
+  <text x="110" y="656" fill="#D7E6F4" font-family="Arial, Helvetica, sans-serif" font-size="20">Import one source → run auditable markdown → download an inspectable result</text>
+</svg>

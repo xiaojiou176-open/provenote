@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "provenote": {
+      "command": "provenote-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}

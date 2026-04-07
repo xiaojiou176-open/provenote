@@ -1,0 +1,51 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="overviewBg" x1="64" y1="52" x2="1210" y2="668" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.5" stop-color="#10243C"/>
+      <stop offset="1" stop-color="#173A4A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1280" height="720" rx="32" fill="url(#overviewBg)"/>
+  <rect x="40" y="40" width="1200" height="640" rx="28" fill="#102033" stroke="#2A4D67"/>
+
+  <text x="88" y="108" fill="#36CFC9" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="800" letter-spacing="2">PROVENOTE QUICK RESULT OVERVIEW</text>
+  <text x="88" y="168" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800">The shortest documented path</text>
+  <text x="88" y="214" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="800">to one inspectable result.</text>
+  <text x="88" y="252" fill="#BFD2E4" font-family="Arial, Helvetica, sans-serif" font-size="18">This is a repo-authored overview, not a live product recording.</text>
+
+  <rect x="88" y="286" width="650" height="296" rx="24" fill="#12273D"/>
+
+  <rect x="118" y="316" width="590" height="40" rx="14" fill="#17314C"/>
+  <text x="146" y="342" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">1. Copy `.env.example` to `.env`.</text>
+
+  <rect x="118" y="370" width="590" height="40" rx="14" fill="#17314C"/>
+  <text x="146" y="396" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">2. Start the local stack with Docker Compose.</text>
+
+  <rect x="118" y="424" width="590" height="40" rx="14" fill="#17314C"/>
+  <text x="146" y="450" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">3. Import or create one source.</text>
+
+  <rect x="118" y="478" width="590" height="40" rx="14" fill="#17314C"/>
+  <text x="146" y="504" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">4. Run Auditable Markdown from the source detail view.</text>
+
+  <rect x="118" y="532" width="590" height="40" rx="14" fill="#17314C"/>
+  <text x="146" y="558" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">5. Download one markdown report with integrity counters.</text>
+
+  <rect x="786" y="286" width="378" height="296" rx="24" fill="#0C1625" stroke="#294A63"/>
+  <rect x="824" y="316" width="302" height="34" rx="12" fill="#16304A"/>
+  <text x="854" y="338" fill="#D8E8F4" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">Sources</text>
+
+  <rect x="824" y="370" width="302" height="60" rx="18" fill="#12283D"/>
+  <text x="854" y="408" fill="#F6FAFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Auditable Markdown</text>
+
+  <rect x="824" y="450" width="302" height="104" rx="18" fill="#12283D"/>
+  <rect x="854" y="476" width="76" height="38" rx="12" fill="#36CFC9"/>
+  <text x="874" y="500" fill="#041422" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800">RUN</text>
+  <text x="958" y="500" fill="#F6FAFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Download Markdown</text>
+  <text x="854" y="532" fill="#B7CCE0" font-family="Arial, Helvetica, sans-serif" font-size="15">Coverage, missing, duplicate,</text>
+  <text x="854" y="552" fill="#B7CCE0" font-family="Arial, Helvetica, sans-serif" font-size="15">and uncited claims.</text>
+
+  <text x="88" y="626" fill="#F3C969" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="800">WHY THIS MATTERS</text>
+  <text x="88" y="658" fill="#D7E6F4" font-family="Arial, Helvetica, sans-serif" font-size="20">The repo leads with one proof loop: source in, inspectable markdown out.</text>
+</svg>

@@ -1,0 +1,19 @@
+{
+  "id": "provenote-claude-outcome-bundle",
+  "name": "Provenote Claude Outcome Bundle",
+  "version": "1.8.4",
+  "description": "Public-ready Claude-style OpenClaw-compatible bundle for Provenote MCP outcome workflows.",
+  "author": {
+    "name": "Provenote maintainers",
+    "url": "https://github.com/xiaojiou176/provenote"
+  },
+  "homepage": "https://github.com/xiaojiou176/provenote/blob/main/examples/hosts/openclaw/provenote-claude-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176/provenote",
+  "license": "MIT",
+  "keywords": [
+    "openclaw",
+    "claude-code",
+    "mcp",
+    "provenote"
+  ]
+}

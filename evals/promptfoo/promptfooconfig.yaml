@@ -1,0 +1,29 @@
+description: "Eval proof surface: deterministic lexical evidence gate for long-text extraction outputs"
+
+# This promptfoo surface is intentionally repo-side and deterministic.
+# It does not call a model or claim end-to-end model-quality coverage.
+# The `echo` provider replays prepared `result_json` payloads so the JS
+# assertions can check lexical evidence invariants inside the extraction output.
+
+prompts:
+  - "{{result_json}}"
+
+providers:
+  - echo
+
+tests: file://../datasets/longtext_cases.jsonl
+
+defaultTest:
+  # These checks are lexical evidence gates over the prepared output JSON.
+  # They prove citation and coverage invariants, not live model judgment.
+  assert:
+    - type: javascript
+      value: file://assertions/no_uncited_claims.js
+    - type: javascript
+      value: file://assertions/coverage_rate.js
+    - type: javascript
+      value: file://assertions/missing_count.js
+    - type: javascript
+      value: file://assertions/duplicate_count.js
+    - type: javascript
+      value: file://assertions/unknown_pid_count.js

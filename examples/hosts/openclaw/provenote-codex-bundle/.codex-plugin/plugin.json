@@ -1,0 +1,32 @@
+{
+  "name": "provenote-codex-outcome-bundle",
+  "version": "1.8.4",
+  "description": "Public-ready Codex-style bundle for Provenote MCP outcome workflows.",
+  "author": {
+    "name": "Provenote maintainers",
+    "url": "https://github.com/xiaojiou176/provenote"
+  },
+  "homepage": "https://github.com/xiaojiou176/provenote/blob/main/examples/hosts/openclaw/provenote-codex-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176/provenote",
+  "license": "MIT",
+  "keywords": [
+    "openclaw",
+    "codex",
+    "mcp",
+    "provenote"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Provenote Codex Outcome Bundle",
+    "shortDescription": "OpenClaw-compatible Codex bundle for Provenote.",
+    "longDescription": "Install Provenote MCP workflows and Codex-style markers through an OpenClaw-compatible public-ready bundle.",
+    "developerName": "Provenote",
+    "category": "Productivity",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "websiteURL": "https://github.com/xiaojiou176/provenote/blob/main/docs/integrations/openclaw.md"
+  }
+}

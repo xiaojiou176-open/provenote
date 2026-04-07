@@ -1,0 +1,40 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="socialBg" x1="66" y1="52" x2="1210" y2="592" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07111F"/>
+      <stop offset="0.5" stop-color="#10243C"/>
+      <stop offset="1" stop-color="#163A4A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="640" rx="32" fill="url(#socialBg)"/>
+  <circle cx="1090" cy="142" r="118" fill="#36CFC9" fill-opacity="0.15"/>
+  <circle cx="968" cy="544" r="170" fill="#F3C969" fill-opacity="0.08"/>
+  <rect x="70" y="70" width="1140" height="500" rx="28" fill="#0E1E2F" fill-opacity="0.7" stroke="#26445B"/>
+
+  <text x="102" y="146" fill="#36CFC9" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" letter-spacing="2">PROVENOTE</text>
+  <text x="102" y="232" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="800">Messy long context.</text>
+  <text x="102" y="294" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="800">Structured insight.</text>
+  <text x="102" y="356" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="800">Auditable outcomes.</text>
+  <text x="102" y="444" fill="#B6CBE0" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500">Turn chats, docs, audio, and web threads into notes, research threads,</text>
+  <text x="102" y="478" fill="#B6CBE0" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="500">drafts, and auditable markdown with a repo-backed proof loop.</text>
+
+  <rect x="774" y="144" width="368" height="330" rx="28" fill="#0C1625" stroke="#2C4A60"/>
+  <rect x="804" y="176" width="128" height="28" rx="10" fill="#13273B"/>
+  <text x="825" y="195" fill="#D8E8F4" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Knowledgeization</text>
+  <rect x="946" y="176" width="122" height="28" rx="10" fill="#13273B"/>
+  <text x="1004" y="195" fill="#D8E8F4" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">First-party MCP</text>
+
+  <rect x="804" y="222" width="120" height="106" rx="16" fill="#12283D"/>
+  <text x="826" y="256" fill="#F6FAFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Inputs</text>
+  <text x="826" y="284" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="14">Chats</text>
+  <text x="826" y="308" fill="#8DA8C0" font-family="Arial, Helvetica, sans-serif" font-size="14">Docs · Web</text>
+
+  <rect x="942" y="222" width="152" height="106" rx="16" fill="#12283D"/>
+  <rect x="962" y="242" width="78" height="38" rx="12" fill="#36CFC9"/>
+  <text x="992" y="266" fill="#03121F" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="800">Insight</text>
+  <text x="962" y="304" fill="#B7CCE0" font-family="Arial, Helvetica, sans-serif" font-size="13">Outline · Summary · Turns</text>
+
+  <rect x="804" y="350" width="306" height="90" rx="18" fill="#101D2D"/>
+  <text x="826" y="382" fill="#F6FAFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Outcome ladder: note -> thread -> draft -> audit</text>
+  <text x="826" y="412" fill="#A9C0D5" font-family="Arial, Helvetica, sans-serif" font-size="14">Claude Code, Codex, CLI, and MCP share one repo-backed path.</text>
+</svg>

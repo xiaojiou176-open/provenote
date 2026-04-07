@@ -1,0 +1,35 @@
+<svg width="1200" height="430" viewBox="0 0 1200 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="430" rx="28" fill="#08111B"/>
+  <rect x="40" y="40" width="1120" height="350" rx="24" fill="#0E1E2E" stroke="#223D53"/>
+
+  <text x="70" y="92" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800">Provenote public architecture map</text>
+  <text x="70" y="124" fill="#A9C0D5" font-family="Arial, Helvetica, sans-serif" font-size="17">A workbench, an API boundary, a core runtime, and visible verification.</text>
+
+  <rect x="72" y="176" width="236" height="154" rx="22" fill="#13273B"/>
+  <text x="98" y="214" fill="#36CFC9" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="800">APPS / WEB</text>
+  <text x="98" y="248" fill="#F7FBFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800">User workbench</text>
+  <text x="98" y="280" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">Sources and notebooks</text>
+  <text x="98" y="304" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">Ask, search, and podcasts</text>
+
+  <rect x="344" y="176" width="236" height="154" rx="22" fill="#13273B"/>
+  <text x="370" y="214" fill="#5BA7FF" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="800">SERVICES / API</text>
+  <text x="370" y="248" fill="#F7FBFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800">HTTP boundary</text>
+  <text x="370" y="280" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">Routes for notebooks, search,</text>
+  <text x="370" y="304" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">transforms, podcasts, and proof</text>
+
+  <rect x="616" y="176" width="236" height="154" rx="22" fill="#13273B"/>
+  <text x="642" y="214" fill="#F3C969" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="800">PACKAGES / CORE</text>
+  <text x="642" y="248" fill="#F7FBFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800">Runtime logic</text>
+  <text x="642" y="280" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">Gemini-first workflows,</text>
+  <text x="642" y="304" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">SurrealDB, transforms, auditing</text>
+
+  <rect x="888" y="176" width="236" height="154" rx="22" fill="#13273B"/>
+  <text x="914" y="214" fill="#FF8E72" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="800">TESTS / WORKFLOWS</text>
+  <text x="914" y="248" fill="#F7FBFF" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800">Verification surfaces</text>
+  <text x="914" y="280" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">CI, UIUX witness, proof-ready</text>
+  <text x="914" y="304" fill="#B8CCDE" font-family="Arial, Helvetica, sans-serif" font-size="14">release and trust layers</text>
+
+  <path d="M309 252H343" stroke="#3E6484" stroke-width="6" stroke-linecap="round"/>
+  <path d="M581 252H615" stroke="#3E6484" stroke-width="6" stroke-linecap="round"/>
+  <path d="M853 252H887" stroke="#3E6484" stroke-width="6" stroke-linecap="round"/>
+</svg>
