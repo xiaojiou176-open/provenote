@@ -119,12 +119,14 @@ def test_local_preflight_defaults_to_fast_mode() -> None:
     assert re.search(r'^\s*MODE="fast"\s*$', script_text, flags=re.MULTILINE)
 
 
-def test_local_preflight_fast_mode_uses_repo_fast_container_profile() -> None:
+def test_local_preflight_can_opt_into_repo_fast_container_profile() -> None:
     script_text = (
         REPO_ROOT / "tooling/scripts/ci/local_preflight_before_push.sh"
     ).read_text(encoding="utf-8")
+    assert 'OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"' in script_text
     assert 'CONTAINER_PROFILE="repo-fast"' in script_text
     assert '--profile "${CONTAINER_PROFILE}"' in script_text
+    assert '"${OPEN_NOTEBOOK_CI_FORCE_CONTAINER}" == "1"' in script_text
 
 
 def test_make_ci_local_preflight_defaults_to_fast_mode() -> None:
@@ -135,12 +137,22 @@ def test_make_ci_local_preflight_defaults_to_fast_mode() -> None:
     )
 
 
-def test_unified_test_gate_fast_mode_uses_repo_fast_container_profile() -> None:
+def test_unified_test_gate_can_opt_into_repo_fast_container_profile() -> None:
     script_text = (
         REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
     ).read_text(encoding="utf-8")
+    assert 'OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"' in script_text
     assert 'CONTAINER_PROFILE="repo-fast"' in script_text
     assert 'if [[ "${MODE}" == "fast" ]]; then' in script_text
+    assert '"${OPEN_NOTEBOOK_CI_FORCE_CONTAINER}" == "1"' in script_text
+
+
+def test_quality_full_defaults_to_host_execution() -> None:
+    makefile = (REPO_ROOT / "Makefile").read_text(encoding="utf-8")
+    assert (
+        'if [ "$${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}" = "1" ] && [ "$${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" ]; then'
+        in makefile
+    )
 
 
 def test_unified_test_gate_can_skip_duplicate_prepush_guards_for_hook_context() -> None:

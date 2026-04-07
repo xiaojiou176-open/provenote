@@ -38,7 +38,7 @@ Repo files can define the intended public surface. They cannot, by themselves, p
 | Homepage | `https://xiaojiou176-open.github.io/provenote/` |
 | Topics | `ai-notes`, `auditable-markdown`, `citations`, `knowledge-management`, `long-context`, `mcp`, `notebooks`, `research-assistant`, `research-threads`, `research-workbench`, `source-grounded-writing`, `traceable-writing` |
 | Discussions | enabled |
-| Releases | no visible published release and no active draft release were returned by the latest GitHub CLI readback |
+| Releases | `Provenote v1.8.5` is published as the current visible GitHub release |
 | Social preview asset in repo | `docs/assets/social/provenote-social-preview.png` exists |
 | Social preview asset dimensions | `1280x640`, `502837 bytes` |
 | Social preview uploaded in GitHub Settings | not currently proven live; GitHub repository API currently reports `open_graph_image_url = null` |
@@ -54,7 +54,7 @@ Use this checklist when refreshing the GitHub live page:
 - [ ] Discussions remain enabled
 - [ ] Social preview image uploaded from `docs/assets/social/provenote-social-preview.png`
 - [ ] Repository Settings review confirms the uploaded image is the repo-owned custom social preview
-- [ ] Release plan has been intentionally re-established before any new draft release is claimed
+- [ ] Release page still matches the current `v1.8.5` public proof story
 - [ ] Latest release-event `Build and Release` wave is green and matches the current public release proof story
 - [ ] `open_graph_image_url` becomes non-null after the GitHub Settings upload is completed
 

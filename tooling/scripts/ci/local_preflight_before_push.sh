@@ -6,6 +6,7 @@ cd "${ROOT_DIR}"
 
 MODE="fast"
 RUN_HEAVY_LOCAL="${RUN_HEAVY_LOCAL:-0}"
+OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"
 
 usage() {
   cat <<'USAGE'
@@ -14,6 +15,9 @@ Usage: tooling/scripts/ci/local_preflight_before_push.sh [--mode full|fast]
 Policy:
   - Default mode is fast for the lighter repo-owned pre-push rehearsal path.
   - Use `--mode full` when you explicitly want the stricter local push rehearsal.
+  - Local host execution is the default path.
+  - Set OPEN_NOTEBOOK_CI_FORCE_CONTAINER=1 when you explicitly want the
+    repo CI container rehearsal path.
   - Always run local unified gate first (fast/full).
   - If apps/web/runtime high-risk paths changed, run extra local smoke checks
     before pushing to remote CI.
@@ -43,12 +47,12 @@ if [[ "${MODE}" != "fast" && "${MODE}" != "full" ]]; then
   exit 1
 fi
 
-if [[ "${OPEN_NOTEBOOK_CI_IN_CONTAINER:-0}" != "1" && "${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" ]]; then
+if [[ "${OPEN_NOTEBOOK_CI_IN_CONTAINER:-0}" != "1" && "${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" && "${OPEN_NOTEBOOK_CI_FORCE_CONTAINER}" == "1" ]]; then
   CONTAINER_PROFILE="full"
   if [[ "${MODE}" == "fast" ]]; then
     CONTAINER_PROFILE="repo-fast"
   fi
-  echo "[local-preflight] Re-executing inside repo CI container (set OPEN_NOTEBOOK_CI_HOST_BYPASS=1 to force host mode)."
+  echo "[local-preflight] Re-executing inside repo CI container (host execution is default; unset OPEN_NOTEBOOK_CI_FORCE_CONTAINER to stay on host)."
   exec bash tooling/scripts/ci/run_in_consistent_container.sh --profile "${CONTAINER_PROFILE}" -- \
     env OPEN_NOTEBOOK_CI_IN_CONTAINER=1 OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-}" \
       bash tooling/scripts/ci/local_preflight_before_push.sh --mode "${MODE}"

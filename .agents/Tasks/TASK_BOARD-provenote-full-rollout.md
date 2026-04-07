@@ -22,7 +22,7 @@ Status: ACTIVE
       - `secret_scanning_non_provider_patterns = disabled`
       - `secret_scanning_validity_checks = disabled`
       - a repo-owned PATCH attempt was accepted without changing live state, so this is currently classified as a GitHub plan/policy boundary rather than a solved repo-side hardening step
-    - releases: no current GitHub release object
+    - releases: `Provenote v1.8.5` is published as the current canonical GitHub release object
     - tag truth:
       - `v1.8.4` remains pinned to the old hard-cut baseline commit `3f9328b`
       - `v1.8.5` is the current canonical closeout tag for the merged mainline
@@ -32,9 +32,7 @@ Status: ACTIVE
     - CI semantics now align to `pre-commit / pre-push / hosted / nightly / manual`
     - README/docs front door is compressed around `messy long context -> structured insight -> inspectable outcomes`
     - public package/version truth is aligned to `1.8.5`
-    - rollback bundles are reduced to two retained anchors:
-      - `provenote-hardcut-20260406-200447.bundle`
-      - `provenote-before-gitleaks-rewrite-20260406-224145.bundle`
+    - local provenote rollback bundles have been cleared after release/tag truth stabilized on canonical `main`
 - fresh verification evidence in this refresh:
   - `bash tooling/scripts/runtime/run_uv_managed.sh run pytest tests/ci/test_prepush_policy_contract.py tests/ci/test_distribution_readiness_contract.py tests/ci/test_public_artifact_prep_contract.py tests/ci/test_distribution_submission_packs.py tests/ci/test_required_checks_snapshot_contract.py tests/ci/test_public_distribution_surface_contract.py -q`
     - result: `89 passed`
@@ -46,15 +44,14 @@ Status: ACTIVE
     - result: `PASS`
   - `bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_snapshot_freshness.py`
     - result: `PASS`
-  - `OPEN_NOTEBOOK_CI_HOST_BYPASS=1 make ci-local-preflight`
+  - `make ci-local-preflight`
     - result: `PASS`
-    - note: default container-backed `make ci-local-preflight` still stops earlier when the host Docker daemon is absent and `/var/run/docker.sock` resolves to a missing user socket; current evidence therefore splits `repo-owned fast-lane logic = green` from `host Docker availability = external`
+    - note: local host execution is now the default path; explicit repo-CI container rehearsal remains opt-in via `OPEN_NOTEBOOK_CI_FORCE_CONTAINER=1`
 - blocker classification:
   - repo-owned closeout for this slice is complete on canonical `main`
   - remaining blockers are external-only:
-    - host Docker daemon availability for the container-backed local preflight path
     - GitHub-side advanced secret-scanning toggles that remained disabled after repo-owned PATCH attempt
-    - release-object creation/publish remains an owner-facing decision, not a repo-side engineering gap
+    - custom social preview upload remains an owner-facing settings action, not a repo-side engineering gap
 
 ## 2026-04-05 Public Distribution Ladder + Submission Pack Sync
 

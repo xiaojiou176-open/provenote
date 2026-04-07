@@ -87,7 +87,7 @@ The current repo can already prepare the storefront materials without claiming t
 | --- | --- | --- |
 | GitHub repository description | already synced to the current public positioning | only change it if the public brand story changes again |
 | GitHub homepage field | currently points to the GitHub Pages front door at `https://xiaojiou176-open.github.io/provenote/` | decide later whether the long-term homepage should stay on GitHub Pages, move to a custom docs site, or move to a custom domain |
-| Release surface | no current GitHub release object is published or drafted; tag truth and release-object truth are intentionally separate | owner decides later whether to create and publish a release once the external-distribution window is acceptable |
+| Release surface | `Provenote v1.8.5` is published and reflects the current canonical release line | owner decides later whether to publish newer releases or adjust future release copy/assets |
 | Claude Code / Codex starter bundles | public-ready package artifacts already exist in the repo | Claude Code now has an official marketplace/discovery surface, but live submission and review remain external; Codex official listing status remains separate and unclaimed |
 | OpenClaw bundle family | public-ready bundle artifacts and a ClawHub submission pack already exist in the repo | live ClawHub/community submission still needs platform action |
 | Official MCP Registry | official submission path exists | a supported public artifact plus publisher auth are still required before a listing can go live |
@@ -119,7 +119,6 @@ This page intentionally does **not** claim that Provenote is:
 
 Some next steps are real, but they remain outside pure repo-side completion:
 
-- intentionally establishing a release object after tag truth is set
 - authenticated directory / registry / marketplace submissions
 - domain registration or redirect setup for any future `.ai` landing
 - trademark and naming clearance for a stronger external brand move
