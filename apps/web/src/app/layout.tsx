@@ -45,7 +45,7 @@ const LANGUAGE_FALLBACKS: Record<string, SupportedHtmlLang> = {
 };
 
 const REPO_SOCIAL_PREVIEW_IMAGE =
-  "https://raw.githubusercontent.com/xiaojiou176/provenote/main/docs/assets/social/provenote-social-preview.png";
+  "https://raw.githubusercontent.com/xiaojiou176-open/provenote/main/docs/assets/social/provenote-social-preview.png";
 
 function resolveHtmlLang(acceptLanguageHeader: string | null): SupportedHtmlLang {
   if (!acceptLanguageHeader) {
@@ -77,7 +77,7 @@ export const metadata: Metadata = {
   description:
     "Turn messy long context into structured insight, auditable markdown, notebook drafts, and outcome-first research workflows in one source-grounded workbench.",
   applicationName: "Provenote",
-  metadataBase: new URL("https://github.com/xiaojiou176/provenote"),
+  metadataBase: new URL("https://github.com/xiaojiou176-open/provenote"),
   keywords: [
     "long context",
     "structured insight",

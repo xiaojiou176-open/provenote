@@ -5,8 +5,8 @@
     <strong>Turn long chats, notes, documents, audio, and web threads into structured knowledge assets, auditable markdown, and reusable notebook outcomes in one repo-documented workbench.</strong>
   </p>
   <p>
-    <a href="https://github.com/xiaojiou176/provenote/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/xiaojiou176/provenote?label=discussions"></a>
-    <a href="./LICENSE"><img alt="License" src="https://img.shields.io/github/license/xiaojiou176/provenote"></a>
+    <a href="https://github.com/xiaojiou176-open/provenote/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/xiaojiou176-open/provenote?label=discussions"></a>
+    <a href="./LICENSE"><img alt="License" src="https://img.shields.io/github/license/xiaojiou176-open/provenote"></a>
     <a href="./docs/quickstart.md"><img alt="Quick Result Path" src="https://img.shields.io/badge/quickstart-result%20path-36CFC9"></a>
     <a href="./docs/proof.md"><img alt="Public Proof" src="https://img.shields.io/badge/public-proof%20map-F3C969"></a>
   </p>
@@ -35,9 +35,9 @@
     ·
     <a href="./CHANGELOG.md"><strong>Changelog</strong></a>
     ·
-    <a href="https://github.com/xiaojiou176/provenote/releases"><strong>Releases</strong></a>
+    <a href="https://github.com/xiaojiou176-open/provenote/releases"><strong>Releases</strong></a>
     ·
-    <a href="https://github.com/xiaojiou176/provenote/discussions"><strong>Discussions</strong></a>
+    <a href="https://github.com/xiaojiou176-open/provenote/discussions"><strong>Discussions</strong></a>
   </p>
   <p>
     Star Provenote if you want a repository worth coming back to as auditable AI writing, source-grounded research, and productized workflows keep getting better.
@@ -348,7 +348,7 @@ If you want proof before commitment, start here:
 | The fastest path to a real result | [docs/quickstart.md](./docs/quickstart.md) |
 | How to use it from coding agents | [docs/mcp.md](./docs/mcp.md) |
 | The current scope and readiness boundary | [docs/project-status.md](./docs/project-status.md) |
-| The current release story | [CHANGELOG.md](./CHANGELOG.md) and [GitHub Releases](https://github.com/xiaojiou176/provenote/releases) |
+| The current release story | [CHANGELOG.md](./CHANGELOG.md) and [GitHub Releases](https://github.com/xiaojiou176-open/provenote/releases) |
 | The runtime shape | [docs/architecture.md](./docs/architecture.md) |
 | The support and security boundary | [SUPPORT.md](./SUPPORT.md) and [SECURITY.md](./SECURITY.md) |
 

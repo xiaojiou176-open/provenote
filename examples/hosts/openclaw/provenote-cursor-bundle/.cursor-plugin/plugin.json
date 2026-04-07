@@ -5,10 +5,10 @@
   "description": "Local Cursor-style bundle for Provenote MCP outcome workflows.",
   "author": {
     "name": "Provenote maintainers",
-    "url": "https://github.com/xiaojiou176/provenote"
+    "url": "https://github.com/xiaojiou176-open/provenote"
   },
-  "homepage": "https://github.com/xiaojiou176/provenote/blob/main/examples/hosts/openclaw/provenote-cursor-bundle/README.md",
-  "repository": "https://github.com/xiaojiou176/provenote",
+  "homepage": "https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/openclaw/provenote-cursor-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176-open/provenote",
   "license": "MIT",
   "keywords": [
     "openclaw",

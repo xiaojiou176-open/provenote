@@ -75,12 +75,12 @@ provenote = "packages.core.operator.cli:main"
 provenote-mcp = "packages.core.mcp.server:main"
 
 [project.urls]
-Homepage = "https://github.com/xiaojiou176/provenote/blob/main/docs/index.md"
-Documentation = "https://github.com/xiaojiou176/provenote/blob/main/docs/index.md"
-Source = "https://github.com/xiaojiou176/provenote"
-Changelog = "https://github.com/xiaojiou176/provenote/blob/main/CHANGELOG.md"
-Discussions = "https://github.com/xiaojiou176/provenote/discussions"
-Issues = "https://github.com/xiaojiou176/provenote/issues"
+Homepage = "https://github.com/xiaojiou176-open/provenote/blob/main/docs/index.md"
+Documentation = "https://github.com/xiaojiou176-open/provenote/blob/main/docs/index.md"
+Source = "https://github.com/xiaojiou176-open/provenote"
+Changelog = "https://github.com/xiaojiou176-open/provenote/blob/main/CHANGELOG.md"
+Discussions = "https://github.com/xiaojiou176-open/provenote/discussions"
+Issues = "https://github.com/xiaojiou176-open/provenote/issues"
 
 [build-system]
 requires = ["setuptools>=61.0"]
@@ -206,12 +206,12 @@ canonical_public_surface = "No off-repo canonical public URL is declared in-tree
 [tool.open_notebook.public_distribution_artifact]
 package_name = "provenote"
 package_registry = "pypi"
-mcp_name = "io.github.xiaojiou176/provenote-mcp"
+mcp_name = "io.github.xiaojiou176-open/provenote-mcp"
 entrypoints = ["provenote", "provenote-mcp"]
-homepage_url = "https://github.com/xiaojiou176/provenote/blob/main/docs/index.md"
+homepage_url = "https://github.com/xiaojiou176-open/provenote/blob/main/docs/index.md"
 documentation_urls = [
-    "https://github.com/xiaojiou176/provenote/blob/main/docs/mcp.md",
-    "https://github.com/xiaojiou176/provenote/blob/main/docs/distribution.md",
+    "https://github.com/xiaojiou176-open/provenote/blob/main/docs/mcp.md",
+    "https://github.com/xiaojiou176-open/provenote/blob/main/docs/distribution.md",
 ]
 bundle_manifests = [
     "examples/hosts/claude-code/provenote-outcome-bundle/.claude-plugin/plugin.json",
