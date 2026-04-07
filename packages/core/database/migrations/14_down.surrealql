@@ -1,0 +1,11 @@
+-- Rollback Migration 14: Auditable long-text pipeline
+
+REMOVE INDEX IF EXISTS idx_auditable_run_created ON TABLE auditable_run;
+REMOVE INDEX IF EXISTS idx_auditable_run_status ON TABLE auditable_run;
+REMOVE INDEX IF EXISTS idx_auditable_run_source ON TABLE auditable_run;
+
+REMOVE INDEX IF EXISTS idx_source_paragraph_pid ON TABLE source_paragraph;
+REMOVE INDEX IF EXISTS idx_source_paragraph_source ON TABLE source_paragraph;
+
+REMOVE TABLE auditable_run;
+REMOVE TABLE source_paragraph;

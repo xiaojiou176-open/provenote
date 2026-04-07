@@ -1,0 +1,8 @@
+-- Add built-in transformation for AI chat-log knowledgeization
+UPSERT transformation:chat_knowledgeization CONTENT {
+    name: "Chat Knowledgeization",
+    title: "Chat Knowledgeization",
+    description: "Convert ChatGPT/Codex dialog logs into process outline, insights, summary, and per-turn distilled recap.",
+    prompt: "@prompt-pack:chat_knowledgeization",
+    apply_default: false
+};

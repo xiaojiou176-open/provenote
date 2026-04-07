@@ -1,0 +1,40 @@
+-- Migration 14: Auditable long-text pipeline (lossless + auditable)
+
+DEFINE TABLE IF NOT EXISTS source_paragraph SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS source ON source_paragraph TYPE record<source>;
+DEFINE FIELD IF NOT EXISTS pid ON source_paragraph TYPE string;
+DEFINE FIELD IF NOT EXISTS `order` ON source_paragraph TYPE int;
+DEFINE FIELD IF NOT EXISTS raw_text ON source_paragraph TYPE string;
+DEFINE FIELD IF NOT EXISTS canonical_text ON source_paragraph TYPE string;
+DEFINE FIELD IF NOT EXISTS canonical_hash ON source_paragraph TYPE string;
+DEFINE FIELD IF NOT EXISTS created ON source_paragraph TYPE option<datetime> DEFAULT time::now();
+DEFINE FIELD IF NOT EXISTS updated ON source_paragraph TYPE option<datetime> DEFAULT time::now();
+
+DEFINE INDEX IF NOT EXISTS idx_source_paragraph_source ON source_paragraph FIELDS source;
+DEFINE INDEX IF NOT EXISTS idx_source_paragraph_pid ON source_paragraph FIELDS source, pid UNIQUE;
+
+DEFINE TABLE IF NOT EXISTS auditable_run SCHEMAFULL;
+
+DEFINE FIELD IF NOT EXISTS source ON auditable_run TYPE record<source>;
+DEFINE FIELD IF NOT EXISTS model_id ON auditable_run TYPE string DEFAULT "gemini-3.1-pro";
+DEFINE FIELD IF NOT EXISTS language ON auditable_run TYPE string DEFAULT "zh-CN";
+DEFINE FIELD IF NOT EXISTS near_dedup_threshold ON auditable_run TYPE number DEFAULT 0.97;
+DEFINE FIELD IF NOT EXISTS status ON auditable_run TYPE string DEFAULT "queued";
+
+DEFINE FIELD IF NOT EXISTS metrics ON auditable_run TYPE object DEFAULT {};
+DEFINE FIELD IF NOT EXISTS coverage_json ON auditable_run TYPE object DEFAULT {};
+DEFINE FIELD IF NOT EXISTS dedup_json ON auditable_run TYPE object DEFAULT {};
+DEFINE FIELD IF NOT EXISTS result_markdown ON auditable_run TYPE string DEFAULT "";
+
+-- Backward compatibility fields
+DEFINE FIELD IF NOT EXISTS source_paragraphs ON auditable_run TYPE array DEFAULT [];
+DEFINE FIELD IF NOT EXISTS sections ON auditable_run TYPE array DEFAULT [];
+DEFINE FIELD IF NOT EXISTS claims ON auditable_run TYPE array DEFAULT [];
+DEFINE FIELD IF NOT EXISTS dedup_entries ON auditable_run TYPE array DEFAULT [];
+
+DEFINE FIELD IF NOT EXISTS created ON auditable_run TYPE option<datetime> DEFAULT time::now();
+DEFINE FIELD IF NOT EXISTS updated ON auditable_run TYPE option<datetime> DEFAULT time::now();
+
+DEFINE INDEX IF NOT EXISTS idx_auditable_run_source ON auditable_run FIELDS source;
+DEFINE INDEX IF NOT EXISTS idx_auditable_run_status ON auditable_run FIELDS status;
+DEFINE INDEX IF NOT EXISTS idx_auditable_run_created ON auditable_run FIELDS created;

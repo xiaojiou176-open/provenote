@@ -1,0 +1,3 @@
+-- v13 up keeps embedding fields nullable; rollback must return to v12 state (also nullable)
+DEFINE FIELD OVERWRITE embedding ON TABLE source_insight TYPE option<array<float>>;
+DEFINE FIELD OVERWRITE embedding ON TABLE note TYPE option<array<float>>;

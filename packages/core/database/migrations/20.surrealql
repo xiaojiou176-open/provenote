@@ -1,0 +1,12 @@
+-- Migration 20: introduce notebook-level research thread artifacts
+
+DEFINE TABLE IF NOT EXISTS research_thread SCHEMAFULL;
+
+DEFINE FIELD OVERWRITE notebook ON TABLE research_thread TYPE record<notebook>;
+DEFINE FIELD OVERWRITE title ON TABLE research_thread TYPE string;
+DEFINE FIELD OVERWRITE seed_kind ON TABLE research_thread TYPE string;
+DEFINE FIELD OVERWRITE source_ids ON TABLE research_thread TYPE array<record<source>> DEFAULT [];
+DEFINE FIELD OVERWRITE note_ids ON TABLE research_thread TYPE array<record<note>> DEFAULT [];
+DEFINE FIELD OVERWRITE entries ON TABLE research_thread TYPE array DEFAULT [];
+
+DEFINE INDEX IF NOT EXISTS idx_research_thread_notebook_updated ON TABLE research_thread FIELDS notebook, updated;

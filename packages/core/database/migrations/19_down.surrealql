@@ -1,0 +1,5 @@
+-- Rollback migration 19: remove notebook-level draft outcome spine
+
+REMOVE INDEX IF EXISTS idx_draft_notebook_updated ON TABLE draft;
+REMOVE INDEX IF EXISTS idx_draft_parent ON TABLE draft;
+REMOVE TABLE IF EXISTS draft;

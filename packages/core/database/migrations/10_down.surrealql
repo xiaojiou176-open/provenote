@@ -1,0 +1,18 @@
+-- Rollback Migration 10: Remove source field indexes
+
+REMOVE INDEX IF EXISTS idx_source_insight_source ON TABLE source_insight;
+REMOVE INDEX IF EXISTS idx_source_embedding_source ON TABLE source_embedding;
+
+-- Restore embedding schema to pre-v10 strict mode (v9 and earlier)
+DEFINE FIELD OVERWRITE embedding ON TABLE source_insight TYPE array<float>;
+DEFINE FIELD OVERWRITE embedding ON TABLE note TYPE array<float>;
+
+-- v10 deleted orphan source_embedding/source_insight rows in-place and that data cannot be
+-- reconstructed during rollback. Persist a verifiable rollback note for operators.
+UPSERT open_notebook:migration_rollback_v10 CONTENT {
+    migration: 10,
+    irreversible_cleanup: true,
+    cleanup_tables: ["source_embedding", "source_insight"],
+    verification_hint: "Run SELECT count() FROM source_embedding WHERE source.id=NONE; and SELECT count() FROM source_insight WHERE source.id=NONE; after rollback.",
+    recorded_at: time::now()
+};

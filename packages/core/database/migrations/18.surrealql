@@ -1,0 +1,24 @@
+-- Migration 18: schema/domain alignment for notebook + provider query/index optimization
+
+-- Keep notebook records aligned with domain/API expectations (non-null strings)
+UPDATE notebook SET description = "" WHERE description = NONE;
+UPDATE notebook SET name = "Untitled Notebook" WHERE name = NONE OR string::len(string::trim(name)) = 0;
+DEFINE FIELD OVERWRITE name ON TABLE notebook TYPE string DEFAULT "Untitled Notebook";
+DEFINE FIELD OVERWRITE description ON TABLE notebook TYPE string DEFAULT "";
+
+-- Normalize provider values once so indexed equality queries can be used
+UPDATE credential SET provider = string::lowercase(string::replace(provider, "-", "_")) WHERE provider != NONE;
+UPDATE model SET provider = string::lowercase(string::replace(provider, "-", "_")) WHERE provider != NONE;
+
+-- Provider lookup indexes
+DEFINE INDEX IF NOT EXISTS idx_credential_provider ON credential FIELDS provider;
+DEFINE INDEX IF NOT EXISTS idx_model_provider ON model FIELDS provider;
+DEFINE INDEX IF NOT EXISTS idx_model_provider_type_name ON model FIELDS provider, type, name;
+
+-- High-frequency notebook relation lookups
+DEFINE INDEX IF NOT EXISTS idx_reference_out ON reference FIELDS out;
+DEFINE INDEX IF NOT EXISTS idx_reference_in ON reference FIELDS in;
+DEFINE INDEX IF NOT EXISTS idx_reference_out_in ON reference FIELDS out, in;
+DEFINE INDEX IF NOT EXISTS idx_artifact_out ON artifact FIELDS out;
+DEFINE INDEX IF NOT EXISTS idx_artifact_in ON artifact FIELDS in;
+DEFINE INDEX IF NOT EXISTS idx_artifact_out_in ON artifact FIELDS out, in;

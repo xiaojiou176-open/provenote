@@ -1,0 +1,5 @@
+-- Migration 15: Keep auditable object fields flexible so nested keys are preserved
+
+DEFINE FIELD OVERWRITE metrics ON TABLE auditable_run TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD OVERWRITE coverage_json ON TABLE auditable_run TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD OVERWRITE dedup_json ON TABLE auditable_run TYPE object FLEXIBLE DEFAULT {};

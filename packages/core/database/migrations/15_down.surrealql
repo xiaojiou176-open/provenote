@@ -1,0 +1,5 @@
+-- Rollback Migration 15: restore strict object fields on auditable_run
+
+DEFINE FIELD OVERWRITE metrics ON TABLE auditable_run TYPE object DEFAULT {};
+DEFINE FIELD OVERWRITE coverage_json ON TABLE auditable_run TYPE object DEFAULT {};
+DEFINE FIELD OVERWRITE dedup_json ON TABLE auditable_run TYPE object DEFAULT {};
