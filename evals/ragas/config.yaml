@@ -1,0 +1,21 @@
+# This surface is a deterministic threshold gate over supplied metric payloads.
+# It does not run a live Ragas pipeline by itself and should not be described as
+# a mature model-evaluation loop.
+thresholds:
+  faithfulness: 0.95
+  answer_relevancy: 0.90
+  context_precision: 0.90
+  context_recall: 0.80
+
+# Optionally point to a JSON file with exported metric outputs.
+# The file can be either {"metrics": {...}} or a flat metric map.
+results_file: ""
+
+# Inline metrics keep local development and CI deterministic by default.
+# They are a minimum honest proof surface, not evidence of live scoring.
+# Replace these with exported Ragas outputs when you have a real run artifact.
+metrics:
+  faithfulness: 0.95
+  answer_relevancy: 0.90
+  context_precision: 0.90
+  context_recall: 0.80

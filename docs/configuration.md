@@ -1,0 +1,112 @@
+# Configuration
+
+This repository uses a Gemini-only runtime contract.
+
+If you are still deciding whether Provenote is worth your time, do not start here. Start with [../README.md](../README.md), then [quickstart.md](quickstart.md), and come back when you need the exact environment contract.
+
+## phase1_ssot_naming(canonical_only)
+
+Use only the canonical environment variable names documented in this file.
+
+## Runtime Allowlist (21)
+
+`runtime_allowlist(21)`
+
+### Required keys
+
+- `GEMINI_API_KEY`
+- `OPEN_NOTEBOOK_ENCRYPTION_KEY`
+- `SURREAL_URL`
+- `SURREAL_USER`
+- `SURREAL_PASSWORD`
+- `SURREAL_NAMESPACE`
+- `SURREAL_DATABASE`
+
+### Optional keys
+
+- `API_HOST`
+- `API_PORT`
+- `API_RELOAD`
+- `API_URL`
+- `INTERNAL_API_URL`
+- `API_CLIENT_TIMEOUT`
+- `OPEN_NOTEBOOK_PASSWORD`
+- `OPEN_NOTEBOOK_CHUNK_SIZE`
+- `OPEN_NOTEBOOK_CHUNK_OVERLAP`
+- `OPEN_NOTEBOOK_PHOENIX_ENABLED`
+- `OPEN_NOTEBOOK_PHOENIX_COLLECTOR_ENDPOINT`
+- `OPEN_NOTEBOOK_PHOENIX_PROJECT_NAME`
+- `OPEN_NOTEBOOK_PHOENIX_API_KEY`
+- `GEMINI_MODEL`
+
+## Blocked List (40)
+
+`blocked_list(40)`
+
+- `ANTHROPIC_API_KEY`
+- `AZURE_OPENAI_API_KEY`
+- `AZURE_OPENAI_API_KEY_EMBEDDING`
+- `AZURE_OPENAI_API_KEY_LLM`
+- `AZURE_OPENAI_API_KEY_STT`
+- `AZURE_OPENAI_API_KEY_TTS`
+- `AZURE_OPENAI_API_VERSION`
+- `AZURE_OPENAI_API_VERSION_EMBEDDING`
+- `AZURE_OPENAI_API_VERSION_LLM`
+- `AZURE_OPENAI_API_VERSION_STT`
+- `AZURE_OPENAI_API_VERSION_TTS`
+- `AZURE_OPENAI_ENDPOINT`
+- `AZURE_OPENAI_ENDPOINT_EMBEDDING`
+- `AZURE_OPENAI_ENDPOINT_LLM`
+- `AZURE_OPENAI_ENDPOINT_STT`
+- `AZURE_OPENAI_ENDPOINT_TTS`
+- `DEEPSEEK_API_KEY`
+- `ELEVENLABS_API_KEY`
+- `GOOGLE_APPLICATION_CREDENTIALS`
+- `GROQ_API_KEY`
+- `MISTRAL_API_KEY`
+- `OLLAMA_API_BASE`
+- `OLLAMA_BASE_URL`
+- `OPENAI_API_KEY`
+- `OPENAI_COMPATIBLE_API_KEY`
+- `OPENAI_COMPATIBLE_API_KEY_EMBEDDING`
+- `OPENAI_COMPATIBLE_API_KEY_LLM`
+- `OPENAI_COMPATIBLE_API_KEY_STT`
+- `OPENAI_COMPATIBLE_API_KEY_TTS`
+- `OPENAI_COMPATIBLE_BASE_URL`
+- `OPENAI_COMPATIBLE_BASE_URL_EMBEDDING`
+- `OPENAI_COMPATIBLE_BASE_URL_LLM`
+- `OPENAI_COMPATIBLE_BASE_URL_STT`
+- `OPENAI_COMPATIBLE_BASE_URL_TTS`
+- `OPENROUTER_API_KEY`
+- `OPENROUTER_BASE_URL`
+- `VERTEX_LOCATION`
+- `VERTEX_PROJECT`
+- `VOYAGE_API_KEY`
+- `XAI_API_KEY`
+
+## Forbidden historical names
+
+- `GOOGLE_API_KEY`
+- `SURREAL_PASS`
+- `SURREAL_ADDRESS`
+- `SURREAL_PORT`
+- `API_BASE_URL`
+
+## Minimal example
+
+```bash
+OPEN_NOTEBOOK_ENCRYPTION_KEY=change-me-to-a-secret-string
+GEMINI_API_KEY=your-google-ai-studio-key
+SURREAL_URL=ws://127.0.0.1:8000/rpc
+SURREAL_USER=root
+SURREAL_PASSWORD=root
+SURREAL_NAMESPACE=open_notebook
+SURREAL_DATABASE=open_notebook
+```
+
+## Validation
+
+```bash
+bash tooling/scripts/ci/check_env_governance.sh
+bash tooling/scripts/ci/check_secret_leaks.sh
+```
