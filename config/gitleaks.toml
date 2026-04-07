@@ -1,0 +1,10 @@
+title = "Repository gitleaks config"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Ignore detect-secrets baseline file"
+paths = [
+  '''^\.secrets\.baseline$''',
+]

@@ -1,0 +1,93 @@
+ARG UV_BINARY_IMAGE=ghcr.io/astral-sh/uv:0.10.9
+
+FROM ${UV_BINARY_IMAGE} AS uv-binary
+
+# Stage 1: Frontend Builder
+FROM node:22.22.1-bookworm-slim AS apps-web-builder
+WORKDIR /app/apps/web
+
+# Copy dependency files first to leverage cache
+COPY apps/web/package.json apps/web/package-lock.json ./
+ARG NPM_REGISTRY=https://registry.npmjs.org/
+RUN npm config set registry ${NPM_REGISTRY}
+RUN npm ci
+
+# Copy the rest of the apps/web source
+COPY apps/web/ ./
+# Build the apps/web
+RUN npm run build
+
+# Stage 2: SurrealDB binary (pinned to the declared compose/test version)
+FROM surrealdb/surrealdb:v2.3.10 AS surreal-binary
+
+# Stage 4: Backend Builder
+FROM python:3.12-slim-bookworm AS backend-builder
+# Install build dependencies
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends build-essential && rm -rf /var/lib/apt/lists/*
+# Install uv from the pinned binary image
+COPY --from=uv-binary /uv /uvx /bin/
+WORKDIR /app
+
+# Set build optimization environment variables
+ENV UV_HTTP_TIMEOUT=120
+
+# Copy dependency files first
+COPY pyproject.toml uv.lock ./
+COPY packages/core/__init__.py ./packages/core/__init__.py
+# Install dependencies
+RUN uv sync --frozen --no-dev
+
+# Stage 5: Runtime
+FROM python:3.12-slim-bookworm AS runtime
+
+# Install runtime dependencies
+RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    supervisor \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install SurrealDB (copied from pinned v2 image to match docker-compose.yml)
+COPY --from=surreal-binary /surreal /usr/local/bin/surreal
+
+# Reuse pinned Node and uv runtime assets.
+COPY --from=apps-web-builder /usr/local/ /usr/local/
+COPY --from=uv-binary /uv /uvx /bin/
+
+WORKDIR /app
+
+# Copy backend virtualenv and source code
+COPY --from=backend-builder /app/.venv /app/.venv
+COPY . /app/
+
+# Copy built apps/web from the app-local Next build root.
+COPY --from=apps-web-builder /app/apps/web/.runtime-cache/build/next/standalone /app/apps/web/.runtime-cache/build/next/standalone
+COPY --from=apps-web-builder /app/apps/web/.runtime-cache/build/next/static /app/apps/web/.runtime-cache/build/next/static
+COPY --from=apps-web-builder /app/apps/web/public /app/apps/web/public
+
+# Bind Next.js to all interfaces (required for Docker networking and reverse proxies)
+ENV HOSTNAME=0.0.0.0
+
+# Setup directories and permissions
+RUN mkdir -p /app/data /mydata
+
+# Ensure wait-for-api script is executable
+RUN chmod +x /app/tooling/scripts/wait-for-api.sh
+
+# Copy supervisord configuration
+COPY ops/supervisor/supervisord.single.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Create canonical runtime directories used by the single-container supervisor
+RUN mkdir -p /app/.runtime-cache/runs/current/logs/single-container
+
+# Run the single-container image as a non-root user once writable surfaces exist.
+RUN groupadd --system provenote && useradd --system --gid provenote --create-home provenote \
+    && chown -R provenote:provenote /app /mydata /var/log/supervisor
+
+# Expose ports
+EXPOSE 8502 5055
+
+# Set startup command
+USER provenote
+
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

@@ -1,0 +1,203 @@
+{
+  "version": 1,
+  "default_sync_keys": [
+    "OPEN_NOTEBOOK_CHUNK_SIZE",
+    "OPEN_NOTEBOOK_CHUNK_OVERLAP"
+  ],
+  "required": [
+    {
+      "name": "GEMINI_API_KEY",
+      "purpose": "Required Gemini runtime credential key (the only accepted Google key name).",
+      "source": "google_runtime",
+      "google_runtime": true,
+      "default": null
+    },
+    {
+      "name": "OPEN_NOTEBOOK_ENCRYPTION_KEY",
+      "purpose": "Required secret for credential encryption/decryption at runtime.",
+      "source": "governance",
+      "default": null
+    },
+    {
+      "name": "SURREAL_URL",
+      "purpose": "Required SurrealDB endpoint for runtime connection.",
+      "source": "settings",
+      "default": "ws://127.0.0.1:8000/rpc"
+    },
+    {
+      "name": "SURREAL_USER",
+      "purpose": "Required SurrealDB username.",
+      "source": "settings",
+      "default": "root"
+    },
+    {
+      "name": "SURREAL_PASSWORD",
+      "purpose": "Required SurrealDB password (canonical name).",
+      "source": "settings",
+      "default": null
+    },
+    {
+      "name": "SURREAL_NAMESPACE",
+      "purpose": "Required SurrealDB namespace.",
+      "source": "settings",
+      "default": "open_notebook"
+    },
+    {
+      "name": "SURREAL_DATABASE",
+      "purpose": "Required SurrealDB database name.",
+      "source": "settings",
+      "default": "open_notebook"
+    }
+  ],
+  "optional": [
+    {
+      "name": "API_HOST",
+      "purpose": "Optional API bind host override.",
+      "source": "settings",
+      "default": "127.0.0.1"
+    },
+    {
+      "name": "API_PORT",
+      "purpose": "Optional API bind port override.",
+      "source": "settings",
+      "default": "5055"
+    },
+    {
+      "name": "API_RELOAD",
+      "purpose": "Optional development auto-reload toggle.",
+      "source": "settings",
+      "default": "true"
+    },
+    {
+      "name": "API_URL",
+      "purpose": "Optional public API URL override.",
+      "source": "settings",
+      "default": "http://127.0.0.1:5055"
+    },
+    {
+      "name": "INTERNAL_API_URL",
+      "purpose": "Optional server-side/internal API URL override.",
+      "source": "settings",
+      "default": "http://127.0.0.1:5055"
+    },
+    {
+      "name": "API_CLIENT_TIMEOUT",
+      "purpose": "Optional API client timeout in seconds.",
+      "source": "settings",
+      "default": "300.0"
+    },
+    {
+      "name": "OPEN_NOTEBOOK_PASSWORD",
+      "purpose": "Optional bearer password auth secret.",
+      "source": "settings",
+      "default": null
+    },
+    {
+      "name": "OPEN_NOTEBOOK_CHUNK_SIZE",
+      "purpose": "Optional chunk size tuning for segmentation.",
+      "source": "settings",
+      "default": "1200"
+    },
+    {
+      "name": "OPEN_NOTEBOOK_CHUNK_OVERLAP",
+      "purpose": "Optional chunk overlap tuning.",
+      "source": "settings",
+      "default": null
+    },
+    {
+      "name": "OPEN_NOTEBOOK_PHOENIX_ENABLED",
+      "purpose": "Optional Phoenix tracing enable switch.",
+      "source": "settings",
+      "default": "false"
+    },
+    {
+      "name": "OPEN_NOTEBOOK_PHOENIX_COLLECTOR_ENDPOINT",
+      "purpose": "Optional Provenote Phoenix collector endpoint.",
+      "source": "settings",
+      "default": "http://127.0.0.1:6006/v1/traces"
+    },
+    {
+      "name": "OPEN_NOTEBOOK_PHOENIX_PROJECT_NAME",
+      "purpose": "Optional Provenote Phoenix project name.",
+      "source": "settings",
+      "default": "open-notebook"
+    },
+    {
+      "name": "OPEN_NOTEBOOK_PHOENIX_API_KEY",
+      "purpose": "Optional Provenote Phoenix API key override.",
+      "source": "settings",
+      "default": null
+    },
+    {
+      "name": "GEMINI_MODEL",
+      "purpose": "Optional default Gemini model selection.",
+      "source": "settings",
+      "google_runtime": true,
+      "default": null
+    }
+  ],
+  "forbidden": [
+    {
+      "name": "GOOGLE_API_KEY",
+      "why": "Historical name; SSOT requires GEMINI_API_KEY."
+    },
+    {
+      "name": "SURREAL_PASS",
+      "why": "Historical name; SSOT requires SURREAL_PASSWORD."
+    },
+    {
+      "name": "SURREAL_ADDRESS",
+      "why": "Legacy split-host naming; replaced by canonical SURREAL_URL."
+    },
+    {
+      "name": "SURREAL_PORT",
+      "why": "Legacy split-port naming; replaced by canonical SURREAL_URL."
+    },
+    {
+      "name": "API_BASE_URL",
+      "why": "Deprecated naming; use INTERNAL_API_URL for server-side calls and API_URL for public/browser clients."
+    }
+  ],
+  "blocked_legacy_provider_env_vars": [
+    "ANTHROPIC_API_KEY",
+    "AZURE_OPENAI_API_KEY",
+    "AZURE_OPENAI_API_KEY_EMBEDDING",
+    "AZURE_OPENAI_API_KEY_LLM",
+    "AZURE_OPENAI_API_KEY_STT",
+    "AZURE_OPENAI_API_KEY_TTS",
+    "AZURE_OPENAI_API_VERSION",
+    "AZURE_OPENAI_API_VERSION_EMBEDDING",
+    "AZURE_OPENAI_API_VERSION_LLM",
+    "AZURE_OPENAI_API_VERSION_STT",
+    "AZURE_OPENAI_API_VERSION_TTS",
+    "AZURE_OPENAI_ENDPOINT",
+    "AZURE_OPENAI_ENDPOINT_EMBEDDING",
+    "AZURE_OPENAI_ENDPOINT_LLM",
+    "AZURE_OPENAI_ENDPOINT_STT",
+    "AZURE_OPENAI_ENDPOINT_TTS",
+    "DEEPSEEK_API_KEY",
+    "ELEVENLABS_API_KEY",
+    "GOOGLE_APPLICATION_CREDENTIALS",
+    "GROQ_API_KEY",
+    "MISTRAL_API_KEY",
+    "OLLAMA_API_BASE",
+    "OLLAMA_BASE_URL",
+    "OPENAI_API_KEY",
+    "OPENAI_COMPATIBLE_API_KEY",
+    "OPENAI_COMPATIBLE_API_KEY_EMBEDDING",
+    "OPENAI_COMPATIBLE_API_KEY_LLM",
+    "OPENAI_COMPATIBLE_API_KEY_STT",
+    "OPENAI_COMPATIBLE_API_KEY_TTS",
+    "OPENAI_COMPATIBLE_BASE_URL",
+    "OPENAI_COMPATIBLE_BASE_URL_EMBEDDING",
+    "OPENAI_COMPATIBLE_BASE_URL_LLM",
+    "OPENAI_COMPATIBLE_BASE_URL_STT",
+    "OPENAI_COMPATIBLE_BASE_URL_TTS",
+    "OPENROUTER_API_KEY",
+    "OPENROUTER_BASE_URL",
+    "VERTEX_LOCATION",
+    "VERTEX_PROJECT",
+    "VOYAGE_API_KEY",
+    "XAI_API_KEY"
+  ]
+}

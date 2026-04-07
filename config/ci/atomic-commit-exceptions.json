@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "policy_note": "Audited migration exceptions are temporary, explicit, and must be backed by a checked-in audit document plus narrow branch/message scope.",
+  "exceptions": [
+    {
+      "id": "hard-cut-governance-topology-2026-03-15",
+      "modes": [
+        "pre-commit",
+        "pre-push"
+      ],
+      "pre_commit_branches": [
+        "codex/hard-cut-governance-final"
+      ],
+      "pre_push_branches": [
+        "codex/hard-cut-governance-final",
+        "main"
+      ],
+      "subject_regex": "^refactor\\(batch-01/repo-hard-cut\\): migrate to governed apps services packages topology$",
+      "audit_doc": "docs/development.md",
+      "expires_on": "2026-03-31",
+      "required_paths": [
+        "config/ci/atomic-commit-exceptions.json",
+        "docs/development.md",
+        "tooling/scripts/ci/check_atomic_commit_scope.sh",
+        "tooling/scripts/ci/check_atomic_commit_scope_range.sh",
+        "tooling/scripts/ci/commit_governance_lib.sh"
+      ]
+    },
+    {
+      "id": "hard-cut-governance-tail-2026-03-15",
+      "modes": [
+        "pre-commit",
+        "pre-push"
+      ],
+      "pre_commit_branches": [
+        "codex/hard-cut-governance-final"
+      ],
+      "pre_push_branches": [
+        "codex/hard-cut-governance-final",
+        "main"
+      ],
+      "subject_regex": "^test\\(batch-11/hard-cut-tail\\): align governed topology tests and mutation gate$",
+      "audit_doc": "docs/development.md",
+      "expires_on": "2026-03-31",
+      "required_paths": [
+        "config/ci/atomic-commit-exceptions.json",
+        "docs/development.md",
+        "tooling/scripts/ci/run_unified_test_gate.sh"
+      ]
+    },
+    {
+      "id": "repo-closure-final-form-2026-03-15",
+      "modes": [
+        "pre-commit",
+        "pre-push"
+      ],
+      "pre_commit_branches": [
+        "codex/repo-closure-executor"
+      ],
+      "pre_push_branches": [
+        "codex/repo-closure-executor",
+        "main"
+      ],
+      "subject_regex": "^refactor\\(repo-closure\\): hard-cut governance final form$",
+      "audit_doc": "docs/development.md",
+      "expires_on": "2026-03-31",
+      "required_paths": [
+        "config/ci/atomic-commit-exceptions.json",
+        "docs/development.md",
+        "tooling/scripts/ci/run_unified_test_gate.sh",
+        "tooling/scripts/runtime/run_uv_managed.sh"
+      ]
+    },
+    {
+      "id": "final-closure-gate-runtime-2026-03-26",
+      "modes": [
+        "pre-commit",
+        "pre-push"
+      ],
+      "pre_commit_branches": [
+        "codex/final-closure-exec"
+      ],
+      "pre_push_branches": [
+        "codex/final-closure-exec",
+        "main"
+      ],
+      "subject_regex": "^fix\\(ci\\): unblock final closure gates$",
+      "audit_doc": "docs/development.md",
+      "expires_on": "2026-03-31",
+      "required_paths": [
+        ".github/workflows/uiux-gemini-gate.yml",
+        "docs/development.md",
+        "tests/ci/test_atomic_commit_migration_exception.py",
+        "tests/ci/test_consistent_container_contract.py",
+        "tooling/scripts/ci/check_mutation_guard.py",
+        "tooling/scripts/ci/run_in_consistent_container.sh"
+      ]
+    }
+  ]
+}

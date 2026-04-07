@@ -1,0 +1,92 @@
+{
+  "version": 1,
+  "policy_note": "Guard tracked repo-authored surfaces against local-machine paths, personal identity, and tracked artifact leakage.",
+  "content_scan_roots": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "README.md",
+    "SECURITY.md",
+    "SUPPORT.md",
+    "CONTRIBUTING.md",
+    "NOTICE.md",
+    "MAINTAINERS.md",
+    ".env.example",
+    ".github",
+    "apps",
+    "config",
+    "docs",
+    "examples",
+    "ops",
+    "packages",
+    "pyproject.toml",
+    "services",
+    "tests",
+    "tooling/scripts",
+    ".agents/Plans",
+    ".agents/Tasks"
+  ],
+  "tracked_path_forbidden_patterns": [
+    {
+      "pattern": "(^|/)\\.env(?:\\.(?!example$)[^/]+)?$",
+      "reason": "tracked .env file"
+    },
+    {
+      "pattern": "(^|/)\\.runtime-cache(/|$)",
+      "reason": "tracked runtime cache artifact"
+    },
+    {
+      "pattern": "(^|/)logs?(/|$)",
+      "reason": "tracked log directory"
+    },
+    {
+      "pattern": "\\.(log|out|err|trace|pid)$",
+      "reason": "tracked log or pid artifact"
+    },
+    {
+      "pattern": "\\.(sqlite|db)$",
+      "reason": "tracked database artifact"
+    }
+  ],
+  "forbidden_content_patterns": [
+    {
+      "pattern": "Yifeng \\(Terry\\) Yu",
+      "reason": "hardcoded maintainer name"
+    },
+    {
+      "pattern": "125581657\\+xiaojiou176@users\\.noreply\\.github\\.com",
+      "reason": "hardcoded maintainer GitHub noreply email"
+    },
+    {
+      "pattern": "xiao176jiou@gmail\\.com",
+      "reason": "hardcoded personal mailbox"
+    },
+    {
+      "pattern": "/Users/(?!example(?:/|$|[\"'` ])|Shared(?:/|$|[\"'` ])|runner(?:/|$|[\"'` ])|runneradmin(?:/|$|[\"'` ]))[^/\\s]+(?:/[^\\s\"'`)]+)*",
+      "reason": "real macOS home path"
+    },
+    {
+      "pattern": "/home/(?!example(?:/|$|[\"'` ])|ubuntu(?:/|$|[\"'` ])|runner(?:/|$|[\"'` ]))[^/\\s]+(?:/[^\\s\"'`)]+)*",
+      "reason": "real Linux home path"
+    },
+    {
+      "pattern": "[A-Za-z]:\\\\\\\\Users\\\\\\\\(?!example(?:\\\\\\\\|$|[\"'` ]))[^\\\\\\\\\\s]+",
+      "reason": "real Windows user path"
+    },
+    {
+      "pattern": "/private/var/folders/[^\\s\"'`)]*",
+      "reason": "macOS temp path"
+    },
+    {
+      "pattern": "(?<![A-Za-z0-9._%+-])[A-Za-z0-9._%+-]+@(?!(?:example\\.(?:com|test)|github\\.com|users\\.noreply\\.github\\.com)\\b)(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}(?![A-Za-z0-9._%+-])",
+      "reason": "unexpected real email address"
+    },
+    {
+      "pattern": "^CANONICAL_HUMAN_NAME=\"[^$\\n][^\"\\n]*\"$",
+      "reason": "hardcoded maintainer identity assignment"
+    },
+    {
+      "pattern": "^CANONICAL_HUMAN_EMAIL=\"[^$\\n][^\"\\n]*\"$",
+      "reason": "hardcoded maintainer identity assignment"
+    }
+  ]
+}

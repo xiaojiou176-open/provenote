@@ -1,0 +1,31 @@
+{
+  "global_max_lines": 840,
+  "warning_threshold": 700,
+  "roots": [
+    "services",
+    "packages",
+    "tooling/scripts"
+  ],
+  "extensions": [
+    ".py"
+  ],
+  "exclude_globs": [
+    "**/__pycache__/**",
+    "**/.venv/**",
+    "**/node_modules/**",
+    "**/*.generated.py",
+    "**/*_pb2.py",
+    "**/*_pb2_grpc.py",
+    "**/migrations/versions/*.py"
+  ],
+  "frozen_file_max_lines": {
+    "tooling/scripts/ci/check_workflow_policy.py": 1325,
+    "tooling/scripts/ci/run_uiux_gemini_gate.py": 932,
+    "packages/core/mcp/server.py": 917,
+    "packages/core/application/client.py": 866,
+    "packages/core/application/command_service.py": 843,
+    "packages/core/application/commands/embedding_commands.py": 787,
+    "packages/core/ai/model_discovery.py": 756,
+    "packages/core/application/models.py": 740
+  }
+}

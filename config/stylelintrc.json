@@ -1,0 +1,11 @@
+{
+  "plugins": [
+    "@stylistic/stylelint-plugin"
+  ],
+  "rules": {
+    "declaration-no-important": true,
+    "color-named": "never",
+    "at-rule-no-unknown": null,
+    "no-descending-specificity": null
+  }
+}

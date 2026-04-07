@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Provenote Structured Log Event",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "timestamp",
+    "level",
+    "event",
+    "component",
+    "service",
+    "domain",
+    "run_id",
+    "request_id",
+    "trace_id",
+    "user_id",
+    "test_id",
+    "artifact_group",
+    "command_id",
+    "job_kind",
+    "error_class",
+    "error_stack",
+    "redaction_version"
+  ],
+  "properties": {
+    "timestamp": {
+      "type": "string"
+    },
+    "level": {
+      "type": "string"
+    },
+    "event": {
+      "type": "string"
+    },
+    "component": {
+      "type": "string"
+    },
+    "service": {
+      "type": "string"
+    },
+    "domain": {
+      "type": "string"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "request_id": {
+      "type": "string"
+    },
+    "trace_id": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "test_id": {
+      "type": "string"
+    },
+    "artifact_group": {
+      "type": "string"
+    },
+    "command_id": {
+      "type": "string"
+    },
+    "job_kind": {
+      "type": "string"
+    },
+    "error_class": {
+      "type": "string"
+    },
+    "error_stack": {
+      "type": "string"
+    },
+    "source_kind": {
+      "type": "string"
+    },
+    "route": {
+      "type": "string"
+    },
+    "browser_session_id": {
+      "type": "string"
+    },
+    "workflow_name": {
+      "type": "string"
+    },
+    "job_name": {
+      "type": "string"
+    },
+    "redaction_version": {
+      "type": "string"
+    }
+  }
+}

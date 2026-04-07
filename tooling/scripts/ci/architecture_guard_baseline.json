@@ -1,0 +1,75 @@
+{
+  "duplicate_service_baseline": {
+    "sources_service.py": [
+      "services/api/routers/sources_service.py",
+      "services/api/sources_service.py"
+    ]
+  },
+  "broad_exception_baseline": {
+    "api": {
+      "total": 189,
+      "files": {
+        "services/api/auditable_service.py": 3,
+        "services/api/chat_service.py": 7,
+        "services/api/client.py": 1,
+        "packages/core/application/command_service.py": 7,
+        "services/api/credentials_service.py": 3,
+        "services/api/main.py": 5,
+        "services/api/podcast_api_service.py": 9,
+        "services/api/podcast_service.py": 7,
+        "services/api/routers/chat.py": 13,
+        "services/api/routers/services.worker.py": 9,
+        "services/api/routers/config.py": 4,
+        "services/api/routers/context.py": 6,
+        "services/api/routers/credentials.py": 9,
+        "services/api/routers/embedding.py": 2,
+        "services/api/routers/embedding_rebuild.py": 2,
+        "services/api/routers/episode_profiles.py": 6,
+        "services/api/routers/error_handler.py": 2,
+        "services/api/routers/models.py": 16,
+        "services/api/routers/notebooks.py": 8,
+        "services/api/routers/notes.py": 6,
+        "services/api/routers/podcasts.py": 12,
+        "services/api/routers/search.py": 4,
+        "services/api/routers/settings.py": 2,
+        "services/api/routers/source_chat.py": 8,
+        "services/api/routers/sources.py": 11,
+        "services/api/routers/sources_helpers.py": 2,
+        "services/api/routers/sources_service.py": 9,
+        "services/api/routers/speaker_profiles.py": 6,
+        "services/api/routers/transformations.py": 8,
+        "services/api/sources_service.py": 1,
+        "packages/core/application/ui_test_service.py": 1
+      }
+    },
+    "open_notebook": {
+      "total": 72,
+      "files": {
+        "packages/core/ai/connection_tester.py": 5,
+        "packages/core/ai/gemini_runtime.py": 2,
+        "packages/core/ai/key_provider.py": 1,
+        "packages/core/ai/model_discovery.py": 3,
+        "packages/core/ai/models.py": 3,
+        "packages/core/automation/browser_agent.py": 1,
+        "packages/core/database/async_migrate.py": 4,
+        "packages/core/database/repository.py": 5,
+        "packages/core/domain/base.py": 6,
+        "packages/core/domain/credential.py": 1,
+        "packages/core/domain/notebook.py": 18,
+        "packages/core/graphs/ask.py": 4,
+        "packages/core/graphs/auditable_transformation.py": 2,
+        "packages/core/graphs/chat.py": 1,
+        "packages/core/graphs/source.py": 1,
+        "packages/core/graphs/source_chat.py": 1,
+        "packages/core/graphs/transformation.py": 1,
+        "packages/core/podcasts/models.py": 2,
+        "packages/core/telemetry/phoenix.py": 2,
+        "packages/core/utils/chunking.py": 1,
+        "packages/core/utils/context_builder.py": 4,
+        "packages/core/utils/embedding.py": 1,
+        "packages/core/utils/encryption.py": 2,
+        "packages/core/utils/graph_utils.py": 1
+      }
+    }
+  }
+}

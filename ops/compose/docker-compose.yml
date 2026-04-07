@@ -1,0 +1,48 @@
+name: provenote
+
+services:
+  surrealdb:
+    image: surrealdb/surrealdb:v2.3.10
+    command: start --log info --user root --pass root rocksdb:/mydata/mydatabase.db
+    user: root  # Required for bind mounts on Linux
+    volumes:
+      - ./.runtime-cache/state/local/surreal_data:/mydata
+    environment:
+      - SURREAL_EXPERIMENTAL_GRAPHQL=true
+    restart: always
+
+  provenote:
+    build:
+      context: ../..
+      dockerfile: ops/docker/Dockerfile.single
+    image: provenote-local:compose
+    env_file:
+      - .env
+    ports:
+      - "8502:8502"  # Web UI
+      - "5055:5055"  # REST API
+    environment:
+      # REQUIRED: Set OPEN_NOTEBOOK_ENCRYPTION_KEY in .env (or shell env).
+      # The default below is a safety placeholder and must be replaced in real usage.
+      - OPEN_NOTEBOOK_ENCRYPTION_KEY=${OPEN_NOTEBOOK_ENCRYPTION_KEY:-change-me-to-a-secret-string}
+      # Pin the documented Docker fast path to a currently available Gemini model so
+      # local `.env` overrides do not break first-run startup.
+      - GEMINI_MODEL=gemini-2.5-flash
+      # Keep the documented Docker fast path stable even when a contributor .env
+      # carries local dev-server overrides for non-container workflows.
+      - API_URL=http://localhost:5055
+      - INTERNAL_API_URL=http://127.0.0.1:5055
+      - NEXT_PUBLIC_API_URL=http://localhost:5055
+      - OPEN_NOTEBOOK_CORS_ALLOW_ORIGINS=http://localhost:8502,http://127.0.0.1:8502
+
+      # Database connection (default values - no need to change)
+      - SURREAL_URL=ws://surrealdb:8000/rpc
+      - SURREAL_USER=root
+      - SURREAL_PASSWORD=root
+      - SURREAL_NAMESPACE=open_notebook
+      - SURREAL_DATABASE=open_notebook
+    volumes:
+      - ./.runtime-cache/state/local/notebook_data:/app/data
+    depends_on:
+      - surrealdb
+    restart: always

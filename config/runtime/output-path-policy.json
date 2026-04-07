@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "policy_note": "Repo-owned runtime outputs must stay on canonical paths. Tool-constrained build directories may exist only when explicitly allowlisted here.",
+  "forbidden_paths": [
+    "apps/.runtime-cache",
+    "apps/web/coverage",
+    "apps/web/test-results",
+    "open_notebook.egg-info",
+    "playwright-report",
+    "test-results",
+    "coverage",
+    "htmlcov"
+  ],
+  "tool_constrained_allowed_paths": [
+    "apps/web/.runtime-cache/build/next",
+    "apps/web/.runtime-cache/build/next-playwright",
+    "apps/web/.runtime-cache/build/next-playwright-manual"
+  ],
+  "scan_roots": [
+    "README.md",
+    "Makefile",
+    ".pre-commit-config.yaml",
+    ".github/workflows",
+    "apps/web/package.json",
+    "apps/web/next.config.ts",
+    "apps/web/start-server.js",
+    "apps/web/playwright.config.ts",
+    "apps/web/playwright.config.test.ts",
+    "apps/web/playwright.live.config.ts",
+    "apps/web/tsconfig.json",
+    "apps/web/next-env.d.ts",
+    "apps/web/vitest.config.mts",
+    "apps/web/scripts/run-batched-coverage.mjs",
+    "tooling/scripts/ci/run_unified_test_gate.sh",
+    "tooling/scripts/ci/run_in_consistent_container.sh"
+  ],
+  "forbidden_reference_patterns": [
+    "(^|[\\s\"'`])apps/\\.runtime-cache/",
+    "(^|[\\s\"'`])apps/web/\\.runtime-cache/(?!build/next(?:$|/)|build/next-playwright(?:$|/)|build/next-playwright-manual(?:$|/))",
+    "(^|[\\s\"'`])apps/web/coverage/",
+    "(^|[\\s\"'`])apps/web/test-results/",
+    "(^|[\\s\"'`])\\.\\./\\.\\./\\.runtime-cache/build/next(?:-playwright(?:-manual)?)?/",
+    "(^|[\\s\"'`])open_notebook\\.egg-info\\b",
+    "(^|[\\s\"'`])playwright-report/",
+    "(^|[\\s\"'`])test-results/"
+  ]
+}

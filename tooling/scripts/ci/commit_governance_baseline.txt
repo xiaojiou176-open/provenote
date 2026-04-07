@@ -1,0 +1,4 @@
+# Commit governance baseline:
+# Commits at/before this SHA are treated as legacy history in range checks.
+# Move this forward only when intentionally redefining the enforcement cutover.
+9ce2a38a84e67cd16cc6cf66d1d9f2d7b20e2ed3

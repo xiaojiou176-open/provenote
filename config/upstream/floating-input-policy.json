@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "policy_note": "Active runtime and installation entrypoints must not depend on floating external inputs such as latest tags, raw upstream downloads, or install scripts with implicit versions.",
+  "scan_roots": [
+    "README.md",
+    "docs/installation.md",
+    "ops/compose/docker-compose.yml",
+    "ops/docker/Dockerfile",
+    "ops/docker/Dockerfile.single"
+  ],
+  "forbidden_patterns": [
+    "raw\\.githubusercontent\\.com/.*/ops/compose/docker-compose\\.yml",
+    "ghcr\\.io/astral-sh/uv:latest",
+    "deb\\.nodesource\\.com/setup_20\\.x",
+    "surrealdb/surrealdb:v2(?=[\"'`\\s]|$)",
+    "lfnovo/open_notebook:v1-latest\\b"
+  ]
+}
