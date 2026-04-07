@@ -1,19 +1,14 @@
 # Provenote Full Rollout Task Board
 
-Last updated: 2026-04-07 closeout current-truth refresh for CI layering, front-door compression, and release/tag reconciliation
+Last updated: 2026-04-07 final mainline/tag truth sync after closeout merge
 Owner: L1 Orchestrator
 Status: ACTIVE
 
 ## 2026-04-07 Current Truth Refresh
 
 - current truth layer:
-  - `main == origin/main == d226d41`
-  - current worktree is **not** clean yet:
-    - one repo-owned local continuation lane remains open across:
-      - CI / pre-push / unified gate lightening
-      - front-door compression and docs layering
-      - version truth bump from `1.8.4` to `1.8.5`
-      - current-truth snapshot refresh
+  - `main == origin/main == 77db1d1`
+  - current worktree is clean on `main`
   - remote GitHub live truth currently reads:
     - open PRs: `0`
     - Pages: built from `main:/docs`
@@ -28,17 +23,18 @@ Status: ACTIVE
       - `secret_scanning_validity_checks = disabled`
       - a repo-owned PATCH attempt was accepted without changing live state, so this is currently classified as a GitHub plan/policy boundary rather than a solved repo-side hardening step
     - releases: no current GitHub release object
-    - tag truth: remote `v1.8.4` still points to old baseline commit `3f9328b`, so tag truth and current canonical `main` are not yet aligned
+    - tag truth:
+      - `v1.8.4` remains pinned to the old hard-cut baseline commit `3f9328b`
+      - `v1.8.5` now points to the current canonical head `77db1d1`
 - closeout focus for this refresh:
-  - land the 7-file CI continuation lane instead of leaving it stranded locally
-  - compress CI semantics into `pre-commit / pre-push / hosted / nightly / manual`
-  - keep README/docs front door centered on:
-    - `messy long context -> structured insight -> inspectable outcomes`
-  - sync task-board truth so older draft-release wording does not masquerade as current live state
-  - keep only two rollback anchors in `../.repo-backups/`:
-    - `provenote-hardcut-20260406-200447.bundle`
-    - `provenote-before-gitleaks-rewrite-20260406-224145.bundle`
-    - duplicate/intermediate bundles from the same rewrite wave were removed after head-set comparison
+  - this closeout slice is now landed on canonical `main`
+  - the former local continuation lane is no longer local-only:
+    - CI semantics now align to `pre-commit / pre-push / hosted / nightly / manual`
+    - README/docs front door is compressed around `messy long context -> structured insight -> inspectable outcomes`
+    - public package/version truth is aligned to `1.8.5`
+    - rollback bundles are reduced to two retained anchors:
+      - `provenote-hardcut-20260406-200447.bundle`
+      - `provenote-before-gitleaks-rewrite-20260406-224145.bundle`
 - fresh verification evidence in this refresh:
   - `bash tooling/scripts/runtime/run_uv_managed.sh run pytest tests/ci/test_prepush_policy_contract.py tests/ci/test_distribution_readiness_contract.py tests/ci/test_public_artifact_prep_contract.py tests/ci/test_distribution_submission_packs.py tests/ci/test_required_checks_snapshot_contract.py tests/ci/test_public_distribution_surface_contract.py -q`
     - result: `89 passed`
@@ -54,10 +50,11 @@ Status: ACTIVE
     - result: `PASS`
     - note: default container-backed `make ci-local-preflight` still stops earlier when the host Docker daemon is absent and `/var/run/docker.sock` resolves to a missing user socket; current evidence therefore splits `repo-owned fast-lane logic = green` from `host Docker availability = external`
 - blocker classification:
-  - repo-owned closeout is still active because the continuation lane has not yet been committed, merged, and tagged on canonical `main`
-  - current non-repo blocker bucket is already visible but not yet the only remainder:
+  - repo-owned closeout for this slice is complete on canonical `main`
+  - remaining blockers are external-only:
     - host Docker daemon availability for the container-backed local preflight path
     - GitHub-side advanced secret-scanning toggles that remained disabled after repo-owned PATCH attempt
+    - release-object creation/publish remains an owner-facing decision, not a repo-side engineering gap
 
 ## 2026-04-05 Public Distribution Ladder + Submission Pack Sync
 
