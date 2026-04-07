@@ -1,0 +1,60 @@
+name: Setup uv Python Runtime
+description: Install uv, provision Python, and sync dependencies.
+
+inputs:
+  enable-cache:
+    description: Whether to enable uv cache.
+    required: false
+    default: "true"
+  working-directory:
+    description: Directory where the managed Python dependency bootstrap runs.
+    required: false
+    default: "."
+  sync-args:
+    description: Extra arguments passed to the managed Python dependency bootstrap.
+    required: false
+    default: ""
+
+runs:
+  using: composite
+  steps:
+    - name: Prepare writable Python toolcache
+      shell: bash
+      env:
+        AGENT_TOOLSDIRECTORY: ${{ github.workspace }}/.runtime-cache/github-toolcache
+        RUNNER_TOOL_CACHE: ${{ github.workspace }}/.runtime-cache/github-toolcache
+      run: |
+        mkdir -p "${AGENT_TOOLSDIRECTORY}" "${RUNNER_TOOL_CACHE}"
+
+    - name: Set up CPython 3.12
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+      env:
+        AGENT_TOOLSDIRECTORY: ${{ github.workspace }}/.runtime-cache/github-toolcache
+        RUNNER_TOOL_CACHE: ${{ github.workspace }}/.runtime-cache/github-toolcache
+      with:
+        python-version: "3.12"
+
+    - name: Set up uv
+      uses: astral-sh/setup-uv@38f3f104447c67c051c4a08e39b64a148898af3a # v4
+      with:
+        enable-cache: ${{ inputs.enable-cache }}
+
+    - name: Install dependencies
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      env:
+        SYNC_ARGS_RAW: ${{ inputs.sync-args }}
+        UV_PYTHON: "3.12"
+        UV_PYTHON_DOWNLOADS: never
+      run: |
+        mapfile -t sync_args < <(
+          python - <<'PY'
+          import os
+          import shlex
+
+          for item in shlex.split(os.environ.get("SYNC_ARGS_RAW", "")):
+              print(item)
+          PY
+        )
+        bash "${GITHUB_ACTION_PATH}/../../../tooling/scripts/ci/run_with_retry.sh" --label uv-sync --max-retries 2 -- \
+          bash "${GITHUB_ACTION_PATH}/../../../tooling/scripts/runtime/run_uv_managed.sh" sync "${sync_args[@]}"

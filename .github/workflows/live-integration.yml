@@ -1,0 +1,134 @@
+name: Live Integration
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: live-integration-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  live-llm-gemini:
+    name: Live Gemini API Key Smoke
+    runs-on: ubuntu-latest
+    environment: owner-approved-sensitive
+    timeout-minutes: 20
+    env:
+      RUN_LIVE_TESTS: "1"
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      LIVE_GEMINI_SMOKE_MODEL: gemini-3-flash-preview
+      LIVE_TEARDOWN_EVIDENCE_FILE: ${{ github.workspace }}/.runtime-cache/runs/current/evidence/live-teardown/live-llm.jsonl
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Enforce required CI env/secrets
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEN_NOTEBOOK_ENCRYPTION_KEY: ${{ secrets.OPEN_NOTEBOOK_ENCRYPTION_KEY }}
+        run: bash tooling/scripts/ci/check_required_ci_env.sh
+
+      - name: Run live Gemini smoke in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'mkdir -p .runtime-cache/runs/current/evidence/live-teardown && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_live_test_static_audit.py && bash tooling/scripts/ci/with_heartbeat.sh --label live-llm --interval 15 -- bash -lc "bash tooling/scripts/ci/run_with_retry.sh --label live-llm --max-retries 2 -- bash tooling/scripts/runtime/run_uv_managed.sh run python -m pytest tests/live/test_google_live_smoke.py -v -m live"'
+
+      - name: Upload live teardown evidence (llm)
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: live-teardown-evidence-llm
+          path: .runtime-cache/runs/current/evidence/live-teardown/live-llm.jsonl
+          if-no-files-found: error
+
+      - name: Append teardown evidence summary (llm)
+        if: always()
+        run: |
+          if [ -f ".runtime-cache/runs/current/evidence/live-teardown/live-llm.jsonl" ]; then
+            {
+              echo "### Live teardown evidence (llm)"
+              echo ""
+              echo '```jsonl'
+              cat .runtime-cache/runs/current/evidence/live-teardown/live-llm.jsonl
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Live teardown evidence (llm)" >> "$GITHUB_STEP_SUMMARY"
+            echo "No teardown evidence file found." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  live-playwright-external:
+    name: Live Playwright External Website Smoke
+    runs-on: ubuntu-latest
+    environment: owner-approved-sensitive
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: apps/web
+    env:
+      RUN_LIVE_TESTS: "1"
+      LIVE_EXTERNAL_WEB_ENABLED: "1"
+      LIVE_EXTERNAL_SITE_URL: https://example.com/
+      LIVE_HEARTBEAT_SECONDS: "15"
+      LIVE_TEARDOWN_EVIDENCE_FILE: ${{ github.workspace }}/.runtime-cache/runs/current/evidence/live-teardown/live-external-web.jsonl
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Validate live external target
+        run: |
+          if [ "${RUN_LIVE_TESTS:-}" != "1" ] || [ "${LIVE_EXTERNAL_WEB_ENABLED:-}" != "1" ]; then
+            echo "Live switches must be enabled for external live smoke."
+            exit 1
+          fi
+          case "${LIVE_EXTERNAL_SITE_URL:-}" in
+            https://*) ;;
+            *)
+              echo "LIVE_EXTERNAL_SITE_URL must use https://"
+              exit 1
+              ;;
+          esac
+
+      - name: Run live external smoke in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash ../tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
+            bash -lc 'mkdir -p ../.runtime-cache/runs/current/evidence/live-teardown && bash ../tooling/scripts/ci/with_heartbeat.sh --label live-external-web --interval 15 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label live-external-web --max-retries 2 -- npm run test:e2e:external-live -- --project=chromium"'
+
+      - name: Upload live teardown evidence (external-web)
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: live-teardown-evidence-external-web
+          path: .runtime-cache/runs/current/evidence/live-teardown/live-external-web.jsonl
+          if-no-files-found: error
+
+      - name: Append teardown evidence summary (external-web)
+        if: always()
+        run: |
+          if [ -f "../.runtime-cache/runs/current/evidence/live-teardown/live-external-web.jsonl" ]; then
+            {
+              echo "### Live teardown evidence (external-web)"
+              echo ""
+              echo '```jsonl'
+              cat ../.runtime-cache/runs/current/evidence/live-teardown/live-external-web.jsonl
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Live teardown evidence (external-web)" >> "$GITHUB_STEP_SUMMARY"
+            echo "No teardown evidence file found." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: playwright-report-live-external
+          path: .runtime-cache/runs/current/evidence/playwright/report
+          if-no-files-found: error

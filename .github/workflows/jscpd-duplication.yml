@@ -1,0 +1,30 @@
+name: JSCPD Duplication Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  jscpd-duplication:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run jscpd duplication scan in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile minimal -- \
+            bash -lc 'npx --yes jscpd@4.0.8 services packages tooling apps/web/src --threshold 3 --silent --min-lines 20 --min-tokens 100 --pattern "**/*.{ts,tsx,js,jsx,py}" --ignore "**/node_modules/**,**/.venv/**,**/dist/**,**/build/**,**/coverage/**,**/mutants/**,**/tests/**,**/__tests__/**"'

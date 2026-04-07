@@ -1,0 +1,609 @@
+name: Build and Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      push_latest:
+        description: 'Also push v1-latest tags'
+        required: true
+        default: false
+        type: boolean
+  release:
+    types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref || github.run_id }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  GHCR_IMAGE: ghcr.io/${{ github.repository }}
+  DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE_REPOSITORY }}
+
+jobs:
+  verify-required-green-gate:
+    permissions:
+      actions: read
+      contents: read
+      checks: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Required Green Gate on same SHA
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          script: |
+            const requiredCheckName = "Required Green Gate";
+            const requiredNames = new Set([requiredCheckName]);
+            const sha = context.sha;
+            const trustedBranches = new Set(["main"]);
+            core.info(
+              'Release verification boundary: this job proves a same-SHA trusted GitHub Actions witness from ".github/workflows/test.yml"; it does not prove remote GitHub branch-protection settings.'
+            );
+
+            if (context.eventName === "workflow_dispatch" && context.ref !== "refs/heads/main") {
+              core.setFailed(
+                `Release blocked: workflow_dispatch must run from refs/heads/main, got ${context.ref}.`
+              );
+              return;
+            }
+
+            if (context.eventName === "release") {
+              const targetCommitish = String(context.payload.release?.target_commitish || "").trim();
+              if (!trustedBranches.has(targetCommitish)) {
+                core.setFailed(
+                  `Release blocked: release target_commitish must be one of ${Array.from(trustedBranches).join(", ")}, got "${targetCommitish || "<empty>"}".`
+                );
+                return;
+              }
+              let targetBranchRef;
+              try {
+                ({ data: targetBranchRef } = await github.rest.repos.getBranch({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  branch: targetCommitish,
+                }));
+              } catch (error) {
+                core.setFailed(
+                  `Release blocked: unable to resolve trusted branch "${targetCommitish}" while validating release SHA ${sha}.`
+                );
+                return;
+              }
+              const trustedBranchSha = String(targetBranchRef.commit?.sha || "").trim();
+              if (!trustedBranchSha || trustedBranchSha !== sha) {
+                core.setFailed(
+                  `Release blocked: release tag SHA ${sha} must match the current ${targetCommitish} head (${trustedBranchSha || "<empty>"}). ` +
+                  `Publish the release from the current trusted branch head or cut a new tag from that head.`
+                );
+                return;
+              }
+
+              const { data: workflowRuns } = await github.rest.actions.listWorkflowRunsForRepo({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                event: "workflow_dispatch",
+                branch: targetCommitish,
+                per_page: 50,
+              });
+
+              const successfulManualReleaseBuild = workflowRuns.workflow_runs.find((run) => {
+                const workflowPath = String(run.path || "");
+                return (
+                  run.name === "Build and Release" &&
+                  workflowPath.startsWith(".github/workflows/build-and-release.yml") &&
+                  run.head_sha === sha &&
+                  run.conclusion === "success"
+                );
+              });
+
+              if (!successfulManualReleaseBuild) {
+                core.setFailed(
+                  `Release blocked: no successful same-SHA workflow_dispatch "Build and Release" run was found for ${sha}. ` +
+                  `Run the manual build-and-release workflow on the current trusted main head before publishing the release page.`
+                );
+                return;
+              }
+            }
+
+            const branchChecks = await Promise.all(
+              Array.from(trustedBranches).map(async (branch) => {
+                try {
+                  const { data: branchRef } = await github.rest.repos.getBranch({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    branch,
+                  });
+                  if (String(branchRef.commit?.sha || "").trim() === sha) {
+                    return true;
+                  }
+                  const { data: comparison } = await github.rest.repos.compareCommitsWithBasehead({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    basehead: `${sha}...${branch}`
+                  });
+                  return comparison.status === "ahead" || comparison.status === "identical";
+                } catch {
+                  return false;
+                }
+              })
+            );
+            if (!branchChecks.some(Boolean)) {
+              core.setFailed(
+                `Release blocked: SHA ${sha} is not reachable from trusted branches (${Array.from(trustedBranches).join(", ")}).`
+              );
+              return;
+            }
+
+            const { data } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: sha,
+              per_page: 100
+            });
+
+            const matches = [];
+            for (const run of data.check_runs) {
+              if (!requiredNames.has(run.name)) {
+                continue;
+              }
+              if (run.app?.slug !== "github-actions") {
+                continue;
+              }
+              const detailsUrl = String(run.details_url || "");
+              const runIdMatch = detailsUrl.match(
+                new RegExp(`^https://github\\.com/${context.repo.owner}/${context.repo.repo}/actions/runs/(\\d+)`)
+              );
+              if (!runIdMatch) {
+                continue;
+              }
+              const runId = Number.parseInt(runIdMatch[1], 10);
+              if (!Number.isFinite(runId)) {
+                continue;
+              }
+              let workflowRun;
+              try {
+                ({ data: workflowRun } = await github.rest.actions.getWorkflowRun({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: runId
+                }));
+              } catch {
+                continue;
+              }
+              const workflowPath = String(workflowRun.path || "");
+              const isTrustedWorkflow =
+                workflowRun.name === "Tests" &&
+                workflowPath.startsWith(".github/workflows/test.yml") &&
+                workflowRun.head_sha === sha;
+              if (!isTrustedWorkflow) {
+                continue;
+              }
+              matches.push(run);
+            }
+            matches.sort((a, b) => new Date(b.completed_at || b.started_at || 0) - new Date(a.completed_at || a.started_at || 0));
+
+            if (matches.length === 0) {
+              core.setFailed(
+                `Release blocked: no trusted ${requiredCheckName} check from workflow ".github/workflows/test.yml" found for SHA ${sha}.`
+              );
+              return;
+            }
+
+            const latest = matches[0];
+            if (latest.status !== "completed" || latest.conclusion !== "success") {
+              core.setFailed(
+                `Release blocked: "${latest.name}" for SHA ${sha} is ${latest.status}/${latest.conclusion}. ` +
+                `It must be completed/success before publishing images.`
+              );
+              return;
+            }
+
+            core.info(`Gate passed: "${latest.name}" is success on SHA ${sha}.`);
+
+  extract-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      has_dockerhub_secrets: ${{ steps.check.outputs.has_dockerhub_secrets }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Extract version from pyproject.toml
+        id: version
+        run: |
+          VERSION=$(grep -m1 '^version = ' pyproject.toml | cut -d'"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Check for Docker Hub credentials
+        id: check
+        env:
+          DOCKERHUB_IMAGE_REPOSITORY: ${{ vars.DOCKERHUB_IMAGE_REPOSITORY }}
+          SECRET_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          SECRET_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          if [[ -n "${DOCKERHUB_IMAGE_REPOSITORY:-}" && -n ""$SECRET_DOCKER_USERNAME"" && -n ""$SECRET_DOCKER_PASSWORD"" ]]; then
+            echo "has_dockerhub_secrets=true" >> $GITHUB_OUTPUT
+            echo "Docker Hub credentials and repo-owned image repository available"
+          else
+            echo "has_dockerhub_secrets=false" >> $GITHUB_OUTPUT
+            echo "Docker Hub publishing disabled unless both DOCKERHUB_IMAGE_REPOSITORY and Docker Hub credentials are configured"
+          fi
+
+  build-regular:
+    needs: [verify-required-green-gate, extract-version]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CONFIG: /tmp/provenote-build-release-regular-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+    outputs:
+      image_digest: ${{ steps.build-regular-image.outputs.digest }}
+      image_metadata: ${{ steps.build-regular-image.outputs.metadata }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker container prune --force || true
+          sudo docker builder prune --all --force || true
+          sudo docker system prune --all --volumes --force || true
+          sudo docker image prune --all --force
+          sudo rm -rf /tmp/.buildx-cache* /tmp/buildkit-* || true
+          df -h
+
+      - name: Prepare isolated Docker config
+        run: |
+          mkdir -p "${DOCKER_CONFIG}"
+          printf '{}\n' > "${DOCKER_CONFIG}/config.json"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          password: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        if: needs.extract-version.outputs.has_dockerhub_secrets == 'true'
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Prepare Docker tags for regular build
+        id: tags-regular
+        env:
+          ENV_GHCR_IMAGE: ${{ env.GHCR_IMAGE }}
+          GITHUB_EVENT_INPUTS_PUSH_LATEST: ${{ github.event.inputs.push_latest }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+          ENV_DOCKERHUB_IMAGE: ${{ env.DOCKERHUB_IMAGE }}
+        run: |
+          TAGS=""$ENV_GHCR_IMAGE":${{ needs.extract-version.outputs.version }}"
+
+          # Determine if we should push latest tags
+          PUSH_LATEST=""$GITHUB_EVENT_INPUTS_PUSH_LATEST""
+          if [[ -z "$PUSH_LATEST" ]]; then
+            PUSH_LATEST="false"
+          fi
+
+          # Add GHCR latest tag if requested or for non-prerelease releases
+          if [[ "$PUSH_LATEST" == "true" ]] || [[ ""$GITHUB_EVENT_NAME"" == "release" && ""$GITHUB_EVENT_RELEASE_PRERELEASE"" != "true" ]]; then
+            TAGS="${TAGS},"$ENV_GHCR_IMAGE":v1-latest"
+          fi
+
+          # Add Docker Hub tags if credentials available
+          if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+            TAGS="${TAGS},"$ENV_DOCKERHUB_IMAGE":${{ needs.extract-version.outputs.version }}"
+
+            if [[ "$PUSH_LATEST" == "true" ]] || [[ ""$GITHUB_EVENT_NAME"" == "release" && ""$GITHUB_EVENT_RELEASE_PRERELEASE"" != "true" ]]; then
+              TAGS="${TAGS},"$ENV_DOCKERHUB_IMAGE":v1-latest"
+            fi
+          fi
+
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "Generated tags: ${TAGS}"
+
+      - name: Build and push regular image
+        id: build-regular-image
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        with:
+          context: .
+          file: ./ops/docker/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.tags-regular.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          sbom: true
+          provenance: mode=max
+          cache-from: type=gha,scope=build-release-regular
+
+      - name: Export raw OCI release-proof evidence from GHCR (regular)
+        env:
+          ENV_GHCR_IMAGE: ${{ env.GHCR_IMAGE }}
+          BUILD_REGULAR_DIGEST: ${{ steps.build-regular-image.outputs.digest }}
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          GHCR_TOKEN: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          OCI_DIR=".runtime-cache/runs/current/evidence/release-proof/oci/regular"
+          mkdir -p "${OCI_DIR}"
+          python3 tooling/scripts/ci/export_oci_evidence.py \
+            --repository "${ENV_GHCR_IMAGE#ghcr.io/}" \
+            --subject-digest "${BUILD_REGULAR_DIGEST}" \
+            --label "regular" \
+            --output-dir "${OCI_DIR}"
+
+      - name: Upload raw OCI release-proof evidence artifact (regular)
+        if: ${{ steps.build-regular-image.outcome == 'success' && steps.build-regular-image.outputs.digest != '' }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: release-proof-oci-regular-${{ github.sha }}
+          path: .runtime-cache/runs/current/evidence/release-proof/oci/regular
+          if-no-files-found: error
+
+  build-single:
+    needs: [verify-required-green-gate, extract-version]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CONFIG: /tmp/provenote-build-release-single-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+    outputs:
+      image_digest: ${{ steps.build-single-image.outputs.digest }}
+      image_metadata: ${{ steps.build-single-image.outputs.metadata }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet
+          sudo rm -rf /usr/local/lib/android
+          sudo rm -rf /opt/ghc
+          sudo rm -rf /opt/hostedtoolcache/CodeQL
+          sudo docker image prune --all --force
+          df -h
+
+      - name: Prepare isolated Docker config
+        run: |
+          mkdir -p "${DOCKER_CONFIG}"
+          printf '{}\n' > "${DOCKER_CONFIG}/config.json"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          password: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        if: needs.extract-version.outputs.has_dockerhub_secrets == 'true'
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Prepare Docker tags for single build
+        id: tags-single
+        env:
+          ENV_GHCR_IMAGE: ${{ env.GHCR_IMAGE }}
+          GITHUB_EVENT_INPUTS_PUSH_LATEST: ${{ github.event.inputs.push_latest }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          GITHUB_EVENT_RELEASE_PRERELEASE: ${{ github.event.release.prerelease }}
+          ENV_DOCKERHUB_IMAGE: ${{ env.DOCKERHUB_IMAGE }}
+        run: |
+          TAGS=""$ENV_GHCR_IMAGE":${{ needs.extract-version.outputs.version }}-single"
+
+          # Determine if we should push latest tags
+          PUSH_LATEST=""$GITHUB_EVENT_INPUTS_PUSH_LATEST""
+          if [[ -z "$PUSH_LATEST" ]]; then
+            PUSH_LATEST="false"
+          fi
+
+          # Add GHCR latest tag if requested or for non-prerelease releases
+          if [[ "$PUSH_LATEST" == "true" ]] || [[ ""$GITHUB_EVENT_NAME"" == "release" && ""$GITHUB_EVENT_RELEASE_PRERELEASE"" != "true" ]]; then
+            TAGS="${TAGS},"$ENV_GHCR_IMAGE":v1-latest-single"
+          fi
+
+          # Add Docker Hub tags if credentials available
+          if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+            TAGS="${TAGS},"$ENV_DOCKERHUB_IMAGE":${{ needs.extract-version.outputs.version }}-single"
+
+            if [[ "$PUSH_LATEST" == "true" ]] || [[ ""$GITHUB_EVENT_NAME"" == "release" && ""$GITHUB_EVENT_RELEASE_PRERELEASE"" != "true" ]]; then
+              TAGS="${TAGS},"$ENV_DOCKERHUB_IMAGE":v1-latest-single"
+            fi
+          fi
+
+          echo "tags=${TAGS}" >> $GITHUB_OUTPUT
+          echo "Generated tags: ${TAGS}"
+
+      - name: Build and push single-container image
+        id: build-single-image
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        with:
+          context: .
+          file: ./ops/docker/Dockerfile.single
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.tags-single.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          sbom: true
+          provenance: mode=max
+          cache-from: type=gha,scope=build-release-single
+
+      - name: Export raw OCI release-proof evidence from GHCR (single)
+        env:
+          ENV_GHCR_IMAGE: ${{ env.GHCR_IMAGE }}
+          BUILD_SINGLE_DIGEST: ${{ steps.build-single-image.outputs.digest }}
+          GHCR_USERNAME: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          GHCR_TOKEN: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+        run: |
+          OCI_DIR=".runtime-cache/runs/current/evidence/release-proof/oci/single"
+          mkdir -p "${OCI_DIR}"
+          python3 tooling/scripts/ci/export_oci_evidence.py \
+            --repository "${ENV_GHCR_IMAGE#ghcr.io/}" \
+            --subject-digest "${BUILD_SINGLE_DIGEST}" \
+            --label "single" \
+            --output-dir "${OCI_DIR}"
+
+      - name: Upload raw OCI release-proof evidence artifact (single)
+        if: ${{ steps.build-single-image.outcome == 'success' && steps.build-single-image.outputs.digest != '' }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: release-proof-oci-single-${{ github.sha }}
+          path: .runtime-cache/runs/current/evidence/release-proof/oci/single
+          if-no-files-found: error
+
+  summary:
+    needs: [extract-version, build-regular, build-single]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Download raw OCI release-proof evidence artifact (regular)
+        if: ${{ needs.build-regular.result == 'success' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-proof-oci-regular-${{ github.sha }}
+          path: .runtime-cache/runs/current/evidence/release-proof/oci/regular
+
+      - name: Download raw OCI release-proof evidence artifact (single)
+        if: ${{ needs.build-single.result == 'success' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-proof-oci-single-${{ github.sha }}
+          path: .runtime-cache/runs/current/evidence/release-proof/oci/single
+
+      - name: Build Summary
+        env:
+          GITHUB_EVENT_INPUTS_PUSH_LATEST_____FALSE_: ${{ github.event.inputs.push_latest || 'false' }}
+          ENV_GHCR_IMAGE: ${{ env.GHCR_IMAGE }}
+          ENV_DOCKERHUB_IMAGE: ${{ env.DOCKERHUB_IMAGE }}
+          GITHUB_EVENT_INPUTS_PUSH_LATEST: ${{ github.event.inputs.push_latest }}
+          BUILD_REGULAR_DIGEST: ${{ needs.build-regular.outputs.image_digest }}
+          BUILD_SINGLE_DIGEST: ${{ needs.build-single.outputs.image_digest }}
+        run: |
+          echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ needs.extract-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Push v1-Latest:** "$GITHUB_EVENT_INPUTS_PUSH_LATEST_____FALSE_"" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Registries:" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **GHCR:** \`"$ENV_GHCR_IMAGE"\`" >> $GITHUB_STEP_SUMMARY
+          if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+            echo "✅ **Docker Hub:** \`"$ENV_DOCKERHUB_IMAGE"\`" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "⏭️ **Docker Hub:** Skipped (credentials not configured)" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Images Built:" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ needs.build-regular.result }}" == "success" ]]; then
+            echo "✅ **Regular (GHCR):** \`"$ENV_GHCR_IMAGE":${{ needs.extract-version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+            if [[ ""$GITHUB_EVENT_INPUTS_PUSH_LATEST"" == "true" ]]; then
+              echo "✅ **Regular v1-Latest (GHCR):** \`"$ENV_GHCR_IMAGE":v1-latest\`" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+              echo "✅ **Regular (Docker Hub):** \`"$ENV_DOCKERHUB_IMAGE":${{ needs.extract-version.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+              if [[ ""$GITHUB_EVENT_INPUTS_PUSH_LATEST"" == "true" ]]; then
+                echo "✅ **Regular v1-Latest (Docker Hub):** \`"$ENV_DOCKERHUB_IMAGE":v1-latest\`" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          elif [[ "${{ needs.build-regular.result }}" == "skipped" ]]; then
+            echo "⏭️ **Regular:** Skipped" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Regular:** Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [[ "${{ needs.build-single.result }}" == "success" ]]; then
+            echo "✅ **Single (GHCR):** \`"$ENV_GHCR_IMAGE":${{ needs.extract-version.outputs.version }}-single\`" >> $GITHUB_STEP_SUMMARY
+            if [[ ""$GITHUB_EVENT_INPUTS_PUSH_LATEST"" == "true" ]]; then
+              echo "✅ **Single v1-Latest (GHCR):** \`"$ENV_GHCR_IMAGE":v1-latest-single\`" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+              echo "✅ **Single (Docker Hub):** \`"$ENV_DOCKERHUB_IMAGE":${{ needs.extract-version.outputs.version }}-single\`" >> $GITHUB_STEP_SUMMARY
+              if [[ ""$GITHUB_EVENT_INPUTS_PUSH_LATEST"" == "true" ]]; then
+                echo "✅ **Single v1-Latest (Docker Hub):** \`"$ENV_DOCKERHUB_IMAGE":v1-latest-single\`" >> $GITHUB_STEP_SUMMARY
+              fi
+            fi
+          elif [[ "${{ needs.build-single.result }}" == "skipped" ]]; then
+            echo "⏭️ **Single:** Skipped" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Single:** Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Platforms:" >> $GITHUB_STEP_SUMMARY
+          echo "- linux/amd64" >> $GITHUB_STEP_SUMMARY
+          echo "- linux/arm64" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Provenance / SBOM:" >> $GITHUB_STEP_SUMMARY
+          echo "- docker/build-push-action provenance: \`mode=max\`" >> $GITHUB_STEP_SUMMARY
+          echo "- docker/build-push-action sbom: \`true\`" >> $GITHUB_STEP_SUMMARY
+          if [[ -n "${BUILD_REGULAR_DIGEST}" ]]; then
+            echo "- regular digest: \`${BUILD_REGULAR_DIGEST}\`" >> $GITHUB_STEP_SUMMARY
+          fi
+          if [[ -n "${BUILD_SINGLE_DIGEST}" ]]; then
+            echo "- single digest: \`${BUILD_SINGLE_DIGEST}\`" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Generate release proof report
+        if: ${{ needs.build-regular.result == 'success' || needs.build-single.result == 'success' }}
+        env:
+          BUILD_REGULAR_DIGEST: ${{ needs.build-regular.outputs.image_digest }}
+          BUILD_SINGLE_DIGEST: ${{ needs.build-single.outputs.image_digest }}
+        run: |
+          OCI_DIR=".runtime-cache/runs/current/evidence/release-proof/oci"
+          SBOM_ARGS=()
+          ATT_ARGS=()
+          while IFS= read -r path; do
+            SBOM_ARGS+=(--sbom-artifact "$path")
+          done < <(find "$OCI_DIR" -type f -name '*sbom*.json' | sort)
+          while IFS= read -r path; do
+            ATT_ARGS+=(--attestation-artifact "$path")
+          done < <(find "$OCI_DIR" -type f \( -name '*image-index.json' -o -name '*image-manifest.json' -o -name '*attestation-manifest.json' -o -name '*provenance-*.json' -o -name '*attestation-*.json' \) | sort)
+          python3 tooling/scripts/ci/generate_release_proof.py \
+            --commit-sha "${{ github.sha }}" \
+            --required-gate-validation "strict" \
+            --required-gate "Required Green Gate|success|GitHub checks API on same SHA (verify-required-green-gate job contract)|true" \
+            --coverage-artifact ".runtime-cache/test/coverage/backend/coverage.xml" \
+            --coverage-artifact ".runtime-cache/test/coverage/apps/web/lcov.info" \
+            --mutation-tier "core" \
+            --mutation-config-path "tooling/scripts/ci/run_mutation_profile.sh" \
+            --e2e-uiux-artifact ".runtime-cache/runs/current/evidence/playwright/report" \
+            --e2e-uiux-artifact ".runtime-cache/runs/current/evidence/uiux-gemini/manifest.json" \
+            --e2e-uiux-artifact ".runtime-cache/runs/current/evidence/uiux-gemini/evaluator.json" \
+            --image-digest "regular|${BUILD_REGULAR_DIGEST}" \
+            --image-digest "single|${BUILD_SINGLE_DIGEST}" \
+            "${SBOM_ARGS[@]}" \
+            "${ATT_ARGS[@]}" \
+            --output-dir ".runtime-cache/runs/current/evidence/release-proof"
+
+      - name: Upload release proof artifact
+        if: ${{ always() && (needs.build-regular.result == 'success' || needs.build-single.result == 'success') }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: release-proof-${{ github.sha }}
+          path: .runtime-cache/runs/current/evidence/release-proof
+          if-no-files-found: error

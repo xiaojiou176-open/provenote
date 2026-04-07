@@ -1,0 +1,224 @@
+name: UIUX Gemini Gate
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  uiux-gemini-gate:
+    name: UIUX Gemini Gate
+    if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: owner-approved-sensitive
+    timeout-minutes: 60
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Decide trusted gate availability
+        id: gate_mode
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEN_NOTEBOOK_ENCRYPTION_KEY: ${{ secrets.OPEN_NOTEBOOK_ENCRYPTION_KEY }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${GEMINI_API_KEY:-}" && -n "${OPEN_NOTEBOOK_ENCRYPTION_KEY:-}" ]]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Enforce required CI env/secrets
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEN_NOTEBOOK_ENCRYPTION_KEY: ${{ secrets.OPEN_NOTEBOOK_ENCRYPTION_KEY }}
+        run: bash tooling/scripts/ci/check_required_ci_env.sh
+
+      - name: Record trusted gate skip
+        if: ${{ steps.gate_mode.outputs.enabled != 'true' }}
+        run: |
+          echo "UIUX Gemini Gate skipped: required repo secrets are unavailable on this repository."
+          echo "This manual maintainer-only witness lane remains trusted-path only and still requires GEMINI_API_KEY and OPEN_NOTEBOOK_ENCRYPTION_KEY before trusted evidence generation can run."
+
+      - name: Runner disk hygiene
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        run: |
+          set -euo pipefail
+          echo "== disk before =="
+          df -h
+
+          runner_root="$(dirname "$(dirname "${RUNNER_WORKSPACE}")")"
+          echo "runner_root=${runner_root}"
+
+          # Keep diagnostics bounded to avoid disk-pressure crashes during long-running manual gates.
+          find "${runner_root}/_diag" -type f -mtime +7 -delete 2>/dev/null || true
+          # Keep runner command files untouched; deleting this directory can break
+          # concurrent jobs with "Missing .../_runner_file_packages/core/application/commands/set_output_*".
+          find "${runner_root}/_work/_temp" \
+            -mindepth 1 \
+            -maxdepth 1 \
+            ! -name "_runner_file_commands" \
+            -mtime +2 \
+            -exec rm -rf {} + 2>/dev/null || true
+
+          # Reclaim stale Docker and BuildKit state before browser install/E2E.
+          sudo docker container prune --force || true
+          sudo docker builder prune --all --force || true
+          sudo docker system prune --all --volumes --force || true
+          sudo rm -rf /tmp/.buildx-cache* /tmp/buildkit-* || true
+
+          # Remove stale artifacts from this repository workspace.
+          rm -rf .runtime-cache/runs/current/evidence/playwright/results .runtime-cache/runs/current/evidence/playwright/report
+
+          echo "== disk after =="
+          df -h
+
+      - name: Allocate isolated Playwright port
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        run: |
+          set -euo pipefail
+          # Avoid port collisions across concurrent manual audit runs.
+          pw_port=$((3100 + (GITHUB_RUN_ID % 500)))
+          echo "PLAYWRIGHT_PORT=${pw_port}" >> "$GITHUB_ENV"
+
+      - name: Release stale Playwright port
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        run: |
+          set -euo pipefail
+          bash tooling/scripts/ci/release_local_ports.sh "${PLAYWRIGHT_PORT}"
+
+      - name: Run E2E tests (Chromium) in consistent container
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        env:
+          CI: "1"
+          PLAYWRIGHT_PORT: ${{ env.PLAYWRIGHT_PORT }}
+          PLAYWRIGHT_TRACE_MODE: on
+          PLAYWRIGHT_SCREENSHOT_MODE: on
+          PLAYWRIGHT_VIDEO_MODE: retain-on-failure
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
+            bash -lc 'cd apps/web && npm run test:e2e -- --project=chromium --workers=1'
+
+      - name: Generate UIUX gate evidence bundle
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        env:
+          CI: "1"
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/runtime/run_uv_managed.sh run python - <<'"'"'PY'"'"'
+          import hashlib
+          import json
+          import os
+          from datetime import UTC, datetime
+          from pathlib import Path
+
+          from packages.core.testing.artifact_pipeline import build_artifact_manifest
+          from packages.core.testing.uiux_gemini_evaluator import evaluate_artifacts
+
+          def sha256_file(path: Path) -> str:
+              digest = hashlib.sha256()
+              with path.open("rb") as handle:
+                  while True:
+                      chunk = handle.read(8192)
+                      if not chunk:
+                          break
+                      digest.update(chunk)
+              return digest.hexdigest()
+
+          def bundle_hash(dir_path: Path) -> str:
+              digest = hashlib.sha256()
+              if not dir_path.exists():
+                  digest.update(b"missing")
+                  return digest.hexdigest()
+              files = sorted(item for item in dir_path.rglob("*") if item.is_file())
+              for item in files:
+                  digest.update(item.relative_to(dir_path).as_posix().encode("utf-8"))
+                  digest.update(b"\n")
+                  digest.update(sha256_file(item).encode("utf-8"))
+                  digest.update(b"\n")
+              return digest.hexdigest()
+
+          report_dir = Path(".runtime-cache/runs/current/evidence/playwright/report")
+          results_dir = Path(".runtime-cache/runs/current/evidence/playwright/results")
+          out_dir = Path(".runtime-cache/runs/current/evidence/uiux-gemini")
+          out_dir.mkdir(parents=True, exist_ok=True)
+          manifest_path = out_dir / "manifest.json"
+          evaluator_path = out_dir / "evaluator.json"
+
+          manifest = build_artifact_manifest(base_dir="apps/web")
+          manifest_payload = manifest.model_dump(mode="json")
+          now_iso = datetime.now(UTC).isoformat().replace("+00:00", "Z")
+          artifact_hashes = {
+              "playwright_report": bundle_hash(report_dir),
+              "test_results": bundle_hash(results_dir),
+          }
+          manifest_payload.update(
+              {
+                  "strategy": "artifact_manifest_v2",
+                  "git_sha": os.environ.get("GITHUB_SHA", ""),
+                  "github_run_id": os.environ.get("GITHUB_RUN_ID", ""),
+                  "generated_at": now_iso,
+                  "artifact_hashes": artifact_hashes,
+              }
+          )
+          manifest_path.write_text(
+              json.dumps(manifest_payload, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8",
+          )
+
+          evaluator = evaluate_artifacts(
+              manifest,
+              model_id=os.environ.get("UIUX_GEMINI_MODEL", "gemini-2.5-pro"),
+          )
+          manifest_sha256 = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+          evaluator_payload = evaluator.model_dump(mode="json")
+          evaluator_payload.update(
+              {
+                  "generated_at": now_iso,
+                  "git_sha": os.environ.get("GITHUB_SHA", ""),
+                  "github_run_id": os.environ.get("GITHUB_RUN_ID", ""),
+                  "manifest_sha256": manifest_sha256,
+                  "artifact_hashes": artifact_hashes,
+              }
+          )
+          evaluator_path.write_text(
+              json.dumps(evaluator_payload, indent=2, ensure_ascii=False) + "\n",
+              encoding="utf-8",
+          )
+          PY'
+
+      - name: Run UIUX Gemini gate
+        if: ${{ steps.gate_mode.outputs.enabled == 'true' }}
+        env:
+          CI: "1"
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/run_uiux_gemini_gate.py --manifest .runtime-cache/runs/current/evidence/uiux-gemini/manifest.json --evaluator .runtime-cache/runs/current/evidence/uiux-gemini/evaluator.json --playwright-report-dir .runtime-cache/runs/current/evidence/playwright/report --playwright-results-dir .runtime-cache/runs/current/evidence/playwright/results --expected-git-sha "${GITHUB_SHA}" --expected-run-id "${GITHUB_RUN_ID}"'
+
+      - name: Upload Playwright report
+        if: ${{ always() && steps.gate_mode.outputs.enabled == 'true' }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: playwright-report-uiux-gemini
+          path: .runtime-cache/runs/current/evidence/playwright/report
+          if-no-files-found: error
+
+      - name: Upload UIUX gate inputs
+        if: ${{ always() && steps.gate_mode.outputs.enabled == 'true' }}
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: uiux-gemini-gate-inputs
+          path: .runtime-cache/runs/current/evidence/uiux-gemini
+          if-no-files-found: error

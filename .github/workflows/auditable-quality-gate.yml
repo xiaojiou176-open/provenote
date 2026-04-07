@@ -1,0 +1,132 @@
+name: Auditable Quality Gate
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  required-ci-env:
+    name: Required CI Env/Secrets
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: owner-approved-sensitive
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Enforce required CI env/secrets
+        if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEN_NOTEBOOK_ENCRYPTION_KEY: ${{ secrets.OPEN_NOTEBOOK_ENCRYPTION_KEY }}
+        run: bash tooling/scripts/ci/check_required_ci_env.sh
+
+  promptfoo-eval:
+    name: Promptfoo Evaluation
+    needs: [required-ci-env]
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: owner-approved-sensitive
+    timeout-minutes: 30
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: 22
+
+      - name: Verify promptfoo install-script allowlist (lockfile)
+        working-directory: evals/promptfoo
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+          const marker = "node_modules/";
+          const lock = JSON.parse(fs.readFileSync("package-lock.json", "utf8"));
+          const packages = lock.packages || {};
+          const actual = [...new Set(Object.entries(packages)
+            .filter(([, meta]) => meta && meta.hasInstallScript === true)
+            .map(([packagePath, meta]) => {
+              if (meta.name) return meta.name;
+              if (!packagePath.includes(marker)) return "";
+              return packagePath.slice(packagePath.lastIndexOf(marker) + marker.length);
+            })
+            .filter(Boolean))]
+            .sort();
+
+          const expected = [
+            "@playwright/browser-chromium",
+            "@swc/core",
+            "better-sqlite3",
+            "esbuild",
+            "fsevents",
+            "onnxruntime-node",
+            "protobufjs",
+            "sharp"
+          ].sort();
+
+          const unexpected = actual.filter((name) => !expected.includes(name));
+          const missing = expected.filter((name) => !actual.includes(name));
+
+          if (unexpected.length || missing.length) {
+            console.error("Promptfoo install-script allowlist drift detected.");
+            if (unexpected.length) console.error(`Unexpected: ${unexpected.join(", ")}`);
+            if (missing.length) console.error(`Missing: ${missing.join(", ")}`);
+            console.error(`Expected: ${expected.join(", ")}`);
+            console.error(`Actual: ${actual.join(", ")}`);
+            process.exit(1);
+          }
+
+          console.log(`Promptfoo install-script allowlist check passed (${actual.length} packages).`);
+          NODE
+
+      - name: Install promptfoo dependencies (locked)
+        working-directory: evals/promptfoo
+        run: |
+          bash ../../tooling/scripts/ci/with_heartbeat.sh --label promptfoo-npm-ci --interval 30 -- \
+            bash ../../tooling/scripts/ci/run_with_retry.sh --label promptfoo-npm-ci --max-retries 2 -- npm ci
+
+      - name: Run promptfoo gate
+        working-directory: evals/promptfoo
+        run: |
+          ./node_modules/.bin/promptfoo --version
+          ./node_modules/.bin/promptfoo eval
+
+  ragas-eval:
+    name: Ragas Evaluation
+    needs: [required-ci-env]
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    environment: owner-approved-sensitive
+    timeout-minutes: 30
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python runtime (uv + deps)
+        uses: ./.github/actions/setup-uv-python
+
+      - name: Run ragas gate
+        run: bash tooling/scripts/runtime/run_uv_managed.sh run python evals/ragas/run_ragas_eval.py --config evals/ragas/config.yaml

@@ -1,0 +1,18 @@
+blank_issues_enabled: false
+# Current fork public guidance lives in SUPPORT.md and SECURITY.md.
+# Avoid hard-coded upstream contact links here.
+# Use repo-local relative paths from the issue chooser so this file does not
+# hard-code an owner/repo slug that can drift back to a retired private surface.
+contact_links:
+  - name: Product Questions And Workbench Ideas
+    url: ../../../discussions
+    about: Use GitHub Discussions for how-to questions, product ideas, workflow sharing, and evaluator feedback.
+  - name: Repository Stewardship Boundary
+    url: ../../../blob/main/MAINTAINERS.md
+    about: Use MAINTAINERS.md for the current repo-local steward, ownership boundary, and intake responsibility surface for this checkout.
+  - name: Repository Security Policy
+    url: ../../../security/policy
+    about: Use the private vulnerability reporting path first and follow SECURITY.md for repository-local disclosure expectations.
+  - name: Repository Support Guide
+    url: ../../../blob/main/SUPPORT.md
+    about: Start with SUPPORT.md for current fork setup help, triage guidance, and repository-local support boundaries.

@@ -1,0 +1,197 @@
+name: UIUX Auto Remediation
+
+on:
+  workflow_run:
+    workflows: ["UIUX Gemini Gate"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  open-remediation-issue:
+    name: Open remediation issue on gate failure
+    if: ${{ github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download UIUX gate inputs artifact from failed run
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: uiux-gemini-gate-inputs
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: .runtime-cache/runs/current/evidence/uiux-gemini
+        continue-on-error: true
+
+      - name: Create or reuse daily remediation issue
+        uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        env:
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_NAME: ${{ github.event.workflow_run.name }}
+          RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          RUN_EVENT: ${{ github.event.workflow_run.event }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+        with:
+          script: |
+            const fs = require("fs");
+            const path = require("path");
+
+            const thresholdUx = 80;
+            const thresholdA11y = 80;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const date = new Date().toISOString().slice(0, 10);
+            const title = `[UIUX Auto-Remediation] UIUX Gemini Gate failure ${date}`;
+            const preferredLabels = ["ci", "uiux-gate", "auto-remediation"];
+
+            const getByPath = (obj, keyPath) =>
+              keyPath.split(".").reduce((cur, key) => {
+                if (!cur || typeof cur !== "object" || !(key in cur)) return undefined;
+                return cur[key];
+              }, obj);
+
+            const firstPresent = (obj, candidates) => {
+              for (const keyPath of candidates) {
+                const value = getByPath(obj, keyPath);
+                if (value !== undefined && value !== null) return value;
+              }
+              return undefined;
+            };
+
+            const toScore = (value) => {
+              if (typeof value === "number") return value;
+              if (typeof value === "string") {
+                const parsed = Number(value.replace("%", "").trim());
+                return Number.isFinite(parsed) ? parsed : undefined;
+              }
+              return undefined;
+            };
+
+            let evaluator = {};
+            const evaluatorPath = path.join("artifacts", "uiux-gemini", "evaluator.json");
+            if (fs.existsSync(evaluatorPath)) {
+              try {
+                evaluator = JSON.parse(fs.readFileSync(evaluatorPath, "utf8"));
+              } catch (error) {
+                core.warning(`Failed to parse evaluator.json: ${error.message}`);
+              }
+            } else {
+              core.warning("evaluator.json not found in downloaded artifact; thresholds may be inferred only.");
+            }
+
+            const uxRaw = firstPresent(evaluator, [
+              "ux",
+              "ux_score",
+              "scores.ux",
+              "scores.ux_score",
+              "metrics.ux",
+              "metrics.ux_score",
+              "result.ux",
+              "result.ux_score",
+              "summary.ux",
+              "summary.ux_score",
+            ]);
+            const a11yRaw = firstPresent(evaluator, [
+              "a11y",
+              "a11y_score",
+              "scores.a11y",
+              "scores.a11y_score",
+              "metrics.a11y",
+              "metrics.a11y_score",
+              "result.a11y",
+              "result.a11y_score",
+              "summary.a11y",
+              "summary.a11y_score",
+            ]);
+            const gateRaw = firstPresent(evaluator, [
+              "final_gate",
+              "gate",
+              "status",
+              "result.final_gate",
+              "summary.final_gate",
+            ]);
+
+            const ux = toScore(uxRaw);
+            const a11y = toScore(a11yRaw);
+            const finalGate = gateRaw === undefined ? undefined : String(gateRaw).trim().toUpperCase();
+
+            const failures = [];
+            if (ux === undefined) {
+              failures.push(`- ux score unavailable (threshold: ${thresholdUx})`);
+            } else if (ux < thresholdUx) {
+              failures.push(`- ux score ${ux.toFixed(2)} < ${thresholdUx.toFixed(2)}`);
+            }
+            if (a11y === undefined) {
+              failures.push(`- a11y score unavailable (threshold: ${thresholdA11y})`);
+            } else if (a11y < thresholdA11y) {
+              failures.push(`- a11y score ${a11y.toFixed(2)} < ${thresholdA11y.toFixed(2)}`);
+            }
+            if (!finalGate) {
+              failures.push("- final_gate unavailable (expected PASS)");
+            } else if (finalGate !== "PASS") {
+              failures.push(`- final_gate is ${finalGate} (expected PASS)`);
+            }
+            if (failures.length === 0) {
+              failures.push("- workflow failed before gate score extraction; inspect run logs and artifacts");
+            }
+
+            const listResp = await github.rest.issues.listForRepo({
+              owner,
+              repo,
+              state: "open",
+              per_page: 100,
+            });
+            const existing = listResp.data.find((item) => item.title === title);
+            if (existing) {
+              core.info(`Daily issue already exists: #${existing.number}`);
+              return;
+            }
+
+            const repoLabels = await github.paginate(github.rest.issues.listLabelsForRepo, {
+              owner,
+              repo,
+              per_page: 100,
+            });
+            const repoLabelSet = new Set(repoLabels.map((label) => label.name));
+            const labels = preferredLabels.filter((name) => repoLabelSet.has(name));
+
+            const body = [
+              "## UIUX Gate Auto-Remediation",
+              "",
+              "A failed `UIUX Gemini Gate` run triggered this issue.",
+              "",
+              "### Run Context",
+              `- Workflow: ${process.env.RUN_NAME}`,
+              `- Run ID: ${process.env.RUN_ID}`,
+              `- Run URL: ${process.env.RUN_URL}`,
+              `- Conclusion: ${process.env.RUN_CONCLUSION}`,
+              `- Event: ${process.env.RUN_EVENT}`,
+              `- Branch: ${process.env.HEAD_BRANCH}`,
+              `- Commit: ${process.env.HEAD_SHA}`,
+              "",
+              "### Failed Gate Threshold Items",
+              ...failures,
+              "",
+              "### Suggested Next Steps",
+              "1. Open the run URL and inspect failing jobs + step logs.",
+              "2. Download `uiux-gemini-gate-inputs` and verify `evaluator.json` fields: `ux_score`, `a11y_score`, `final_gate`.",
+              "3. Fix failing UX/a11y criteria, then rerun `UIUX Gemini Gate` to close this issue.",
+            ].join("\n");
+
+            const created = await github.rest.issues.create({
+              owner,
+              repo,
+              title,
+              body,
+              ...(labels.length > 0 ? { labels } : {}),
+            });
+            core.info(`Created issue #${created.data.number}`);
