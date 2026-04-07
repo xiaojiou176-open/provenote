@@ -1,0 +1,24 @@
+{
+  "name": "provenote-dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "postCreateCommand": "bash .devcontainer/postCreate.sh",
+  "runArgs": [
+    "--init"
+  ],
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  }
+}

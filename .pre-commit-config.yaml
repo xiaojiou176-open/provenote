@@ -1,0 +1,278 @@
+fail_fast: true
+default_language_version:
+  python: python3
+exclude: ^(node_modules/|\.venv/|apps/web/node_modules/|dist/|build/|artifacts/|\.runtime-cache/|coverage/|playwright-report/|mutants/)
+default_install_hook_types:
+  - pre-commit
+  - pre-push
+  - commit-msg
+
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.24.2
+    hooks:
+      - id: gitleaks
+        args:
+          - --config=config/gitleaks.toml
+          - --verbose
+        stages:
+          - pre-commit
+
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args:
+          - --baseline
+          - config/secrets.baseline
+        stages:
+          - pre-commit
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: detect-private-key
+      - id: debug-statements
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: no-commit-to-branch
+        args:
+          - --branch
+          - main
+          - --branch
+          - master
+        stages:
+          - pre-commit
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.31.0
+    hooks:
+      - id: commitizen
+        stages:
+          - commit-msg
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.13
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+          - --exit-non-zero-on-fix
+      - id: ruff-format
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.18.1
+    hooks:
+      - id: markdownlint-cli2
+        args: [--config, config/.markdownlint-cli2.yaml]
+
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.7
+    hooks:
+      - id: actionlint
+        args:
+          - -shellcheck=
+
+  - repo: local
+    hooks:
+      - id: atomic-commit-scope-pre-commit
+        name: atomic commit scope guard (pre-commit)
+        entry: bash -c 'ATOMIC_COMMIT_ENFORCE=1 bash tooling/scripts/ci/check_atomic_commit_scope.sh'
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
+      - id: atomic-commit-scope-pre-push
+        name: atomic commit scope guard (pre-push range)
+        entry: bash tooling/scripts/ci/check_atomic_commit_scope_range.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: conventional-commit-msg
+        name: conventional commit message guard (commit-msg)
+        entry: bash tooling/scripts/ci/check_commit_message.sh
+        language: system
+        stages:
+          - commit-msg
+
+      - id: conventional-commit-range-pre-push
+        name: conventional commit message guard (pre-push range)
+        entry: bash tooling/scripts/ci/check_commit_message_range.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: commit-authorship-range-pre-push
+        name: commit authorship guard (pre-push range)
+        entry: bash tooling/scripts/ci/check_commit_authorship_range.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: docs-change-guard-pre-commit
+        name: docs change guard (pre-commit)
+        entry: bash tooling/scripts/ci/check_docs_change_guard.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
+      - id: lint-gate-pre-commit
+        name: lint gate (pre-commit)
+        entry: bash tooling/scripts/ci/pre_commit_lint.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
+      - id: root-cleanliness-pre-commit
+        name: root cleanliness guard (pre-commit)
+        entry: python3 tooling/scripts/ci/check_root_cleanliness.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-commit
+
+      - id: test-smells-pre-push
+        name: test-smells guard (pre-push)
+        entry: bash -lc 'bash tooling/scripts/ci/check_test_smells.sh && bash tooling/scripts/ci/check_python_test_smells.sh'
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: local-preflight-pre-push
+        name: local preflight guard (pre-push)
+        entry: bash tooling/scripts/ci/local_preflight_before_push.sh --mode fast
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: live-static-audit-pre-push
+        name: live static audit (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_live_test_static_audit.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: env-governance-pre-push
+        name: env governance guard (pre-push)
+        entry: bash tooling/scripts/ci/check_env_governance.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: secret-leaks-pre-push
+        name: secret leaks guard (pre-push)
+        entry: bash tooling/scripts/ci/check_secret_leaks.sh
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: sensitive-surface-pre-push
+        name: sensitive surface guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_sensitive_surface_guard.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: github-security-alerts-pre-push
+        name: github security alerts guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_github_security_alerts.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: navigation-docs-pre-push
+        name: navigation docs guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: path-truth-pre-push
+        name: path truth guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_path_truth_drift.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: workflow-policy-pre-push
+        name: workflow policy guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_workflow_policy.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: ci-contracts-pre-push
+        name: ci contract tests (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run pytest tests/ci/test_required_gate_contract.py tests/ci/test_prepush_policy_contract.py tests/ci/test_artifact_evidence_contract.py tests/ci/test_sensitive_surface_guard.py tests/ci/test_github_security_alerts_gate.py -q
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: provider-surface-pre-push
+        name: provider surface truth guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_provider_surface_truth.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: english-docs-pre-push
+        name: english docs guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_english_authority_boundary.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: public-identity-pre-push
+        name: public identity guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_identity_surface.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: public-distribution-pre-push
+        name: public distribution guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_distribution_surface.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push
+
+      - id: public-ci-boundary-pre-push
+        name: public ci boundary guard (pre-push)
+        entry: bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_ci_boundary.py
+        language: system
+        pass_filenames: false
+        stages:
+          - pre-push

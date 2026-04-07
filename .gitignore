@@ -1,0 +1,190 @@
+# Environments (single block)
+.env
+.env.*
+!.env.example
+.venv/
+.runtime-cache/venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Runtime & build artifacts
+.runtime-cache/
+artifacts/
+logs/
+log/
+cache/
+tmp/
+temp/
+build/
+dist/
+packages/prompts/patterns/user/
+/history.txt
+/notebooks/
+data/
+.uploads/
+sqlite-db/
+surreal-data/
+docker.env
+notebook_data/
+
+# Python-specific
+*.py[cod]
+__pycache__/
+*.so
+todo.md
+google-credentials.json
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+/lib/
+/lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Coverage & test reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage/
+coverage.xml
+coverage*.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+nosetests.xml
+pytest-results/
+.runtime-cache/artifacts/staging/benchmarks/benchmark-results.json
+.benchmarks/
+tests/test_mutation_survivor_killers_runtime.py
+
+# Lint/cache
+.cache
+.ruff_cache/
+.mutmut-cache/
+.turbo/
+
+# Frontend build & test
+apps/web/.next/
+apps/web/.next-playwright*/
+apps/web/coverage/
+apps/web/coverage-v8/
+.runtime-cache/test/playwright/report/
+playwright-report/
+test-results/
+*.storage-state.json
+
+# Meta files
+**/*.meta
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+.cursor/
+.serena/
+.kubelinter/
+.opencode/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Linux
+*~
+
+# Log files
+*.log
+
+# Database files
+*.db
+*.sqlite3
+
+.quarentena
+
+claude-logs/
+.claude/sessions
+**/claude-logs
+
+
+docs/custom_gpt
+doc_exports/
+
+specs/
+.claude
+.sisyphus
+
+.playwright-mcp/
+.codex/
+.agents/
+.agent/
+.claude/
+.opencode/*.md
+
+# Mutants generated copies (avoid tracking redundant mutation test copies)
+mutants/mutants/
+
+
+
+*.local.yml
+**/*.local.md
