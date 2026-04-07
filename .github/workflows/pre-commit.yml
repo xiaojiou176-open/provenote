@@ -1,0 +1,32 @@
+name: Pre-commit
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PRE_COMMIT_HOME: /tmp/pre-commit-cache
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run pre-commit in repo CI container
+        env:
+          CI: "1"
+          SKIP: no-commit-to-branch
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'python -m pip install --upgrade pip pre-commit && find . -maxdepth 1 -name "*.egg-info" -exec rm -rf {} + && bash tooling/scripts/ci/with_heartbeat.sh --label pre-commit-all-files --interval 30 -- bash -lc "python -m pre_commit run --all-files || { echo \"pre-commit cache appears unhealthy; cleaning cache and retrying once\"; python -m pre_commit clean; find . -maxdepth 1 -name \"*.egg-info\" -exec rm -rf {} +; python -m pre_commit run --all-files; }"'

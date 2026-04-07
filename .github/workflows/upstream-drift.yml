@@ -1,0 +1,38 @@
+name: Upstream Drift Check
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-drift:
+    name: Check origin/upstream drift
+    runs-on: ubuntu-latest
+    env:
+      OPEN_NOTEBOOK_UPSTREAM_URL: ${{ vars.UPSTREAM_REPO_URL }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Check live drift governance (selective-port current truth)
+        run: |
+          set -euo pipefail
+          echo "Using upstream: ${OPEN_NOTEBOOK_UPSTREAM_URL:-https://github.com/lfnovo/open-notebook.git}"
+          target_branch="main"
+          bash tooling/scripts/ci/check_upstream_drift.sh \
+            --branch "${target_branch}" \
+            --strict-divergence \
+            --delta-register docs/development.md
+
+      - name: Enforce selective-port ledger freshness and live truth boundary
+        run: |
+          set -euo pipefail
+          python3 tooling/scripts/ci/check_selective_port_ledger.py

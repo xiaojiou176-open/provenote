@@ -1,0 +1,54 @@
+name: Mutation Weekly
+
+on:
+  schedule:
+    - cron: '0 2 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mutation-python-weekly:
+    name: Python Mutation Weekly
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python runtime (uv + deps)
+        uses: ./.github/actions/setup-uv-python
+
+      - name: Run mutation testing (scoped)
+        env:
+          MUTATION_MIN_SCORE: "86"
+          MUTATION_MAX_NO_TESTS: "0"
+          MUTATION_MAX_SURVIVED: "70"
+          MUTATION_MAX_SKIPPED: "0"
+          MUTATION_MAX_SUSPICIOUS: "0"
+          MUTATION_MAX_TIMEOUT: "0"
+          MUTATION_MAX_SURVIVED_REGRESSION: "0"
+          MUTATION_MAX_SCORE_REGRESSION: "0"
+          MUTATION_GUARD_REPORT_PATH: "mutants/mutation-guard-report.json"
+        run: |
+          bash tooling/scripts/ci/with_heartbeat.sh --label mutation-weekly --interval 30 -- \
+            bash -lc "MUTATION_PROFILE=${MUTATION_PROFILE:-core} MUTATION_MAX_CHILDREN=4 bash tooling/scripts/ci/run_mutation_profile.sh"
+
+      - name: Export mutation summary
+        if: always()
+        run: bash tooling/scripts/runtime/run_uv_managed.sh run mutmut results | tee mutants/mutmut-results.txt
+
+      - name: Upload mutation evidence artifacts
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: mutation-evidence-weekly
+          path: |
+            mutants/mutmut-cicd-stats.json
+            mutants/mutmut-results.txt
+            mutants/mutation-guard-report.json
+          if-no-files-found: error

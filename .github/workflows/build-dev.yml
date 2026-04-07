@@ -1,0 +1,455 @@
+name: Development Build
+
+on:
+  workflow_run:
+    workflows: [ Tests ]
+    types: [ completed ]
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build'
+        required: true
+        default: 'linux/amd64'
+        type: choice
+        options:
+          - linux/amd64
+          - linux/arm64
+          - linux/amd64,linux/arm64
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  GHCR_IMAGE: ghcr.io/${{ github.repository }}
+  DOCKERHUB_IMAGE: ${{ vars.DOCKERHUB_IMAGE_REPOSITORY }}
+
+jobs:
+  extract-version:
+    if: ${{ github.event_name != 'workflow_run' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main' && github.event.workflow_run.head_repository.full_name == github.repository) }}
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      has_dockerhub_secrets: ${{ steps.check.outputs.has_dockerhub_secrets }}
+      is_push_to_main: ${{ steps.check.outputs.is_push_to_main }}
+      source_sha: ${{ steps.check.outputs.source_sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Extract version from pyproject.toml
+        id: version
+        run: |
+          VERSION=$(grep -m1 '^version = ' pyproject.toml | cut -d'"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $VERSION"
+
+      - name: Check environment
+        id: check
+        env:
+          DOCKERHUB_IMAGE_REPOSITORY: ${{ vars.DOCKERHUB_IMAGE_REPOSITORY }}
+          SECRET_DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          SECRET_DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          # Check for Docker Hub credentials
+          if [[ -n "${DOCKERHUB_IMAGE_REPOSITORY:-}" && -n "$SECRET_DOCKER_USERNAME" && -n "$SECRET_DOCKER_PASSWORD" ]]; then
+            echo "has_dockerhub_secrets=true" >> $GITHUB_OUTPUT
+            echo "Docker Hub credentials and repo-owned image repository available"
+          else
+            echo "has_dockerhub_secrets=false" >> $GITHUB_OUTPUT
+            echo "Docker Hub publishing disabled unless both DOCKERHUB_IMAGE_REPOSITORY and Docker Hub credentials are configured"
+          fi
+
+          # Check if this is a push to main (not a PR)
+          if [[ "${{ github.event_name }}" == "workflow_run" && "${{ github.event.workflow_run.conclusion }}" == "success" && "${{ github.event.workflow_run.event }}" == "push" && "${{ github.event.workflow_run.head_branch }}" == "main" && "${{ github.event.workflow_run.head_repository.full_name }}" == "${{ github.repository }}" ]]; then
+            echo "source_sha=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_OUTPUT
+            echo "is_push_to_main=true" >> $GITHUB_OUTPUT
+            echo "Tests workflow succeeded on main - will publish v1-dev tags"
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "source_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "is_push_to_main=true" >> $GITHUB_OUTPUT
+            echo "This is a push to main - will publish v1-dev tags"
+          else
+            echo "source_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+            echo "is_push_to_main=false" >> $GITHUB_OUTPUT
+            echo "This is a PR or manual run - test build only"
+          fi
+
+  build-regular:
+    needs: extract-version
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CONFIG: /tmp/provenote-build-dev-regular-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+    outputs:
+      push_enabled: ${{ steps.tags.outputs.push }}
+      ghcr_push_allowed: ${{ steps.ghcr-access.outputs.ghcr_push_allowed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ needs.extract-version.outputs.source_sha }}
+
+      - name: Free up disk space
+        if: needs.extract-version.outputs.is_push_to_main == 'true'
+        run: |
+          set -euo pipefail
+          if sudo -n true 2>/dev/null; then
+            SUDO="sudo -n"
+          else
+            SUDO=""
+            echo "::warning::Passwordless sudo unavailable on this runner; privileged disk cleanup will run in best-effort mode."
+          fi
+
+          try_prune_dir() {
+            local target="$1"
+            if [[ ! -e "${target}" ]]; then
+              return 0
+            fi
+            if [[ -w "${target}" || -w "$(dirname "${target}")" ]]; then
+              rm -rf "${target}" || true
+              return 0
+            fi
+            if [[ -n "${SUDO}" ]]; then
+              ${SUDO} rm -rf "${target}" || true
+              return 0
+            fi
+            echo "::notice::Skipping privileged cleanup for ${target}"
+          }
+
+          try_docker_cleanup() {
+            if ! command -v docker >/dev/null 2>&1; then
+              return 0
+            fi
+            if [[ -n "${SUDO}" ]]; then
+              ${SUDO} docker "$@" || docker "$@" || true
+            else
+              docker "$@" || true
+            fi
+          }
+
+          try_prune_dir /usr/share/dotnet
+          try_prune_dir /usr/local/lib/android
+          try_prune_dir /opt/ghc
+          try_prune_dir /opt/hostedtoolcache/CodeQL
+          try_docker_cleanup container prune --force
+          try_docker_cleanup builder prune --all --force
+          try_docker_cleanup system prune --all --volumes --force
+          try_docker_cleanup image prune --all --force
+          shopt -s nullglob
+          for target in /tmp/.buildx-cache* /tmp/buildkit-*; do
+            try_prune_dir "${target}"
+          done
+          shopt -u nullglob
+          df -h
+
+      - name: Prepare isolated Docker config
+        run: |
+          mkdir -p "${DOCKER_CONFIG}"
+          printf '{}\n' > "${DOCKER_CONFIG}/config.json"
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+
+      - name: Login to GitHub Container Registry
+        if: needs.extract-version.outputs.is_push_to_main == 'true'
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          password: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        if: needs.extract-version.outputs.is_push_to_main == 'true' && needs.extract-version.outputs.has_dockerhub_secrets == 'true'
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Probe GHCR package access
+        id: ghcr-access
+        if: needs.extract-version.outputs.is_push_to_main == 'true'
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          owner="${REPOSITORY_OWNER}"
+          package_name="${REPOSITORY_NAME}"
+
+          probe_status() {
+            local url="$1"
+            curl -sS -o /tmp/ghcr-probe.json -w '%{http_code}' \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GHCR_TOKEN}" \
+              "${url}" || printf '000'
+          }
+
+          org_status="$(probe_status "https://api.github.com/orgs/${owner}/packages/container/${package_name}")"
+          user_status="$(probe_status "https://api.github.com/users/${owner}/packages/container/${package_name}")"
+
+          if [[ "${org_status}" == "403" || "${user_status}" == "403" ]]; then
+            echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the workflow token cannot access the package surface for ${owner}/${package_name}."
+          else
+            echo "ghcr_push_allowed=true" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Prepare Docker tags
+        id: tags
+        run: |
+          if [[ "${{ needs.extract-version.outputs.is_push_to_main }}" == "true" ]]; then
+            tags=()
+            if [[ "${{ steps.ghcr-access.outputs.ghcr_push_allowed }}" != "false" ]]; then
+              tags+=("${{ env.GHCR_IMAGE }}:v1-dev")
+            fi
+            if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+              tags+=("${{ env.DOCKERHUB_IMAGE }}:v1-dev")
+            fi
+            if [[ ${#tags[@]} -gt 0 ]]; then
+              IFS=, printf 'tags=%s\n' "${tags[*]}" >> "${GITHUB_OUTPUT}"
+              unset IFS
+              echo "push=true" >> "${GITHUB_OUTPUT}"
+            else
+              echo "tags=" >> "${GITHUB_OUTPUT}"
+              echo "push=false" >> "${GITHUB_OUTPUT}"
+            fi
+            echo "platforms=linux/amd64,linux/arm64" >> $GITHUB_OUTPUT
+          else
+            # PR or manual: test build only
+            echo "tags=${{ env.GHCR_IMAGE }}:${{ needs.extract-version.outputs.version }}-dev-test" >> $GITHUB_OUTPUT
+            echo "push=false" >> $GITHUB_OUTPUT
+            echo "platforms=${{ github.event.inputs.platform || 'linux/amd64' }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build and push regular image
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        with:
+          context: .
+          file: ./ops/docker/Dockerfile
+          platforms: ${{ steps.tags.outputs.platforms }}
+          push: ${{ steps.tags.outputs.push }}
+          tags: ${{ steps.tags.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha,scope=build-dev-regular
+
+  build-single:
+    needs: extract-version
+    # Only build single image on push to main
+    if: needs.extract-version.outputs.is_push_to_main == 'true'
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+    env:
+      DOCKER_CONFIG: /tmp/provenote-build-dev-single-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+    outputs:
+      push_enabled: ${{ steps.tags.outputs.push }}
+      ghcr_push_allowed: ${{ steps.ghcr-access.outputs.ghcr_push_allowed }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ needs.extract-version.outputs.source_sha }}
+
+      - name: Free up disk space
+        run: |
+          set -euo pipefail
+          if sudo -n true 2>/dev/null; then
+            SUDO="sudo -n"
+          else
+            SUDO=""
+            echo "::warning::Passwordless sudo unavailable on this runner; privileged disk cleanup will run in best-effort mode."
+          fi
+
+          try_prune_dir() {
+            local target="$1"
+            if [[ ! -e "${target}" ]]; then
+              return 0
+            fi
+            if [[ -w "${target}" || -w "$(dirname "${target}")" ]]; then
+              rm -rf "${target}" || true
+              return 0
+            fi
+            if [[ -n "${SUDO}" ]]; then
+              ${SUDO} rm -rf "${target}" || true
+              return 0
+            fi
+            echo "::notice::Skipping privileged cleanup for ${target}"
+          }
+
+          try_docker_cleanup() {
+            if ! command -v docker >/dev/null 2>&1; then
+              return 0
+            fi
+            if [[ -n "${SUDO}" ]]; then
+              ${SUDO} docker "$@" || docker "$@" || true
+            else
+              docker "$@" || true
+            fi
+          }
+
+          try_prune_dir /usr/share/dotnet
+          try_prune_dir /usr/local/lib/android
+          try_prune_dir /opt/ghc
+          try_prune_dir /opt/hostedtoolcache/CodeQL
+          try_docker_cleanup container prune --force
+          try_docker_cleanup builder prune --all --force
+          try_docker_cleanup system prune --all --volumes --force
+          try_docker_cleanup image prune --all --force
+          shopt -s nullglob
+          for target in /tmp/.buildx-cache* /tmp/buildkit-*; do
+            try_prune_dir "${target}"
+          done
+          shopt -u nullglob
+          df -h
+
+      - name: Prepare isolated Docker config
+        run: |
+          mkdir -p "${DOCKER_CONFIG}"
+          printf '{}\n' > "${DOCKER_CONFIG}/config.json"
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4.0.0
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          password: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        if: needs.extract-version.outputs.has_dockerhub_secrets == 'true'
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4.1.0
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Probe GHCR package access
+        id: ghcr-access
+        env:
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          REPOSITORY_NAME: ${{ github.event.repository.name }}
+        run: |
+          owner="${REPOSITORY_OWNER}"
+          package_name="${REPOSITORY_NAME}"
+
+          probe_status() {
+            local url="$1"
+            curl -sS -o /tmp/ghcr-probe.json -w '%{http_code}' \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${GHCR_TOKEN}" \
+              "${url}" || printf '000'
+          }
+
+          org_status="$(probe_status "https://api.github.com/orgs/${owner}/packages/container/${package_name}")"
+          user_status="$(probe_status "https://api.github.com/users/${owner}/packages/container/${package_name}")"
+
+          if [[ "${org_status}" == "403" || "${user_status}" == "403" ]]; then
+            echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the workflow token cannot access the package surface for ${owner}/${package_name}."
+          else
+            echo "ghcr_push_allowed=true" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Prepare Docker tags
+        id: tags
+        run: |
+          tags=()
+          if [[ "${{ steps.ghcr-access.outputs.ghcr_push_allowed }}" != "false" ]]; then
+            tags+=("${{ env.GHCR_IMAGE }}:v1-dev-single")
+          fi
+          if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" ]]; then
+            tags+=("${{ env.DOCKERHUB_IMAGE }}:v1-dev-single")
+          fi
+          if [[ ${#tags[@]} -gt 0 ]]; then
+            IFS=, printf 'tags=%s\n' "${tags[*]}" >> "${GITHUB_OUTPUT}"
+            unset IFS
+            echo "push=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "tags=" >> "${GITHUB_OUTPUT}"
+            echo "push=false" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Build and push single-container image
+        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        with:
+          context: .
+          file: ./ops/docker/Dockerfile.single
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.tags.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+          cache-from: type=gha,scope=build-dev-single
+
+  summary:
+    needs: [extract-version, build-regular, build-single]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Development Build Summary
+        run: |
+          echo "## Development Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ needs.extract-version.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Event:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Push to Main:** ${{ needs.extract-version.outputs.is_push_to_main }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [[ "${{ needs.extract-version.outputs.is_push_to_main }}" == "true" ]]; then
+            echo "### Published Tags:" >> $GITHUB_STEP_SUMMARY
+
+            if [[ "${{ needs.build-regular.result }}" == "success" ]]; then
+              if [[ "${{ needs.build-regular.outputs.push_enabled }}" == "true" && "${{ needs.build-regular.outputs.ghcr_push_allowed }}" != "false" ]]; then
+                echo "✅ **Regular:** \`${{ env.GHCR_IMAGE }}:v1-dev\`" >> $GITHUB_STEP_SUMMARY
+              else
+                echo "⏭️ **Regular (GHCR):** Publish skipped because package access is not available to the workflow token" >> $GITHUB_STEP_SUMMARY
+              fi
+              if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" && "${{ needs.build-regular.outputs.push_enabled }}" == "true" ]]; then
+                echo "✅ **Regular (Docker Hub):** \`${{ env.DOCKERHUB_IMAGE }}:v1-dev\`" >> $GITHUB_STEP_SUMMARY
+              fi
+            else
+              echo "❌ **Regular:** Build failed" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            if [[ "${{ needs.build-single.result }}" == "success" ]]; then
+              if [[ "${{ needs.build-single.outputs.push_enabled }}" == "true" && "${{ needs.build-single.outputs.ghcr_push_allowed }}" != "false" ]]; then
+                echo "✅ **Single:** \`${{ env.GHCR_IMAGE }}:v1-dev-single\`" >> $GITHUB_STEP_SUMMARY
+              else
+                echo "⏭️ **Single (GHCR):** Publish skipped because package access is not available to the workflow token" >> $GITHUB_STEP_SUMMARY
+              fi
+              if [[ "${{ needs.extract-version.outputs.has_dockerhub_secrets }}" == "true" && "${{ needs.build-single.outputs.push_enabled }}" == "true" ]]; then
+                echo "✅ **Single (Docker Hub):** \`${{ env.DOCKERHUB_IMAGE }}:v1-dev-single\`" >> $GITHUB_STEP_SUMMARY
+              fi
+            elif [[ "${{ needs.build-single.result }}" == "skipped" ]]; then
+              echo "⏭️ **Single:** Skipped" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "❌ **Single:** Build failed" >> $GITHUB_STEP_SUMMARY
+            fi
+
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Platforms:" >> $GITHUB_STEP_SUMMARY
+            echo "- linux/amd64" >> $GITHUB_STEP_SUMMARY
+            echo "- linux/arm64" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### Test Build Results:" >> $GITHUB_STEP_SUMMARY
+            if [[ "${{ needs.build-regular.result }}" == "success" ]]; then
+              echo "✅ **Dockerfile:** Build successful" >> $GITHUB_STEP_SUMMARY
+            else
+              echo "❌ **Dockerfile:** Build failed" >> $GITHUB_STEP_SUMMARY
+            fi
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### Notes:" >> $GITHUB_STEP_SUMMARY
+            echo "- This is a test build (no images pushed to registry)" >> $GITHUB_STEP_SUMMARY
+            echo "- Merge to main to publish \`v1-dev\` tags" >> $GITHUB_STEP_SUMMARY
+            echo "- For stable releases, use the 'Build and Release' workflow" >> $GITHUB_STEP_SUMMARY
+          fi

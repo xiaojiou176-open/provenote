@@ -1,0 +1,988 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+  security-events: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  required-ci-env:
+    name: Required CI Env/Secrets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Record hosted-safe pull_request path
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "pull_request event detected; required CI secrets stay sealed and the PR continues on the hosted-safe path."
+      - name: Enforce required CI env/secrets
+        if: ${{ github.event_name != 'pull_request' }}
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEN_NOTEBOOK_ENCRYPTION_KEY: ${{ secrets.OPEN_NOTEBOOK_ENCRYPTION_KEY }}
+        run: bash tooling/scripts/ci/check_required_ci_env.sh
+
+  changes:
+    name: Detect Heavy Job Changes
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    outputs:
+      e2e_chromium: ${{ steps.filter.outputs.e2e_chromium }}
+      e2e_cross_browser: ${{ steps.filter.outputs.e2e_cross_browser }}
+      property_tests: ${{ steps.filter.outputs.property_tests }}
+      mutation_python: ${{ steps.filter.outputs.mutation_python }}
+      e2e_real_backend: ${{ steps.filter.outputs.e2e_real_backend }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+      - name: Detect path changes for heavy jobs
+        id: filter
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        with:
+          filters: |
+            e2e_chromium:
+              - "apps/web/**"
+              - "tooling/scripts/ci/**"
+              - ".github/actions/**"
+              - ".github/workflows/test.yml"
+              - "package.json"
+              - "package-lock.json"
+              - ".nvmrc"
+              - "playwright.config.ts"
+            e2e_cross_browser:
+              - "apps/web/**"
+              - "tooling/scripts/ci/**"
+              - ".github/actions/**"
+              - ".github/workflows/test.yml"
+              - "package.json"
+              - "package-lock.json"
+              - ".nvmrc"
+              - "playwright.config.ts"
+            property_tests:
+              - "services/api/**"
+              - "packages/core/**"
+              - "services/worker/**"
+              - "tests/property/**"
+              - "tests/conftest.py"
+              - "tests/**/conftest.py"
+              - "pyproject.toml"
+              - "uv.lock"
+              - "tooling/scripts/ci/**"
+              - ".github/actions/**"
+              - ".github/workflows/test.yml"
+              - ".github/workflows/auditable-quality-gate.yml"
+            mutation_python:
+              - "services/api/**"
+              - "packages/core/**"
+              - "services/worker/**"
+              - "tests/**"
+              - "mutants/**"
+              - "pyproject.toml"
+              - "uv.lock"
+              - "tooling/scripts/ci/**"
+              - ".github/actions/**"
+              - ".github/workflows/test.yml"
+              - ".github/workflows/auditable-quality-gate.yml"
+            e2e_real_backend:
+              - "services/api/**"
+              - "packages/core/**"
+              - "services/worker/**"
+              - "apps/web/**"
+              - "tests/**"
+              - "tooling/scripts/ci/**"
+              - ".github/actions/**"
+              - ".github/workflows/test.yml"
+              - ".github/workflows/auditable-quality-gate.yml"
+
+  security-scan:
+    name: Security Scan (Gitleaks)
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks (OSS CLI)
+        run: |
+          GITLEAKS_VERSION=8.24.2
+          OS_NAME="$(uname -s | tr '[:upper:]' '[:lower:]')"
+          ARCH_NAME="$(uname -m)"
+          case "${OS_NAME}/${ARCH_NAME}" in
+            linux/x86_64)
+              GITLEAKS_TARGET="linux_x64"
+              ;;
+            linux/aarch64|linux/arm64)
+              GITLEAKS_TARGET="linux_arm64"
+              ;;
+            darwin/x86_64)
+              GITLEAKS_TARGET="darwin_x64"
+              ;;
+            darwin/arm64)
+              GITLEAKS_TARGET="darwin_arm64"
+              ;;
+            *)
+              echo "Unsupported gitleaks platform: ${OS_NAME}/${ARCH_NAME}" >&2
+              exit 1
+              ;;
+          esac
+          GITLEAKS_ARCHIVE="gitleaks_${GITLEAKS_VERSION}_${GITLEAKS_TARGET}.tar.gz"
+          mkdir -p "$HOME/.local/bin"
+          TMP_TARBALL="$(mktemp)"
+          TMP_CHECKSUMS="$(mktemp)"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${GITLEAKS_ARCHIVE}" \
+            -o "${TMP_TARBALL}"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_checksums.txt" \
+            -o "${TMP_CHECKSUMS}"
+          GITLEAKS_SHA256="$(awk -v target="${GITLEAKS_ARCHIVE}" '$2 == target { print $1; exit }' "${TMP_CHECKSUMS}")"
+          if [[ -z "${GITLEAKS_SHA256}" ]]; then
+            echo "Unable to resolve checksum for ${GITLEAKS_ARCHIVE}" >&2
+            exit 1
+          fi
+          python3 - "${TMP_TARBALL}" "${GITLEAKS_SHA256}" <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import sys
+          from pathlib import Path
+
+          archive = Path(sys.argv[1])
+          expected = sys.argv[2].strip().lower()
+          actual = hashlib.sha256(archive.read_bytes()).hexdigest()
+          if actual != expected:
+              raise SystemExit(
+                  f"checksum mismatch for {archive.name}: expected {expected}, got {actual}"
+              )
+          PY
+          tar -xzf "${TMP_TARBALL}" -C "$HOME/.local/bin" gitleaks
+          rm -f "${TMP_TARBALL}" "${TMP_CHECKSUMS}"
+          chmod +x "$HOME/.local/bin/gitleaks"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run Gitleaks
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+            LOG_OPTS="${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
+          else
+            BEFORE_SHA="${{ github.event.before }}"
+            if [[ -n "${BEFORE_SHA}" && ! "${BEFORE_SHA}" =~ ^0+$ ]]; then
+              LOG_OPTS="${BEFORE_SHA}..${{ github.sha }}"
+            elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+              LOG_OPTS="HEAD^..HEAD"
+            else
+              LOG_OPTS=""
+            fi
+          fi
+          if [[ -n "${LOG_OPTS}" ]]; then
+            echo "Running gitleaks with log opts: ${LOG_OPTS}"
+            gitleaks detect --source . --config config/gitleaks.toml --log-opts "${LOG_OPTS}" --no-banner --redact --exit-code 1
+          else
+            echo "Running gitleaks full scan (no valid commit range available)"
+            gitleaks detect --source . --config config/gitleaks.toml --no-banner --redact --exit-code 1
+          fi
+
+  external-pr-security-scan:
+    name: External PR Security Scan (Hosted)
+    if: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.full_name != github.repository || github.actor == 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Install gitleaks (OSS CLI)
+        run: |
+          GITLEAKS_VERSION=8.24.2
+          OS_NAME="$(uname -s | tr '[:upper:]' '[:lower:]')"
+          ARCH_NAME="$(uname -m)"
+          case "${OS_NAME}/${ARCH_NAME}" in
+            linux/x86_64)
+              GITLEAKS_TARGET="linux_x64"
+              ;;
+            linux/aarch64|linux/arm64)
+              GITLEAKS_TARGET="linux_arm64"
+              ;;
+            darwin/x86_64)
+              GITLEAKS_TARGET="darwin_x64"
+              ;;
+            darwin/arm64)
+              GITLEAKS_TARGET="darwin_arm64"
+              ;;
+            *)
+              echo "Unsupported gitleaks platform: ${OS_NAME}/${ARCH_NAME}" >&2
+              exit 1
+              ;;
+          esac
+          GITLEAKS_ARCHIVE="gitleaks_${GITLEAKS_VERSION}_${GITLEAKS_TARGET}.tar.gz"
+          mkdir -p "$HOME/.local/bin"
+          TMP_TARBALL="$(mktemp)"
+          TMP_CHECKSUMS="$(mktemp)"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${GITLEAKS_ARCHIVE}" \
+            -o "${TMP_TARBALL}"
+          curl -sSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_checksums.txt" \
+            -o "${TMP_CHECKSUMS}"
+          GITLEAKS_SHA256="$(awk -v target="${GITLEAKS_ARCHIVE}" '$2 == target { print $1; exit }' "${TMP_CHECKSUMS}")"
+          if [[ -z "${GITLEAKS_SHA256}" ]]; then
+            echo "Unable to resolve checksum for ${GITLEAKS_ARCHIVE}" >&2
+            exit 1
+          fi
+          python3 - "${TMP_TARBALL}" "${GITLEAKS_SHA256}" <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import sys
+          from pathlib import Path
+
+          archive = Path(sys.argv[1])
+          expected = sys.argv[2].strip().lower()
+          actual = hashlib.sha256(archive.read_bytes()).hexdigest()
+          if actual != expected:
+              raise SystemExit(
+                  f"checksum mismatch for {archive.name}: expected {expected}, got {actual}"
+              )
+          PY
+          tar -xzf "${TMP_TARBALL}" -C "$HOME/.local/bin" gitleaks
+          rm -f "${TMP_TARBALL}" "${TMP_CHECKSUMS}"
+          chmod +x "$HOME/.local/bin/gitleaks"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Run Gitleaks
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          gitleaks detect --source . --config config/gitleaks.toml --log-opts "${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}" --no-banner --redact --exit-code 1
+
+  external-pr-fast-gate:
+    name: External PR Fast Gate (Hosted)
+    if: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.full_name != github.repository || github.actor == 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run hosted-safe fast gate
+        env:
+          CI: "1"
+          OPEN_NOTEBOOK_EXTERNAL_PR_FAST_GATE: "1"
+          UV_OFFLINE: "0"
+        run: bash tooling/scripts/ci/run_unified_test_gate.sh fast
+
+  governance-gates:
+    name: Governance Gates (Commit + Atomic + Docs Binding)
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+
+      - name: Run governance gates in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/ci/check_docs_change_guard.sh --mode pre-push && bash tooling/scripts/ci/check_commit_message_range.sh && bash tooling/scripts/ci/check_commit_authorship_range.sh && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_distribution_surface.py && bash tooling/scripts/runtime/run_uv_managed.sh run python -m pytest -q tests/ci/test_artifact_evidence_contract.py tests/ci/test_public_distribution_surface_contract.py tests/ci/test_public_identity_contract.py tests/ci/test_path_truth_contract.py tests/ci/test_provider_surface_truth_contract.py tests/ci/test_required_checks_snapshot_contract.py tests/ci/test_english_authority_boundary_contract.py tests/ci/test_sensitive_surface_guard.py tests/test_uiux_gemini_evaluator.py tests/test_ci_uiux_gate.py'
+
+  runtime-policy-gates:
+    name: Runtime Policy Gates (Docs Drift + Observability + Env)
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Runner disk hygiene
+        run: |
+          set -euo pipefail
+          echo "== disk before =="
+          df -h
+
+          runner_root="$(dirname "$(dirname "${RUNNER_WORKSPACE}")")"
+          echo "runner_root=${runner_root}"
+
+          find "${runner_root}/_diag" -type f -mtime +7 -delete 2>/dev/null || true
+          find "${runner_root}/_work/_temp" \
+            -mindepth 1 \
+            -maxdepth 1 \
+            ! -name "_runner_file_commands" \
+            -mtime +2 \
+            -exec rm -rf {} + 2>/dev/null || true
+          rm -rf .pytest_cache .hypothesis .benchmarks .mypy_cache .ruff_cache .runtime-cache/temp
+
+          echo "== disk after =="
+          df -h
+
+      - name: Run runtime policy gates in repo CI container
+        env:
+          CI: "1"
+          GH_TOKEN: ${{ secrets.PROVENOTE_SECURITY_READ_TOKEN || github.token }}
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_entrypoint_contract.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_path_truth_drift.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_provider_surface_truth.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_english_authority_boundary.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_english_runtime_boundary.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_asset_pool.py && python3 tooling/scripts/ci/check_root_cleanliness.py --mode authoritative && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_output_path_policy.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_runtime_surfaces.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_space_surfaces.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_host_process_safety.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_layer_boundaries.py && node tooling/scripts/ci/check_frontend_layer_boundaries.mjs && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_frontend_api_contract_drift.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_openapi_contract_drift.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_external_surfaces.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_no_implicit_external_surface.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_no_floating_external_inputs.py && bash tooling/scripts/ci/check_env_governance.sh && bash tooling/scripts/ci/check_secret_leaks.sh && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_sensitive_surface_guard.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_github_security_alerts.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_identity_surface.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_distribution_surface.py && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_ci_boundary.py && OPEN_NOTEBOOK_SKIP_CACHE_WIPE_GATE=1 bash tooling/scripts/ci/check_cache_wipe_rebuild.sh fast'
+
+  test-smells:
+    name: Test Smells Guard
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run test smell guards in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile minimal -- \
+            bash -lc 'bash tooling/scripts/ci/check_test_smells.sh && bash tooling/scripts/ci/check_python_test_smells.sh'
+
+  backend-lint:
+    name: Backend Lint
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run backend lint in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/runtime/run_uv_managed.sh run ruff check . && bash tooling/scripts/runtime/run_uv_managed.sh run --extra dev python -m mypy services packages tooling'
+
+  apps-web-lint:
+    name: Frontend Lint
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run apps/web lint in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web-static -- \
+            bash -lc 'cd apps/web && npm run lint && cd ../.. && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_frontend_logging_contract.py'
+
+  backend-shard-a:
+    name: "Backend Tests (Shard A: api + auditable)"
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run shard A backend checks in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'python3 tooling/scripts/ci/check_architecture_guard.py && python3 tooling/scripts/ci/check_google_genai_usage.py && python3 tooling/scripts/ci/check_first_party_file_length.py && bash tooling/scripts/ci/check_env_governance.sh && OPEN_NOTEBOOK_SKIP_MIGRATIONS=true bash tooling/scripts/runtime/run_uv_managed.sh run python -m pytest tests/api tests/auditable -v -m "not property and not live" --cov=services.api --cov=services.worker --cov=packages.core.ai --cov=packages.core.graphs --cov=packages.core.database --cov=packages.core.utils --cov=packages.core.auditable --cov-branch --cov-config=pyproject.toml --cov-report=term-missing --cov-fail-under=0'
+
+      - name: Upload backend coverage data (Shard A)
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: backend-coverage-data-shard-a
+          path: .coverage
+          include-hidden-files: true
+          if-no-files-found: error
+
+  backend-shard-b:
+    name: "Backend Tests (Shard B: remaining tests)"
+    needs: [required-ci-env]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run shard B backend checks in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'python3 tooling/scripts/ci/check_architecture_guard.py && python3 tooling/scripts/ci/check_google_genai_usage.py && python3 tooling/scripts/ci/check_first_party_file_length.py && bash tooling/scripts/ci/check_env_governance.sh && OPEN_NOTEBOOK_SKIP_MIGRATIONS=true bash tooling/scripts/runtime/run_uv_managed.sh run python -m pytest tests/ -v -m "not property and not live" --ignore=tests/api --ignore=tests/auditable --ignore=tests/performance --cov=services.api --cov=services.worker --cov=packages.core.ai --cov=packages.core.graphs --cov=packages.core.database --cov=packages.core.utils --cov=packages.core.auditable --cov-branch --cov-config=pyproject.toml --cov-report=term-missing --cov-fail-under=0'
+
+      - name: Upload backend coverage data (Shard B)
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: backend-coverage-data-shard-b
+          path: .coverage
+          include-hidden-files: true
+          if-no-files-found: error
+
+  property-tests:
+    name: Property Tests
+    needs: [required-ci-env, changes]
+    if: ${{ (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')) && needs.changes.outputs.property_tests == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run property-based tests in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/ci/with_heartbeat.sh --label property-tests --interval 30 -- bash -lc "OPEN_NOTEBOOK_SKIP_MIGRATIONS=true bash tooling/scripts/runtime/run_uv_managed.sh run python -m pytest tests/property/ -v -m property"'
+
+  performance-benchmarks:
+    name: Performance Benchmarks
+    needs: [required-ci-env]
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      SURREAL_BENCH_CONTAINER: surreal-bench-${{ github.run_id }}-${{ github.run_attempt }}
+      OPEN_NOTEBOOK_SKIP_MIGRATIONS: "true"
+      SURREAL_USER: root
+      SURREAL_PASSWORD: root
+      SURREAL_NAMESPACE: open_notebook
+      SURREAL_DATABASE: open_notebook
+      # Manual-only advisory lane: keep benchmark/Docker preflight outside the
+      # per-push required gate, but retain an auditable path for maintainers.
+      PERF_BENCHMARK_ALLOW_ENV_SKIP: "1"
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and untracked residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Start SurrealDB (Docker)
+        run: |
+          SURREAL_BENCH_PORT="$((30000 + (GITHUB_RUN_ID % 10000)))"
+          echo "SURREAL_BENCH_PORT=${SURREAL_BENCH_PORT}" >> "$GITHUB_ENV"
+          echo "SURREAL_URL=ws://127.0.0.1:${SURREAL_BENCH_PORT}/rpc" >> "$GITHUB_ENV"
+          sudo docker run -d --name "${SURREAL_BENCH_CONTAINER}" \
+            -p "127.0.0.1:${SURREAL_BENCH_PORT}:8000" \
+            surrealdb/surrealdb:v2.3.10 \
+            start --log warn --user root --pass root memory
+          for i in {1..30}; do
+            if sudo docker logs "${SURREAL_BENCH_CONTAINER}" 2>&1 | grep -qi "Started web server"; then
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run performance benchmarks in repo CI container
+        env:
+          CI: "1"
+          SURREAL_URL: ws://host.docker.internal:${{ env.SURREAL_BENCH_PORT }}/rpc
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/runtime/run_uv_managed.sh run python -m pytest tests/performance/ -v --benchmark-only --benchmark-json=.runtime-cache/runs/current/evidence/benchmarks/benchmark-results.json'
+
+      - name: Dump Surreal logs
+        if: always()
+        run: sudo docker logs "${SURREAL_BENCH_CONTAINER}" || true
+
+      - name: Upload benchmark results
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: performance-benchmark-results
+          path: .runtime-cache/runs/current/evidence/benchmarks/benchmark-results.json
+          if-no-files-found: error
+
+      - name: Stop SurrealDB
+        if: always()
+        run: sudo docker rm -f "${SURREAL_BENCH_CONTAINER}" || true
+
+  mutation-python:
+    name: Python Mutation (profile-aware)
+    needs: [required-ci-env, changes]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run mutation testing in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/ci/with_heartbeat.sh --label mutation-tests --interval 30 -- bash -lc "MUTATION_MIN_SCORE=86 MUTATION_MAX_NO_TESTS=0 MUTATION_MAX_SURVIVED=70 MUTATION_MAX_SKIPPED=0 MUTATION_MAX_SUSPICIOUS=0 MUTATION_MAX_TIMEOUT=0 MUTATION_MAX_SURVIVED_REGRESSION=0 MUTATION_MAX_SCORE_REGRESSION=0 MUTATION_GUARD_REPORT_PATH=mutants/mutation-guard-report.json MUTATION_PROFILE=${MUTATION_PROFILE:-core} MUTATION_MAX_CHILDREN=4 bash tooling/scripts/ci/run_mutation_profile.sh" && bash tooling/scripts/runtime/run_uv_managed.sh run mutmut results | tee mutants/mutmut-results.txt'
+
+      - name: Upload mutation evidence artifacts
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: mutation-evidence-pr
+          path: |
+            mutants/mutmut-cicd-stats.json
+            mutants/mutmut-results.txt
+            mutants/mutation-guard-report.json
+          if-no-files-found: error
+
+  apps-web:
+    name: Frontend Tests
+    needs: [required-ci-env, apps-web-lint]
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run apps/web coverage in consistent container
+        env:
+          FRONTEND_COVERAGE_SCOPE: phase0
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web-static -- \
+            bash -lc 'cd apps/web && npm run test:coverage'
+
+      - name: Upload apps/web coverage lcov
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: apps-web-coverage-lcov
+          path: .runtime-cache/test/coverage/apps/web/lcov.info
+          include-hidden-files: true
+          if-no-files-found: error
+
+      - name: Build for bundle size check in consistent container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web-static -- \
+            bash -lc 'cd apps/web && npm run build'
+
+      - name: Check bundle size limits in consistent container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web-static -- \
+            bash -lc 'cd apps/web && npm run size'
+
+      - name: Upload bundle analysis
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: bundle-size-report
+          path: apps/web/.next/analyze
+          if-no-files-found: ignore
+
+  backend-coverage-merge:
+    name: Backend Coverage Merge
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    needs: [required-ci-env, backend-shard-a, backend-shard-b]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Download backend coverage data (Shard A)
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: backend-coverage-data-shard-a
+          path: coverage-shard-a
+
+      - name: Download backend coverage data (Shard B)
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: backend-coverage-data-shard-b
+          path: coverage-shard-b
+
+      - name: Combine backend coverage and export xml in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'mkdir -p .runtime-cache/test/coverage/backend && bash tooling/scripts/runtime/run_uv_managed.sh run coverage combine --rcfile=pyproject.toml coverage-shard-a/.coverage coverage-shard-b/.coverage && bash tooling/scripts/runtime/run_uv_managed.sh run coverage xml --rcfile=pyproject.toml -o .runtime-cache/test/coverage/backend/coverage.xml'
+
+      - name: Upload backend coverage xml
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: backend-coverage-xml
+          path: .runtime-cache/test/coverage/backend/coverage.xml
+          if-no-files-found: error
+
+  e2e:
+    name: Frontend E2E (Chromium) (Shard ${{ matrix.shard }})
+    needs: [required-ci-env, changes]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: "1/6"
+            shard_id: "1-of-6"
+            playwright_port: "3111"
+            playwright_api_port: "5111"
+          - shard: "2/6"
+            shard_id: "2-of-6"
+            playwright_port: "3112"
+            playwright_api_port: "5112"
+          - shard: "3/6"
+            shard_id: "3-of-6"
+            playwright_port: "3113"
+            playwright_api_port: "5113"
+          - shard: "4/6"
+            shard_id: "4-of-6"
+            playwright_port: "3114"
+            playwright_api_port: "5114"
+          - shard: "5/6"
+            shard_id: "5-of-6"
+            playwright_port: "3115"
+            playwright_api_port: "5115"
+          - shard: "6/6"
+            shard_id: "6-of-6"
+            playwright_port: "3116"
+            playwright_api_port: "5116"
+    steps:
+      - name: Pre-clean workspace (git hygiene)
+        run: |
+          # Prevent stale refs and checkout residue from earlier workflow steps.
+          find "$GITHUB_WORKSPACE" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run E2E tests (Chromium) in consistent container
+        env:
+          CI: "1"
+          PLAYWRIGHT_PORT: ${{ matrix.playwright_port }}
+          PLAYWRIGHT_API_PORT: ${{ matrix.playwright_api_port }}
+          PLAYWRIGHT_DISABLE_VISUAL_BASELINES: "0"
+          PLAYWRIGHT_DISABLE_COLOR_CONTRAST_CHECK: "0"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
+            bash -lc 'cd apps/web && bash ../tooling/scripts/ci/with_heartbeat.sh --label e2e-chromium --interval 30 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label e2e-chromium --max-retries 1 -- npm run test:e2e -- --project=chromium --workers=6 --shard=${{ matrix.shard }}"'
+
+      - name: Upload retry classification logs
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: test-retry-logs-e2e-chromium-${{ matrix.shard_id }}
+          path: .runtime-cache/runs/current/reports/test-retry/*.log
+          if-no-files-found: ignore
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: playwright-report-${{ matrix.shard_id }}
+          path: .runtime-cache/runs/current/evidence/playwright/report
+          if-no-files-found: error
+
+  e2e-cross-browser-smoke:
+    name: Frontend E2E Cross-Browser Smoke (CUJ)
+    needs: [required-ci-env, changes]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run cross-browser smoke CUJ in consistent container
+        env:
+          CI: "1"
+          PLAYWRIGHT_PORT: "3120"
+          PLAYWRIGHT_API_PORT: "5120"
+          PLAYWRIGHT_DISABLE_VISUAL_BASELINES: "0"
+          PLAYWRIGHT_DISABLE_COLOR_CONTRAST_CHECK: "0"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
+            bash -lc 'cd apps/web && bash ../tooling/scripts/ci/with_heartbeat.sh --label e2e-cross-browser-smoke --interval 30 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label e2e-cross-browser-smoke --max-retries 1 -- npm run test:e2e:cross-browser-smoke"'
+
+      - name: Upload cross-browser Playwright report
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: playwright-report-cross-browser-smoke
+          path: .runtime-cache/runs/current/evidence/playwright/report
+          if-no-files-found: error
+
+  e2e-real-backend:
+    name: E2E Real Backend Smoke
+    needs: [required-ci-env, changes]
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      SURREAL_E2E_CONTAINER: surreal-e2e-${{ github.run_id }}-${{ github.run_attempt }}
+      SURREAL_E2E_PORT: "38080"
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Start SurrealDB (Docker)
+        run: |
+          sudo docker run -d --name "${SURREAL_E2E_CONTAINER}" \
+            -p "${SURREAL_E2E_PORT}:8000" \
+            surrealdb/surrealdb:v2.3.10 \
+            start --log warn --user root --pass root memory
+          for i in {1..30}; do
+            if sudo docker logs "${SURREAL_E2E_CONTAINER}" 2>&1 | grep -qi "Started web server"; then
+              break
+            fi
+            sleep 1
+          done
+
+      - name: Run real backend E2E smoke in consistent container
+        env:
+          CI: "1"
+          PLAYWRIGHT_PORT: "3130"
+          PLAYWRIGHT_API_PORT: "5130"
+          PLAYWRIGHT_DISABLE_VISUAL_BASELINES: "0"
+          PLAYWRIGHT_DISABLE_COLOR_CONTRAST_CHECK: "0"
+          SURREAL_EXTERNAL_URL: ws://host.docker.internal:${{ env.SURREAL_E2E_PORT }}/rpc
+          SURREAL_USER: root
+          SURREAL_PASSWORD: root
+          SURREAL_NAMESPACE: open_notebook
+          SURREAL_DATABASE: open_notebook
+          OPEN_NOTEBOOK_PASSWORD: open-notebook-test-password
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
+            bash -lc 'cd apps/web && bash ../tooling/scripts/ci/with_heartbeat.sh --label e2e-real-backend --interval 30 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label e2e-real-backend --max-retries 1 -- npm run test:e2e:real-smoke -- --workers=1"'
+
+      - name: Dump Surreal logs
+        if: always()
+        run: sudo docker logs "${SURREAL_E2E_CONTAINER}" || true
+
+      - name: Upload retry classification logs
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: test-retry-logs-e2e-real-backend
+          path: .runtime-cache/runs/current/reports/test-retry/*.log
+          if-no-files-found: ignore
+
+      - name: Upload Playwright report
+        if: always()
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: playwright-report-real-backend
+          path: .runtime-cache/runs/current/evidence/playwright/report
+          if-no-files-found: error
+
+      - name: Stop SurrealDB
+        if: always()
+        run: sudo docker rm -f "${SURREAL_E2E_CONTAINER}" || true
+
+  post-test-housekeeping:
+    name: Post-test Housekeeping
+    if: ${{ always() && (github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]')) }}
+    runs-on: ubuntu-latest
+    needs: [required-ci-env, governance-gates, runtime-policy-gates, test-smells, backend-lint, apps-web-lint, backend-shard-a, backend-shard-b, backend-coverage-merge, property-tests, mutation-python, apps-web, e2e, e2e-cross-browser-smoke, e2e-real-backend]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Run post-test housekeeping in repo CI container
+        if: always()
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile minimal -- \
+            bash -lc 'bash tooling/scripts/ci/post_test_housekeeping.sh'
+
+  coverage-thresholds:
+    name: Coverage Thresholds (95/95)
+    if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
+    runs-on: ubuntu-latest
+    needs: [required-ci-env, backend-coverage-merge, apps-web]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Download backend coverage xml
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: backend-coverage-xml
+          path: .runtime-cache/test/coverage/backend
+
+      - name: Download apps/web coverage lcov
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: apps-web-coverage-lcov
+          path: .runtime-cache/test/coverage/apps/web
+
+      - name: Enforce coverage thresholds and action matrix in repo CI container
+        env:
+          CI: "1"
+        run: |
+          bash tooling/scripts/ci/run_in_consistent_container.sh --profile python -- \
+            bash -lc 'bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_coverage_thresholds.py --backend-xml .runtime-cache/test/coverage/backend/coverage.xml --frontend-lcov .runtime-cache/test/coverage/apps/web/lcov.info --backend-scope phase1 && bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_frontend_action_matrix.py'
+
+  required-green-gate:
+    name: Required Green Gate
+    runs-on: ubuntu-latest
+    needs:
+      - required-ci-env
+      - changes
+      - security-scan
+      - external-pr-security-scan
+      - external-pr-fast-gate
+      - governance-gates
+      - runtime-policy-gates
+      - test-smells
+      - backend-lint
+      - apps-web-lint
+      - backend-shard-a
+      - backend-shard-b
+      - backend-coverage-merge
+      - apps-web
+      - coverage-thresholds
+      - property-tests
+      - post-test-housekeeping
+    if: ${{ always() }}
+    steps:
+      - name: Enforce terminal required-green decision
+        env:
+          NEEDS_JSON: ${{ toJson(needs) }}
+          EXTERNAL_PR: ${{ github.event_name == 'pull_request' && (github.event.pull_request.head.repo.full_name != github.repository || github.actor == 'dependabot[bot]') && 'true' || 'false' }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+
+          needs = json.loads(os.environ["NEEDS_JSON"])
+          failures = []
+          external_pr = os.environ.get("EXTERNAL_PR") == "true"
+
+          if external_pr:
+              required_jobs = [
+                  "external-pr-security-scan",
+                  "external-pr-fast-gate",
+              ]
+              optional_jobs = {}
+              allowed_skipped_jobs = {
+                  "required-ci-env",
+                  "changes",
+                  "security-scan",
+                  "governance-gates",
+                  "runtime-policy-gates",
+                  "test-smells",
+                  "backend-lint",
+                  "apps-web-lint",
+                  "backend-shard-a",
+                  "backend-shard-b",
+                  "backend-coverage-merge",
+                  "apps-web",
+                  "coverage-thresholds",
+                  "property-tests",
+                  "post-test-housekeeping",
+              }
+          else:
+              required_jobs = [
+                  "changes",
+                  "security-scan",
+                  "governance-gates",
+                  "runtime-policy-gates",
+                  "test-smells",
+                  "backend-lint",
+                  "apps-web-lint",
+                  "backend-shard-a",
+                  "backend-shard-b",
+                  "backend-coverage-merge",
+                  "apps-web",
+                  "coverage-thresholds",
+                  "post-test-housekeeping",
+              ]
+              optional_jobs = {
+                  "property-tests": "property_tests",
+              }
+              allowed_skipped_jobs = {
+                  "external-pr-security-scan",
+                  "external-pr-fast-gate",
+              }
+
+          def job_result(name: str) -> str:
+              return (needs.get(name) or {}).get("result", "missing")
+
+          for job in required_jobs:
+              result = job_result(job)
+              print(f"[required] {job}: {result}")
+              if result != "success":
+                  failures.append(f"{job} must be success, got {result}")
+
+          changes_outputs = (needs.get("changes") or {}).get("outputs") or {}
+          for job, output_key in optional_jobs.items():
+              expected = changes_outputs.get(output_key) == "true"
+              result = job_result(job)
+              print(f"[conditional] {job}: result={result}, expected={expected} (changes.{output_key}={changes_outputs.get(output_key)})")
+              if expected and result != "success":
+                  failures.append(f"{job} expected to run and succeed because changes.{output_key}=true, got {result}")
+              if not expected and result not in ("skipped", "success"):
+                  failures.append(f"{job} not expected to run; only skipped/success allowed, got {result}")
+
+          for job in sorted(allowed_skipped_jobs):
+              result = job_result(job)
+              print(f"[allowed-skip] {job}: {result}")
+              if result not in ("skipped", "success"):
+                  failures.append(f"{job} should resolve to skipped/success for this event, got {result}")
+
+          if failures:
+              print("\nRequired green gate failed:")
+              for line in failures:
+                  print(f"- {line}")
+              sys.exit(1)
+
+          print("\nRequired green gate passed.")
+          PY

@@ -1,0 +1,37 @@
+name: Pre-commit Outdated Check
+
+on:
+  schedule:
+    - cron: '17 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-pre-commit-outdated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.12'
+
+      - name: Install pre-commit
+        run: python -m pip install --upgrade pip pre-commit
+
+      - name: Check pre-commit hooks are up to date (dry-run)
+        run: |
+          if pre-commit autoupdate --help 2>/dev/null | grep -q -- '--dry-run'; then
+            pre-commit autoupdate --freeze --bleeding-edge --dry-run
+          else
+            echo 'pre-commit version lacks --dry-run, skipping outdated check'
+          fi

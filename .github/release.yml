@@ -1,0 +1,36 @@
+changelog:
+  exclude:
+    labels:
+      - chore
+      - dependencies
+      - ci
+      - test
+      - internal
+  categories:
+    - title: Highlights
+      labels:
+        - enhancement
+        - ux
+    - title: Auditable Markdown And Provenance
+      labels:
+        - auditable
+        - citations
+        - provenance
+    - title: Search, Notebooks, And Knowledge Workflows
+      labels:
+        - search
+        - notebooks
+        - transformations
+    - title: Podcasts And Media Workflows
+      labels:
+        - podcast
+        - media
+    - title: Docs And Onboarding
+      labels:
+        - documentation
+        - onboarding
+    - title: Security, Reliability, And Runtime
+      labels:
+        - security
+        - bug
+        - reliability
