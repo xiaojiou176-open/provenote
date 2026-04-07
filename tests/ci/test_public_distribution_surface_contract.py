@@ -26,5 +26,5 @@ def test_public_surface_snapshot_keeps_social_preview_exact_pack() -> None:
         encoding="utf-8"
     )
     assert "docs/assets/social/provenote-social-preview.png" in text
-    assert "https://github.com/xiaojiou176/provenote/settings" in text
+    assert "https://github.com/xiaojiou176-open/provenote/settings" in text
     assert "General -> Social preview -> Edit / Upload image" in text

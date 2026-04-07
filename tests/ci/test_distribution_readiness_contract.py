@@ -41,7 +41,7 @@ def test_registry_prep_files_exist_for_mcp_registry_lane() -> None:
     example_payload = json.loads(
         _read("examples/public-distribution/mcp-registry/server.json")
     )
-    assert example_payload["name"] == "io.github.xiaojiou176/provenote-mcp"
+    assert example_payload["name"] == "io.github.xiaojiou176-open/provenote-mcp"
     assert example_payload["websiteUrl"].endswith("/docs/mcp.md")
     assert example_payload["version"] == "1.8.4"
     assert "packages" not in example_payload
@@ -85,7 +85,7 @@ def test_pyproject_exposes_public_package_metadata() -> None:
     assert "long-context" in project["keywords"]
     assert project["urls"]["Homepage"].endswith("/docs/index.md")
     assert project["urls"]["Documentation"].endswith("/docs/index.md")
-    assert project["urls"]["Source"] == "https://github.com/xiaojiou176/provenote"
+    assert project["urls"]["Source"] == "https://github.com/xiaojiou176-open/provenote"
 
 
 def test_pyproject_tracks_public_distribution_artifact_ssot() -> None:
@@ -93,7 +93,7 @@ def test_pyproject_tracks_public_distribution_artifact_ssot() -> None:
     public_artifact = payload["tool"]["open_notebook"]["public_distribution_artifact"]
     assert public_artifact["package_name"] == "provenote"
     assert public_artifact["package_registry"] == "pypi"
-    assert public_artifact["mcp_name"] == "io.github.xiaojiou176/provenote-mcp"
+    assert public_artifact["mcp_name"] == "io.github.xiaojiou176-open/provenote-mcp"
     assert "provenote-mcp" in public_artifact["entrypoints"]
     assert "server.json" in public_artifact["registry_manifests"]
     assert (

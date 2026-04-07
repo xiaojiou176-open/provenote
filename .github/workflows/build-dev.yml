@@ -172,34 +172,64 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Probe GHCR package access
+      - name: Probe GHCR registry push access
         id: ghcr-access
         if: needs.extract-version.outputs.is_push_to_main == 'true'
         env:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY_OWNER: ${{ github.repository_owner }}
-          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          GHCR_USERNAME_INPUT: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          GHCR_PASSWORD_INPUT: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+          GHCR_REPOSITORY: ${{ github.repository }}
         run: |
-          owner="${REPOSITORY_OWNER}"
-          package_name="${REPOSITORY_NAME}"
+          set -euo pipefail
 
-          probe_status() {
-            local url="$1"
-            curl -sS -o /tmp/ghcr-probe.json -w '%{http_code}' \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${GHCR_TOKEN}" \
-              "${url}" || printf '000'
-          }
+          challenge_headers="$(
+            curl -sS -D - -o /dev/null https://ghcr.io/v2/ | tr -d '\r' || true
+          )"
+          challenge_line="$(
+            printf '%s\n' "${challenge_headers}" | grep -i '^www-authenticate:' | head -n1 || true
+          )"
+          realm="$(printf '%s\n' "${challenge_line}" | sed -n 's/.*realm="\([^"]*\)".*/\1/p' || true)"
+          service="$(printf '%s\n' "${challenge_line}" | sed -n 's/.*service="\([^"]*\)".*/\1/p' || true)"
 
-          org_status="$(probe_status "https://api.github.com/orgs/${owner}/packages/container/${package_name}")"
-          user_status="$(probe_status "https://api.github.com/users/${owner}/packages/container/${package_name}")"
-
-          if [[ "${org_status}" == "403" || "${user_status}" == "403" ]]; then
+          if [[ -z "${realm}" || -z "${service}" ]]; then
             echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
-            echo "::warning::Skipping GHCR dev-image publication because the workflow token cannot access the package surface for ${owner}/${package_name}."
-          else
-            echo "ghcr_push_allowed=true" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the registry auth challenge could not be resolved."
+            exit 0
           fi
+
+          scope="repository:${GHCR_REPOSITORY}:pull,push"
+          token_json="$(
+            curl -fsSL \
+              -u "${GHCR_USERNAME_INPUT}:${GHCR_PASSWORD_INPUT}" \
+              "${realm}?service=${service}&scope=${scope}" || true
+          )"
+          registry_token=""
+          if [[ -n "${token_json}" ]]; then
+            registry_token="$(
+              python -c 'import json, sys; payload = json.load(sys.stdin); print(payload.get("token") or payload.get("access_token") or "")' <<<"${token_json}" || true
+            )"
+          fi
+
+          if [[ -z "${registry_token}" ]]; then
+            echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the workflow token could not obtain a GHCR registry bearer token."
+            exit 0
+          fi
+
+          probe_digest="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+          probe_status="$(
+            curl -sS -o /tmp/ghcr-registry-probe.json -w '%{http_code}' -I \
+              -H "Authorization: Bearer ${registry_token}" \
+              "https://ghcr.io/v2/${GHCR_REPOSITORY}/blobs/${probe_digest}" || printf '000'
+          )"
+
+          if [[ "${probe_status}" == "401" || "${probe_status}" == "403" || "${probe_status}" == "000" ]]; then
+            echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the workflow token cannot access the GHCR registry push surface for ${GHCR_REPOSITORY} (probe status: ${probe_status})."
+            exit 0
+          fi
+
+          echo "ghcr_push_allowed=true" >> "${GITHUB_OUTPUT}"
 
       - name: Prepare Docker tags
         id: tags
@@ -333,33 +363,63 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Probe GHCR package access
+      - name: Probe GHCR registry push access
         id: ghcr-access
         env:
-          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY_OWNER: ${{ github.repository_owner }}
-          REPOSITORY_NAME: ${{ github.event.repository.name }}
+          GHCR_USERNAME_INPUT: ${{ secrets.GHCR_USERNAME != '' && secrets.GHCR_USERNAME || github.actor }}
+          GHCR_PASSWORD_INPUT: ${{ secrets.GHCR_PUSH_TOKEN != '' && secrets.GHCR_PUSH_TOKEN || secrets.GITHUB_TOKEN }}
+          GHCR_REPOSITORY: ${{ github.repository }}
         run: |
-          owner="${REPOSITORY_OWNER}"
-          package_name="${REPOSITORY_NAME}"
+          set -euo pipefail
 
-          probe_status() {
-            local url="$1"
-            curl -sS -o /tmp/ghcr-probe.json -w '%{http_code}' \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${GHCR_TOKEN}" \
-              "${url}" || printf '000'
-          }
+          challenge_headers="$(
+            curl -sS -D - -o /dev/null https://ghcr.io/v2/ | tr -d '\r' || true
+          )"
+          challenge_line="$(
+            printf '%s\n' "${challenge_headers}" | grep -i '^www-authenticate:' | head -n1 || true
+          )"
+          realm="$(printf '%s\n' "${challenge_line}" | sed -n 's/.*realm="\([^"]*\)".*/\1/p' || true)"
+          service="$(printf '%s\n' "${challenge_line}" | sed -n 's/.*service="\([^"]*\)".*/\1/p' || true)"
 
-          org_status="$(probe_status "https://api.github.com/orgs/${owner}/packages/container/${package_name}")"
-          user_status="$(probe_status "https://api.github.com/users/${owner}/packages/container/${package_name}")"
-
-          if [[ "${org_status}" == "403" || "${user_status}" == "403" ]]; then
+          if [[ -z "${realm}" || -z "${service}" ]]; then
             echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
-            echo "::warning::Skipping GHCR dev-image publication because the workflow token cannot access the package surface for ${owner}/${package_name}."
-          else
-            echo "ghcr_push_allowed=true" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the registry auth challenge could not be resolved."
+            exit 0
           fi
+
+          scope="repository:${GHCR_REPOSITORY}:pull,push"
+          token_json="$(
+            curl -fsSL \
+              -u "${GHCR_USERNAME_INPUT}:${GHCR_PASSWORD_INPUT}" \
+              "${realm}?service=${service}&scope=${scope}" || true
+          )"
+          registry_token=""
+          if [[ -n "${token_json}" ]]; then
+            registry_token="$(
+              python -c 'import json, sys; payload = json.load(sys.stdin); print(payload.get("token") or payload.get("access_token") or "")' <<<"${token_json}" || true
+            )"
+          fi
+
+          if [[ -z "${registry_token}" ]]; then
+            echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the workflow token could not obtain a GHCR registry bearer token."
+            exit 0
+          fi
+
+          probe_digest="sha256:0000000000000000000000000000000000000000000000000000000000000000"
+          probe_status="$(
+            curl -sS -o /tmp/ghcr-registry-probe.json -w '%{http_code}' -I \
+              -H "Authorization: Bearer ${registry_token}" \
+              "https://ghcr.io/v2/${GHCR_REPOSITORY}/blobs/${probe_digest}" || printf '000'
+          )"
+
+          if [[ "${probe_status}" == "401" || "${probe_status}" == "403" || "${probe_status}" == "000" ]]; then
+            echo "ghcr_push_allowed=false" >> "${GITHUB_OUTPUT}"
+            echo "::warning::Skipping GHCR dev-image publication because the workflow token cannot access the GHCR registry push surface for ${GHCR_REPOSITORY} (probe status: ${probe_status})."
+            exit 0
+          fi
+
+          echo "ghcr_push_allowed=true" >> "${GITHUB_OUTPUT}"
 
       - name: Prepare Docker tags
         id: tags
@@ -386,7 +446,7 @@ jobs:
           context: .
           file: ./ops/docker/Dockerfile.single
           platforms: linux/amd64,linux/arm64
-          push: true
+          push: ${{ steps.tags.outputs.push }}
           tags: ${{ steps.tags.outputs.tags }}
           labels: |
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
