@@ -28,7 +28,7 @@ This is the shortest **repo-documented local proof loop** today. It is not a hos
 | whether the research and draft ladders are real | [use-cases/source-grounded-ai-research.md](use-cases/source-grounded-ai-research.md) | [../apps/web/src/components/notebooks/ResearchThreadsPanel.tsx](../apps/web/src/components/notebooks/ResearchThreadsPanel.tsx), [../apps/web/src/components/notebooks/NotebookDraftPanel.tsx](../apps/web/src/components/notebooks/NotebookDraftPanel.tsx), and [../services/api/routers/drafts.py](../services/api/routers/drafts.py) |
 | whether the coding-agent story is repo-backed | [mcp.md](mcp.md) | [../packages/core/mcp/server.py](../packages/core/mcp/server.py), [../packages/core/mcp/schemas.py](../packages/core/mcp/schemas.py), and the host pages under [integrations/](integrations/) |
 | whether the terminal/operator story is real | [runbooks/operator-cli.md](runbooks/operator-cli.md) | [../pyproject.toml](../pyproject.toml), [../packages/core/operator/cli.py](../packages/core/operator/cli.py), and [../tests/test_operator_cli.py](../tests/test_operator_cli.py) |
-| whether the public release/distribution story is already open | [project-status.md](project-status.md) and [distribution.md](distribution.md) | [../CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/xiaojiou176/provenote/releases), keeping draft-vs-published status separate |
+| whether the public release/distribution story is already open | [project-status.md](project-status.md) and [distribution.md](distribution.md) | [../CHANGELOG.md](../CHANGELOG.md) and [GitHub Releases](https://github.com/xiaojiou176-open/provenote/releases), keeping draft-vs-published status separate |
 
 ## Product Proof
 
@@ -60,7 +60,7 @@ For a fixed, reproducible local proof loop, use [../examples/public-proof/audita
 | What to inspect | Why it matters |
 | --- | --- |
 | [../CHANGELOG.md](../CHANGELOG.md) | Shows what changed and gives the project a public memory instead of forcing readers to infer momentum |
-| [GitHub Releases](https://github.com/xiaojiou176/provenote/releases) | Turns version history into a user-facing subscription and discovery surface |
+| [GitHub Releases](https://github.com/xiaojiou176-open/provenote/releases) | Turns version history into a user-facing subscription and discovery surface |
 | [../.github/workflows/test.yml](../.github/workflows/test.yml) | Shows that verification is part of the public repo contract |
 | [../.github/workflows/uiux-gemini-gate.yml](../.github/workflows/uiux-gemini-gate.yml) | Shows that the repo keeps a trusted maintainer witness lane for UI artifact review outside the default required path |
 

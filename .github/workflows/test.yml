@@ -183,7 +183,9 @@ jobs:
             LOG_OPTS="${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}"
           else
             BEFORE_SHA="${{ github.event.before }}"
-            if [[ -n "${BEFORE_SHA}" && ! "${BEFORE_SHA}" =~ ^0+$ ]]; then
+            if [[ -n "${BEFORE_SHA}" && ! "${BEFORE_SHA}" =~ ^0+$ ]] \
+              && git rev-parse --verify "${BEFORE_SHA}^{commit}" >/dev/null 2>&1 \
+              && git merge-base --is-ancestor "${BEFORE_SHA}" "${{ github.sha }}" >/dev/null 2>&1; then
               LOG_OPTS="${BEFORE_SHA}..${{ github.sha }}"
             elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
               LOG_OPTS="HEAD^..HEAD"
