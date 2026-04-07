@@ -86,8 +86,8 @@ The current repo can already prepare the storefront materials without claiming t
 | Surface | Fresh current state | What still needs owner or platform action |
 | --- | --- | --- |
 | GitHub repository description | already synced to the current public positioning | only change it if the public brand story changes again |
-| GitHub homepage field | currently points to the docs index on GitHub | decide later whether the long-term homepage should stay on GitHub docs, move to a docs site, or move to a custom domain |
-| Release surface | no current GitHub release is published or drafted | owner decides later whether to create and publish a release once the external-distribution window is acceptable |
+| GitHub homepage field | currently points to the GitHub Pages front door at `https://xiaojiou176-open.github.io/provenote/` | decide later whether the long-term homepage should stay on GitHub Pages, move to a custom docs site, or move to a custom domain |
+| Release surface | no current GitHub release object is published or drafted; tag truth and release-object truth are intentionally separate | owner decides later whether to create and publish a release once the external-distribution window is acceptable |
 | Claude Code / Codex starter bundles | public-ready package artifacts already exist in the repo | Claude Code now has an official marketplace/discovery surface, but live submission and review remain external; Codex official listing status remains separate and unclaimed |
 | OpenClaw bundle family | public-ready bundle artifacts and a ClawHub submission pack already exist in the repo | live ClawHub/community submission still needs platform action |
 | Official MCP Registry | official submission path exists | a supported public artifact plus publisher auth are still required before a listing can go live |
@@ -119,9 +119,9 @@ This page intentionally does **not** claim that Provenote is:
 
 Some next steps are real, but they remain outside pure repo-side completion:
 
-- publishing the current draft release
+- intentionally establishing a release object after tag truth is set
 - authenticated directory / registry / marketplace submissions
 - domain registration or redirect setup for any future `.ai` landing
 - trademark and naming clearance for a stronger external brand move
 
-The repo also now keeps a reusable visual asset pool under `docs/assets/{hero,demo,proof,architecture,social}`, but a fully polished promotion kit still needs live social-preview upload, finalized submission copy, and a short demo/promo script.
+The repo also now keeps a reusable visual asset pool under `docs/assets/{hero,demo,proof,architecture,social}`. Promotion polish can still improve over time, but the asset pool no longer depends on a missing social-preview upload before it can be referenced honestly.

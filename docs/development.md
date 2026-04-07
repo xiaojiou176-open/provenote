@@ -136,7 +136,7 @@ Boundary:
 - Treat `tooling/scripts/ci/check_selective_port_ledger.py` as the repo-side proof that the committed `live_git_truth` block still matches the current local `origin/main` and the current upstream `main` sample.
 - Treat `observed_at_utc` and `refresh_required_after_utc` as freshness metadata for the block that declares them: once the freshness window expires, that sample becomes historical context only until it is re-sampled.
 - As of the current reviewed topology sample, `origin/main` and `upstream/main` do not share a merge-base, so this repository must be treated as a long-lived productized selective-port fork rather than a normal merge/rebase candidate.
-- As of the current reviewed topology sample, `origin_only_commits=18` and `upstream_only_commits=613`. These counts are current only through the active `live_git_truth` block and must not be copied into prose after that block goes stale.
+- As of the current reviewed topology sample, `origin_only_commits=9` and `upstream_only_commits=654`. These counts are current only through the active `live_git_truth` block and must not be copied into prose after that block goes stale.
 - The contributor SOP for selective-port handling lives in this document plus the ledger itself: read `live_git_truth` first, then use historical entries only for batching or portability context.
 - Daily worktrees do not need to keep a persistent `upstream` remote. Upstream maintenance scripts resolve the official upstream branch on demand, compare against it, and clean up temporary refs before exit.
 

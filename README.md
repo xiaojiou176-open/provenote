@@ -2,7 +2,7 @@
 
 <div align="center">
   <p>
-    <strong>Turn long chats, notes, documents, audio, and web threads into structured knowledge assets, auditable markdown, and reusable notebook outcomes in one repo-documented workbench.</strong>
+    <strong>Messy long context -> structured insight -> notes, research threads, and inspectable outcomes.</strong>
   </p>
   <p>
     <a href="https://github.com/xiaojiou176-open/provenote/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/xiaojiou176-open/provenote?label=discussions"></a>
@@ -13,34 +13,27 @@
   <p>
     <a href="./docs/quickstart.md"><strong>Quick Result Path</strong></a>
     ·
-    <a href="./docs/proof.md"><strong>Public Proof</strong></a>
-    ·
     <a href="./docs/use-cases/long-context-to-structured-notes.md"><strong>Long Context</strong></a>
     ·
+    <a href="./docs/proof.md"><strong>Public Proof</strong></a>
+    ·
+    <a href="./docs/project-status.md"><strong>Project Status</strong></a>
+    ·
+    <a href="./docs/index.md"><strong>Docs</strong></a>
+  </p>
+  <p>
     <a href="./docs/mcp.md"><strong>MCP & Integrations</strong></a>
     ·
     <a href="./examples/hosts/README.md"><strong>Starter Bundles</strong></a>
     ·
     <a href="./docs/distribution.md"><strong>Distribution</strong></a>
     ·
-    <a href="./docs/promotion-kit.md"><strong>Promotion Kit</strong></a>
-    ·
-    <a href="./docs/use-cases/source-grounded-ai-research.md"><strong>Use Cases</strong></a>
-    ·
     <a href="./docs/faq.md"><strong>FAQ</strong></a>
-    ·
-    <a href="./docs/project-status.md"><strong>Project Status</strong></a>
-    ·
-    <a href="./docs/index.md"><strong>Docs</strong></a>
-    ·
-    <a href="./CHANGELOG.md"><strong>Changelog</strong></a>
-    ·
-    <a href="https://github.com/xiaojiou176-open/provenote/releases"><strong>Releases</strong></a>
     ·
     <a href="https://github.com/xiaojiou176-open/provenote/discussions"><strong>Discussions</strong></a>
   </p>
   <p>
-    Star Provenote if you want a repository worth coming back to as auditable AI writing, source-grounded research, and productized workflows keep getting better.
+    Star Provenote if you want a source-heavy AI workbench that stays inspectable after the chat scrollback is gone.
   </p>
 </div>
 
@@ -49,6 +42,24 @@
 ![Provenote quick-result overview showing the shortest repo-documented path from source import to auditable markdown download](./docs/assets/demo/provenote-quick-result-overview.png)
 
 This illustrated overview is a repo-authored summary of the shortest documented path. It is intentionally not presented as a live product recording.
+
+> Canonical product path:
+> `messy long context -> structured insight -> note / research thread / draft -> inspectable outcome`
+
+That is the first door. MCP, starter bundles, distribution pages, and promotion assets are valuable second-ring surfaces, but they should not outrank the product path.
+
+## Start Here In 10 Seconds
+
+If you only want the fastest honest map, use this:
+
+| Question | Open this first | Why |
+| --- | --- | --- |
+| "Can this help with messy long context?" | [Long Context](./docs/use-cases/long-context-to-structured-notes.md) | This is the product center, not a side use case. |
+| "Can I get one real result quickly?" | [Quick Result Path](./docs/quickstart.md) | This is the shortest repo-documented local proof loop. |
+| "Is this real or just copywriting?" | [Public Proof](./docs/proof.md) | This is the evidence layer. |
+| "What is still intentionally unclaimed?" | [Project Status](./docs/project-status.md) | This is the boundary page. |
+
+Judge the workbench before you judge the side doors. MCP pages, starter bundles, distribution packs, and promotion assets matter, but they are second-layer surfaces around the main product path.
 
 ## Why Provenote Exists
 

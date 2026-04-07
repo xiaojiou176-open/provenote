@@ -48,11 +48,11 @@ def test_pre_push_hook_uses_fast_local_preflight_mode() -> None:
     assert stages == ["pre-push"]
 
 
-def test_local_preflight_defaults_to_full_mode() -> None:
+def test_local_preflight_defaults_to_fast_mode() -> None:
     script_text = (
         REPO_ROOT / "tooling/scripts/ci/local_preflight_before_push.sh"
     ).read_text(encoding="utf-8")
-    assert re.search(r'^\s*MODE="full"\s*$', script_text, flags=re.MULTILINE)
+    assert re.search(r'^\s*MODE="fast"\s*$', script_text, flags=re.MULTILINE)
 
 
 def test_workflow_policy_guard_passes_for_current_repo() -> None:

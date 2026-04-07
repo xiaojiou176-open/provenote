@@ -201,7 +201,7 @@ HOSTED_ONLY_WORKFLOW_JOBS = {
     "claude-code-review.yml": ("claude-review",),
     "auditable-quality-gate.yml": ("required-ci-env", "promptfoo-eval", "ragas-eval"),
     "live-integration.yml": ("live-llm-gemini", "live-playwright-external"),
-    "mutation-weekly.yml": ("mutation-python-weekly",),
+    "mutation-nightly.yml": ("mutation-python-nightly",),
     "uiux-auto-remediation.yml": ("open-remediation-issue",),
     "upstream-drift.yml": ("check-drift",),
 }

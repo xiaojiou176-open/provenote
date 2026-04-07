@@ -1,7 +1,7 @@
 {
   "id": "provenote-claude-outcome-bundle",
   "name": "Provenote Claude Outcome Bundle",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "Public-ready Claude Code starter bundle for Provenote MCP outcome workflows.",
   "author": {
     "name": "Provenote maintainers",

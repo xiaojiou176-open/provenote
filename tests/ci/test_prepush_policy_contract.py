@@ -44,7 +44,7 @@ def test_pre_push_hook_uses_fast_local_preflight_mode() -> None:
     hook = _find_local_hook("local-preflight-pre-push")
     assert (
         hook.get("entry")
-        == "bash tooling/scripts/ci/local_preflight_before_push.sh --mode fast"
+        == "env OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT=1 bash tooling/scripts/ci/local_preflight_before_push.sh --mode fast"
     )
     assert hook.get("pass_filenames") is False
     stages = hook.get("stages", [])
@@ -112,11 +112,53 @@ def test_no_commit_to_branch_is_scoped_to_pre_commit_only() -> None:
     assert no_commit_hook.get("stages") == ["pre-commit"]
 
 
-def test_local_preflight_defaults_to_full_mode() -> None:
+def test_local_preflight_defaults_to_fast_mode() -> None:
     script_text = (
         REPO_ROOT / "tooling/scripts/ci/local_preflight_before_push.sh"
     ).read_text(encoding="utf-8")
-    assert re.search(r'^\s*MODE="full"\s*$', script_text, flags=re.MULTILINE)
+    assert re.search(r'^\s*MODE="fast"\s*$', script_text, flags=re.MULTILINE)
+
+
+def test_local_preflight_fast_mode_uses_repo_fast_container_profile() -> None:
+    script_text = (
+        REPO_ROOT / "tooling/scripts/ci/local_preflight_before_push.sh"
+    ).read_text(encoding="utf-8")
+    assert 'CONTAINER_PROFILE="repo-fast"' in script_text
+    assert '--profile "${CONTAINER_PROFILE}"' in script_text
+
+
+def test_make_ci_local_preflight_defaults_to_fast_mode() -> None:
+    makefile = (REPO_ROOT / "Makefile").read_text(encoding="utf-8")
+    assert (
+        "bash tooling/scripts/ci/local_preflight_before_push.sh --mode $${LOCAL_PREFLIGHT_MODE:-fast}"
+        in makefile
+    )
+
+
+def test_unified_test_gate_fast_mode_uses_repo_fast_container_profile() -> None:
+    script_text = (
+        REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
+    ).read_text(encoding="utf-8")
+    assert 'CONTAINER_PROFILE="repo-fast"' in script_text
+    assert 'if [[ "${MODE}" == "fast" ]]; then' in script_text
+
+
+def test_unified_test_gate_can_skip_duplicate_prepush_guards_for_hook_context() -> None:
+    script_text = (
+        REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
+    ).read_text(encoding="utf-8")
+    assert 'OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-0}"' in script_text
+    assert "skip duplicated dedicated pre-push guards before fast smoke" in script_text
+
+
+def test_unified_test_gate_runs_navigation_docs_guard_as_single_step() -> None:
+    script_text = (
+        REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
+    ).read_text(encoding="utf-8")
+    assert (
+        'run_step "navigation-docs-pair-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py'
+        in script_text
+    )
 
 
 def test_workflow_policy_guard_passes_for_current_repo() -> None:

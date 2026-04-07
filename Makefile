@@ -144,7 +144,7 @@ guard-all:
 	LONG_TESTS_PARALLEL=$${LONG_TESTS_PARALLEL:-1} HEARTBEAT_INTERVAL_SECONDS=$${HEARTBEAT_INTERVAL_SECONDS:-30} bash tooling/scripts/ci/run_unified_test_gate.sh $(GUARD_MODE)
 
 ci-local-preflight:
-	bash tooling/scripts/ci/local_preflight_before_push.sh $${LOCAL_PREFLIGHT_MODE:+--mode $$LOCAL_PREFLIGHT_MODE}
+	bash tooling/scripts/ci/local_preflight_before_push.sh --mode $${LOCAL_PREFLIGHT_MODE:-fast}
 
 governance-final:
 	bash tooling/scripts/ci/post_test_housekeeping.sh --cleanup-only

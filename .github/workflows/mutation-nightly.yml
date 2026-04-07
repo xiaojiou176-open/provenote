@@ -1,8 +1,8 @@
-name: Mutation Weekly
+name: Mutation Nightly
 
 on:
   schedule:
-    - cron: '0 2 * * 1'
+    - cron: '0 2 * * *'
   workflow_dispatch:
 
 permissions:
@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  mutation-python-weekly:
-    name: Python Mutation Weekly
+  mutation-python-nightly:
+    name: Python Mutation Nightly
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -35,7 +35,7 @@ jobs:
           MUTATION_MAX_SCORE_REGRESSION: "0"
           MUTATION_GUARD_REPORT_PATH: "mutants/mutation-guard-report.json"
         run: |
-          bash tooling/scripts/ci/with_heartbeat.sh --label mutation-weekly --interval 30 -- \
+          bash tooling/scripts/ci/with_heartbeat.sh --label mutation-nightly --interval 30 -- \
             bash -lc "MUTATION_PROFILE=${MUTATION_PROFILE:-core} MUTATION_MAX_CHILDREN=4 bash tooling/scripts/ci/run_mutation_profile.sh"
 
       - name: Export mutation summary
@@ -46,7 +46,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
-          name: mutation-evidence-weekly
+          name: mutation-evidence-nightly
           path: |
             mutants/mutmut-cicd-stats.json
             mutants/mutmut-results.txt

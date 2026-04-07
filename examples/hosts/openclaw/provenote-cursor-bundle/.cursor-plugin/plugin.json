@@ -1,7 +1,7 @@
 {
   "id": "provenote-cursor-outcome-bundle",
   "name": "Provenote Cursor Outcome Bundle",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "Local Cursor-style bundle for Provenote MCP outcome workflows.",
   "author": {
     "name": "Provenote maintainers",

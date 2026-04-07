@@ -1982,7 +1982,7 @@ wheels = [
 
 [[package]]
 name = "provenote"
-version = "1.8.4"
+version = "1.8.5"
 source = { editable = "." }
 dependencies = [
     { name = "ai-prompter", marker = "sys_platform == 'darwin' or sys_platform == 'linux'" },

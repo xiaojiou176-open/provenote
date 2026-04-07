@@ -65,7 +65,7 @@ def test_mcp_registry_submission_pack_exists_and_points_to_docs() -> None:
     payload = json.loads(_read("examples/public-distribution/mcp-registry/server.json"))
     assert payload["name"] == "io.github.xiaojiou176-open/provenote-mcp"
     assert payload["websiteUrl"].endswith("/docs/mcp.md")
-    assert payload["version"] == "1.8.4"
+    assert payload["version"] == "1.8.5"
     readme = _read("examples/public-distribution/mcp-registry/README.md")
     assert "## Official Raw URLs" in readme
     assert "- MCP Registry homepage:" in readme

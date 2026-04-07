@@ -4,26 +4,38 @@ Provenote now uses a layered public docs entrypoint.
 
 The idea is simple: do not make first-time visitors walk through a governance maze just to decide whether the product is worth their time.
 
-## Start With The Right Path
+In plain language: the front door should answer "what is this, why should I care, and where do I start" before it asks you to think about bundles, listings, or maintenance pages.
+
+The shortest honest order is:
+
+1. `README`
+2. `quickstart`
+3. `proof`
+
+Everything else is a second-ring surface after that first pass.
+
+## Start With The Primary Door
 
 | If you are trying to... | Start here | Why |
 | --- | --- | --- |
 | Start from messy long context as the first entry | [use-cases/long-context-to-structured-notes.md](use-cases/long-context-to-structured-notes.md) | Best-fit first path for long chats, forum threads, messy notes, and copied web context before you choose note, research-thread, or draft-lane continuation |
 | Understand the value in under 3 minutes | [../README.md](../README.md) | Product story, result path, star reasons, public proof links |
-| See the long-context structuring path first | [use-cases/long-context-to-structured-notes.md](use-cases/long-context-to-structured-notes.md) | Repo-backed long-context path plus the current outcome ladder after structuring |
-| Understand the current scope and readiness boundary | [project-status.md](project-status.md) | Honest status page for repo-documented proof, non-claims, and external decision boundaries |
-| Understand package readiness versus live listing truth | [distribution.md](distribution.md) | Keeps starter bundles, submission packs, public discoverability, and official listing status in separate buckets |
-| Grab repo-owned promo copy, screenshots, and a short demo storyboard | [promotion-kit.md](promotion-kit.md) | Promotion-ready asset map for social posts, submission forms, and short video prep |
-| Understand ecosystem boundaries before making host or launch claims | [project-status.md](project-status.md) | Separates repo-backed public-ready bundles from official listing-live truth, and keeps OpenClaw, public skills, listing, and partnership claims honest |
 | Reach a first visible result fast | [quickstart.md](quickstart.md) | Short path from local setup to auditable markdown |
 | Verify the product is real | [proof.md](proof.md) | Public evidence map for product surface, workflow proof, and trust proof |
-| Connect it to coding agents | [mcp.md](mcp.md) | MCP overview plus Claude Code / Codex / Cursor / OpenCode compatibility pages and the narrowest host-specific verify loop |
-| Start from checked-in host starter artifacts | [../examples/hosts/README.md](../examples/hosts/README.md) | Public-ready Claude Code / Codex / Cursor / OpenCode starter bundles plus OpenClaw-compatible bundles and the ClawHub submission pack when you want a repo-owned integration artifact instead of only setup prose |
-| Prepare an OpenClaw-compatible bundle install or submission pack | [integrations/openclaw.md](integrations/openclaw.md) | Turns the tracked OpenClaw-compatible bundles into a concrete install-and-verify path and points to the repo-owned ClawHub submission pack without claiming a live listing |
-| Run outcome lanes from the terminal | [runbooks/operator-cli.md](runbooks/operator-cli.md) | First-party operator CLI for status checks, auditable markdown, and research-thread-to-draft handoffs |
-| See concrete use cases before installing | [use-cases/source-grounded-ai-research.md](use-cases/source-grounded-ai-research.md) | Outcome-first examples for research, drafts, receipts, and verified results |
-| Check common questions before installing | [faq.md](faq.md) | Positioning, scope, lineage, and expectation-setting |
-| See the shortest documented path at a glance | [./assets/demo/provenote-quick-result-overview.png](./assets/demo/provenote-quick-result-overview.png) | Repo-authored overview for the fastest documented path |
+| Understand the current scope and readiness boundary | [project-status.md](project-status.md) | Honest status page for repo-documented proof, non-claims, and external decision boundaries |
+| Connect it to coding agents after the product path is clear | [mcp.md](mcp.md) | MCP is the carry-forward integration surface, not the brand center |
+
+## Treat These As Second-Layer Surfaces
+
+These surfaces matter, but they should support the first impression instead of becoming the first impression.
+
+| Surface | Open this when... | Why it is second-layer |
+| --- | --- | --- |
+| [distribution.md](distribution.md) | you need package-vs-listing truth | it is a claim ladder page, not the core product story |
+| [promotion-kit.md](promotion-kit.md) | you need screenshots, pitch lines, or submission assets | it packages the outer ring instead of defining the product center |
+| [mcp.md](mcp.md) | you already know you want coding-agent carry-forward | MCP is the integration surface, not the brand center |
+| [../examples/hosts/README.md](../examples/hosts/README.md) | you want checked-in install artifacts | starter bundles are install surfaces, not the first doorway |
+| [runbooks/operator-cli.md](runbooks/operator-cli.md) | you want the terminal/operator path | operator workflows are narrower than the default workbench story |
 
 ## Go Deeper By Goal
 

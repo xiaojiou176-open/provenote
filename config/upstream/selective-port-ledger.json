@@ -22,10 +22,10 @@
     "missing_metadata_rule": "A selective-port snapshot without freshness metadata is invalid for current governance."
   },
   "live_git_truth": {
-    "id": "live-git-truth-2026-03-29",
+    "id": "live-git-truth-2026-04-07",
     "status": "topology-reset-required",
-    "observed_at_utc": "2026-03-29T01:31:11Z",
-    "refresh_required_after_utc": "2026-04-05T01:31:11Z",
+    "observed_at_utc": "2026-04-07T07:40:19Z",
+    "refresh_required_after_utc": "2026-04-14T07:40:19Z",
     "snapshot_scope": [
       "origin_upstream_ref_comparison",
       "merge_base",
@@ -34,14 +34,14 @@
     "current_truth_boundary": "This block is the authoritative current Git-topology sample for origin/main versus upstream/main. It is the only place in this ledger that may be cited as current topology truth, and CI must validate it against the live refs before treating any selective-port planning statement as current. Historical entries under entries[] remain planning context only, even when they are still inside their freshness window.",
     "origin_ref": "origin/main",
     "upstream_ref": "upstream/main",
-    "origin_only_commits": 18,
-    "upstream_only_commits": 613,
+    "origin_only_commits": 9,
+    "upstream_only_commits": 654,
     "has_merge_base": false,
     "root_commits": [
-      "229b886",
+      "bcdd374",
       "bcd260a"
     ],
-    "summary": "Live Git sampling on 2026-03-29 found no merge-base between origin/main and upstream/main. The current fork must therefore be treated as a long-lived productized selective-port branch with broken ancestry for ordinary merge/rebase storytelling. Current ref counts are origin_only=18 and upstream_only=613.",
+    "summary": "Live Git sampling on 2026-04-07 still found no merge-base between origin/main and upstream/main. The current fork must therefore continue to be treated as a long-lived productized selective-port branch with broken ancestry for ordinary merge/rebase storytelling. Current ref counts are origin_only=9 and upstream_only=654.",
     "recommended_strategy": "selective-port",
     "topology_warning": "Do not cite historical entry counts as current truth while this block disagrees with them. Refresh live_git_truth first, then decide whether any historical planning entry should be refreshed or left as archival planning context."
   },
@@ -49,8 +49,8 @@
     {
       "id": "upstream-main-2026-03-20-batch-001",
       "status": "historical-topic-clustered",
-      "observed_at_utc": "2026-03-23T23:23:00Z",
-      "refresh_required_after_utc": "2026-03-30T23:23:00Z",
+      "observed_at_utc": "2026-04-07T07:40:19Z",
+      "refresh_required_after_utc": "2026-04-14T07:40:19Z",
       "snapshot_scope": [
         "upstream_only_commits",
         "origin_only_commits",
@@ -58,7 +58,7 @@
       ],
       "upstream_only_commits": 28,
       "origin_only_commits": 628,
-      "summary": "Historical selective-port planning snapshot captured on 2026-03-23T23:23:00Z. These counts and topic clusters remain useful for planning context only. They must not be cited as current topology truth after the live_git_truth block was refreshed on 2026-03-29 with no merge-base and counts origin_only=18 / upstream_only=613.",
+      "summary": "Historical selective-port planning snapshot originally captured on 2026-03-23T23:23:00Z and revalidated as historical planning context on 2026-04-07. These counts and topic clusters remain useful for planning context only. They must not be cited as current topology truth after the live_git_truth block was refreshed on 2026-04-07 with no merge-base and counts origin_only=9 / upstream_only=654.",
       "recommended_strategy": "selective-port",
       "current_truth_boundary": "This entry is a historical planning snapshot only. Use live_git_truth for current origin/main versus upstream/main topology. The counts and topic clusters in this entry describe a prior planning sample and may remain useful for selective-port batching, but they are not the canonical current Git truth.",
       "target_surfaces": [

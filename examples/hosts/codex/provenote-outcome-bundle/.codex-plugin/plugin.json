@@ -1,6 +1,6 @@
 {
   "name": "provenote-codex-outcome-bundle",
-  "version": "1.8.4",
+  "version": "1.8.5",
   "description": "Public-ready Codex plugin bundle for Provenote MCP outcome workflows.",
   "author": {
     "name": "Provenote maintainers",
