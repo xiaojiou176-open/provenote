@@ -1,0 +1,105 @@
+{
+  "baseline": {},
+  "current": {
+    "exercised_mutants_percent": 89.22,
+    "kill_rate_percent": 62.13,
+    "killed": 438,
+    "no_tests": 76,
+    "score_percent": 62.13,
+    "skipped": 0,
+    "survived": 191,
+    "survived_ratio_percent": 27.09,
+    "suspicious": 0,
+    "timeout": 0,
+    "total": 705
+  },
+  "errors": [
+    "mutation score 62.13% below threshold 85.00%",
+    "no_tests mutants 76 exceed allowed maximum 0",
+    "survived mutants 191 exceed allowed maximum 92"
+  ],
+  "generated_at_utc": "2026-03-01T08:51:27.440396+00:00",
+  "mutation_surface": {
+    "meta_files": [
+      "mutants/services/services/api/auth.py.meta",
+      "mutants/packages/core/utils/chunking.py.meta",
+      "mutants/packages/core/utils/text_utils.py.meta"
+    ],
+    "module_breakdown": [
+      {
+        "kill_rate_percent": 7.59,
+        "killed": 17,
+        "module": "services.api.auth",
+        "other": 76,
+        "survived": 131,
+        "total": 224
+      },
+      {
+        "kill_rate_percent": 85.33,
+        "killed": 320,
+        "module": "packages.core.utils.chunking",
+        "other": 0,
+        "survived": 55,
+        "total": 375
+      },
+      {
+        "kill_rate_percent": 95.28,
+        "killed": 101,
+        "module": "packages.core.utils.text_utils",
+        "other": 0,
+        "survived": 5,
+        "total": 106
+      }
+    ],
+    "top_survived_functions": [
+      {
+        "function": "services.api.auth.\u01c1PasswordAuthMiddleware\u01c1dispatch",
+        "survived": 118
+      },
+      {
+        "function": "packages.core.utils.chunking.__calculate_markdown_score",
+        "survived": 33
+      },
+      {
+        "function": "packages.core.utils.chunking.__calculate_html_score",
+        "survived": 20
+      },
+      {
+        "function": "services.api.auth.\u01c1PasswordAuthMiddleware\u01c1__init__",
+        "survived": 13
+      },
+      {
+        "function": "packages.core.utils.text_utils._remove_non_printable",
+        "survived": 4
+      },
+      {
+        "function": "packages.core.utils.chunking.__get_plain_splitter",
+        "survived": 1
+      },
+      {
+        "function": "packages.core.utils.chunking._detect_content_type_from_heuristics",
+        "survived": 1
+      },
+      {
+        "function": "packages.core.utils.text_utils._remove_non_ascii",
+        "survived": 1
+      }
+    ]
+  },
+  "operator_coverage": {
+    "reason": "mutmut export does not expose mutator operator taxonomy in cicd-stats/meta outputs; function/module surface is exported instead.",
+    "supported": false
+  },
+  "stats_path": "mutants/mutmut-cicd-stats.json",
+  "status": "fail",
+  "thresholds": {
+    "max_no_tests": 0,
+    "max_score_regression": 0.0,
+    "max_skipped": 0,
+    "max_survived": 92,
+    "max_survived_regression": 0,
+    "max_suspicious": 0,
+    "max_timeout": 0,
+    "min_score": 85.0
+  }
+}
