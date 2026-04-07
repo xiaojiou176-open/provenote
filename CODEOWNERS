@@ -1,0 +1,8 @@
+# Current fork public stewardship is documented in MAINTAINERS.md.
+# This file intentionally routes review to the current repo-local steward for this checkout,
+# not to upstream maintainers.
+# This wording avoids routing review to upstream maintainers by implication.
+# If repo-local stewardship changes, update this file, MAINTAINERS.md,
+# and the issue/PR intake surfaces in the same change.
+
+* @xiaojiou176
