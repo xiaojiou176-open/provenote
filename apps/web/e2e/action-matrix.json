@@ -1,0 +1,1277 @@
+{
+  "version": "1.0.0",
+  "meta": {
+    "description": "Playwright action matrix for frontend CI action coverage and real-smoke evidence.",
+    "scope": ["apps/web/src/app", "apps/web/src/components", "apps/web/e2e"],
+    "runtime_contract": {
+      "required_test_types": ["real-backend"],
+      "evidence_file_env": "PLAYWRIGHT_ACTION_EVIDENCE_FILE"
+    },
+    "expected_counts": {
+      "total": 105,
+      "data-testid": 25,
+      "id": 39,
+      "role": 41
+    }
+  },
+  "actions": [
+    {
+      "action_id": "tid.a11y-route-advanced-ready",
+      "selector_type": "data-testid",
+      "selector": "a11y-route-advanced-ready",
+      "playwright": "page.getByTestId('a11y-route-advanced-ready')",
+      "paths": ["apps/web/src/app/(dashboard)/advanced/page.tsx", "apps/web/e2e/a11y.spec.ts"],
+      "route": "multi:/notebooks,/podcasts,/search,/sources,/advanced,/transformations,/settings,/settings/api-keys",
+      "spec_id": "a11y.spec.ts",
+      "test_type": "a11y",
+      "expected_result": "advanced route is ready for a11y verification"
+    },
+    {
+      "action_id": "tid.a11y-route-podcasts-ready",
+      "selector_type": "data-testid",
+      "selector": "a11y-route-podcasts-ready",
+      "playwright": "page.getByTestId('a11y-route-podcasts-ready')",
+      "paths": ["apps/web/src/app/(dashboard)/podcasts/page.tsx", "apps/web/e2e/a11y.spec.ts"],
+      "route": "multi:/notebooks,/podcasts,/search,/sources,/advanced,/transformations,/settings,/settings/api-keys",
+      "spec_id": "a11y.spec.ts",
+      "test_type": "a11y",
+      "expected_result": "podcasts route is ready for a11y verification"
+    },
+    {
+      "action_id": "tid.a11y-route-settings-api-keys-ready",
+      "selector_type": "data-testid",
+      "selector": "a11y-route-settings-api-keys-ready",
+      "playwright": "page.getByTestId('a11y-route-settings-api-keys-ready')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/api-keys/page.tsx",
+        "apps/web/e2e/a11y.spec.ts"
+      ],
+      "route": "multi:/notebooks,/podcasts,/search,/sources,/advanced,/transformations,/settings,/settings/api-keys",
+      "spec_id": "a11y.spec.ts",
+      "test_type": "a11y",
+      "expected_result": "settings api keys route is ready for a11y verification"
+    },
+    {
+      "action_id": "tid.app-shell",
+      "selector_type": "data-testid",
+      "selector": "app-shell",
+      "playwright": "page.getByTestId('app-shell')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/page.test.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "settings api keys app shell renders"
+    },
+    {
+      "action_id": "tid.chat-panel",
+      "selector_type": "data-testid",
+      "selector": "chat-panel",
+      "playwright": "page.getByTestId('chat-panel')",
+      "paths": ["apps/web/src/app/(dashboard)/notebooks/components/ChatColumn.test.tsx"],
+      "route": "/notebooks/[id]",
+      "spec_id": "notebook-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "notebook detail chat panel is rendered"
+    },
+    {
+      "action_id": "tid.notebook-drafts-panel",
+      "selector_type": "data-testid",
+      "selector": "notebook-drafts-panel",
+      "playwright": "page.getByTestId('notebook-drafts-panel')",
+      "paths": [
+        "apps/web/src/components/notebooks/NotebookDraftPanel.tsx",
+        "apps/web/src/components/notebooks/NotebookDraftPanel.test.tsx"
+      ],
+      "route": "/notebooks/[id]",
+      "spec_id": "notebook-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "notebook detail route exposes the draft outcome panel"
+    },
+    {
+      "action_id": "tid.notebook-draft-source-selector",
+      "selector_type": "data-testid",
+      "selector": "draft-source-selector",
+      "playwright": "page.getByTestId('draft-source-selector')",
+      "paths": [
+        "apps/web/src/components/notebooks/NotebookDraftPanel.tsx",
+        "apps/web/src/components/notebooks/NotebookDraftPanel.test.tsx"
+      ],
+      "route": "/notebooks/[id]",
+      "spec_id": "notebook-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "draft panel exposes source selection controls"
+    },
+    {
+      "action_id": "tid.create-notebook-draft",
+      "selector_type": "data-testid",
+      "selector": "create-notebook-draft",
+      "playwright": "page.getByTestId('create-notebook-draft')",
+      "paths": [
+        "apps/web/src/components/notebooks/NotebookDraftPanel.tsx",
+        "apps/web/src/components/notebooks/NotebookDraftPanel.test.tsx"
+      ],
+      "route": "/notebooks/[id]",
+      "spec_id": "notebook-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "draft panel can submit a notebook-level draft creation request"
+    },
+    {
+      "action_id": "tid.credential-card",
+      "selector_type": "data-testid",
+      "selector": "credential-card",
+      "playwright": "page.getByTestId('credential-card')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/api-keys/provider-section.tsx",
+        "apps/web/e2e/settings-api-keys.spec.ts"
+      ],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "credential card renders on the api keys page"
+    },
+    {
+      "action_id": "tid.credential-delete",
+      "selector_type": "data-testid",
+      "selector": "credential-delete",
+      "playwright": "page.getByTestId('credential-delete')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/api-keys/provider-section.tsx",
+        "apps/web/e2e/settings-api-keys.spec.ts"
+      ],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "credential delete control opens destructive confirmation"
+    },
+    {
+      "action_id": "tid.credential-sync-models",
+      "selector_type": "data-testid",
+      "selector": "credential-sync-models",
+      "playwright": "page.getByTestId('credential-sync-models')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/api-keys/provider-section.tsx",
+        "apps/web/e2e/settings-api-keys.spec.ts"
+      ],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "credential sync models action opens discovery dialog"
+    },
+    {
+      "action_id": "tid.default-model-selectors",
+      "selector_type": "data-testid",
+      "selector": "default-model-selectors",
+      "playwright": "page.getByTestId('default-model-selectors')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/page.test.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "default model selectors section is present"
+    },
+    {
+      "action_id": "tid.migration-banner",
+      "selector_type": "data-testid",
+      "selector": "migration-banner",
+      "playwright": "page.getByTestId('migration-banner')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/page.test.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "migration banner is rendered when needed"
+    },
+    {
+      "action_id": "tid.notebooks-refresh",
+      "selector_type": "data-testid",
+      "selector": "notebooks-refresh",
+      "playwright": "page.getByTestId('notebooks-refresh')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/notebooks/page.tsx",
+        "apps/web/e2e/notebooks.spec.ts"
+      ],
+      "route": "/notebooks",
+      "spec_id": "notebooks.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "notebooks refresh action refetches the list"
+    },
+    {
+      "action_id": "tid.settings-doc-engine-docling",
+      "selector_type": "data-testid",
+      "selector": "settings-doc-engine-docling",
+      "playwright": "page.getByTestId('settings-doc-engine-docling')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx",
+        "apps/web/e2e/settings.spec.ts"
+      ],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "settings doc engine dialog can select Docling"
+    },
+    {
+      "action_id": "tid.settings-doc-engine-trigger",
+      "selector_type": "data-testid",
+      "selector": "settings-doc-engine-trigger",
+      "playwright": "page.getByTestId('settings-doc-engine-trigger')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx",
+        "apps/web/e2e/settings.spec.ts"
+      ],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "settings doc engine selector opens its menu"
+    },
+    {
+      "action_id": "tid.settings-embedding-always",
+      "selector_type": "data-testid",
+      "selector": "settings-embedding-always",
+      "playwright": "page.getByTestId('settings-embedding-always')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx",
+        "apps/web/e2e/settings.spec.ts"
+      ],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "settings embedding mode can be changed to always"
+    },
+    {
+      "action_id": "tid.settings-embedding-trigger",
+      "selector_type": "data-testid",
+      "selector": "settings-embedding-trigger",
+      "playwright": "page.getByTestId('settings-embedding-trigger')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx",
+        "apps/web/e2e/settings.spec.ts"
+      ],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "settings embedding selector opens its menu"
+    },
+    {
+      "action_id": "tid.settings-refresh",
+      "selector_type": "data-testid",
+      "selector": "settings-refresh",
+      "playwright": "page.getByTestId('settings-refresh')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/page.tsx", "apps/web/e2e/settings.spec.ts"],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "settings refresh action refetches preferences"
+    },
+    {
+      "action_id": "tid.source-delete",
+      "selector_type": "data-testid",
+      "selector": "source-delete",
+      "playwright": "page.getByTestId('source-delete')",
+      "paths": ["apps/web/src/app/(dashboard)/sources/page.tsx", "apps/web/e2e/sources.spec.ts"],
+      "route": "/sources",
+      "spec_id": "sources.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "source delete action opens confirmation dialog"
+    },
+    {
+      "action_id": "tid.start-auditable-run",
+      "selector_type": "data-testid",
+      "selector": "start-auditable-run",
+      "playwright": "page.getByTestId('start-auditable-run')",
+      "paths": [
+        "apps/web/src/components/source/AuditableMarkdownPanel.tsx",
+        "apps/web/e2e/source-detail.spec.ts"
+      ],
+      "route": "/sources/[id]",
+      "spec_id": "source-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "source detail starts an auditable markdown run"
+    },
+    {
+      "action_id": "tid.podcast-episode-card",
+      "selector_type": "data-testid",
+      "selector": "podcast-episode-card-ep-failed",
+      "playwright": "page.getByTestId('podcast-episode-card-ep-failed')",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"],
+      "route": "/podcasts",
+      "spec_id": "podcasts.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "failed podcast episode card is visible before retry/delete actions"
+    },
+    {
+      "action_id": "tid.source-row",
+      "selector_type": "data-testid",
+      "selector": "source-row-src-bravo",
+      "playwright": "page.getByTestId('source-row-src-bravo')",
+      "paths": ["apps/web/e2e/sources.spec.ts"],
+      "route": "/sources",
+      "spec_id": "sources.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "specific source row can be targeted for sorting and deletion"
+    },
+    {
+      "action_id": "id.api-key",
+      "selector_type": "id",
+      "selector": "api-key",
+      "playwright": "page.locator('#api-key')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx",
+        "apps/web/e2e/settings-api-keys.spec.ts"
+      ],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "api key input accepts provider credentials"
+    },
+    {
+      "action_id": "id.ask-question",
+      "selector_type": "id",
+      "selector": "ask-question",
+      "playwright": "page.locator('#ask-question')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/search/page.tsx",
+        "apps/web/e2e/search.spec.ts",
+        "apps/web/e2e/search-stream.spec.ts"
+      ],
+      "route": "/search",
+      "spec_id": "search.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "ask question input captures natural language prompts"
+    },
+    {
+      "action_id": "id.auto_delete",
+      "selector_type": "id",
+      "selector": "auto_delete",
+      "playwright": "page.locator('#auto_delete')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx"],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "auto delete preference is present in settings form"
+    },
+    {
+      "action_id": "id.base-url",
+      "selector_type": "id",
+      "selector": "base-url",
+      "playwright": "page.locator('#base-url')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "optional base url field is available for provider configuration"
+    },
+    {
+      "action_id": "id.cred-name",
+      "selector_type": "id",
+      "selector": "cred-name",
+      "playwright": "page.locator('#cred-name')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx",
+        "apps/web/e2e/settings-api-keys.spec.ts"
+      ],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "credential name field is filled before creating configuration"
+    },
+    {
+      "action_id": "id.delete-sources",
+      "selector_type": "id",
+      "selector": "delete-sources",
+      "playwright": "page.locator('#delete-sources')",
+      "paths": ["apps/web/src/app/(dashboard)/notebooks/components/NotebookDeleteDialog.tsx"],
+      "route": "/notebooks",
+      "spec_id": "notebooks.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "notebook delete dialog exposes delete sources toggle"
+    },
+    {
+      "action_id": "id.doc_engine",
+      "selector_type": "id",
+      "selector": "doc_engine",
+      "playwright": "page.locator('#doc_engine')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx"],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "document engine field exists in settings form"
+    },
+    {
+      "action_id": "id.embedding",
+      "selector_type": "id",
+      "selector": "embedding",
+      "playwright": "page.locator('#embedding')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx"],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "embedding strategy field exists in settings form"
+    },
+    {
+      "action_id": "id.include-label",
+      "selector_type": "id",
+      "selector": "include-label",
+      "playwright": "page.locator('#include-label')",
+      "paths": ["apps/web/src/app/(dashboard)/advanced/components/RebuildEmbeddings.tsx"],
+      "route": "/advanced",
+      "spec_id": "advanced.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "advanced rebuild panel describes included content"
+    },
+    {
+      "action_id": "id.input",
+      "selector_type": "id",
+      "selector": "input",
+      "playwright": "page.locator('#input')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/transformations/components/TransformationPlayground.tsx"
+      ],
+      "route": "/transformations",
+      "spec_id": "transformations.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "transformation playground accepts input text"
+    },
+    {
+      "action_id": "id.insights",
+      "selector_type": "id",
+      "selector": "insights",
+      "playwright": "page.locator('#insights')",
+      "paths": ["apps/web/src/app/(dashboard)/advanced/components/RebuildEmbeddings.tsx"],
+      "route": "/advanced",
+      "spec_id": "advanced.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "advanced rebuild panel exposes insight include toggle"
+    },
+    {
+      "action_id": "id.keep-sources",
+      "selector_type": "id",
+      "selector": "keep-sources",
+      "playwright": "page.locator('#keep-sources')",
+      "paths": ["apps/web/src/app/(dashboard)/notebooks/components/NotebookDeleteDialog.tsx"],
+      "route": "/notebooks",
+      "spec_id": "notebooks.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "notebook delete dialog exposes keep sources toggle"
+    },
+    {
+      "action_id": "id.mode",
+      "selector_type": "id",
+      "selector": "mode",
+      "playwright": "page.locator('#mode')",
+      "paths": ["apps/web/src/app/(dashboard)/advanced/components/RebuildEmbeddings.tsx"],
+      "route": "/advanced",
+      "spec_id": "advanced.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "advanced rebuild panel exposes rebuild mode selector"
+    },
+    {
+      "action_id": "id.note-title",
+      "selector_type": "id",
+      "selector": "note-title",
+      "playwright": "page.locator('#note-title')",
+      "paths": ["apps/web/src/components/notebooks/NoteEditorDialog.tsx"],
+      "route": "/notebooks/[id]",
+      "spec_id": "notebook-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "note editor dialog exposes note title field"
+    },
+    {
+      "action_id": "id.notebook-description",
+      "selector_type": "id",
+      "selector": "notebook-description",
+      "playwright": "dialog.locator('#notebook-description')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/notebooks/components/NotebookHeader.tsx",
+        "apps/web/e2e/notebooks.spec.ts"
+      ],
+      "route": "/notebooks",
+      "spec_id": "notebooks.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "new notebook dialog exposes description field"
+    },
+    {
+      "action_id": "id.notebook-name",
+      "selector_type": "id",
+      "selector": "notebook-name",
+      "playwright": "dialog.locator('#notebook-name')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/notebooks/components/NotebookHeader.tsx",
+        "apps/web/e2e/notebooks.spec.ts"
+      ],
+      "route": "/notebooks",
+      "spec_id": "notebooks.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "new notebook dialog exposes name field"
+    },
+    {
+      "action_id": "id.notebook-search",
+      "selector_type": "id",
+      "selector": "notebook-search",
+      "playwright": "page.locator('#notebook-search')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/notebooks/page.tsx",
+        "apps/web/e2e/notebooks.spec.ts"
+      ],
+      "route": "/notebooks",
+      "spec_id": "notebooks.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "notebook search filters visible cards"
+    },
+    {
+      "action_id": "id.notes",
+      "selector_type": "id",
+      "selector": "notes",
+      "playwright": "page.locator('#notes')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/advanced/components/RebuildEmbeddings.tsx",
+        "apps/web/src/app/(dashboard)/search/page.tsx"
+      ],
+      "route": "/advanced",
+      "spec_id": "advanced.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "advanced rebuild panel exposes notes include toggle"
+    },
+    {
+      "action_id": "id.search-in-label",
+      "selector_type": "id",
+      "selector": "search-in-label",
+      "playwright": "page.locator('#search-in-label')",
+      "paths": ["apps/web/src/app/(dashboard)/search/page.tsx"],
+      "route": "/search",
+      "spec_id": "search.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "search page labels the search source scope group"
+    },
+    {
+      "action_id": "id.search-query",
+      "selector_type": "id",
+      "selector": "search-query",
+      "playwright": "page.locator('#search-query')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/search/page.tsx",
+        "apps/web/e2e/search.spec.ts",
+        "apps/web/e2e/real-backend-smoke.spec.ts"
+      ],
+      "route": "/search",
+      "spec_id": "search.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "search query input captures search terms"
+    },
+    {
+      "action_id": "id.search-type-label",
+      "selector_type": "id",
+      "selector": "search-type-label",
+      "playwright": "page.locator('#search-type-label')",
+      "paths": ["apps/web/src/app/(dashboard)/search/page.tsx"],
+      "route": "/search",
+      "spec_id": "search.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "search page labels the search type selector"
+    },
+    {
+      "action_id": "id.sources",
+      "selector_type": "id",
+      "selector": "sources",
+      "playwright": "page.locator('#sources')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/advanced/components/RebuildEmbeddings.tsx",
+        "apps/web/src/app/(dashboard)/search/page.tsx"
+      ],
+      "route": "/advanced",
+      "spec_id": "advanced.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "advanced rebuild panel exposes sources include toggle"
+    },
+    {
+      "action_id": "id.text",
+      "selector_type": "id",
+      "selector": "text",
+      "playwright": "page.locator('#text')",
+      "paths": ["apps/web/src/app/(dashboard)/search/page.tsx"],
+      "route": "/search",
+      "spec_id": "search.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "search page exposes text search mode option"
+    },
+    {
+      "action_id": "id.transformation",
+      "selector_type": "id",
+      "selector": "transformation",
+      "playwright": "page.locator('#transformation')",
+      "paths": [
+        "apps/web/src/app/(dashboard)/transformations/components/TransformationPlayground.tsx",
+        "apps/web/e2e/transformations.spec.ts"
+      ],
+      "route": "/transformations",
+      "spec_id": "transformations.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "transformation selector chooses the active transformation"
+    },
+    {
+      "action_id": "id.transformation-select",
+      "selector_type": "id",
+      "selector": "transformation-select",
+      "playwright": "page.locator('#transformation-select')",
+      "paths": ["apps/web/src/components/source/SourceInsightsTab.tsx"],
+      "route": "/sources/[id]",
+      "spec_id": "source-detail.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "source detail insight creation exposes transformation selector"
+    },
+    {
+      "action_id": "id.url_engine",
+      "selector_type": "id",
+      "selector": "url_engine",
+      "playwright": "page.locator('#url_engine')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx"],
+      "route": "/settings",
+      "spec_id": "settings.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "url processing engine field exists in settings form"
+    },
+    {
+      "action_id": "id.vector",
+      "selector_type": "id",
+      "selector": "vector",
+      "playwright": "page.locator('#vector')",
+      "paths": ["apps/web/src/app/(dashboard)/search/page.tsx"],
+      "route": "/search",
+      "spec_id": "search.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "search page exposes vector search mode option"
+    },
+    {
+      "action_id": "id.vertex-creds",
+      "selector_type": "id",
+      "selector": "vertex-creds",
+      "playwright": "page.locator('#vertex-creds')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "vertex credentials path field exists in add configuration dialog"
+    },
+    {
+      "action_id": "id.vertex-location",
+      "selector_type": "id",
+      "selector": "vertex-location",
+      "playwright": "page.locator('#vertex-location')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "vertex location field exists in add configuration dialog"
+    },
+    {
+      "action_id": "id.vertex-project",
+      "selector_type": "id",
+      "selector": "vertex-project",
+      "playwright": "page.locator('#vertex-project')",
+      "paths": ["apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx"],
+      "route": "/settings/api-keys",
+      "spec_id": "settings-api-keys.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "vertex project field exists in add configuration dialog"
+    },
+    {
+      "action_id": "id.login-password",
+      "selector_type": "id",
+      "selector": "login-password",
+      "playwright": "page.locator('#login-password')",
+      "paths": ["apps/web/src/components/auth/LoginForm.tsx", "apps/web/e2e/auth-guard.spec.ts"],
+      "route": "/login",
+      "spec_id": "auth-guard.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "login page exposes password field"
+    },
+    {
+      "action_id": "id.main-content",
+      "selector_type": "id",
+      "selector": "main-content",
+      "playwright": "page.locator('#main-content')",
+      "paths": ["apps/web/src/components/layout/AppShell.tsx", "apps/web/src/app/layout.tsx"],
+      "route": "/notebooks",
+      "spec_id": "smoke.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "application shell renders the main content landmark"
+    },
+    {
+      "action_id": "id.episode_name",
+      "selector_type": "id",
+      "selector": "episode_name",
+      "playwright": "generateDialog.locator('#episode_name')",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"],
+      "route": "/podcasts",
+      "spec_id": "podcasts.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "podcast generation dialog captures episode name"
+    },
+    {
+      "action_id": "id.instructions",
+      "selector_type": "id",
+      "selector": "instructions",
+      "playwright": "generateDialog.locator('#instructions')",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"],
+      "route": "/podcasts",
+      "spec_id": "podcasts.spec.ts",
+      "test_type": "mocked",
+      "expected_result": "podcast generation dialog captures custom instructions"
+    },
+    {
+      "action_id": "role.auth-sign-in",
+      "route": "/login",
+      "selector_type": "role",
+      "selector": "button:Sign In",
+      "playwright": "page.getByRole(\"button\", { name: \"Sign In\" })",
+      "expected_result": "auth dialog validates invalid password and authenticates with the correct password",
+      "test_type": "mocked",
+      "spec_id": "auth-guard.spec.ts",
+      "paths": ["apps/web/e2e/auth-guard.spec.ts"]
+    },
+    {
+      "action_id": "role.advanced-rebuild-help",
+      "route": "/advanced",
+      "selector_type": "role",
+      "selector": "button:When should I rebuild embeddings?",
+      "playwright": "page.getByRole(\"button\", { name: \"When should I rebuild embeddings?\" })",
+      "expected_result": "advanced help accordion opens before rebuild is triggered",
+      "test_type": "mocked",
+      "spec_id": "advanced.spec.ts",
+      "paths": ["apps/web/e2e/advanced.spec.ts"]
+    },
+    {
+      "action_id": "role.advanced-start-rebuild",
+      "route": "/advanced",
+      "selector_type": "role",
+      "selector": "button:Start Rebuild",
+      "playwright": "page.getByRole(\"button\", { name: /start rebuild/i })",
+      "expected_result": "rebuild request is submitted after selecting valid content types",
+      "test_type": "mocked",
+      "spec_id": "advanced.spec.ts",
+      "paths": ["apps/web/e2e/advanced.spec.ts"]
+    },
+    {
+      "action_id": "role.notebooks-create",
+      "route": "/notebooks",
+      "selector_type": "role",
+      "selector": "button:New Notebook",
+      "playwright": "page.getByRole(\"button\", { name: \"New Notebook\" }).first()",
+      "expected_result": "new notebook dialog opens and can submit a valid notebook",
+      "test_type": "mocked",
+      "spec_id": "notebooks.spec.ts",
+      "paths": ["apps/web/e2e/notebooks.spec.ts"]
+    },
+    {
+      "action_id": "role.notebooks-open-keyboard",
+      "route": "/notebooks",
+      "selector_type": "role",
+      "selector": "button:Keyboard Notebook",
+      "playwright": "page.getByRole(\"button\", { name: \"Keyboard Notebook\" })",
+      "expected_result": "keyboard activation opens notebook detail",
+      "test_type": "mocked",
+      "spec_id": "notebooks.spec.ts",
+      "paths": ["apps/web/e2e/notebooks.spec.ts"]
+    },
+    {
+      "action_id": "role.notebook-detail-send-chat",
+      "route": "/notebooks/[id]",
+      "selector_type": "role",
+      "selector": "button:Ask anything about your sources...",
+      "playwright": "page.getByRole(\"button\", { name: \"Ask anything about your sources...\" })",
+      "expected_result": "notebook detail submits a notebook chat message",
+      "test_type": "mocked",
+      "spec_id": "notebook-detail.spec.ts",
+      "paths": ["apps/web/e2e/notebook-detail.spec.ts"]
+    },
+    {
+      "action_id": "role.search-open-advanced",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Advanced",
+      "playwright": "askTabPanel.getByRole(\"button\", { name: /^advanced$/i })",
+      "expected_result": "ask flow opens advanced model selection dialog",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "role.search-submit-ask",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Ask",
+      "playwright": "askTabPanel.getByRole(\"button\", { name: \"Ask\", exact: true })",
+      "expected_result": "ask flow disables submit while streaming, posts ask payload, and re-enables after completion",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "role.search-save-to-notebooks",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Save to Notebooks",
+      "playwright": "page.getByRole(\"button\", { name: \"Save to Notebooks\" })",
+      "expected_result": "ask flow renders save-to-notebooks follow-up action",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "role.search-result-open",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Result Source",
+      "playwright": "page.getByRole(\"button\", { name: \"Result Source\" })",
+      "expected_result": "search result opens matched context",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "role.search-stream-strategy",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Strategy",
+      "playwright": "page.getByRole(\"button\", { name: /^Strategy$/ })",
+      "expected_result": "streamed ask response exposes strategy panel",
+      "test_type": "mocked",
+      "spec_id": "search-stream.spec.ts",
+      "paths": ["apps/web/e2e/search-stream.spec.ts"]
+    },
+    {
+      "action_id": "role.search-stream-individual-answers",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Individual Answers",
+      "playwright": "page.getByRole(\"button\", { name: /Individual Answers/i })",
+      "expected_result": "streamed ask response exposes intermediate answers",
+      "test_type": "mocked",
+      "spec_id": "search-stream.spec.ts",
+      "paths": ["apps/web/e2e/search-stream.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-save",
+      "route": "/settings",
+      "selector_type": "role",
+      "selector": "button:Save",
+      "playwright": "page.getByRole(\"button\", { name: \"Save\", exact: true }).last()",
+      "expected_result": "settings form persists updated preferences",
+      "test_type": "mocked",
+      "spec_id": "settings.spec.ts",
+      "paths": ["apps/web/e2e/settings.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-save-error",
+      "route": "/settings",
+      "selector_type": "role",
+      "selector": "button:Save",
+      "playwright": "page.locator(\"form\").getByRole(\"button\", { name: \"Save\" })",
+      "expected_result": "failed settings save keeps submit enabled and renders inline error feedback",
+      "test_type": "mocked",
+      "spec_id": "settings.spec.ts",
+      "paths": ["apps/web/e2e/settings.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-add-config",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Add Configuration",
+      "playwright": "page.getByRole(\"button\", { name: /add configuration/i }).first()",
+      "expected_result": "api keys page opens configuration dialog",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-add-cancel",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Cancel",
+      "playwright": "cancelledDialog.getByRole(\"button\", { name: \"Cancel\" })",
+      "expected_result": "cancelling add-configuration dialog closes it without creating credentials",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-show-key",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Show API key",
+      "playwright": "formDialog.getByRole(\"button\", { name: \"Show API key\" })",
+      "expected_result": "api key visibility toggle reveals the secret field",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-hide-key",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Hide API key",
+      "playwright": "formDialog.getByRole(\"button\", { name: \"Hide API key\" })",
+      "expected_result": "api key visibility toggle can re-hide the secret field",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-register-model",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Add",
+      "playwright": "discoverDialog.getByRole(\"button\", { name: /Add \\(1\\)/ })",
+      "expected_result": "discovered model registration submits selected models",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-delete-with-models",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Delete with Models",
+      "playwright": "deleteDialogConfirm.getByRole(\"button\", { name: \"Delete with Models\" })",
+      "expected_result": "credential deletion can remove provider models in one action",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.sources-created-sort",
+      "route": "/sources",
+      "selector_type": "role",
+      "selector": "button:Created",
+      "playwright": "page.getByRole(\"button\", { name: /created/i })",
+      "expected_result": "created column toggles sorting direction",
+      "test_type": "mocked",
+      "spec_id": "sources.spec.ts",
+      "paths": ["apps/web/e2e/sources.spec.ts"]
+    },
+    {
+      "action_id": "role.sources-delete-confirm-cancel",
+      "route": "/sources",
+      "selector_type": "role",
+      "selector": "button:Cancel",
+      "playwright": "dialog.getByRole(\"button\", { name: \"Cancel\" })",
+      "expected_result": "delete dialog cancel keeps source row and emits no delete request",
+      "test_type": "mocked",
+      "spec_id": "sources.spec.ts",
+      "paths": ["apps/web/e2e/sources.spec.ts"]
+    },
+    {
+      "action_id": "role.sources-delete-confirm",
+      "route": "/sources",
+      "selector_type": "role",
+      "selector": "button:Delete",
+      "playwright": "confirmDialog.getByRole(\"button\", { name: \"Delete\" })",
+      "expected_result": "delete dialog confirms source deletion",
+      "test_type": "mocked",
+      "spec_id": "sources.spec.ts",
+      "paths": ["apps/web/e2e/sources.spec.ts"]
+    },
+    {
+      "action_id": "role.source-detail-download-markdown",
+      "route": "/sources/[id]",
+      "selector_type": "role",
+      "selector": "button:Download Markdown",
+      "playwright": "page.getByRole(\"button\", { name: \"Download Markdown\" })",
+      "expected_result": "source detail exposes markdown download control",
+      "test_type": "mocked",
+      "spec_id": "source-detail.spec.ts",
+      "paths": ["apps/web/e2e/source-detail.spec.ts"]
+    },
+    {
+      "action_id": "role.source-detail-create-insight",
+      "route": "/sources/[id]",
+      "selector_type": "role",
+      "selector": "button:Create",
+      "playwright": "page.getByRole(\"button\", { name: /^Create$/ }).first()",
+      "expected_result": "source detail can create a new insight from a transformation",
+      "test_type": "mocked",
+      "spec_id": "source-detail.spec.ts",
+      "paths": ["apps/web/e2e/source-detail.spec.ts"]
+    },
+    {
+      "action_id": "role.source-detail-delete-insight",
+      "route": "/sources/[id]",
+      "selector_type": "role",
+      "selector": "button:Delete",
+      "playwright": "page.getByRole(\"button\", { name: \"Delete\" }).last()",
+      "expected_result": "source detail can delete an insight after confirmation",
+      "test_type": "mocked",
+      "spec_id": "source-detail.spec.ts",
+      "paths": ["apps/web/e2e/source-detail.spec.ts"]
+    },
+    {
+      "action_id": "role.transformations-open-playground",
+      "route": "/transformations",
+      "selector_type": "role",
+      "selector": "button:Playground",
+      "playwright": "page.getByRole(\"button\", { name: \"Playground\" }).first()",
+      "expected_result": "transformations workspace opens playground from a card",
+      "test_type": "mocked",
+      "spec_id": "transformations.spec.ts",
+      "paths": ["apps/web/e2e/transformations.spec.ts"]
+    },
+    {
+      "action_id": "role.transformations-run",
+      "route": "/transformations",
+      "selector_type": "role",
+      "selector": "button:Run Transformation",
+      "playwright": "page.getByRole(\"button\", { name: \"Run Transformation\" })",
+      "expected_result": "playground executes transformation request",
+      "test_type": "mocked",
+      "spec_id": "transformations.spec.ts",
+      "paths": ["apps/web/e2e/transformations.spec.ts"]
+    },
+    {
+      "action_id": "role.podcasts-retry",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "button:Retry",
+      "playwright": "failedEpisodeCard.getByRole(\"button\", { name: \"Retry\" })",
+      "expected_result": "failed episode card can retry generation",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.podcasts-delete",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "button:Delete",
+      "playwright": "failedEpisodeCard.getByRole(\"button\", { name: \"Delete\" })",
+      "expected_result": "failed episode card opens delete confirmation before destructive action",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.podcasts-delete-cancel",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "button:Cancel",
+      "playwright": "deleteDialog.getByRole(\"button\", { name: \"Cancel\" })",
+      "expected_result": "podcast delete confirmation cancel keeps failed episode card and avoids delete request",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.podcasts-generate",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "button:Generate Podcast",
+      "playwright": "page.getByRole(\"button\", { name: \"Generate Podcast\" })",
+      "expected_result": "podcasts page opens generate episode dialog",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.podcasts-generate-cancel",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "button:Cancel",
+      "playwright": "page.getByRole(\"button\", { name: \"Cancel\" })",
+      "expected_result": "podcast generation dialog cancel closes modal without posting generate request",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.search-ask-error-no-save",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Ask",
+      "playwright": "askTabPanel.getByRole(\"button\", { name: \"Ask\", exact: true })",
+      "expected_result": "ask error flow keeps save-to-notebooks hidden and recovers ask action",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "id.search-query-empty-disabled",
+      "route": "/search",
+      "selector_type": "id",
+      "selector": "search-query",
+      "playwright": "page.locator(\"#search-query\").fill(\"   \")",
+      "expected_result": "search submit stays disabled for blank query",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "id.search-vector-mode-request",
+      "route": "/search",
+      "selector_type": "id",
+      "selector": "vector",
+      "playwright": "page.locator(\"#vector\")",
+      "expected_result": "vector search mode submits payload with type=vector",
+      "test_type": "mocked",
+      "spec_id": "search.spec.ts",
+      "paths": ["apps/web/e2e/search.spec.ts"]
+    },
+    {
+      "action_id": "id.settings-url-engine-jina",
+      "route": "/settings",
+      "selector_type": "id",
+      "selector": "url_engine",
+      "playwright": "page.locator(\"#url_engine\")",
+      "expected_result": "settings form can select Jina url engine before save",
+      "test_type": "mocked",
+      "spec_id": "settings.spec.ts",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx",
+        "apps/web/e2e/settings.spec.ts"
+      ]
+    },
+    {
+      "action_id": "id.settings-auto-delete-yes",
+      "route": "/settings",
+      "selector_type": "id",
+      "selector": "auto_delete",
+      "playwright": "page.locator(\"#auto_delete\")",
+      "expected_result": "settings form can enable auto delete and persist the preference",
+      "test_type": "mocked",
+      "spec_id": "settings.spec.ts",
+      "paths": [
+        "apps/web/src/app/(dashboard)/settings/components/SettingsForm.tsx",
+        "apps/web/e2e/settings.spec.ts"
+      ]
+    },
+    {
+      "action_id": "role.settings-api-keys-filtered-register",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Add (1)",
+      "playwright": "discoverDialog.getByRole(\"button\", { name: \"Add (1)\" })",
+      "expected_result": "filtered discover-model list can register selected provider model",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "role.settings-api-keys-delete-only",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "button:Delete",
+      "playwright": "secondaryDeleteDialog.getByRole(\"button\", { name: \"Delete\" })",
+      "expected_result": "secondary credential can be deleted without delete_models query option",
+      "test_type": "mocked",
+      "spec_id": "settings-api-keys.spec.ts",
+      "paths": ["apps/web/e2e/settings-api-keys.spec.ts"]
+    },
+    {
+      "action_id": "id.podcasts-source-selection-context",
+      "route": "/podcasts",
+      "selector_type": "id",
+      "selector": "source-selection-src-podcast-context",
+      "playwright": "generateDialogSubmit.locator(\"#source-selection-src-podcast-context\")",
+      "expected_result": "podcast generation dialog exposes checked source selection for context build",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.podcasts-generate-submit",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "button:Generate",
+      "playwright": "generateDialogSubmit.getByRole(\"button\", { name: /generate/i }).first()",
+      "expected_result": "podcast generation submits payload with episode profile, name, briefing and built content",
+      "test_type": "mocked",
+      "spec_id": "podcasts.spec.ts",
+      "paths": ["apps/web/e2e/podcasts.spec.ts"]
+    },
+    {
+      "action_id": "role.real-notebooks-refresh",
+      "route": "/notebooks",
+      "selector_type": "data-testid",
+      "selector": "notebooks-refresh",
+      "playwright": "page.getByTestId(\"notebooks-refresh\")",
+      "expected_result": "real backend notebooks page stays interactive after refresh",
+      "test_type": "real-backend",
+      "spec_id": "real-backend-smoke.spec.ts",
+      "paths": ["apps/web/e2e/real-backend-smoke.spec.ts"],
+      "runtime_evidence": {
+        "action_id": "role.real-notebooks-refresh",
+        "required_layers": ["ui-ready", "network-contract", "payload-shape"]
+      }
+    },
+    {
+      "action_id": "role.real-search-submit",
+      "route": "/search",
+      "selector_type": "role",
+      "selector": "button:Search",
+      "playwright": "searchPanel.getByRole(\"button\", { name: /search/i }).first()",
+      "expected_result": "real backend search submits search request and returns result payload",
+      "test_type": "real-backend",
+      "spec_id": "real-backend-smoke.spec.ts",
+      "paths": ["apps/web/e2e/real-backend-smoke.spec.ts"],
+      "runtime_evidence": {
+        "action_id": "role.real-search-submit",
+        "required_layers": ["ui-ready", "network-contract", "payload-shape"]
+      }
+    },
+    {
+      "action_id": "role.real-settings-refresh",
+      "route": "/settings",
+      "selector_type": "data-testid",
+      "selector": "settings-refresh",
+      "playwright": "page.getByTestId(\"settings-refresh\")",
+      "expected_result": "real backend settings endpoint stays responsive after refresh",
+      "test_type": "real-backend",
+      "spec_id": "real-backend-smoke.spec.ts",
+      "paths": ["apps/web/e2e/real-backend-smoke.spec.ts"],
+      "runtime_evidence": {
+        "action_id": "role.real-settings-refresh",
+        "required_layers": ["ui-ready", "network-contract"]
+      }
+    },
+    {
+      "action_id": "role.real-api-keys-open",
+      "route": "/settings/api-keys",
+      "selector_type": "role",
+      "selector": "heading:key",
+      "playwright": "page.getByRole(\"heading\", { level: 1, name: /api|key/i })",
+      "expected_result": "real backend api keys page loads authenticated provider state",
+      "test_type": "real-backend",
+      "spec_id": "real-backend-smoke.spec.ts",
+      "paths": ["apps/web/e2e/real-backend-smoke.spec.ts"],
+      "runtime_evidence": {
+        "action_id": "role.real-api-keys-open",
+        "required_layers": ["ui-ready", "network-contract"]
+      }
+    },
+    {
+      "action_id": "role.real-transformations-open",
+      "route": "/transformations",
+      "selector_type": "role",
+      "selector": "heading:Transformations",
+      "playwright": "page.getByRole(\"heading\", { level: 1, name: \"Transformations\" })",
+      "expected_result": "real backend transformations page loads and exposes refresh action",
+      "test_type": "real-backend",
+      "spec_id": "real-backend-smoke.spec.ts",
+      "paths": ["apps/web/e2e/real-backend-smoke.spec.ts"],
+      "runtime_evidence": {
+        "action_id": "role.real-transformations-open",
+        "required_layers": ["ui-ready", "network-contract"]
+      }
+    },
+    {
+      "action_id": "role.real-podcasts-open",
+      "route": "/podcasts",
+      "selector_type": "role",
+      "selector": "heading:Podcasts",
+      "playwright": "page.getByRole(\"heading\", { level: 1, name: \"Podcasts\" })",
+      "expected_result": "real backend podcasts page loads and exposes episode/template tabs",
+      "test_type": "real-backend",
+      "spec_id": "real-backend-smoke.spec.ts",
+      "paths": ["apps/web/e2e/real-backend-smoke.spec.ts"],
+      "runtime_evidence": {
+        "action_id": "role.real-podcasts-open",
+        "required_layers": ["ui-ready", "network-contract"]
+      }
+    }
+  ]
+}

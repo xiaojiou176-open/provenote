@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Primary JS Chunks",
+    "path": ".runtime-cache/build/next/static/chunks/*.js",
+    "limit": "1 MB"
+  },
+  {
+    "name": "Total Frontend Bundle",
+    "path": ".runtime-cache/build/next/static/**/*.js",
+    "limit": "2 MB"
+  },
+  {
+    "name": "Initial CSS",
+    "path": ".runtime-cache/build/next/static/**/*.css",
+    "limit": "150 KB"
+  }
+]
