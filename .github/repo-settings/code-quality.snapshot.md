@@ -41,15 +41,15 @@ Every review wave must record at least:
 ## Latest Recorded Remote Review Summary
 
 - Review Status: `verified`
-- Review Date: 2026-04-06 03:10 PDT
+- Review Date: 2026-04-06 21:18 PDT
 - Review Surface: GitHub REST code-scanning endpoints plus recent CodeQL workflow history for the current `origin`
 - Reviewer context:
   - authenticated `gh` session with `repo` and `workflow` scopes
-  - current repository: `xiaojiou176/provenote`
+  - current repository: `xiaojiou176-open/provenote`
 - Evidence pointer:
-  - `gh api 'repos/xiaojiou176/provenote/code-scanning/alerts?state=open&per_page=1'` -> `[]`
-  - `gh api 'repos/xiaojiou176/provenote/code-scanning/analyses?per_page=5'` -> recent `javascript-typescript` and `python` analyses on `main` with `results_count=0`
-  - `gh run list -R xiaojiou176/provenote --workflow CodeQL --limit 5` -> latest push and pull-request CodeQL runs are `success`
+  - `gh api 'repos/xiaojiou176-open/provenote/code-scanning/alerts?state=open&per_page=1'` -> `[]`
+  - `gh api 'repos/xiaojiou176-open/provenote/code-scanning/analyses?ref=refs/heads/main&per_page=5'` -> recent `CodeQL` analyses on `refs/heads/main` with `results_count=0`
+  - `gh run list -R xiaojiou176-open/provenote --workflow CodeQL --branch main --limit 5` -> latest push CodeQL run on `main` is `success`
 
 Interpretation:
 

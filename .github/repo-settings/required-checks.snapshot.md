@@ -75,14 +75,14 @@ The repo also expects the workflow topology behind that gate to keep these bound
 ## Latest Recorded Remote Review Summary
 
 - Review Status: `verified`
-- Review Date: 2026-04-06 03:10 PDT
-- Reviewer Surface: GitHub CLI authenticated as the active maintainer account for the reviewed `origin` repository
+- Review Date: 2026-04-06 21:20 PDT
+- Reviewer Surface: GitHub CLI authenticated as the active maintainer account for the reviewed `origin` repository plus fresh `Tests` job readback on the protected `main` SHA
 - Latest recorded evidence:
-  - the reviewed origin repository remained reachable, public, admin-visible, and defaulted to `main`
-  - `gh api repos/xiaojiou176/provenote/branches/main/protection` succeeded and showed `required_status_checks.strict=true` with `contexts=["Required Green Gate"]`
-  - the latest observed `workflow_dispatch` run of `Tests` on the current `main` SHA completed with overall run `failure`, but the corresponding `Required Green Gate` job on that same SHA completed `success`
+  - the reviewed origin repository (`xiaojiou176-open/provenote`) remained reachable, public, admin-visible, and defaulted to `main`
+  - `gh api repos/xiaojiou176-open/provenote/branches/main/protection` succeeded and showed `required_status_checks.strict=true` with `contexts=["Required Green Gate"]`
+  - the latest observed `push` run of `Tests` on the current `main` SHA (`24062420970`) completed `success`, and the corresponding `Required Green Gate` job on that same SHA also completed `success`
   - the required protected mainline context on the live repository still points at `Required Green Gate`
-  - `gh api repos/xiaojiou176/provenote/releases/tags/v1.8.1` currently returns `404 Not Found`, so predecessor-repo release-tag evidence must not be reused as current truth
+  - predecessor-repo release-tag evidence remains non-transferable: `gh api repos/xiaojiou176/provenote/releases/tags/v1.8.1` currently returns `404 Not Found`, so old-repo release-tag evidence must not be reused as current truth
 
 Interpretation:
 
