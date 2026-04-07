@@ -16,6 +16,7 @@ artifacts/
 logs/
 log/
 cache/
+.cache/
 tmp/
 temp/
 build/

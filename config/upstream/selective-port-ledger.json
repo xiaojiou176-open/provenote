@@ -34,14 +34,14 @@
     "current_truth_boundary": "This block is the authoritative current Git-topology sample for origin/main versus upstream/main. It is the only place in this ledger that may be cited as current topology truth, and CI must validate it against the live refs before treating any selective-port planning statement as current. Historical entries under entries[] remain planning context only, even when they are still inside their freshness window.",
     "origin_ref": "origin/main",
     "upstream_ref": "upstream/main",
-    "origin_only_commits": 9,
-    "upstream_only_commits": 654,
+    "origin_only_commits": 12,
+    "upstream_only_commits": 657,
     "has_merge_base": false,
     "root_commits": [
       "bcdd374",
       "bcd260a"
     ],
-    "summary": "Live Git sampling on 2026-04-07 still found no merge-base between origin/main and upstream/main. The current fork must therefore continue to be treated as a long-lived productized selective-port branch with broken ancestry for ordinary merge/rebase storytelling. Current ref counts are origin_only=9 and upstream_only=654.",
+    "summary": "Live Git sampling on 2026-04-07 still found no merge-base between origin/main and upstream/main. The current fork must therefore continue to be treated as a long-lived productized selective-port branch with broken ancestry for ordinary merge/rebase storytelling. Current ref counts are origin_only=12 and upstream_only=657.",
     "recommended_strategy": "selective-port",
     "topology_warning": "Do not cite historical entry counts as current truth while this block disagrees with them. Refresh live_git_truth first, then decide whether any historical planning entry should be refreshed or left as archival planning context."
   },
