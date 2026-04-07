@@ -1,0 +1,79 @@
+-- Migration 16: Gemini-only governance + command control-plane hardening
+
+DEFINE TABLE IF NOT EXISTS command_idempotency SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS idempotency_key ON command_idempotency TYPE string;
+DEFINE FIELD IF NOT EXISTS request_hash ON command_idempotency TYPE string;
+DEFINE FIELD IF NOT EXISTS app ON command_idempotency TYPE string;
+DEFINE FIELD IF NOT EXISTS name ON command_idempotency TYPE string;
+DEFINE FIELD IF NOT EXISTS status ON command_idempotency TYPE string DEFAULT "processing";
+DEFINE FIELD IF NOT EXISTS last_error ON command_idempotency TYPE option<string>;
+DEFINE FIELD IF NOT EXISTS command_id ON command_idempotency TYPE option<record<command>>;
+DEFINE FIELD IF NOT EXISTS created ON command_idempotency TYPE option<datetime> DEFAULT time::now();
+DEFINE FIELD IF NOT EXISTS updated ON command_idempotency TYPE option<datetime> DEFAULT time::now();
+DEFINE INDEX IF NOT EXISTS idx_command_idempotency_key ON command_idempotency FIELDS idempotency_key UNIQUE;
+
+DEFINE TABLE IF NOT EXISTS command_dead_letter SCHEMAFULL;
+DEFINE FIELD IF NOT EXISTS command_id ON command_dead_letter TYPE option<record<command>>;
+DEFINE FIELD IF NOT EXISTS app ON command_dead_letter TYPE string;
+DEFINE FIELD IF NOT EXISTS name ON command_dead_letter TYPE string;
+DEFINE FIELD IF NOT EXISTS args ON command_dead_letter TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD IF NOT EXISTS context ON command_dead_letter TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD IF NOT EXISTS error_message ON command_dead_letter TYPE string DEFAULT "";
+DEFINE FIELD IF NOT EXISTS status ON command_dead_letter TYPE string DEFAULT "failed";
+DEFINE FIELD IF NOT EXISTS failure_count ON command_dead_letter TYPE int DEFAULT 1;
+DEFINE FIELD IF NOT EXISTS requeue_count ON command_dead_letter TYPE int DEFAULT 0;
+DEFINE FIELD IF NOT EXISTS first_failed_at ON command_dead_letter TYPE option<datetime>;
+DEFINE FIELD IF NOT EXISTS last_failed_at ON command_dead_letter TYPE option<datetime>;
+DEFINE FIELD IF NOT EXISTS last_requeued_at ON command_dead_letter TYPE option<datetime>;
+DEFINE FIELD IF NOT EXISTS last_requeued_command_id ON command_dead_letter TYPE option<record<command>>;
+DEFINE FIELD IF NOT EXISTS created ON command_dead_letter TYPE option<datetime> DEFAULT time::now();
+DEFINE FIELD IF NOT EXISTS updated ON command_dead_letter TYPE option<datetime> DEFAULT time::now();
+DEFINE INDEX IF NOT EXISTS idx_command_dead_letter_command_id ON command_dead_letter FIELDS command_id UNIQUE;
+DEFINE INDEX IF NOT EXISTS idx_command_dead_letter_last_failed_at ON command_dead_letter FIELDS last_failed_at;
+
+DEFINE FIELD OVERWRITE model_id ON TABLE auditable_run TYPE string DEFAULT "gemini-3.1-pro";
+
+UPSERT open_notebook:provider_policy CONTENT {
+    language: ["google"],
+    embedding: ["google"],
+    speech_to_text: ["google"],
+    text_to_speech: ["google"]
+};
+
+UPSERT open_notebook:default_prompts CONTENT {
+    transformation_instructions: "# SYSTEM\nYou are an information-preserving transformation engine for long-form unstructured content.\n\n# RULES\n- Preserve factual fidelity. Never invent facts.\n- Keep full information coverage while improving structure and readability.\n- Use explicit markdown sections and concise bullet points when suitable.\n- If source evidence is missing for a claim, mark it as \"evidence_gap\"."
+};
+
+DELETE transformation WHERE name = "Gemini Extract";
+DELETE transformation WHERE name = "Gemini Rewrite";
+DELETE transformation WHERE name = "Gemini Audit";
+
+UPSERT transformation:gemini_extract CONTENT {
+    name: "Gemini Extract",
+    title: "Gemini Extract",
+    description: "Extract high-fidelity structured notes from long-form input.",
+    prompt: "@prompt-pack:extract",
+    apply_default: true,
+    created: time::now(),
+    updated: time::now()
+};
+
+UPSERT transformation:gemini_rewrite CONTENT {
+    name: "Gemini Rewrite",
+    title: "Gemini Rewrite",
+    description: "Rewrite extracted notes into coherent, complete knowledge notes.",
+    prompt: "@prompt-pack:rewrite",
+    apply_default: false,
+    created: time::now(),
+    updated: time::now()
+};
+
+UPSERT transformation:gemini_audit CONTENT {
+    name: "Gemini Audit",
+    title: "Gemini Audit",
+    description: "Audit output for completeness, consistency, and unsupported claims.",
+    prompt: "@prompt-pack:audit",
+    apply_default: false,
+    created: time::now(),
+    updated: time::now()
+};

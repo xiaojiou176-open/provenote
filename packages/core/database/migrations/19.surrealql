@@ -1,0 +1,27 @@
+-- Migration 19: introduce notebook-level draft outcome spine
+
+DEFINE TABLE IF NOT EXISTS draft SCHEMAFULL;
+
+DEFINE FIELD OVERWRITE notebook ON TABLE draft TYPE record<notebook>;
+DEFINE FIELD OVERWRITE title ON TABLE draft TYPE string;
+DEFINE FIELD OVERWRITE status ON TABLE draft TYPE string DEFAULT "completed";
+DEFINE FIELD OVERWRITE model_id ON TABLE draft TYPE string;
+DEFINE FIELD OVERWRITE language ON TABLE draft TYPE string DEFAULT "zh-CN";
+DEFINE FIELD OVERWRITE near_dedup_threshold ON TABLE draft TYPE float DEFAULT 0.97;
+DEFINE FIELD OVERWRITE source_ids ON TABLE draft TYPE array<record<source>> DEFAULT [];
+DEFINE FIELD OVERWRITE note_ids ON TABLE draft TYPE array<record<note>> DEFAULT [];
+DEFINE FIELD OVERWRITE thread_ids ON TABLE draft TYPE array<record<research_thread>> DEFAULT [];
+DEFINE FIELD OVERWRITE version ON TABLE draft TYPE int DEFAULT 1;
+DEFINE FIELD OVERWRITE parent_draft_id ON TABLE draft TYPE option<record<draft>>;
+DEFINE FIELD OVERWRITE metrics ON TABLE draft TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD OVERWRITE coverage_json ON TABLE draft TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD OVERWRITE dedup_json ON TABLE draft TYPE object FLEXIBLE DEFAULT {};
+DEFINE FIELD OVERWRITE result_markdown ON TABLE draft TYPE string DEFAULT "";
+DEFINE FIELD OVERWRITE source_paragraphs ON TABLE draft TYPE array DEFAULT [];
+DEFINE FIELD OVERWRITE sections ON TABLE draft TYPE array DEFAULT [];
+DEFINE FIELD OVERWRITE claims ON TABLE draft TYPE array DEFAULT [];
+DEFINE FIELD OVERWRITE dedup_entries ON TABLE draft TYPE array DEFAULT [];
+DEFINE FIELD OVERWRITE verified_brief_snapshot ON TABLE draft TYPE option<object>;
+
+DEFINE INDEX IF NOT EXISTS idx_draft_notebook_updated ON TABLE draft FIELDS notebook, updated;
+DEFINE INDEX IF NOT EXISTS idx_draft_parent ON TABLE draft FIELDS parent_draft_id;

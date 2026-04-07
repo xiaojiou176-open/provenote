@@ -1,0 +1,4 @@
+-- Rollback migration 20: remove notebook-level research thread artifacts
+
+REMOVE INDEX IF EXISTS idx_research_thread_notebook_updated ON TABLE research_thread;
+REMOVE TABLE IF EXISTS research_thread;

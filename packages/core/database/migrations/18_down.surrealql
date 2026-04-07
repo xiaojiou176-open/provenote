@@ -1,0 +1,14 @@
+-- Rollback migration 18: remove notebook/provider lookup indexes and restore nullable notebook text fields
+
+REMOVE INDEX IF EXISTS idx_reference_out ON TABLE reference;
+REMOVE INDEX IF EXISTS idx_reference_in ON TABLE reference;
+REMOVE INDEX IF EXISTS idx_reference_out_in ON TABLE reference;
+REMOVE INDEX IF EXISTS idx_artifact_out ON TABLE artifact;
+REMOVE INDEX IF EXISTS idx_artifact_in ON TABLE artifact;
+REMOVE INDEX IF EXISTS idx_artifact_out_in ON TABLE artifact;
+REMOVE INDEX IF EXISTS idx_model_provider_type_name ON TABLE model;
+REMOVE INDEX IF EXISTS idx_model_provider ON TABLE model;
+REMOVE INDEX IF EXISTS idx_credential_provider ON TABLE credential;
+
+DEFINE FIELD OVERWRITE name ON TABLE notebook TYPE option<string>;
+DEFINE FIELD OVERWRITE description ON TABLE notebook TYPE option<string>;

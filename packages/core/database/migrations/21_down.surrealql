@@ -1,0 +1,4 @@
+-- Rollback migration 21: remove draft timestamp schema fields
+
+REMOVE FIELD IF EXISTS created ON TABLE draft;
+REMOVE FIELD IF EXISTS updated ON TABLE draft;
