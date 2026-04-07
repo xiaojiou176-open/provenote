@@ -56,7 +56,7 @@ IMAGE_NAME="${CONSISTENT_CONTAINER_IMAGE:-${CI_IMAGE_NAME}:${IMAGE_FINGERPRINT}}
 
 usage() {
   cat <<'EOF'
-Usage: bash tooling/scripts/ci/run_in_consistent_container.sh [--bootstrap auto|always|never] [--profile minimal|python|apps/web-static|apps/web|full] -- <command>
+Usage: bash tooling/scripts/ci/run_in_consistent_container.sh [--bootstrap auto|always|never] [--profile minimal|python|apps/web-static|apps/web|repo-fast|full] -- <command>
 EOF
 }
 
@@ -106,7 +106,7 @@ case "${BOOTSTRAP_MODE}" in
 esac
 
 case "${BOOTSTRAP_PROFILE}" in
-  minimal|python|apps/web-static|apps/web|full) ;;
+  minimal|python|apps/web-static|apps/web|repo-fast|full) ;;
   *)
     echo "Invalid bootstrap profile: ${BOOTSTRAP_PROFILE}" >&2
     exit 1
@@ -481,6 +481,10 @@ case "__BOOTSTRAP_PROFILE__" in
     ;;
   apps/web)
     bootstrap_frontend 1
+    ;;
+  repo-fast)
+    bootstrap_python
+    bootstrap_frontend 0
     ;;
   full)
     bootstrap_python

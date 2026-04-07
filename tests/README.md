@@ -244,6 +244,10 @@ make quality-full
 RUN_LIVE_TESTS=1 make quality-live
 # guard-all defaults to LONG_TESTS_PARALLEL=1 (override with LONG_TESTS_PARALLEL=0 when needed)
 make guard-all
+# local preflight defaults to fast mode; opt into full only when you explicitly
+# want the stricter local push rehearsal
+make ci-local-preflight
+LOCAL_PREFLIGHT_MODE=full make ci-local-preflight
 make governance-final
 
 # unified gate tuning knobs
@@ -304,7 +308,7 @@ When using `bash tooling/scripts/ci/run_unified_test_gate.sh full`, logs expose 
 - `post-test-housekeeping` now depends on `property-tests` in addition to other quality jobs.
 - `property-tests` remains `changes`-conditioned through the standalone `changes` job (`dorny/paths-filter@v3`); the heavier mutation, performance, and Playwright lanes are manual-only (`workflow_dispatch`) advisory checks.
 - `mutation-python` still runs with stricter budgets (`MUTATION_MIN_SCORE=86`, `MUTATION_MAX_NO_TESTS=0`, `MUTATION_MAX_SURVIVED=70`, and zero-regression baseline checks for score and survived mutants), but it no longer blocks the default push path.
-- Weekly mutation workflow defaults to `MUTATION_PROFILE=extended` to continuously pressure-check a broader scope than PR `core` runs.
+- Nightly mutation workflow defaults to `MUTATION_PROFILE=extended` to continuously pressure-check a broader scope than PR `core` runs.
 - Chromium E2E still runs as a 6-way `e2e shard` matrix (`1/6` ... `6/6`), and `e2e-real-backend` remains a separate conservative single-worker path, but both now run only on manual dispatch so heavy live lanes do not bootstrap on every push.
 - `required-green-gate` is intentionally narrowed to deterministic repo-owned lanes; heavy E2E, UIUX Gemini, mutation, and performance jobs remain advisory/manual lanes and must not silently drift into the blocking aggregate.
 - sensitive maintainer witness lanes (`Auditable Quality Gate`, `UIUX Gemini Gate`, `Live Integration`, and manual Claude review lanes) stay behind the protected `owner-approved-sensitive` environment.
@@ -314,9 +318,17 @@ When using `bash tooling/scripts/ci/run_unified_test_gate.sh full`, logs expose 
 - `pre-commit` workflow keeps `PRE_COMMIT_HOME` on `lookup-only: true`, uses `timeout-minutes: 30`, and wraps `pre-commit run --all-files` in `tooling/scripts/ci/with_heartbeat.sh` so shared runners avoid slow cache untars while still exposing progress during cold bootstrap.
 - Critical workflows no longer allow `paths-ignore`; docs-only changes still execute strict governance checks.
 - `test-smells` now blocks Playwright hard waits (`page.waitForTimeout(...)`) by default; temporary allowlist entries must include expiry metadata.
-- `jscpd` is enforced in `.github/workflows/jscpd-duplication.yml`; `pre-commit outdated` is enforced in `.github/workflows/pre-commit-outdated-check.yml` with weekly `schedule` + manual trigger.
+- `jscpd` is enforced in `.github/workflows/jscpd-duplication.yml`; `pre-commit outdated` is enforced in `.github/workflows/pre-commit-outdated-check.yml` with nightly `schedule` + manual trigger.
 - `Auditable Quality Gate` workflow (`.github/workflows/auditable-quality-gate.yml`) is now manual-only advisory after dedupe, retaining just `promptfoo-eval` and `ragas-eval` (plus workflow-level `concurrency` + `cancel-in-progress: true`).
 - Unified gate Stage 1 keeps `test-smells-guard` and runtime lint serial, then runs two parallel guard batches (`observability+env`, `secret-leaks+navigation`) before docs/upstream parallel checks.
+
+### CI Five-Layer Contract
+
+- `pre-commit`: staged-scope lint and atomic hygiene only; keep it seconds-scale.
+- `pre-push`: fast local rehearsal plus contract guards; the default wrapper path is now the `repo-fast` container profile instead of the heaviest bootstrap.
+- `hosted`: deterministic push/pull_request lanes that keep required checks and security scanning on GitHub.
+- `nightly`: scheduled maintenance and deeper repo-owned pressure checks such as mutation and pre-commit outdated review.
+- `manual`: live/provider/browser/desktop/heavier witness lanes that should never silently drift into the default blocking path.
 
 ### Eval Proof Surface (Current Honest Scope)
 

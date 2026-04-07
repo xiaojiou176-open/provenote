@@ -159,7 +159,7 @@ repos:
 
       - id: local-preflight-pre-push
         name: local preflight guard (pre-push)
-        entry: bash tooling/scripts/ci/local_preflight_before_push.sh --mode fast
+        entry: env OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT=1 bash tooling/scripts/ci/local_preflight_before_push.sh --mode fast
         language: system
         pass_filenames: false
         stages:
