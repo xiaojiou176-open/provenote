@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "policy_note": "Mutants workspace is an isolated mutation sandbox. It must mirror the current repo topology and keep runtime noise under mutants/.runtime-cache.",
+  "allowed_directories": [
+    ".runtime-cache",
+    "packages",
+    "services",
+    "tests"
+  ],
+  "allowed_files": [
+    ".gitignore",
+    "AGENTS.md",
+    "CLAUDE.md",
+    "mutation-guard-report.json",
+    "mutmut-cicd-stats.json",
+    "mutmut-stats.json",
+    "pyproject.toml",
+    "uv.lock"
+  ],
+  "local_allowed_patterns": [],
+  "forbidden_reference_patterns": [
+    "(^|[\\s\"'`])mutants/api/",
+    "(^|[\\s\"'`])mutants/open_notebook/",
+    "(^|[\\s\"'`])mutants/mutants/",
+    "(^|[\\s\"'`])open_notebook/",
+    "(^|[\\s\"'`])api/"
+  ]
+}

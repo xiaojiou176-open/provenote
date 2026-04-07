@@ -1,0 +1,362 @@
+{
+  "version": 2,
+  "policy_note": "External runtime, CI, and upstream integration surfaces must be explicitly pinned, owned, and traceable.",
+  "package_override_surfaces": [
+    {
+      "path": "apps/web/package.json",
+      "allowed_keys": [
+        "overrides"
+      ],
+      "owner": "apps-web-runtime",
+      "reason": "Frontend lockfile currently relies on explicit transitive override pins for minimatch and picomatch."
+    },
+    {
+      "path": "evals/promptfoo/package.json",
+      "allowed_keys": [
+        "overrides"
+      ],
+      "owner": "promptfoo-eval-runtime",
+      "reason": "Promptfoo eval lockfile currently relies on an explicit yaml transitive override pin."
+    }
+  ],
+  "surfaces": [
+    {
+      "name": "upstream-open-notebook-repo",
+      "kind": "repo",
+      "source": "https://github.com/lfnovo/open-notebook.git",
+      "pin_type": "branch-sync",
+      "pin": "main",
+      "checksum_or_digest": "",
+      "owner": "repo-maintainers",
+      "verification_lane": "tooling/scripts/ci/check_upstream_drift.sh",
+      "blocking_lane": ".github/workflows/upstream-drift.yml",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "git revert sync commit / reset integration branch",
+      "license": "repository-upstream",
+      "security_update_expectation": "manual drift review before merge",
+      "reason": "The fork depends on upstream as the external source used for drift visibility and selective-port intake.",
+      "consumer_paths": [
+        "docs/development.md",
+        "tooling/scripts/ci/check_upstream_drift.sh"
+      ],
+      "compatibility_lane": "tooling/scripts/ci/check_upstream_drift.sh --strict-divergence",
+      "lifecycle_class": "fork-upstream"
+    },
+    {
+      "name": "gemini-api",
+      "kind": "api",
+      "source": "https://generativelanguage.googleapis.com",
+      "pin_type": "provider-contract",
+      "pin": "GEMINI_API_KEY + Google GenAI SDK policy",
+      "checksum_or_digest": "",
+      "owner": "ai-runtime",
+      "verification_lane": "tooling/scripts/ci/check_google_genai_usage.py",
+      "blocking_lane": "tests/live/test_google_live_smoke.py",
+      "witness_artifact_surface": "live-teardown-evidence-llm",
+      "witness_test_name": "test_google_live_connection_and_generation",
+      "upgrade_playbook": "docs/configuration.md",
+      "rollback_path": "pin SDK version / disable changed lane",
+      "license": "google-api-terms",
+      "security_update_expectation": "track SDK/runtime policy changes",
+      "reason": "Gemini is the only allowed runtime provider and remains a first-class governed API contract.",
+      "consumer_paths": [
+        "packages/core/ai",
+        "tooling/scripts/ci/check_google_genai_usage.py"
+      ],
+      "compatibility_lane": "tests/live/test_google_live_smoke.py",
+      "lifecycle_class": "runtime-api"
+    },
+    {
+      "name": "surrealdb-container-image",
+      "kind": "image",
+      "source": "surrealdb/surrealdb",
+      "pin_type": "tag",
+      "pin": "v2.3.10",
+      "checksum_or_digest": "",
+      "owner": "database-runtime",
+      "verification_lane": "apps/web playwright smoke + live integration",
+      "blocking_lane": ".github/workflows/test.yml",
+      "upgrade_playbook": "docs/installation.md",
+      "rollback_path": "restore previous image tag in workflows and compose",
+      "license": "surrealdb-license",
+      "security_update_expectation": "review image bump before merge",
+      "reason": "Real-backend smoke and local Docker runtime both depend on this pinned database image.",
+      "consumer_paths": [
+        ".github/workflows/test.yml",
+        "apps/web/playwright.config.ts"
+      ],
+      "compatibility_lane": "apps/web real-backend e2e + live integration",
+      "lifecycle_class": "runtime-image"
+    },
+    {
+      "name": "surrealdb-binary",
+      "kind": "binary",
+      "source": "https://github.com/surrealdb/surrealdb/releases",
+      "pin_type": "version+checksum",
+      "pin": "CI_SURREAL_*",
+      "checksum_or_digest": "config/ci-toolchain.env",
+      "owner": "database-runtime",
+      "verification_lane": "config/ci-toolchain.env + consistent container build",
+      "blocking_lane": "tooling/scripts/ci/run_real_backend_smoke.sh",
+      "upgrade_playbook": "config/ci-toolchain.env",
+      "rollback_path": "restore prior version/checksums",
+      "license": "surrealdb-license",
+      "security_update_expectation": "checksum must change with every version bump",
+      "reason": "The repo can bootstrap a pinned SurrealDB binary outside Docker, so the binary itself is a governed runtime surface.",
+      "consumer_paths": [
+        "config/ci-toolchain.env",
+        "tooling/scripts/ci/run_real_backend_smoke.sh"
+      ],
+      "compatibility_lane": "consistent container bootstrap + real smoke bootstrap",
+      "lifecycle_class": "runtime-binary"
+    },
+    {
+      "name": "nodejs-binary",
+      "kind": "binary",
+      "source": "https://nodejs.org/dist",
+      "pin_type": "version+checksum",
+      "pin": "config/ci-toolchain.env:CI_NODE_VERSION",
+      "checksum_or_digest": "config/ci-toolchain.env:CI_NODE_SHA256",
+      "owner": "apps/web-runtime",
+      "verification_lane": "consistent container build",
+      "blocking_lane": "tooling/scripts/ci/run_in_consistent_container.sh",
+      "upgrade_playbook": "config/ci-toolchain.env",
+      "rollback_path": "restore prior version/checksum",
+      "license": "nodejs-license",
+      "security_update_expectation": "checksum-verified upgrade only",
+      "reason": "Consistent-container execution and CI bootstrap depend on this checksum-pinned Node binary.",
+      "consumer_paths": [
+        "config/ci-toolchain.env",
+        "tooling/scripts/ci/run_in_consistent_container.sh"
+      ],
+      "compatibility_lane": "consistent container bootstrap",
+      "lifecycle_class": "toolchain-binary"
+    },
+    {
+      "name": "uv-binary-image",
+      "kind": "image",
+      "source": "ghcr.io/astral-sh/uv",
+      "pin_type": "tag",
+      "pin": "0.10.9",
+      "checksum_or_digest": "",
+      "owner": "ci-runtime",
+      "verification_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py",
+      "blocking_lane": ".github/workflows/test.yml",
+      "upgrade_playbook": "config/ci-toolchain.env",
+      "rollback_path": "restore previous pinned uv binary image tag in Dockerfiles",
+      "license": "uv-image-license",
+      "security_update_expectation": "tag-reviewed update only",
+      "reason": "Repo-owned Dockerfiles copy uv from this image, so image drift changes local and CI bootstrap behavior.",
+      "consumer_paths": [
+        "ops/docker/Dockerfile",
+        "ops/docker/Dockerfile.single"
+      ],
+      "compatibility_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py",
+      "lifecycle_class": "tooling-image"
+    },
+    {
+      "name": "node-runtime-image",
+      "kind": "image",
+      "source": "docker.io/library/node",
+      "pin_type": "tag",
+      "pin": "22.22.1-bookworm-slim",
+      "checksum_or_digest": "",
+      "owner": "apps/web-runtime",
+      "verification_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py",
+      "blocking_lane": ".github/workflows/test.yml",
+      "upgrade_playbook": "config/ci-toolchain.env",
+      "rollback_path": "restore previous pinned node runtime image tag in Dockerfiles",
+      "license": "node-image-license",
+      "security_update_expectation": "tag-reviewed update only",
+      "reason": "Frontend build and runtime images use this pinned Node base image directly.",
+      "consumer_paths": [
+        "ops/docker/Dockerfile",
+        "ops/docker/Dockerfile.single"
+      ],
+      "compatibility_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py",
+      "lifecycle_class": "toolchain-image"
+    },
+    {
+      "name": "ghcr-release-images",
+      "kind": "image",
+      "source": "ghcr.io",
+      "pin_type": "build-digest",
+      "pin": "build-and-release workflow outputs",
+      "checksum_or_digest": "workflow build digest outputs",
+      "owner": "release-engineering",
+      "verification_lane": "build-and-release.yml + release proof",
+      "blocking_lane": ".github/workflows/build-and-release.yml",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "re-publish prior digest / revert release workflow input",
+      "license": "container-image-license",
+      "security_update_expectation": "release digest must remain traceable",
+      "reason": "These release images are the public supply-chain artifact consumers actually run.",
+      "consumer_paths": [
+        ".github/workflows/build-and-release.yml"
+      ],
+      "compatibility_lane": "build-and-release proof",
+      "lifecycle_class": "release-image",
+      "witness_artifact_surface": "release-proof",
+      "witness_test_name": "test_release_proof_workflow_exports_raw_registry_backed_evidence"
+    },
+    {
+      "name": "ci-base-image",
+      "kind": "image",
+      "source": "mcr.microsoft.com/devcontainers/python",
+      "pin_type": "digest",
+      "pin": "config/ci-toolchain.env:CI_BASE_IMAGE",
+      "checksum_or_digest": "config/ci-toolchain.env:CI_BASE_IMAGE",
+      "owner": "ci-runtime",
+      "consumer_paths": [
+        "config/ci-toolchain.env",
+        "tooling/scripts/ci/run_in_consistent_container.sh"
+      ],
+      "verification_lane": "consistent container build",
+      "blocking_lane": "tooling/scripts/ci/run_in_consistent_container.sh",
+      "compatibility_lane": "consistent container bootstrap",
+      "upgrade_playbook": "config/ci-toolchain.env",
+      "rollback_path": "restore prior base image digest",
+      "license": "devcontainer-base-image-license",
+      "security_update_expectation": "digest-reviewed update only",
+      "reason": "The repo CI container baseline is defined by this pinned base image and must remain reproducible.",
+      "lifecycle_class": "ci-image"
+    },
+    {
+      "name": "playwright-browser-binaries",
+      "kind": "binary",
+      "source": "https://playwright.dev",
+      "pin_type": "version",
+      "pin": "config/ci-toolchain.env:CI_PLAYWRIGHT_VERSION",
+      "checksum_or_digest": "",
+      "owner": "apps/web-runtime",
+      "consumer_paths": [
+        "config/ci-toolchain.env",
+        "tooling/scripts/ci/run_in_consistent_container.sh",
+        "apps/web/playwright.config.ts"
+      ],
+      "verification_lane": "apps/web e2e lanes",
+      "blocking_lane": ".github/workflows/test.yml",
+      "compatibility_lane": "chromium + cross-browser + live external smoke",
+      "upgrade_playbook": "config/ci-toolchain.env",
+      "rollback_path": "restore prior playwright version and machine cache root contents",
+      "license": "playwright-license",
+      "security_update_expectation": "version-tracked upgrade only",
+      "reason": "Browser binaries materially affect E2E evidence and UIUX gate reliability.",
+      "lifecycle_class": "tooling-binary"
+    },
+    {
+      "name": "fastmcp-library",
+      "kind": "library",
+      "source": "https://pypi.org/project/fastmcp/",
+      "pin_type": "version-range-manifest",
+      "pin": "pyproject.toml:fastmcp>=2.12.3",
+      "checksum_or_digest": "",
+      "owner": "mcp-runtime",
+      "verification_lane": "tests/test_mcp_server.py",
+      "blocking_lane": "tests/test_mcp_server.py",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "restore prior fastmcp range in pyproject.toml and rerun MCP tests",
+      "license": "pypi-library-license",
+      "security_update_expectation": "review range bumps against first-party MCP server behavior before merge",
+      "reason": "The first-party MCP server is a shipped product surface and depends directly on FastMCP.",
+      "consumer_paths": [
+        "packages/core/mcp/server.py",
+        "pyproject.toml"
+      ],
+      "compatibility_lane": "tests/test_mcp_server.py",
+      "lifecycle_class": "runtime-library"
+    },
+    {
+      "name": "content-core-library",
+      "kind": "library",
+      "source": "https://github.com/lfnovo/content-core",
+      "pin_type": "version-range-manifest",
+      "pin": "pyproject.toml:content-core>=1.14.1,<2",
+      "checksum_or_digest": "",
+      "owner": "content-runtime",
+      "verification_lane": "tests/open_notebook/test_ai_and_graphs_coverage_boost.py",
+      "blocking_lane": "tests/open_notebook/test_ai_and_graphs_coverage_boost.py",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "restore prior content-core range in pyproject.toml and rerun source-graph tests",
+      "license": "github-library-license",
+      "security_update_expectation": "review extraction behavior and content-state compatibility before merge",
+      "reason": "Source ingestion and content extraction depend on content-core as a direct runtime library.",
+      "consumer_paths": [
+        "packages/core/graphs/source.py",
+        "pyproject.toml"
+      ],
+      "compatibility_lane": "tests/open_notebook/test_ai_and_graphs_coverage_boost.py",
+      "lifecycle_class": "runtime-library"
+    },
+    {
+      "name": "ai-prompter-library",
+      "kind": "library",
+      "source": "https://pypi.org/project/ai-prompter/",
+      "pin_type": "version-range-manifest",
+      "pin": "pyproject.toml:ai-prompter>=0.3,<1",
+      "checksum_or_digest": "",
+      "owner": "prompt-runtime",
+      "verification_lane": "tests/test_graphs.py + tests/graphs/test_ask_function_loop.py",
+      "blocking_lane": "tests/test_graphs.py",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "restore prior ai-prompter range in pyproject.toml and rerun graph prompt tests",
+      "license": "pypi-library-license",
+      "security_update_expectation": "review template rendering and prompt runtime compatibility before merge",
+      "reason": "Graph prompt rendering depends on ai-prompter in chat, ask, source-chat, and transformation entrypoints.",
+      "consumer_paths": [
+        "packages/core/graphs/prompt.py",
+        "packages/core/graphs/chat.py",
+        "packages/core/graphs/transformation.py",
+        "pyproject.toml"
+      ],
+      "compatibility_lane": "tests/test_graphs.py + tests/graphs/test_ask_function_loop.py",
+      "lifecycle_class": "runtime-library"
+    },
+    {
+      "name": "esperanto-library",
+      "kind": "library",
+      "source": "https://github.com/lfnovo/esperanto",
+      "pin_type": "version-range-manifest",
+      "pin": "pyproject.toml:esperanto>=2.19.3,<3",
+      "checksum_or_digest": "",
+      "owner": "ai-runtime",
+      "verification_lane": "tests/test_models_api.py + tests/api/test_credentials_governance.py",
+      "blocking_lane": "tests/test_models_api.py",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "restore prior esperanto range in pyproject.toml and rerun model/credential tests",
+      "license": "github-library-license",
+      "security_update_expectation": "review provider abstraction changes and Gemini-only compatibility before merge",
+      "reason": "Model provisioning, credential config, and runtime policy all route through Esperanto abstractions.",
+      "consumer_paths": [
+        "packages/core/ai/models.py",
+        "packages/core/ai/provision.py",
+        "packages/core/domain/credential.py",
+        "pyproject.toml"
+      ],
+      "compatibility_lane": "tests/test_models_api.py + tests/api/test_credentials_governance.py",
+      "lifecycle_class": "runtime-library"
+    },
+    {
+      "name": "podcast-creator-library",
+      "kind": "library",
+      "source": "https://github.com/lfnovo/podcast-creator",
+      "pin_type": "version-range-manifest",
+      "pin": "pyproject.toml:podcast-creator>=0.11.2,<1",
+      "checksum_or_digest": "",
+      "owner": "podcast-runtime",
+      "verification_lane": "tests/test_podcast_commands_gemini_only.py + tests/api/test_podcast_profiles_gemini_only.py",
+      "blocking_lane": "tests/test_podcast_commands_gemini_only.py",
+      "upgrade_playbook": "docs/development.md",
+      "rollback_path": "restore prior podcast-creator range in pyproject.toml and rerun podcast tests",
+      "license": "github-library-license",
+      "security_update_expectation": "review generation behavior and profile compatibility before merge",
+      "reason": "Podcast generation is a shipped capability and imports podcast-creator directly at runtime.",
+      "consumer_paths": [
+        "packages/core/application/commands/podcast_commands.py",
+        "pyproject.toml"
+      ],
+      "compatibility_lane": "tests/test_podcast_commands_gemini_only.py + tests/api/test_podcast_profiles_gemini_only.py",
+      "lifecycle_class": "runtime-library"
+    }
+  ]
+}

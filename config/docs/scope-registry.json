@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "first_party_doc_roots": [
+    "docs"
+  ],
+  "generated_documents": [],
+  "excluded_roots": [
+    "artifacts",
+    "coverage",
+    "doc_exports",
+    ".runtime-cache",
+    ".runtime-cache/test/playwright/report",
+    ".runtime-cache/test/playwright/results"
+  ]
+}

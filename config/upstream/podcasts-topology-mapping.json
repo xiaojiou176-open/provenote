@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "policy_note": "Maps the upstream podcasts-feature batch from the old topology into the current governed topology before any wide-surface selective port wave.",
+  "upstream_batch": "podcasts-feature-batch",
+  "status": "mapping-complete-semantic-drift-blocked",
+  "freshness": {
+    "observed_at_utc": "2026-03-29T01:31:11Z",
+    "max_snapshot_age_hours": 168,
+    "refresh_required_after_utc": "2026-04-05T01:31:11Z",
+    "snapshot_scope": [
+      "mappings",
+      "semantic_risks",
+      "missing-equivalent paths"
+    ],
+    "current_truth_boundary": "This topology map was revalidated against the current repo shape as of observed_at_utc. After refresh_required_after_utc, missing-equivalent and semantic-risk statements are historical only until the mapping is refreshed again."
+  },
+  "semantic_risks": [
+    "model-registry fields in the upstream batch do not match the current Gemini-only provider/model string contract",
+    "api/routers/languages.py has no current live router equivalent",
+    "open_notebook/podcasts/migration.py has no current startup migration equivalent",
+    "open_notebook/database/migrations/14.surrealql must be ported as new tail migration semantics, not reused by old migration number"
+  ],
+  "mappings": [
+    {
+      "upstream_path": "api/main.py",
+      "current_mapping": "services/api/main.py",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "api/routers/episode_profiles.py",
+      "current_mapping": "services/api/routers/episode_profiles.py",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "api/routers/speaker_profiles.py",
+      "current_mapping": "services/api/routers/speaker_profiles.py",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "api/routers/languages.py",
+      "current_mapping": null,
+      "status": "missing-equivalent"
+    },
+    {
+      "upstream_path": "commands/podcast_commands.py",
+      "current_mapping": "packages/core/application/commands/podcast_commands.py",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/app/(dashboard)/podcasts/page.tsx",
+      "current_mapping": "apps/web/src/app/(dashboard)/podcasts/page.tsx",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/components/podcasts/EpisodeProfilesPanel.tsx",
+      "current_mapping": "apps/web/src/components/podcasts/EpisodeProfilesPanel.tsx",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/components/podcasts/SpeakerProfilesPanel.tsx",
+      "current_mapping": "apps/web/src/components/podcasts/SpeakerProfilesPanel.tsx",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/components/podcasts/forms/EpisodeProfileFormDialog.tsx",
+      "current_mapping": "apps/web/src/components/podcasts/forms/EpisodeProfileFormDialog.tsx",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/components/podcasts/forms/SpeakerProfileFormDialog.tsx",
+      "current_mapping": "apps/web/src/components/podcasts/forms/SpeakerProfileFormDialog.tsx",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/lib/api/podcasts.ts",
+      "current_mapping": "apps/web/src/lib/api/podcasts.ts",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/lib/hooks/use-podcasts.ts",
+      "current_mapping": "apps/web/src/lib/hooks/use-podcasts.ts",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "frontend/src/lib/types/podcasts.ts",
+      "current_mapping": "apps/web/src/lib/types/podcasts.ts",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "open_notebook/podcasts/models.py",
+      "current_mapping": "packages/core/podcasts/models.py",
+      "status": "mapped"
+    },
+    {
+      "upstream_path": "open_notebook/podcasts/migration.py",
+      "current_mapping": null,
+      "status": "missing-equivalent"
+    },
+    {
+      "upstream_path": "open_notebook/database/migrations/14.surrealql",
+      "current_mapping": null,
+      "status": "missing-equivalent"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "policy_note": "First-party apps/web source files must obey the declared frontend dependency graph. Generated OpenAPI contract output is part of the lib/api layer.",
+  "path_layers": [
+    {
+      "prefix": "apps/web/src/app/",
+      "layer": "app"
+    },
+    {
+      "prefix": "apps/web/src/components/",
+      "layer": "components"
+    },
+    {
+      "prefix": "apps/web/src/lib/api/",
+      "layer": "lib_api"
+    },
+    {
+      "prefix": "apps/web/src/lib/hooks/",
+      "layer": "lib_hooks"
+    },
+    {
+      "prefix": "apps/web/src/lib/stores/",
+      "layer": "lib_stores"
+    },
+    {
+      "prefix": "apps/web/src/lib/utils/",
+      "layer": "lib_utils"
+    },
+    {
+      "prefix": "apps/web/src/lib/types/",
+      "layer": "lib_types"
+    }
+  ],
+  "layer_import_rules": {
+    "app": [
+      "app",
+      "components",
+      "lib_api",
+      "lib_hooks",
+      "lib_stores",
+      "lib_utils",
+      "lib_types"
+    ],
+    "components": [
+      "components",
+      "lib_api",
+      "lib_hooks",
+      "lib_stores",
+      "lib_utils",
+      "lib_types"
+    ],
+    "lib_api": [
+      "lib_api",
+      "lib_utils",
+      "lib_types"
+    ],
+    "lib_hooks": [
+      "lib_api",
+      "lib_hooks",
+      "lib_stores",
+      "lib_utils",
+      "lib_types"
+    ],
+    "lib_stores": [
+      "lib_api",
+      "lib_stores",
+      "lib_utils",
+      "lib_types"
+    ],
+    "lib_utils": [
+      "lib_utils",
+      "lib_types"
+    ],
+    "lib_types": [
+      "lib_types"
+    ]
+  }
+}

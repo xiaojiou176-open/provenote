@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "policy_note": "Every declared external surface must have a blocking verification lane and an explicit compatibility contract.",
+  "surfaces": [
+    {
+      "name": "upstream-open-notebook-repo",
+      "supported_pin": "main",
+      "verification_lane": "tooling/scripts/ci/check_upstream_drift.sh",
+      "blocking_lane": ".github/workflows/upstream-drift.yml",
+      "rollback_action": "tooling/scripts/git/sync_upstream.sh --branch main --dry-run",
+      "owner": "repo-maintainers",
+      "incompatibility_semantics": "behind-upstream is blocking"
+    },
+    {
+      "name": "gemini-api",
+      "supported_pin": "GEMINI_API_KEY + Google GenAI SDK policy",
+      "verification_lane": "tooling/scripts/ci/check_google_genai_usage.py",
+      "blocking_lane": "tests/live/test_google_live_smoke.py",
+      "rollback_action": "pin SDK version / disable changed lane",
+      "owner": "ai-runtime",
+      "incompatibility_semantics": "provider/runtime policy drift is blocking"
+    },
+    {
+      "name": "surrealdb-container-image",
+      "supported_pin": "v2.3.10",
+      "verification_lane": "apps/web playwright smoke + live integration",
+      "blocking_lane": ".github/workflows/test.yml",
+      "rollback_action": "restore previous image tag in workflows and compose",
+      "owner": "database-runtime",
+      "incompatibility_semantics": "tag drift or smoke failure is blocking"
+    },
+    {
+      "name": "surrealdb-binary",
+      "supported_pin": "CI_SURREAL_*",
+      "verification_lane": "config/ci-toolchain.env + consistent container build",
+      "blocking_lane": "tooling/scripts/ci/run_real_backend_smoke.sh",
+      "rollback_action": "restore prior version/checksums",
+      "owner": "database-runtime",
+      "incompatibility_semantics": "checksum drift is blocking"
+    },
+    {
+      "name": "nodejs-binary",
+      "supported_pin": "config/ci-toolchain.env:CI_NODE_VERSION",
+      "verification_lane": "consistent container build",
+      "blocking_lane": "tooling/scripts/ci/run_in_consistent_container.sh",
+      "rollback_action": "restore prior version/checksum",
+      "owner": "apps/web-runtime",
+      "incompatibility_semantics": "toolchain mismatch is blocking"
+    },
+    {
+      "name": "uv-binary-image",
+      "supported_pin": "ghcr.io/astral-sh/uv:0.10.9",
+      "verification_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py",
+      "blocking_lane": ".github/workflows/test.yml",
+      "rollback_action": "restore previous pinned uv image tag in Dockerfiles",
+      "owner": "ci-runtime",
+      "incompatibility_semantics": "floating uv image input is blocking"
+    },
+    {
+      "name": "node-runtime-image",
+      "supported_pin": "node:22.22.1-bookworm-slim",
+      "verification_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py",
+      "blocking_lane": ".github/workflows/test.yml",
+      "rollback_action": "restore previous pinned node runtime image tag in Dockerfiles",
+      "owner": "apps/web-runtime",
+      "incompatibility_semantics": "floating node runtime image input is blocking"
+    },
+    {
+      "name": "ghcr-release-images",
+      "supported_pin": "build-and-release workflow outputs",
+      "verification_lane": "build-and-release.yml + release proof",
+      "blocking_lane": ".github/workflows/build-and-release.yml",
+      "rollback_action": "re-publish prior digest / revert release workflow input",
+      "owner": "release-engineering",
+      "incompatibility_semantics": "digest traceability drift is blocking"
+    },
+    {
+      "name": "ci-base-image",
+      "supported_pin": "config/ci-toolchain.env:CI_BASE_IMAGE",
+      "verification_lane": "consistent container build",
+      "blocking_lane": "tooling/scripts/ci/run_in_consistent_container.sh",
+      "rollback_action": "restore prior base image digest",
+      "owner": "ci-runtime",
+      "incompatibility_semantics": "base-image digest drift is blocking"
+    },
+    {
+      "name": "playwright-browser-binaries",
+      "supported_pin": "config/ci-toolchain.env:CI_PLAYWRIGHT_VERSION",
+      "verification_lane": "apps/web e2e lanes",
+      "blocking_lane": ".github/workflows/test.yml",
+      "rollback_action": "restore prior playwright version and machine cache root contents",
+      "owner": "apps/web-runtime",
+      "incompatibility_semantics": "browser/runtime mismatch is blocking"
+    },
+    {
+      "name": "fastmcp-library",
+      "supported_pin": "pyproject.toml:fastmcp>=2.12.3",
+      "verification_lane": "tests/test_mcp_server.py",
+      "blocking_lane": "tests/test_mcp_server.py",
+      "rollback_action": "restore prior fastmcp range in pyproject.toml and rerun MCP tests",
+      "owner": "mcp-runtime",
+      "incompatibility_semantics": "first-party MCP server compatibility drift is blocking"
+    },
+    {
+      "name": "content-core-library",
+      "supported_pin": "pyproject.toml:content-core>=1.14.1,<2",
+      "verification_lane": "tests/open_notebook/test_ai_and_graphs_coverage_boost.py",
+      "blocking_lane": "tests/open_notebook/test_ai_and_graphs_coverage_boost.py",
+      "rollback_action": "restore prior content-core range in pyproject.toml and rerun source-graph tests",
+      "owner": "content-runtime",
+      "incompatibility_semantics": "content extraction compatibility drift is blocking"
+    },
+    {
+      "name": "ai-prompter-library",
+      "supported_pin": "pyproject.toml:ai-prompter>=0.3,<1",
+      "verification_lane": "tests/test_graphs.py + tests/graphs/test_ask_function_loop.py",
+      "blocking_lane": "tests/test_graphs.py",
+      "rollback_action": "restore prior ai-prompter range in pyproject.toml and rerun graph prompt tests",
+      "owner": "prompt-runtime",
+      "incompatibility_semantics": "prompt runtime compatibility drift is blocking"
+    },
+    {
+      "name": "esperanto-library",
+      "supported_pin": "pyproject.toml:esperanto>=2.19.3,<3",
+      "verification_lane": "tests/test_models_api.py + tests/api/test_credentials_governance.py",
+      "blocking_lane": "tests/test_models_api.py",
+      "rollback_action": "restore prior esperanto range in pyproject.toml and rerun model/credential tests",
+      "owner": "ai-runtime",
+      "incompatibility_semantics": "model and credential runtime compatibility drift is blocking"
+    },
+    {
+      "name": "podcast-creator-library",
+      "supported_pin": "pyproject.toml:podcast-creator>=0.11.2,<1",
+      "verification_lane": "tests/test_podcast_commands_gemini_only.py + tests/api/test_podcast_profiles_gemini_only.py",
+      "blocking_lane": "tests/test_podcast_commands_gemini_only.py",
+      "rollback_action": "restore prior podcast-creator range in pyproject.toml and rerun podcast tests",
+      "owner": "podcast-runtime",
+      "incompatibility_semantics": "podcast generation runtime compatibility drift is blocking"
+    }
+  ]
+}

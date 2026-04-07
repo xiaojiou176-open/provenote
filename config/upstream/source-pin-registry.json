@@ -1,0 +1,111 @@
+{
+  "version": 1,
+  "policy_note": "Every governed upstream surface must declare the authoritative pin source used for upgrades and rollback.",
+  "pins": [
+    {
+      "surface": "upstream-open-notebook-repo",
+      "pin_reference": "external-surfaces.json:pin=main",
+      "pin_kind": "branch-sync",
+      "authoritative_source": "config/upstream/external-surfaces.json",
+      "verification_lane": "tooling/scripts/ci/check_upstream_drift.sh"
+    },
+    {
+      "surface": "gemini-api",
+      "pin_reference": "GEMINI_API_KEY + Google GenAI SDK policy",
+      "pin_kind": "provider-contract",
+      "authoritative_source": "config/upstream/external-surfaces.json",
+      "verification_lane": "tooling/scripts/ci/check_google_genai_usage.py"
+    },
+    {
+      "surface": "surrealdb-container-image",
+      "pin_reference": "surrealdb/surrealdb:v2.3.10",
+      "pin_kind": "tag",
+      "authoritative_source": "config/upstream/external-surfaces.json",
+      "verification_lane": "apps/web playwright smoke + live integration"
+    },
+    {
+      "surface": "surrealdb-binary",
+      "pin_reference": "config/ci-toolchain.env:CI_SURREAL_VERSION + CI_SURREAL_*_SHA256",
+      "pin_kind": "version+checksum",
+      "authoritative_source": "config/ci-toolchain.env",
+      "verification_lane": "config/ci-toolchain.env + consistent container build"
+    },
+    {
+      "surface": "nodejs-binary",
+      "pin_reference": "config/ci-toolchain.env:CI_NODE_VERSION + CI_NODE_SHA256",
+      "pin_kind": "version+checksum",
+      "authoritative_source": "config/ci-toolchain.env",
+      "verification_lane": "consistent container build"
+    },
+    {
+      "surface": "uv-binary-image",
+      "pin_reference": "ghcr.io/astral-sh/uv:0.10.9",
+      "pin_kind": "tag",
+      "authoritative_source": "config/upstream/external-surfaces.json",
+      "verification_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py"
+    },
+    {
+      "surface": "node-runtime-image",
+      "pin_reference": "node:22.22.1-bookworm-slim",
+      "pin_kind": "tag",
+      "authoritative_source": "config/upstream/external-surfaces.json",
+      "verification_lane": "tooling/scripts/ci/check_no_floating_external_inputs.py"
+    },
+    {
+      "surface": "ghcr-release-images",
+      "pin_reference": "build-and-release workflow digest outputs",
+      "pin_kind": "build-digest",
+      "authoritative_source": ".github/workflows/build-and-release.yml",
+      "verification_lane": "build-and-release.yml + release proof"
+    },
+    {
+      "surface": "ci-base-image",
+      "pin_reference": "config/ci-toolchain.env:CI_BASE_IMAGE",
+      "pin_kind": "digest",
+      "authoritative_source": "config/ci-toolchain.env",
+      "verification_lane": "consistent container build"
+    },
+    {
+      "surface": "playwright-browser-binaries",
+      "pin_reference": "config/ci-toolchain.env:CI_PLAYWRIGHT_VERSION",
+      "pin_kind": "version",
+      "authoritative_source": "config/ci-toolchain.env",
+      "verification_lane": "apps/web e2e lanes"
+    },
+    {
+      "surface": "fastmcp-library",
+      "pin_reference": "pyproject.toml:fastmcp>=2.12.3",
+      "pin_kind": "version-range-manifest",
+      "authoritative_source": "pyproject.toml",
+      "verification_lane": "tests/test_mcp_server.py"
+    },
+    {
+      "surface": "content-core-library",
+      "pin_reference": "pyproject.toml:content-core>=1.14.1,<2",
+      "pin_kind": "version-range-manifest",
+      "authoritative_source": "pyproject.toml",
+      "verification_lane": "tests/open_notebook/test_ai_and_graphs_coverage_boost.py"
+    },
+    {
+      "surface": "ai-prompter-library",
+      "pin_reference": "pyproject.toml:ai-prompter>=0.3,<1",
+      "pin_kind": "version-range-manifest",
+      "authoritative_source": "pyproject.toml",
+      "verification_lane": "tests/test_graphs.py + tests/graphs/test_ask_function_loop.py"
+    },
+    {
+      "surface": "esperanto-library",
+      "pin_reference": "pyproject.toml:esperanto>=2.19.3,<3",
+      "pin_kind": "version-range-manifest",
+      "authoritative_source": "pyproject.toml",
+      "verification_lane": "tests/test_models_api.py + tests/api/test_credentials_governance.py"
+    },
+    {
+      "surface": "podcast-creator-library",
+      "pin_reference": "pyproject.toml:podcast-creator>=0.11.2,<1",
+      "pin_kind": "version-range-manifest",
+      "authoritative_source": "pyproject.toml",
+      "verification_lane": "tests/test_podcast_commands_gemini_only.py + tests/api/test_podcast_profiles_gemini_only.py"
+    }
+  ]
+}

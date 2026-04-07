@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "policy_note": "Every governed upstream surface must have an explicit owner and operating scope.",
+  "owners": [
+    {
+      "surface": "upstream-open-notebook-repo",
+      "owner": "repo-maintainers",
+      "operating_scope": "fork sync, divergence review, rollback coordination",
+      "primary_playbook": "docs/development.md"
+    },
+    {
+      "surface": "gemini-api",
+      "owner": "ai-runtime",
+      "operating_scope": "runtime policy, SDK drift, live verification",
+      "primary_playbook": "docs/configuration.md"
+    },
+    {
+      "surface": "surrealdb-container-image",
+      "owner": "database-runtime",
+      "operating_scope": "compose/runtime image pin, smoke compatibility",
+      "primary_playbook": "docs/installation.md"
+    },
+    {
+      "surface": "surrealdb-binary",
+      "owner": "database-runtime",
+      "operating_scope": "checksum-pinned local binary fallback",
+      "primary_playbook": "config/ci-toolchain.env"
+    },
+    {
+      "surface": "nodejs-binary",
+      "owner": "apps/web-runtime",
+      "operating_scope": "frontend toolchain version and checksum governance",
+      "primary_playbook": "config/ci-toolchain.env"
+    },
+    {
+      "surface": "uv-binary-image",
+      "owner": "ci-runtime",
+      "operating_scope": "pinned uv binary image governance for local/runtime Dockerfiles",
+      "primary_playbook": "config/ci-toolchain.env"
+    },
+    {
+      "surface": "node-runtime-image",
+      "owner": "apps/web-runtime",
+      "operating_scope": "pinned Node runtime image governance for local/runtime Dockerfiles",
+      "primary_playbook": "config/ci-toolchain.env"
+    },
+    {
+      "surface": "ghcr-release-images",
+      "owner": "release-engineering",
+      "operating_scope": "image digest traceability and release rollback",
+      "primary_playbook": "docs/development.md"
+    },
+    {
+      "surface": "ci-base-image",
+      "owner": "ci-runtime",
+      "operating_scope": "container baseline digest governance",
+      "primary_playbook": "config/ci-toolchain.env"
+    },
+    {
+      "surface": "playwright-browser-binaries",
+      "owner": "apps/web-runtime",
+      "operating_scope": "browser version alignment and machine-cache reuse",
+      "primary_playbook": "config/ci-toolchain.env"
+    },
+    {
+      "surface": "fastmcp-library",
+      "owner": "mcp-runtime",
+      "operating_scope": "first-party MCP server dependency governance",
+      "primary_playbook": "docs/development.md"
+    },
+    {
+      "surface": "content-core-library",
+      "owner": "content-runtime",
+      "operating_scope": "content extraction and ProcessSourceState compatibility",
+      "primary_playbook": "docs/development.md"
+    },
+    {
+      "surface": "ai-prompter-library",
+      "owner": "prompt-runtime",
+      "operating_scope": "prompt rendering and template runtime compatibility",
+      "primary_playbook": "docs/development.md"
+    },
+    {
+      "surface": "esperanto-library",
+      "owner": "ai-runtime",
+      "operating_scope": "model provisioning, credential config, and Gemini-only compatibility",
+      "primary_playbook": "docs/development.md"
+    },
+    {
+      "surface": "podcast-creator-library",
+      "owner": "podcast-runtime",
+      "operating_scope": "podcast generation runtime compatibility and rollback",
+      "primary_playbook": "docs/development.md"
+    }
+  ]
+}

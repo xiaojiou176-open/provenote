@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "policy_note": "All repo-owned fork deltas, patch layers, or vendor overlays must be explicitly registered here.",
+  "entries": [
+    {
+      "id": "fork-delta-open-notebook-upstream",
+      "surface": "upstream-open-notebook-repo",
+      "mechanism": "fork-delta",
+      "status": "active",
+      "owner": "repo-maintainers",
+      "authoritative_register": "docs/development.md",
+      "reason": "Open Notebook upstream sync requires explicit local delta accounting before merge.",
+      "rollback_path": "git revert sync commit / reset integration branch",
+      "validation_lane": "tooling/scripts/ci/check_upstream_drift.sh"
+    }
+  ]
+}

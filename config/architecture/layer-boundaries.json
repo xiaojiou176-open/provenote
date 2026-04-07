@@ -1,0 +1,66 @@
+{
+  "version": 2,
+  "policy_note": "First-party Python layers must obey the declared dependency graph. Application services are the only shared adapter-facing layer; direct service-to-service imports are forbidden.",
+  "path_layers": [
+    {
+      "prefix": "services/api/",
+      "layer": "api"
+    },
+    {
+      "prefix": "services/worker/",
+      "layer": "worker"
+    },
+    {
+      "prefix": "packages/core/application/",
+      "layer": "application"
+    },
+    {
+      "prefix": "packages/core/",
+      "layer": "open_notebook"
+    },
+    {
+      "prefix": "tooling/scripts/",
+      "layer": "scripts"
+    },
+    {
+      "prefix": "tests/",
+      "layer": "tests"
+    }
+  ],
+  "layer_import_rules": {
+    "api": [
+      "api",
+      "application",
+      "open_notebook"
+    ],
+    "worker": [
+      "worker",
+      "application",
+      "open_notebook"
+    ],
+    "application": [
+      "application",
+      "open_notebook"
+    ],
+    "open_notebook": [
+      "open_notebook",
+      "application"
+    ],
+    "scripts": [
+      "scripts",
+      "api",
+      "worker",
+      "application",
+      "open_notebook"
+    ],
+    "tests": [
+      "tests",
+      "api",
+      "worker",
+      "application",
+      "open_notebook",
+      "scripts"
+    ]
+  },
+  "exception_imports": []
+}

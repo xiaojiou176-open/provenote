@@ -1,0 +1,59 @@
+ARG CI_BASE_IMAGE
+FROM ${CI_BASE_IMAGE}
+
+ARG CI_PYTHON_SERIES
+ARG CI_NODE_VERSION
+ARG CI_NODE_DIST
+ARG CI_NODE_SHA256
+ARG CI_UV_VERSION
+ARG CI_PLAYWRIGHT_VERSION
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PLAYWRIGHT_SKIP_BROWSER_GC=1
+
+USER root
+
+RUN rm -f /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates \
+        curl \
+        docker.io \
+        git \
+        jq \
+        make \
+        python3-pip \
+        ripgrep \
+        unzip \
+        xz-utils \
+    && python3 --version | grep -E "^Python ${CI_PYTHON_SERIES}(\\.|$)" \
+    && NODE_DIST="${CI_NODE_DIST}" \
+    && NODE_SHA256="${CI_NODE_SHA256}" \
+    && NODE_ARCH="$(dpkg --print-architecture)" \
+    && case "${NODE_ARCH}" in \
+        amd64) ;; \
+        arm64) \
+          NODE_DIST="node-v${CI_NODE_VERSION}-linux-arm64.tar.xz"; \
+          NODE_SHA256="$(curl -fsSL "https://nodejs.org/dist/v${CI_NODE_VERSION}/SHASUMS256.txt" | awk -v target="${NODE_DIST}" '$2 == target { print $1; exit }')"; \
+          ;; \
+        *) \
+          echo "Unsupported Node architecture: ${NODE_ARCH}" >&2; \
+          exit 1; \
+          ;; \
+      esac \
+    && [ -n "${NODE_SHA256}" ] \
+    && curl -fsSLO "https://nodejs.org/dist/v${CI_NODE_VERSION}/${NODE_DIST}" \
+    && echo "${NODE_SHA256}  ${NODE_DIST}" | sha256sum -c - \
+    && tar -xJf "${NODE_DIST}" -C /usr/local --strip-components=1 --no-same-owner \
+    && rm -f "${NODE_DIST}" \
+    && python3 -m pip install --no-cache-dir --break-system-packages "uv==${CI_UV_VERSION}" \
+    && npm install --global "@playwright/test@${CI_PLAYWRIGHT_VERSION}" \
+    && playwright install-deps chromium firefox webkit \
+    && playwright install chromium firefox webkit \
+    && npm cache clean --force \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+USER vscode
+
+WORKDIR /workspaces/provenote

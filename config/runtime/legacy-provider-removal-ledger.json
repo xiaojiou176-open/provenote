@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "policy_note": "Tracks which legacy provider surfaces are still present, why they still exist, and whether they are candidates for future physical removal.",
+  "entries": [
+    {
+      "surface": "docs/configuration.md",
+      "layer": "docs",
+      "current_usage_signal": "archive/reference-only migration guide",
+      "removal_readiness": "candidate",
+      "reason": "Current-facing narrative no longer depends on it, but it still serves as migration reference material."
+    },
+    {
+      "surface": "docs/configuration.md",
+      "layer": "docs",
+      "current_usage_signal": "archive/reference-only migration guide",
+      "removal_readiness": "candidate",
+      "reason": "Current-facing narrative no longer depends on it, but it still serves as migration reference material."
+    },
+    {
+      "surface": "apps/web/src/app/(dashboard)/settings/api-keys/dialogs.tsx",
+      "layer": "ui",
+      "current_usage_signal": "legacy provider screen remains editable with reference warning",
+      "removal_readiness": "unknown",
+      "reason": "The screen still exists in active UI, so physical removal needs a product/compatibility decision."
+    },
+    {
+      "surface": "apps/web/src/lib/locales/en-US/sections/settings.ts",
+      "layer": "ui-copy",
+      "current_usage_signal": "boundary text that explains Gemini-only baseline and legacy migration/reference status",
+      "removal_readiness": "keep",
+      "reason": "This is current boundary truth, not legacy runtime enablement."
+    },
+    {
+      "surface": "packages/core/settings.py::LEGACY_PROVIDER_ENV_VARS",
+      "layer": "runtime-policy",
+      "current_usage_signal": "legacy env detection/blocking contract",
+      "removal_readiness": "keep",
+      "reason": "Deleting this now would weaken the Gemini-only governance and migration-detection surface."
+    },
+    {
+      "surface": "langchain-anthropic",
+      "layer": "dependency",
+      "current_usage_signal": "removed from pyproject.toml after runtime import verification found no direct repo runtime imports",
+      "removal_readiness": "removed",
+      "reason": "Physical removal trial passed governance and runtime-contract verification."
+    },
+    {
+      "surface": "langchain-ollama",
+      "layer": "dependency",
+      "current_usage_signal": "removed from pyproject.toml after runtime import verification found no direct repo runtime imports",
+      "removal_readiness": "removed",
+      "reason": "Physical removal trial passed governance and runtime-contract verification."
+    },
+    {
+      "surface": "langchain-groq",
+      "layer": "dependency",
+      "current_usage_signal": "removed from pyproject.toml after runtime import verification found no direct repo runtime imports",
+      "removal_readiness": "removed",
+      "reason": "Physical removal trial passed governance and runtime-contract verification."
+    },
+    {
+      "surface": "langchain_mistralai",
+      "layer": "dependency",
+      "current_usage_signal": "removed from pyproject.toml after runtime import verification found no direct repo runtime imports",
+      "removal_readiness": "removed",
+      "reason": "Physical removal trial passed governance and runtime-contract verification."
+    },
+    {
+      "surface": "mutants/pyproject.toml + mutants/uv.lock",
+      "layer": "mirror-dependency",
+      "current_usage_signal": "legacy provider SDKs have been removed from the mirror dependency baseline and the partial-mirror pytest entrypoint now resolves missing modules via repo-root + mutants-root namespace wiring",
+      "removal_readiness": "removed",
+      "reason": "mutants/pyproject.toml and mutants/uv.lock no longer contain the four SDKs, importlib lookup in the mutants project environment returns None for all of them, and targeted Gemini-only/provider-policy pytest slices now pass under the repaired partial-mirror test entrypoint."
+    },
+    {
+      "surface": "tests/test_provider_config_gemini_only.py + tests/test_url_validation.py + tests/api/test_provider_policy.py",
+      "layer": "tests",
+      "current_usage_signal": "legacy provider names still appear in policy and validation tests",
+      "removal_readiness": "keep",
+      "reason": "The test suite still encodes migration/detection semantics, so removal would require a separate test-contract rewrite wave."
+    }
+  ]
+}

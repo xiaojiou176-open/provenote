@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "policy_note": "Official developer, CI, and documentation entrypoints must route Python dependency/bootstrap commands through the managed uv wrapper or consistent container runner. Bare uv sync/uv run examples are forbidden in authoritative entrypoint surfaces.",
+  "managed_wrapper": "tooling/scripts/runtime/run_uv_managed.sh",
+  "allowed_entrypoints": [
+    "make",
+    "tooling/scripts/runtime/run_uv_managed.sh",
+    "tooling/scripts/ci/run_in_consistent_container.sh"
+  ],
+  "authoritative_scan_roots": [
+    "README.md",
+    "Makefile",
+    "docs/index.md",
+    "docs/installation.md",
+    "docs/development.md",
+    "docs/configuration.md",
+    "tests/README.md",
+    ".github/actions/setup-uv-python/action.yml",
+    "tooling/scripts/dev/common.sh",
+    "tooling/scripts/dev/start_api_local.sh",
+    "tooling/scripts/dev/start_worker_local.sh"
+  ],
+  "forbidden_patterns": [
+    "(?<!forbidden: )(?<!legacy: )(?<!legacy )\\buv sync\\b",
+    "(?<!forbidden: )(?<!legacy: )(?<!legacy )\\buv run\\b"
+  ]
+}

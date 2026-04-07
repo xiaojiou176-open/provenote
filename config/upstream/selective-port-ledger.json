@@ -1,0 +1,312 @@
+{
+  "version": 1,
+  "policy_mode": "selective-port-first",
+  "upstream_ref": "upstream/main",
+  "allowed_sync_strategies": [
+    "selective-port",
+    "keep-fork-delta",
+    "drop"
+  ],
+  "merge_rebase_default": false,
+  "policy_note": "This ledger tracks upstream-only changes that are evaluated topic-by-topic for intentional adoption into the long-lived productized fork.",
+  "freshness_policy": {
+    "max_snapshot_age_hours": 168,
+    "refresh_cadence": "Refresh the live_git_truth block by manually dispatching the upstream-drift workflow immediately before any planning wave that cites current counts or topology conclusions. Historical entries remain planning context and must not be promoted back into current truth without a fresh live sample.",
+    "required_entry_fields": [
+      "observed_at_utc",
+      "refresh_required_after_utc",
+      "snapshot_scope",
+      "current_truth_boundary"
+    ],
+    "stale_snapshot_rule": "Counts, topology notes, and portability conclusions are current only through observed_at_utc for the block that declares them. After refresh_required_after_utc, they are historical context and must be refreshed before being cited as current truth.",
+    "missing_metadata_rule": "A selective-port snapshot without freshness metadata is invalid for current governance."
+  },
+  "live_git_truth": {
+    "id": "live-git-truth-2026-03-29",
+    "status": "topology-reset-required",
+    "observed_at_utc": "2026-03-29T01:31:11Z",
+    "refresh_required_after_utc": "2026-04-05T01:31:11Z",
+    "snapshot_scope": [
+      "origin_upstream_ref_comparison",
+      "merge_base",
+      "root_commits"
+    ],
+    "current_truth_boundary": "This block is the authoritative current Git-topology sample for origin/main versus upstream/main. It is the only place in this ledger that may be cited as current topology truth, and CI must validate it against the live refs before treating any selective-port planning statement as current. Historical entries under entries[] remain planning context only, even when they are still inside their freshness window.",
+    "origin_ref": "origin/main",
+    "upstream_ref": "upstream/main",
+    "origin_only_commits": 18,
+    "upstream_only_commits": 613,
+    "has_merge_base": false,
+    "root_commits": [
+      "229b886",
+      "bcd260a"
+    ],
+    "summary": "Live Git sampling on 2026-03-29 found no merge-base between origin/main and upstream/main. The current fork must therefore be treated as a long-lived productized selective-port branch with broken ancestry for ordinary merge/rebase storytelling. Current ref counts are origin_only=18 and upstream_only=613.",
+    "recommended_strategy": "selective-port",
+    "topology_warning": "Do not cite historical entry counts as current truth while this block disagrees with them. Refresh live_git_truth first, then decide whether any historical planning entry should be refreshed or left as archival planning context."
+  },
+  "entries": [
+    {
+      "id": "upstream-main-2026-03-20-batch-001",
+      "status": "historical-topic-clustered",
+      "observed_at_utc": "2026-03-23T23:23:00Z",
+      "refresh_required_after_utc": "2026-03-30T23:23:00Z",
+      "snapshot_scope": [
+        "upstream_only_commits",
+        "origin_only_commits",
+        "clusters"
+      ],
+      "upstream_only_commits": 28,
+      "origin_only_commits": 628,
+      "summary": "Historical selective-port planning snapshot captured on 2026-03-23T23:23:00Z. These counts and topic clusters remain useful for planning context only. They must not be cited as current topology truth after the live_git_truth block was refreshed on 2026-03-29 with no merge-base and counts origin_only=18 / upstream_only=613.",
+      "recommended_strategy": "selective-port",
+      "current_truth_boundary": "This entry is a historical planning snapshot only. Use live_git_truth for current origin/main versus upstream/main topology. The counts and topic clusters in this entry describe a prior planning sample and may remain useful for selective-port batching, but they are not the canonical current Git truth.",
+      "target_surfaces": [
+        "services/api",
+        "packages/core",
+        "apps/web",
+        "pyproject.toml",
+        "uv.lock"
+      ],
+      "decision_note": "Do not default to merge/rebase. Treat the current red strict-drift signal as evidence of a real behind-upstream backlog, not as permission to rewrite the policy. Adopt low-risk portable themes first, defer wide-surface themes, and skip legacy-provider themes that would reintroduce multi-provider drift.",
+      "next_wave_queue": [
+        {
+          "rank": 1,
+          "topic": "offline-resilience-batch",
+          "action": "adopt-first",
+          "why_now": "Highest-value narrow-surface runtime resilience fixes with no need to reopen the legacy multi-provider product story.",
+          "target_surfaces": [
+            "packages/core",
+            "pyproject.toml",
+            "ops/docker"
+          ],
+          "entry_criteria": [
+            "no conflict with Gemini-only runtime policy",
+            "no widening of public API surface",
+            "selective-port rehearsal done against current topology"
+          ]
+        },
+        {
+          "rank": 2,
+          "topic": "i18n-bengali-batch",
+          "action": "adopt-second",
+          "why_now": "Low-risk front-end localization batch with clear mapping into current apps/web topology and limited blast radius.",
+          "target_surfaces": [
+            "apps/web/src/lib/locales",
+            "apps/web/src/components/common"
+          ],
+          "entry_criteria": [
+            "locale contract remains consistent",
+            "no regression in current translation sections",
+            "front-end lint/tests stay green"
+          ]
+        },
+        {
+          "rank": 3,
+          "topic": "dependency-maintenance-security-low-risk",
+          "action": "adopt-after-wave-1",
+          "why_now": "Security-oriented partial adoption remains useful, but should follow the two lowest-blast-radius product/runtime batches first.",
+          "target_surfaces": [
+            "pyproject.toml",
+            "uv.lock",
+            "apps/web/package.json"
+          ],
+          "entry_criteria": [
+            "only patch/security subcluster items are in scope",
+            "no RC/runtime-jump commits included",
+            "lockfile/install state is reproducible"
+          ]
+        },
+        {
+          "rank": 4,
+          "topic": "podcasts-feature-batch",
+          "action": "keep-deferred",
+          "why_now": "This is still high-value but remains semantically risky until split into topology-safe and semantic-risk slices.",
+          "target_surfaces": [
+            "services/api",
+            "packages/core",
+            "apps/web",
+            "docs"
+          ],
+          "entry_criteria": [
+            "language/model-registry/startup-migration drift is explicitly split",
+            "topology-safe subset is isolated",
+            "do-not-port-now commits stay excluded"
+          ]
+        },
+        {
+          "rank": 5,
+          "topic": "legacy-provider-embedding-fixes",
+          "action": "keep-skipped",
+          "why_now": "These commits would re-open the old multi-provider drift surface and conflict with the current Gemini-only mainline.",
+          "target_surfaces": [
+            "legacy provider surfaces",
+            "pyproject.toml",
+            "uv.lock"
+          ],
+          "entry_criteria": [
+            "none while Gemini-only remains current product truth"
+          ]
+        }
+      ],
+      "clusters": [
+        {
+          "topic": "offline-resilience-batch",
+          "commits": [
+            "d0bbe4a9",
+            "5a350a76",
+            "15495d43"
+          ],
+          "surface": [
+            "packages/core",
+            "pyproject.toml",
+            "ops/docker"
+          ],
+          "recommended_strategy": "adopt",
+          "reason": "High-value runtime resilience fixes with relatively narrow surface area and no need to re-open multi-provider product narrative."
+        },
+        {
+          "topic": "i18n-bengali-batch",
+          "commits": [
+            "f63cea57",
+            "d975af2f",
+            "2e952f61"
+          ],
+          "surface": [
+            "apps/web/src/lib/locales",
+            "apps/web/src/components/common"
+          ],
+          "recommended_strategy": "adopt",
+          "reason": "Low-risk front-end localization topic with clear mapping into current apps/web topology."
+        },
+        {
+          "topic": "dependency-maintenance-batch",
+          "commits": [
+            "eca96ea1",
+            "0ee5b8c9",
+            "1ed371c2",
+            "b6a7203c",
+            "ec1cc216",
+            "38d9ed59",
+            "251a2493",
+            "803d9710",
+            "9dedf2e3",
+            "fdb5aa22"
+          ],
+          "surface": [
+            "apps/web",
+            "pyproject.toml",
+            "uv.lock"
+          ],
+          "recommended_strategy": "defer",
+          "reason": "Mixed low-risk and potentially risky version bumps; must be split into security/patch vs RC/toolchain jumps before adoption.",
+          "subclusters": [
+            {
+              "topic": "dependency-maintenance-security-low-risk",
+              "commits": [
+                "0ee5b8c9",
+                "1ed371c2",
+                "251a2493"
+              ],
+              "recommended_strategy": "adopt-partial",
+              "reason": "Security/patch-oriented dependency bumps with comparatively narrow blast radius. authlib, lxml-html-clean, and tar have already been advanced to newer patch versions in the current fork.",
+              "adopted_state": {
+                "authlib": "1.6.9",
+                "lxml-html-clean": "0.4.4",
+                "tar": "7.5.12"
+              }
+            },
+            {
+              "topic": "dependency-maintenance-frontend-toolchain",
+              "commits": [
+                "eca96ea1",
+                "b6a7203c",
+                "38d9ed59",
+                "fdb5aa22"
+              ],
+              "recommended_strategy": "defer",
+              "reason": "This subcluster has already partially landed: next, eslint-config-next, and @next/bundle-analyzer are now on 16.2.0. The earlier minimatch exception no longer reproduces on the current lockfile/install state, so this subcluster is now in monitoring mode rather than active remediation.",
+              "adopted_state": {
+                "next": "16.2.0",
+                "eslint-config-next": "16.2.0",
+                "@next/bundle-analyzer": "16.2.0"
+              },
+              "remaining_exception": "No active minimatch vulnerability or invalid tree currently reproduces; future work would only be needed if npm audit or npm ls regress on another install state."
+            },
+            {
+              "topic": "dependency-maintenance-runtime-version-jumps",
+              "commits": [
+                "d6b76f63",
+                "ec1cc216",
+                "803d9710",
+                "9dedf2e3"
+              ],
+              "recommended_strategy": "defer",
+              "reason": "Contains runtime/library version jumps, including a langgraph RC, and needs deeper compatibility review before adoption."
+            }
+          ]
+        },
+        {
+          "topic": "podcasts-feature-batch",
+          "commits": [
+            "eac837d5",
+            "7910f683",
+            "0619fa4d",
+            "e9040ef9",
+            "a42e2a34"
+          ],
+          "surface": [
+            "services/api",
+            "packages/core",
+            "apps/web",
+            "docs"
+          ],
+          "recommended_strategy": "defer",
+          "reason": "High-value but wide-surface batch that still maps to the old topology; current-topology mapping now exists, but semantic drift around language/model-registry/startup-migration means it should stay deferred until split into topology-safe vs semantic-risk slices.",
+          "mapping_artifact": "config/upstream/podcasts-topology-mapping.json",
+          "current_state": "mapping-ready-semantic-drift-blocked",
+          "topology_safe_candidates": [],
+          "semantic_risk_subareas": [
+            "language router + profile language contract",
+            "model-registry fields (outline_llm/transcript_llm/voice_model)",
+            "startup migration hook for podcast profiles",
+            "new tail migration design for current schema numbering"
+          ],
+          "do_not_port_now_commits": [
+            "0619fa4d",
+            "e9040ef9"
+          ]
+        },
+        {
+          "topic": "legacy-provider-embedding-fixes",
+          "commits": [
+            "d6b76f63",
+            "06f8be84",
+            "b7bba246",
+            "9b45d84a",
+            "4f934937",
+            "d0479b95"
+          ],
+          "surface": [
+            "pyproject.toml",
+            "uv.lock",
+            "legacy provider surfaces"
+          ],
+          "recommended_strategy": "skip",
+          "reason": "These changes primarily serve Ollama, Azure, or multi-provider embedding paths and would reintroduce drift against the current Gemini-only mainline narrative."
+        },
+        {
+          "topic": "surreal-startup-doc-fix",
+          "commits": [
+            "4f259e21"
+          ],
+          "surface": [
+            "docs"
+          ],
+          "recommended_strategy": "skip",
+          "reason": "Single old-doc fix with low marginal value because current-facing docs were already rebuilt in this repo."
+        }
+      ]
+    }
+  ]
+}

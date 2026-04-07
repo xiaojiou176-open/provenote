@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Provenote Evidence Artifact Registry Entry",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "artifact_name",
+    "workflow",
+    "job",
+    "canonical_path",
+    "producer",
+    "consumer",
+    "retention_class",
+    "run_correlation_required"
+  ],
+  "properties": {
+    "artifact_name": {
+      "type": "string"
+    },
+    "workflow": {
+      "type": "string"
+    },
+    "job": {
+      "type": "string"
+    },
+    "canonical_path": {
+      "type": "string"
+    },
+    "producer": {
+      "type": "string"
+    },
+    "consumer": {
+      "type": "string"
+    },
+    "retention_class": {
+      "type": "string"
+    },
+    "run_correlation_required": {
+      "type": "boolean"
+    }
+  }
+}
