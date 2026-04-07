@@ -7,7 +7,7 @@ Status: ACTIVE
 ## 2026-04-07 Current Truth Refresh
 
 - current truth layer:
-  - `main == origin/main == 77db1d1`
+  - `main == origin/main` at the current canonical closeout head
   - current worktree is clean on `main`
   - remote GitHub live truth currently reads:
     - open PRs: `0`
@@ -25,7 +25,7 @@ Status: ACTIVE
     - releases: no current GitHub release object
     - tag truth:
       - `v1.8.4` remains pinned to the old hard-cut baseline commit `3f9328b`
-      - `v1.8.5` now points to the current canonical head `77db1d1`
+      - `v1.8.5` is the current canonical closeout tag for the merged mainline
 - closeout focus for this refresh:
   - this closeout slice is now landed on canonical `main`
   - the former local continuation lane is no longer local-only:
