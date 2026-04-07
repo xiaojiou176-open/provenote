@@ -1,6 +1,6 @@
 # Required Checks Snapshot
 
-Snapshot Date: 2026-03-28
+Snapshot Date: 2026-04-07
 
 This file is a repo snapshot/expectation only. It documents the required-check shape that repo code, workflows, and contract tests expect, but it is not live proof that remote GitHub settings already match.
 
@@ -46,9 +46,18 @@ These lanes depend on repo-owned secrets, self-hosted execution, or same-SHA wit
 | --- | --- | --- |
 | `UIUX Gemini Gate` | `.github/workflows/uiux-gemini-gate.yml` | Manual-only trusted witness lane for secret-backed UIUX evidence; this is a manual-only trusted witness lane and deterministic fallback is degraded and non-authoritative |
 | `Performance Benchmarks` | `.github/workflows/test.yml` job `performance-benchmarks` | Manual-only maintainer lane because it depends on host Docker privilege and benchmark infrastructure that are too noisy for the default required push path |
-| `Runner Health` | `.github/workflows/runner-health.yml` job `runner-bootstrap` | Operational self-hosted recovery lane; keeps runner repair outside the default required correctness path |
 | `Required Green Gate` (job id `required-green-gate`) | `.github/workflows/test.yml` | Aggregates the deterministic repo-owned checks that stay stable on every push; heavier UIUX/perf/E2E evidence remains outside the blocking aggregate |
 | Release same-SHA witness | `.github/workflows/build-and-release.yml` job `verify-required-green-gate` | Verifies the trusted `Required Green Gate` check on the release SHA before publishing images |
+
+## Nightly Maintenance Lanes
+
+These lanes are intentionally outside the required push gate. They keep slower maintenance and deeper scanning honest without making every push pay for them.
+
+| Lane | Source | Boundary |
+| --- | --- | --- |
+| `Python Mutation Nightly` | `.github/workflows/mutation-nightly.yml` job `mutation-python-nightly` | Scheduled deep mutation evidence plus manual re-run path; advisory, not part of the blocking default push contract |
+| `Pre-commit Outdated Nightly` | `.github/workflows/pre-commit-outdated-check.yml` job `check-pre-commit-outdated` | Scheduled maintenance check for hook freshness plus manual re-run path |
+| scheduled `CodeQL` analysis | `.github/workflows/codeql.yml` | Nightly code-scanning refresh in addition to push / pull_request coverage |
 
 ## Public Contributor Lanes
 
@@ -75,20 +84,20 @@ The repo also expects the workflow topology behind that gate to keep these bound
 ## Latest Recorded Remote Review Summary
 
 - Review Status: `verified`
-- Review Date: 2026-04-06 21:20 PDT
+- Review Date: 2026-04-07 00:34 PDT
 - Reviewer Surface: GitHub CLI authenticated as the active maintainer account for the reviewed `origin` repository plus fresh `Tests` job readback on the protected `main` SHA
 - Latest recorded evidence:
   - the reviewed origin repository (`xiaojiou176-open/provenote`) remained reachable, public, admin-visible, and defaulted to `main`
   - `gh api repos/xiaojiou176-open/provenote/branches/main/protection` succeeded and showed `required_status_checks.strict=true` with `contexts=["Required Green Gate"]`
-  - the latest observed `push` run of `Tests` on the current `main` SHA (`24062420970`) completed `success`, and the corresponding `Required Green Gate` job on that same SHA also completed `success`
+  - the latest observed `push` run of `Tests` on the current `main` SHA (`24066329016`) completed `success`, and the corresponding `Required Green Gate` job on that same SHA also completed `success`
   - the required protected mainline context on the live repository still points at `Required Green Gate`
-  - predecessor-repo release-tag evidence remains non-transferable: `gh api repos/xiaojiou176/provenote/releases/tags/v1.8.1` currently returns `404 Not Found`, so old-repo release-tag evidence must not be reused as current truth
+  - the current hosted-first workflow set includes nightly maintenance lanes and manual trusted witness lanes in addition to the default required aggregate, so branch protection must continue to point only at `Required Green Gate`
 
 Interpretation:
 
 - repo existence, default branch, workflow naming, branch-protection wiring, and same-SHA trusted lane behavior remain live and reviewable on the post-cutover repository
 - the maintainer-trusted aggregate check is still the required protected mainline gate
-- release-tag evidence must be re-established on the new repository rather than inferred from the deleted predecessor repository
+- nightly maintenance lanes remain intentionally outside the protected required-check aggregate
 
 ## Verification Boundary
 

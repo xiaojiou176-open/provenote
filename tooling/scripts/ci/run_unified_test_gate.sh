@@ -19,9 +19,14 @@ if [[ "$MODE" != "fast" && "$MODE" != "full" ]]; then
 fi
 
 if [[ "${OPEN_NOTEBOOK_CI_IN_CONTAINER:-0}" != "1" && "${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" ]]; then
+  CONTAINER_PROFILE="full"
+  if [[ "${MODE}" == "fast" ]]; then
+    CONTAINER_PROFILE="repo-fast"
+  fi
   echo "[unified-test] Re-executing inside repo CI container (set OPEN_NOTEBOOK_CI_HOST_BYPASS=1 to force host mode)."
-  exec bash tooling/scripts/ci/run_in_consistent_container.sh --profile full -- \
+  exec bash tooling/scripts/ci/run_in_consistent_container.sh --profile "${CONTAINER_PROFILE}" -- \
     env OPEN_NOTEBOOK_CI_IN_CONTAINER=1 OPEN_NOTEBOOK_EXTERNAL_PR_FAST_GATE="${OPEN_NOTEBOOK_EXTERNAL_PR_FAST_GATE:-}" \
+      OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-}" \
       bash tooling/scripts/ci/run_unified_test_gate.sh "${MODE}"
 fi
 
@@ -38,6 +43,8 @@ BACKEND_COVERAGE_SCOPE="${BACKEND_COVERAGE_SCOPE:-phase1}"
 RUN_PERFORMANCE_BENCHMARKS="${RUN_PERFORMANCE_BENCHMARKS:-0}"
 UV_OFFLINE="${UV_OFFLINE:-1}"
 HYPOTHESIS_STORAGE_DIRECTORY="${HYPOTHESIS_STORAGE_DIRECTORY:-.runtime-cache/test/hypothesis}"
+OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-0}"
+SKIP_DUPLICATE_PREPUSH_GATES=0
 RUN_START_TS="$(date +%s)"
 export UV_OFFLINE
 export HYPOTHESIS_STORAGE_DIRECTORY
@@ -219,23 +226,36 @@ else
   log "Core python tests skip performance benchmarks (set RUN_PERFORMANCE_BENCHMARKS=1 to include)"
 fi
 
+if [[ "${MODE}" == "fast" && "${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT}" == "1" ]]; then
+  SKIP_DUPLICATE_PREPUSH_GATES=1
+  log "Pre-push hook context detected: skip duplicated dedicated pre-push guards before fast smoke."
+fi
+
 announce_stage 1 4 "commit gates (short checks first)"
-run_step "test-smells-guard" bash tooling/scripts/ci/check_test_smells.sh
-run_step "commit-authorship-range-guard" bash tooling/scripts/ci/check_commit_authorship_range.sh
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
+  run_step "test-smells-guard" bash tooling/scripts/ci/check_test_smells.sh
+  run_step "commit-authorship-range-guard" bash tooling/scripts/ci/check_commit_authorship_range.sh
+fi
 run_step "lint-gate(runtime-scope)" bash tooling/scripts/ci/pre_commit_lint.sh --mode runtime
 run_step "legacy-root-runtime-noise-cleanup" bash -lc 'find .pytest_cache .hypothesis .benchmarks .coverage .coverage.* -depth -delete 2>/dev/null || true'
 run_step "root-cleanliness-guard" python3 tooling/scripts/ci/check_root_cleanliness.py --mode authoritative
-run_step "sensitive-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_sensitive_surface_guard.py
-run_step "github-security-alerts-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_github_security_alerts.py
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
+  run_step "sensitive-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_sensitive_surface_guard.py
+  run_step "github-security-alerts-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_github_security_alerts.py
+fi
 run_step "entrypoint-contract-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_entrypoint_contract.py
 run_step "output-path-policy-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_output_path_policy.py
 run_step "frontend-logging-contract-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_frontend_logging_contract.py
 run_step "frontend-log-schema-sync" node tooling/scripts/ci/check_frontend_log_schema_sync.mjs
-run_parallel_pair \
-  "observability-log-gate" \
-  "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_observability_log_gate.py" \
-  "env-governance-guard" \
-  "bash tooling/scripts/ci/check_env_governance.sh"
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" == "1" ]]; then
+  run_step "observability-log-gate" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_observability_log_gate.py
+else
+  run_parallel_pair \
+    "observability-log-gate" \
+    "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_observability_log_gate.py" \
+    "env-governance-guard" \
+    "bash tooling/scripts/ci/check_env_governance.sh"
+fi
 run_parallel_pair \
   "log-contract-guard" \
   "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_log_contract.py" \
@@ -245,14 +265,14 @@ run_step "runtime-surfaces-guard" bash tooling/scripts/runtime/run_uv_managed.sh
 run_step "space-surfaces-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_space_surfaces.py
 run_step "layer-boundaries-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_layer_boundaries.py
 run_step "frontend-layer-boundaries-guard" node tooling/scripts/ci/check_frontend_layer_boundaries.mjs
-run_parallel_pair \
-  "secret-leak-guard" \
-  "bash tooling/scripts/ci/check_secret_leaks.sh" \
-  "sensitive-surface-guard" \
-  "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_sensitive_surface_guard.py"
-run_parallel_pair \
-  "navigation-docs-pair-guard" \
-  "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py"
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
+  run_parallel_pair \
+    "secret-leak-guard" \
+    "bash tooling/scripts/ci/check_secret_leaks.sh" \
+    "sensitive-surface-guard" \
+    "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_sensitive_surface_guard.py"
+  run_step "navigation-docs-pair-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py
+fi
 run_step "openapi-contract-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_openapi_contract_drift.py
 run_step "frontend-api-contract-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_frontend_api_contract_drift.py
 run_parallel_pair \
@@ -260,20 +280,26 @@ run_parallel_pair \
   "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_env_contract_drift.py" \
   "docs-render-freshness-guard" \
   "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_docs_render_freshness.py"
-run_step "path-truth-drift-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_path_truth_drift.py
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
+  run_step "path-truth-drift-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_path_truth_drift.py
+fi
 run_step "snapshot-freshness-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_snapshot_freshness.py
 run_step "open-source-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_open_source_surface.py
-run_step "public-identity-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_identity_surface.py
-run_step "provider-surface-truth-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_provider_surface_truth.py
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
+  run_step "public-identity-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_identity_surface.py
+  run_step "provider-surface-truth-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_provider_surface_truth.py
+fi
 run_step "selective-port-ledger-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_selective_port_ledger.py
 run_step "legacy-provider-removal-ledger-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_legacy_provider_removal_ledger.py
 run_step "legacy-provider-runtime-imports-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_legacy_provider_runtime_imports.py
 run_step "podcasts-topology-mapping-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_podcasts_topology_mapping.py
-run_parallel_pair \
-  "docs-change-guard(pre-push-mode)" \
-  "bash tooling/scripts/ci/check_docs_change_guard.sh --mode pre-push" \
-  "workflow-policy-guard" \
-  "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_workflow_policy.py"
+if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
+  run_parallel_pair \
+    "docs-change-guard(pre-push-mode)" \
+    "bash tooling/scripts/ci/check_docs_change_guard.sh --mode pre-push" \
+    "workflow-policy-guard" \
+    "bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_workflow_policy.py"
+fi
 run_step "external-surfaces-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_external_surfaces.py
 run_step "implicit-external-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_no_implicit_external_surface.py
 run_step "floating-external-input-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_no_floating_external_inputs.py

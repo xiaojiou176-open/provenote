@@ -43,7 +43,7 @@ def test_registry_prep_files_exist_for_mcp_registry_lane() -> None:
     )
     assert example_payload["name"] == "io.github.xiaojiou176-open/provenote-mcp"
     assert example_payload["websiteUrl"].endswith("/docs/mcp.md")
-    assert example_payload["version"] == "1.8.4"
+    assert example_payload["version"] == "1.8.5"
     assert "packages" not in example_payload
     assert (
         REPO_ROOT
@@ -83,8 +83,8 @@ def test_pyproject_exposes_public_package_metadata() -> None:
     assert project["name"] == "provenote"
     assert "mcp" in project["keywords"]
     assert "long-context" in project["keywords"]
-    assert project["urls"]["Homepage"].endswith("/docs/index.md")
-    assert project["urls"]["Documentation"].endswith("/docs/index.md")
+    assert project["urls"]["Homepage"] == "https://xiaojiou176-open.github.io/provenote/"
+    assert project["urls"]["Documentation"] == "https://xiaojiou176-open.github.io/provenote/"
     assert project["urls"]["Source"] == "https://github.com/xiaojiou176-open/provenote"
 
 

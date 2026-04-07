@@ -4,6 +4,8 @@ This page keeps the repo-owned public promotion assets in one place.
 
 In plain language: Provenote already has real proof surfaces and real starter packages. This page gathers the reusable visuals, pitch lines, and demo flow so submission packs and social surfaces do not depend on scattered notes.
 
+Treat this as a second-layer asset room, not the main product front door.
+
 ## Asset Inventory
 
 | Asset | Path | Best use |

@@ -128,6 +128,24 @@ def test_count_alerts_uses_tokened_http_fallback_when_gh_is_missing(
     assert captured["version"] == "2022-11-28"
 
 
+def test_resolve_github_token_falls_back_to_gh_auth_token(monkeypatch) -> None:
+    monkeypatch.delenv("GH_TOKEN", raising=False)
+    monkeypatch.delenv("GITHUB_TOKEN", raising=False)
+    monkeypatch.setattr(GUARD.shutil, "which", lambda _name: "/usr/bin/gh")
+
+    def fake_run(*_args, **_kwargs):
+        return subprocess.CompletedProcess(
+            args=["gh", "auth", "token"],
+            returncode=0,
+            stdout="cli-token\n",
+            stderr="",
+        )
+
+    monkeypatch.setattr(subprocess, "run", fake_run)
+
+    assert GUARD._resolve_github_token() == "cli-token"
+
+
 def test_count_alerts_falls_back_to_tokened_http_when_gh_api_fails(
     monkeypatch,
 ) -> None:

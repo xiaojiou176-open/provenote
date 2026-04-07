@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.5] - 2026-04-07
+
 ### Changed
+- Compressed the public front door again so the first screen keeps the product center on `messy long context -> structured insight -> inspectable outcomes`, while leaving MCP, starter bundles, distribution, and promotion surfaces in the second ring.
+- Clarified the docs/front-door routing so `README -> quickstart -> proof` is the shortest honest evaluation order, and promotion/status pages stop competing with the first product read.
+- Split CI governance more cleanly into `pre-commit / pre-push / hosted / nightly / manual`, moved lingering weekly maintenance language to nightly, and made the default local pre-push rehearsal path fast by default while keeping `full` as the stricter opt-in path.
+- Refreshed the active task-board and required-check snapshots with 2026-04-07 live truth so older same-day release/homepage claims no longer masquerade as current state.
 - Raised the managed Python security floor by pinning `pillow>=12.1.1,<13` through `tool.uv.override-dependencies`, narrowed uv lock resolution to the current Linux/macOS support surface, and refreshed both `uv.lock` files so the in-repo dependency graph no longer requires the vulnerable `pillow < 12.1.1` line for active supported environments.
 - Added repo-owned security/governance workflows for GitHub Dependency Review, Trivy, TruffleHog, and a scoped Zizmor lane, while refreshing the pinned GitHub Actions dependency SHAs for checkout, setup-node, setup-python, github-script, artifact transfer, Docker Buildx/build-push, and the Claude Code action.
 - Hardened the composite Python bootstrap action against template-injection by parsing `sync-args` through a shell-safe argv bridge instead of interpolating raw workflow input directly into the `run_uv_managed.sh` command line.

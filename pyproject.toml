@@ -1,6 +1,6 @@
 [project]
 name = "provenote"
-version = "1.8.4"
+version = "1.8.5"
 description = "Long-context-first workbench for structured insight, auditable markdown, and notebook outcomes"
 keywords = [
     "provenote",
@@ -75,8 +75,8 @@ provenote = "packages.core.operator.cli:main"
 provenote-mcp = "packages.core.mcp.server:main"
 
 [project.urls]
-Homepage = "https://github.com/xiaojiou176-open/provenote/blob/main/docs/index.md"
-Documentation = "https://github.com/xiaojiou176-open/provenote/blob/main/docs/index.md"
+Homepage = "https://xiaojiou176-open.github.io/provenote/"
+Documentation = "https://xiaojiou176-open.github.io/provenote/"
 Source = "https://github.com/xiaojiou176-open/provenote"
 Changelog = "https://github.com/xiaojiou176-open/provenote/blob/main/CHANGELOG.md"
 Discussions = "https://github.com/xiaojiou176-open/provenote/discussions"
@@ -208,8 +208,9 @@ package_name = "provenote"
 package_registry = "pypi"
 mcp_name = "io.github.xiaojiou176-open/provenote-mcp"
 entrypoints = ["provenote", "provenote-mcp"]
-homepage_url = "https://github.com/xiaojiou176-open/provenote/blob/main/docs/index.md"
+homepage_url = "https://xiaojiou176-open.github.io/provenote/"
 documentation_urls = [
+    "https://xiaojiou176-open.github.io/provenote/",
     "https://github.com/xiaojiou176-open/provenote/blob/main/docs/mcp.md",
     "https://github.com/xiaojiou176-open/provenote/blob/main/docs/distribution.md",
 ]

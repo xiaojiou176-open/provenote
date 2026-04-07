@@ -67,7 +67,7 @@ def _origin_repo_slug(repo_root: Path = REPO_ROOT) -> str:
 
 
 def _run_http_json(endpoint: str) -> Any:
-    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    token = _resolve_github_token()
     if not token:
         raise RuntimeError("missing GH_TOKEN/GITHUB_TOKEN for GitHub API fallback")
     request = urllib.request.Request(
@@ -83,6 +83,26 @@ def _run_http_json(endpoint: str) -> Any:
             return json.load(response)
     except urllib.error.URLError as exc:
         raise RuntimeError(str(exc)) from exc
+
+
+def _resolve_github_token() -> str | None:
+    env_token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if env_token:
+        return env_token
+    if not shutil.which("gh"):
+        return None
+
+    result = subprocess.run(
+        ["gh", "auth", "token"],
+        cwd=REPO_ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode != 0:
+        return None
+    token = result.stdout.strip()
+    return token or None
 
 
 def _load_endpoint_json(endpoint: str) -> Any:

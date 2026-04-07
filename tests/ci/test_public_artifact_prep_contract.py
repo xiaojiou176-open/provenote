@@ -16,7 +16,7 @@ def test_pyproject_keeps_publishable_public_metadata() -> None:
     project = data["project"]
     assert project["name"] == "provenote"
     assert "mcp" in project["keywords"]
-    assert project["urls"]["Documentation"].endswith("/docs/index.md")
+    assert project["urls"]["Documentation"] == "https://xiaojiou176-open.github.io/provenote/"
     assert project["urls"]["Source"] == "https://github.com/xiaojiou176-open/provenote"
 
 
@@ -41,7 +41,7 @@ def test_claude_and_cursor_bundle_manifests_keep_richer_metadata() -> None:
         openclaw_claude_payload,
         openclaw_cursor_payload,
     ):
-        assert payload["version"] == "1.8.4"
+        assert payload["version"] == "1.8.5"
         assert payload["repository"] == "https://github.com/xiaojiou176-open/provenote"
         assert "keywords" in payload
 

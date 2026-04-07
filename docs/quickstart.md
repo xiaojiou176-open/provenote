@@ -14,6 +14,7 @@ By the end of this path, you should have:
 - the web workbench open in your browser
 - at least one source imported
 - one auditable markdown run started or downloaded
+- a clear next step into notes, research threads, or notebook drafts if you want to keep going
 
 ## Time Budget
 
@@ -69,13 +70,14 @@ This lane is the fastest way to feel what Provenote is really trying to do:
 
 ## What Good Looks Like
 
-You are in a strong first-run state if you can answer "yes" to all five:
+You are in a strong first-run state if you can answer "yes" to all four:
 
 - I can open the Provenote UI
 - I can add or inspect a source
 - I can see the Auditable Markdown panel
 - I can start a run or download a generated markdown report
-- I can create a notebook-level draft from selected notebook sources
+
+If you want one step after that first success, the best carry-forward move is to turn the structured result into a note, a research thread, or a notebook draft.
 
 If you cannot say yes yet, that usually means you are still in the local setup phase, not in a hosted try-now flow.
 

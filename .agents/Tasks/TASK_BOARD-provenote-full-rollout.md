@@ -1,8 +1,31 @@
 # Provenote Full Rollout Task Board
 
-Last updated: 2026-04-05 public distribution ladder, submission packs, registry prep, and task-board truth sync landed on main
+Last updated: 2026-04-07 closeout current-truth refresh for CI layering, front-door compression, and release/tag reconciliation
 Owner: L1 Orchestrator
 Status: ACTIVE
+
+## 2026-04-07 Current Truth Refresh
+
+- current truth layer:
+  - `main == origin/main == d226d41`
+  - current worktree is **not** clean yet:
+    - one repo-owned local continuation lane remains open in 7 files under CI / pre-push / unified gate lightening
+  - remote GitHub live truth currently reads:
+    - open PRs: `0`
+    - Pages: built from `main:/docs`
+    - branch protection: `Required Green Gate`, strict, linear history, required signatures enabled
+    - code scanning / secret scanning / dependabot alerts: `0 / 0 / 0`
+    - releases: no current GitHub release object
+    - tag truth: remote `v1.8.4` still points to old baseline commit `3f9328b`, so tag truth and current canonical `main` are not yet aligned
+- closeout focus for this refresh:
+  - land the 7-file CI continuation lane instead of leaving it stranded locally
+  - compress CI semantics into `pre-commit / pre-push / hosted / nightly / manual`
+  - keep README/docs front door centered on:
+    - `messy long context -> structured insight -> inspectable outcomes`
+  - sync task-board truth so older draft-release wording does not masquerade as current live state
+- blocker classification:
+  - repo-owned closeout is still active
+  - external-only remainder has **not** been reached yet because the CI lane, front-door compression, and tag truth are still being actively reconciled in-repo
 
 ## 2026-04-05 Public Distribution Ladder + Submission Pack Sync
 
