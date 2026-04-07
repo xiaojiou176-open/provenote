@@ -244,10 +244,12 @@ make quality-full
 RUN_LIVE_TESTS=1 make quality-live
 # guard-all defaults to LONG_TESTS_PARALLEL=1 (override with LONG_TESTS_PARALLEL=0 when needed)
 make guard-all
-# local preflight defaults to fast mode; opt into full only when you explicitly
-# want the stricter local push rehearsal
+# local preflight defaults to fast host-mode rehearsal; opt into full only when
+# you explicitly want the stricter local push rehearsal
 make ci-local-preflight
 LOCAL_PREFLIGHT_MODE=full make ci-local-preflight
+# explicit repo-CI container rehearsal remains opt-in
+OPEN_NOTEBOOK_CI_FORCE_CONTAINER=1 make ci-local-preflight
 make governance-final
 
 # unified gate tuning knobs
@@ -325,7 +327,7 @@ When using `bash tooling/scripts/ci/run_unified_test_gate.sh full`, logs expose 
 ### CI Five-Layer Contract
 
 - `pre-commit`: staged-scope lint and atomic hygiene only; keep it seconds-scale.
-- `pre-push`: fast local rehearsal plus contract guards; the default wrapper path is now the `repo-fast` container profile instead of the heaviest bootstrap.
+- `pre-push`: fast local rehearsal plus contract guards; the default local path now stays on the host. Explicit repo-CI container rehearsal is opt-in via `OPEN_NOTEBOOK_CI_FORCE_CONTAINER=1` (`repo-fast` for `fast`, `full` for `full`).
 - `hosted`: deterministic push/pull_request lanes that keep required checks and security scanning on GitHub.
 - `nightly`: scheduled maintenance and deeper repo-owned pressure checks such as mutation and pre-commit outdated review.
 - `manual`: live/provider/browser/desktop/heavier witness lanes that should never silently drift into the default blocking path.

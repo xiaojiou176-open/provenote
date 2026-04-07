@@ -115,7 +115,10 @@ quality-fast:
 	bash tooling/scripts/ci/run_unified_test_gate.sh fast
 
 quality-full:
-	@if [ "$${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" = "1" ]; then \
+	@if [ "$${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}" = "1" ] && [ "$${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" ]; then \
+		bash tooling/scripts/ci/run_in_consistent_container.sh --profile full -- \
+		  bash -lc 'OPEN_NOTEBOOK_CI_IN_CONTAINER=1 python3 tooling/scripts/ci/check_architecture_guard.py & pid1=$$!; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 python3 tooling/scripts/ci/check_google_genai_usage.py & pid2=$$!; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 python3 tooling/scripts/ci/check_first_party_file_length.py & pid3=$$!; status=0; wait $$pid1 || status=1; wait $$pid2 || status=1; wait $$pid3 || status=1; test $$status -eq 0; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 bash tooling/scripts/ci/run_unified_test_gate.sh full; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 make test-e2e-real-smoke; GIT_TERMINAL_PROMPT=0 bash tooling/scripts/ci/check_upstream_drift.sh --strict-divergence --no-fetch; bash tooling/scripts/ci/post_test_housekeeping.sh --cleanup-only'; \
+	else \
 		set -e; \
 		python3 tooling/scripts/ci/check_architecture_guard.py & pid1=$$!; \
 		python3 tooling/scripts/ci/check_google_genai_usage.py & pid2=$$!; \
@@ -129,9 +132,6 @@ quality-full:
 		make test-e2e-real-smoke; \
 		GIT_TERMINAL_PROMPT=0 bash tooling/scripts/ci/check_upstream_drift.sh --strict-divergence --no-fetch; \
 		bash tooling/scripts/ci/post_test_housekeeping.sh --cleanup-only; \
-	else \
-		bash tooling/scripts/ci/run_in_consistent_container.sh --profile full -- \
-		  bash -lc 'OPEN_NOTEBOOK_CI_IN_CONTAINER=1 python3 tooling/scripts/ci/check_architecture_guard.py & pid1=$$!; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 python3 tooling/scripts/ci/check_google_genai_usage.py & pid2=$$!; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 python3 tooling/scripts/ci/check_first_party_file_length.py & pid3=$$!; status=0; wait $$pid1 || status=1; wait $$pid2 || status=1; wait $$pid3 || status=1; test $$status -eq 0; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 bash tooling/scripts/ci/run_unified_test_gate.sh full; OPEN_NOTEBOOK_CI_IN_CONTAINER=1 make test-e2e-real-smoke; GIT_TERMINAL_PROMPT=0 bash tooling/scripts/ci/check_upstream_drift.sh --strict-divergence --no-fetch; bash tooling/scripts/ci/post_test_housekeeping.sh --cleanup-only'; \
 	fi
 
 test-gate-fast:

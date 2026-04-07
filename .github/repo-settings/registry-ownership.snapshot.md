@@ -58,9 +58,9 @@ Every registry ownership review wave must record at least:
 - Reviewer context:
   - active maintainer account could confirm repo visibility, workflow access, and current package lookup responses
 - Latest recorded evidence:
-  - owner-scope GitHub Packages lookup for `xiaojiou176/provenote` via `gh api orgs/xiaojiou176/packages/container/provenote` currently returns `404 Not Found`
-  - repo-scoped package lookup for `repos/xiaojiou176/provenote/packages/container/provenote` also returns `404 Not Found`
-  - `gh api repos/xiaojiou176/provenote/releases/tags/v1.8.1` currently returns `404 Not Found`
+  - predecessor owner-scope GitHub Packages lookup for the historical `provenote` container namespace currently returns `404 Not Found`
+  - predecessor repo-scoped package lookup for the historical `provenote` container namespace also returns `404 Not Found`
+  - predecessor release-tag lookup for `v1.8.1` currently returns `404 Not Found`
   - the new post-cutover repository therefore does not yet have fresh package/release evidence that can replace the predecessor repository's historical review
 
 Interpretation:

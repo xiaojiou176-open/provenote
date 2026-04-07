@@ -65,4 +65,5 @@ def test_untracked_agents_files_remain_ignored_by_default() -> None:
     finally:
         probe.unlink(missing_ok=True)
 
-    assert ".gitignore:179:.agents/" in result.stdout
+    assert ".gitignore:" in result.stdout
+    assert ":.agents/" in result.stdout

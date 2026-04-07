@@ -13,17 +13,18 @@ ensure_open_notebook_machine_cache_layout "${MACHINE_CACHE_ROOT}"
 mkdir -p "${ROOT_DIR}/.runtime-cache/build/egg-info"
 
 MODE="${1:-fast}"
+OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"
 if [[ "$MODE" != "fast" && "$MODE" != "full" ]]; then
   echo "Usage: $(basename "$0") [fast|full]" >&2
   exit 1
 fi
 
-if [[ "${OPEN_NOTEBOOK_CI_IN_CONTAINER:-0}" != "1" && "${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" ]]; then
+if [[ "${OPEN_NOTEBOOK_CI_IN_CONTAINER:-0}" != "1" && "${OPEN_NOTEBOOK_CI_HOST_BYPASS:-0}" != "1" && "${OPEN_NOTEBOOK_CI_FORCE_CONTAINER}" == "1" ]]; then
   CONTAINER_PROFILE="full"
   if [[ "${MODE}" == "fast" ]]; then
     CONTAINER_PROFILE="repo-fast"
   fi
-  echo "[unified-test] Re-executing inside repo CI container (set OPEN_NOTEBOOK_CI_HOST_BYPASS=1 to force host mode)."
+  echo "[unified-test] Re-executing inside repo CI container (host execution is default; unset OPEN_NOTEBOOK_CI_FORCE_CONTAINER to stay on host)."
   exec bash tooling/scripts/ci/run_in_consistent_container.sh --profile "${CONTAINER_PROFILE}" -- \
     env OPEN_NOTEBOOK_CI_IN_CONTAINER=1 OPEN_NOTEBOOK_EXTERNAL_PR_FAST_GATE="${OPEN_NOTEBOOK_EXTERNAL_PR_FAST_GATE:-}" \
       OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-}" \
