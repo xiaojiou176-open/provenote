@@ -39,10 +39,8 @@ Record the commands plus at least one evidence token such as `README.md:1` or `s
 ## Non-negotiable repo rules
 
 - Do not track `.agents/`, `.agent/`, `.codex/`, `.claude/`, `.runtime-cache/`, log directories, or log files.
-- Current tracked exceptions under `.agents/` are intentional historical/operator SSOT and must not be treated as residue:
-  - `.agents/Tasks/TASK_BOARD-provenote-full-rollout.md`
-  - tracked `.agents/Plans/2026-*.md` closeout and handoff artifacts already in the index
-  - do not add new tracked `.agents/` files unless the repository's tracked exception set is explicitly widened
+- Current policy is stricter than earlier closeout phases: there are now zero tracked exceptions under `.agents/`.
+- If `.agents/` material is needed locally for planning or handoff, keep it untracked and repo-ignored only.
 - Keep tracked docs and navigation files English-only.
 - Keep the public docs surface minimal.
 - Route Python bootstrap commands through `tooling/scripts/runtime/run_uv_managed.sh` or the CI container wrapper.
