@@ -22,6 +22,7 @@
     <a href="./docs/index.md"><strong>Docs</strong></a>
   </p>
   <p>
+    <strong>Second ring:</strong>
     <a href="./docs/mcp.md"><strong>MCP & Integrations</strong></a>
     ·
     <a href="./examples/hosts/README.md"><strong>Starter Bundles</strong></a>
@@ -138,72 +139,19 @@ If you want repo-owned install artifacts instead of prose-only setup pages, star
 
 If you want the full claim ladder instead of inferring it from scattered host pages, use [docs/distribution.md](./docs/distribution.md).
 
-## Distribution Status
+## Second-Layer Surfaces
 
-| Surface | Current rung | Safe wording now |
+Once the product path is clear, use one second-ring page instead of reading every host, registry, and distribution page in order.
+
+| If you need... | Open this first | Why it stays second-ring |
 | --- | --- | --- |
-| Claude Code | `public-ready package available` | Provenote works with Claude Code via MCP, and this repository ships a public-ready starter bundle |
-| OpenAI Codex | `public-ready package available` | Provenote works with OpenAI Codex via MCP, and this repository ships a public-ready starter bundle |
-| OpenClaw | `public-ready package available` plus `submission-ready pack` | Provenote ships public-ready OpenClaw-compatible bundles and a ClawHub submission pack; no live listing is claimed |
-| Official MCP Registry | `repo-owned prep exists` | the registry exists, but Provenote is not listed there today and publication still needs a registry package plus publisher auth |
+| a host-compatible MCP path | [docs/mcp.md](./docs/mcp.md) | coding-agent carry-forward matters, but it is not the product center |
+| checked-in bundle artifacts | [examples/hosts/README.md](./examples/hosts/README.md) and [examples/hosts/packet-index.json](./examples/hosts/packet-index.json) | bundle installs are packaging truth, not the first doorway |
+| public claim ladder and listing boundary | [docs/distribution.md](./docs/distribution.md) | it is a truth ledger, not the main product story |
+| what is still intentionally unclaimed | [docs/project-status.md](./docs/project-status.md) | this is the boundary page, not the first impression |
+| terminal/operator workflows | [docs/runbooks/operator-cli.md](./docs/runbooks/operator-cli.md) | the CLI is a carry-forward surface after the workbench story is clear |
 
-If you want the full claim ladder and distribution matrix, use [docs/distribution.md](./docs/distribution.md).
-
-## Pick A Package Path
-
-If you already know which host or submission surface you care about, start from the checked-in package path instead of hunting across docs first.
-
-| If you want to start with... | Open this first | What you get immediately |
-| --- | --- | --- |
-| Claude Code | [examples/hosts/claude-code/provenote-outcome-bundle/README.md](./examples/hosts/claude-code/provenote-outcome-bundle/README.md) | project-scoped MCP config, commands, skill, and a read-first verify loop |
-| OpenAI Codex | [examples/hosts/codex/provenote-outcome-bundle/README.md](./examples/hosts/codex/provenote-outcome-bundle/README.md) | bundle-local MCP config, `config.toml.example`, skill, and install guidance |
-| OpenClaw / ClawHub prep | [examples/hosts/openclaw/README.md](./examples/hosts/openclaw/README.md) | the three OpenClaw-compatible bundle families plus the current submission pack |
-| Official MCP Registry prep | [examples/public-distribution/mcp-registry/README.md](./examples/public-distribution/mcp-registry/README.md) | the current registry submission pack, mirrored `server.json`, and the exact repo-owned boundary |
-
-## Choose Your First Doorway
-
-If you are deciding where to start, use the doorway that matches your actual problem instead of walking through every page in order.
-
-| If you are arriving with... | Start here | Why this is the strongest current path |
-| --- | --- | --- |
-| one long messy chat, note dump, or copied web thread | [docs/use-cases/long-context-to-structured-notes.md](./docs/use-cases/long-context-to-structured-notes.md) | it keeps the product centered on `messy context -> structured insight -> durable next step` |
-| a source-grounded research or memo job | [docs/use-cases/source-grounded-ai-research.md](./docs/use-cases/source-grounded-ai-research.md) | it shows the notebook, research-thread, draft, and verify ladder without making MCP the front door |
-| a coding-agent host you already use every day | [docs/mcp.md](./docs/mcp.md) | it routes you into the first-party MCP server and the host guides while keeping partnership/plugin language out of the story |
-| a checked-in host bundle you can install from public docs | [examples/hosts/README.md](./examples/hosts/README.md) | it gives you public-ready Claude Code / Codex / Cursor / OpenCode starter bundles plus OpenClaw-compatible bundles and the ClawHub submission pack instead of only setup prose |
-| a distribution/readiness answer instead of another host-by-host scavenger hunt | [docs/distribution.md](./docs/distribution.md) | it separates `repo-owned prep`, `public-ready package available`, `publicly discoverable listing live`, and `official marketplace listing live` so packaging claims stay honest |
-| a terminal or operator task | [docs/runbooks/operator-cli.md](./docs/runbooks/operator-cli.md) | it starts from the first-party `provenote` command instead of forcing the MCP path to do every job |
-| a release, readiness, or external promotion question | [docs/project-status.md](./docs/project-status.md) | it keeps repo-ready truth, public truth, and owner-only publication actions in separate buckets |
-
-## Why This Feels Different
-
-| If you care about... | Generic chat-over-files feel | Provenote's current public surface |
-| --- | --- | --- |
-| Working from organized source material | often flat and session-scoped | sources, notebooks, search, and transformations in one workbench |
-| Outputs you can inspect after the chat ends | often reply-first and ephemeral | downloadable auditable markdown with visible integrity counters |
-| Self-hosted control | varies by tool | repo-documented local stack with a public runtime contract |
-| Knowing who owns support and review | often blurry in forks | repo-local stewardship, support, security, and contribution surfaces |
-
-## Product Truth Boundary
-
-Ordinary chat and ask flows are a fast assistant surface for exploration and iteration.
-
-When you need stronger traceability, the stricter product truth lane now has two inspectable layers:
-
-- source-level auditable markdown and auditable-runs for strict single-source verification
-- notebook-level drafts for reusable multi-source outcome building inside a notebook
-
-## Choose The Right Carry-Forward Surface
-
-Once the core outcome path is clear, use the surface that matches the job:
-
-| If you want to... | Start here | Why |
-| --- | --- | --- |
-| keep moving inside the workbench | [docs/quickstart.md](./docs/quickstart.md) and [docs/use-cases/long-context-to-structured-notes.md](./docs/use-cases/long-context-to-structured-notes.md) | best fit when the work still starts from messy context and reusable outcome objects |
-| bring the same outcome objects into coding agents | [docs/mcp.md](./docs/mcp.md) | MCP is the carry-forward integration surface after the product path is clear |
-| run the same lanes from a terminal | [docs/runbooks/operator-cli.md](./docs/runbooks/operator-cli.md) | the first-party CLI exposes operator workflows without pretending host setup is the only door |
-| check what is intentionally not claimed | [docs/project-status.md](./docs/project-status.md) | the status boundary keeps OpenClaw, plugin, marketplace, and public Skills language honest |
-
-That ordering is intentional. Host guides, the CLI, and future packaging questions sit around the workbench. They do not replace the workbench.
+The ordering is intentional: first the workbench, then the proof lane, then the carry-forward surfaces.
 
 ## Quick Result Path
 

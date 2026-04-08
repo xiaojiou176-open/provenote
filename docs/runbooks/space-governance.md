@@ -39,19 +39,19 @@ Machine-cache audit lane:
 bash tooling/scripts/ops/cleanup_machine_cache.sh --mode audit-only
 ```
 
-Housekeeping inventory for repo cleanup execution targets:
-
-```bash
-bash tooling/scripts/ops/audit_space_surfaces.sh \
-  --cleanup-owner cleanup_runtime_cache.sh \
-  --action-filter safe_clear,cautious_clear
-```
-
-Repo-managed candidate inventory, including repo-specific external caches:
+Housekeeping inventory for repo-managed cleanup candidates:
 
 ```bash
 bash tooling/scripts/ops/audit_space_surfaces.sh \
   --inventory-class repo_managed_candidate \
+  --action-filter safe_clear,cautious_clear
+```
+
+If you specifically need the repo-internal execution view that matches `cleanup_runtime_cache.sh`, use:
+
+```bash
+bash tooling/scripts/ops/audit_space_surfaces.sh \
+  --cleanup-owner cleanup_runtime_cache.sh \
   --action-filter safe_clear,cautious_clear
 ```
 
@@ -270,12 +270,13 @@ This split matters:
 
 Two inventory views intentionally coexist:
 
+- `--inventory-class repo_managed_candidate --action-filter ...`
+  - repo-managed candidate inventory
+  - the default operator-facing summary because it includes repo-local rebuildables and repo-owned machine caches in one honest view
 - `--cleanup-owner cleanup_runtime_cache.sh --action-filter ...`
   - repo cleanup execution inventory
   - only the repo-internal surfaces handled by `cleanup_runtime_cache.sh`
-- `--inventory-class repo_managed_candidate --action-filter ...`
-  - repo-managed candidate inventory
-  - includes repo-specific external caches that are valid Track A candidates but are not auto-cleared by repo scripts
+  - excludes repo-owned machine caches on purpose, so it should not be mistaken for the full repo-related disk picture
 
 Docker attribution uses three states:
 
