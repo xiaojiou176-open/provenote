@@ -1,30 +1,41 @@
 # Provenote MCP Outcome Workflows Public Skill
 
-This folder is the OpenHands/extensions-friendly and ClawHub-style public skill
-packet for Provenote.
+This folder is the public, self-contained skill packet for Provenote.
+It is designed to carry install, config, capability, and demo material inside
+the skill folder instead of pushing that burden back to repo-root docs.
 
 ## Purpose
 
-Use it when you want one portable skill folder that keeps the Provenote story
-honest:
+Use it when you want one portable skill folder that teaches four things clearly:
 
-- first-party MCP server remains the execution surface
-- read-first outcome workflows stay primary
-- no hosted SaaS or public skills catalog claim is introduced
-- no live listing is implied without fresh platform read-back
+- how to install and launch the first-party `provenote-mcp` server
+- how to wire it into OpenHands or OpenClaw
+- what MCP tool families Provenote exposes
+- what a read-first outcome workflow looks like in practice
 
 ## What this packet includes
 
 - `SKILL.md`
-  - the canonical host-facing skill instructions
+  - the agent-facing workflow prompt
 - `manifest.yaml`
-  - repo-owned listing metadata for ClawHub-style and OpenHands-style submits
+  - listing metadata for registry-style distribution
+- `references/INSTALL.md`
+  - install and host wiring guide
+- `references/CAPABILITIES.md`
+  - exposed MCP tools and recommended first-use path
+- `references/DEMO.md`
+  - exact demo prompts and success criteria
+- `references/OPENHANDS_MCP_CONFIG.json`
+  - host config snippet for `mcpServers`
+- `references/OPENCLAW_MCP_CONFIG.json`
+  - host config snippet for `mcp.servers`
 
 ## Best-fit hosts
 
 - OpenHands/extensions contribution flow
 - ClawHub-style skill publication
-- repo-local skill import flows that expect a standalone folder
+- repo-local skill import flows that expect a standalone folder with its own
+  install and demo references
 
 ## What this packet must not claim
 
@@ -35,7 +46,8 @@ honest:
 
 ## Source of truth
 
-Keep this packet aligned with:
+Keep this packet aligned with the source repo, but do not make reviewers depend
+on repo-root docs before they can understand the skill:
 
 - `docs/distribution.md`
 - `docs/project-status.md`
