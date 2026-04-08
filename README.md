@@ -153,6 +153,12 @@ Once the product path is clear, use one second-ring page instead of reading ever
 
 The ordering is intentional: first the workbench, then the proof lane, then the carry-forward surfaces.
 
+## Product Truth Boundary
+
+Ordinary chat and ask flows are a fast assistant surface for exploration and iteration.
+
+When you need stronger traceability, the stricter product truth lane lives in auditable markdown and auditable-runs rather than ordinary chat alone.
+
 ## Quick Result Path
 
 This path optimizes for the first visible result, not full system mastery.

@@ -8,7 +8,10 @@
     "promptfoo": "0.120.25"
   },
   "overrides": {
+    "@hono/node-server": "1.19.13",
     "@xmldom/xmldom": "0.8.12",
+    "drizzle-orm": "0.45.2",
+    "hono": "4.12.12",
     "yaml": "2.8.3",
     "path-to-regexp": "8.4.0"
   }
