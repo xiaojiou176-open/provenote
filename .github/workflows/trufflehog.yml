@@ -33,4 +33,4 @@ jobs:
           echo "${HOME}/.local/bin" >> "${GITHUB_PATH}"
 
       - name: Run TruffleHog git scan
-        run: trufflehog git file://. --results=verified,unknown --fail --no-update --exclude-paths config/ci/trufflehog-exclude-paths.txt
+        run: trufflehog git file://. --results=verified,unknown --fail --no-update
