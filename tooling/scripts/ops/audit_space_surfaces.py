@@ -579,6 +579,17 @@ def main() -> int:
     print("# Space Surface Audit")
     print()
     print(f"Registry: {display_registry}")
+    active_filters: list[str] = []
+    if args.cleanup_owner:
+        active_filters.append(f"cleanup_owner={args.cleanup_owner}")
+    if args.inventory_class:
+        active_filters.append(f"inventory_class={args.inventory_class}")
+    if action_filter:
+        active_filters.append(
+            "action_filter=" + ",".join(sorted(str(item) for item in action_filter))
+        )
+    if active_filters:
+        print("Active filters: " + "; ".join(active_filters))
     print(
         "Status columns: exists / ownership_confirmed / rebuildability_confirmed / clear_allowed"
     )
@@ -615,6 +626,13 @@ def main() -> int:
     print(
         "Historical candidate rows are also reported separately below so named cache candidates do not disappear behind the glob-excluded distinct-summary rule."
     )
+    if (
+        args.cleanup_owner == "cleanup_runtime_cache.sh"
+        and summary["repo_external_bytes_distinct"] == 0
+    ):
+        print(
+            "Filtered view note: repo-external machine caches are intentionally omitted when cleanup_owner=cleanup_runtime_cache.sh. Use --inventory-class repo_managed_candidate --action-filter safe_clear,cautious_clear to inspect repo-owned machine caches under ~/.cache/provenote."
+        )
     for section in SECTIONS:
         section_rows = [item for item in report_surfaces if item["section"] == section]
         if not section_rows:

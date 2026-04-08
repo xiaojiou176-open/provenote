@@ -4,6 +4,8 @@ This page explains Provenote's current public distribution status without blurri
 
 In plain language: a public GitHub repo can already ship real starter bundles and real proof loops before any official marketplace or registry listing goes live.
 
+If you want the machine-readable packet inventory behind the host bundle story, start with [../examples/hosts/packet-index.json](../examples/hosts/packet-index.json). That index points at the per-bundle `manifest.yaml` files while this page stays focused on claim levels and listing truth.
+
 ## Claim Ladder
 
 | Level | What it means | What it does not mean |

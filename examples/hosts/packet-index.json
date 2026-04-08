@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "kind": "host_packet_index",
+  "product": "Provenote",
+  "version": "1.8.5",
+  "schema": "./packet-manifest.schema.json",
+  "bundles": [
+    {
+      "id": "provenote-claude-code-outcome-bundle",
+      "host": "Claude Code",
+      "claimLevel": "public-ready package available",
+      "manifest": "./claude-code/provenote-outcome-bundle/manifest.yaml",
+      "submissionPack": "./claude-code/DIRECTORY_SUBMISSION.md"
+    },
+    {
+      "id": "provenote-codex-outcome-bundle",
+      "host": "OpenAI Codex",
+      "claimLevel": "public-ready package available",
+      "manifest": "./codex/provenote-outcome-bundle/manifest.yaml",
+      "submissionPack": "./codex/PLUGIN_DIRECTORY_SUBMISSION.md"
+    },
+    {
+      "id": "provenote-cursor-outcome-bundle",
+      "host": "Cursor",
+      "claimLevel": "public-ready package available",
+      "manifest": "./cursor/provenote-outcome-bundle/manifest.yaml"
+    },
+    {
+      "id": "provenote-opencode-outcome-bundle",
+      "host": "OpenCode",
+      "claimLevel": "public-ready package available",
+      "manifest": "./opencode/provenote-outcome-bundle/manifest.yaml"
+    },
+    {
+      "id": "provenote-openclaw-claude-bundle",
+      "host": "OpenClaw (Claude-style)",
+      "claimLevel": "public-ready package available",
+      "manifest": "./openclaw/provenote-claude-bundle/manifest.yaml",
+      "submissionPack": "./openclaw/CLAWHUB_SUBMISSION.md"
+    },
+    {
+      "id": "provenote-openclaw-cursor-bundle",
+      "host": "OpenClaw (Cursor-style)",
+      "claimLevel": "public-ready package available",
+      "manifest": "./openclaw/provenote-cursor-bundle/manifest.yaml",
+      "submissionPack": "./openclaw/CLAWHUB_SUBMISSION.md"
+    },
+    {
+      "id": "provenote-openclaw-codex-bundle",
+      "host": "OpenClaw (Codex-style)",
+      "claimLevel": "public-ready package available",
+      "manifest": "./openclaw/provenote-codex-bundle/manifest.yaml",
+      "submissionPack": "./openclaw/CLAWHUB_SUBMISSION.md"
+    }
+  ],
+  "submissionPacks": [
+    {
+      "id": "claude-code-directory-submission",
+      "surface": "Claude Code",
+      "claimLevel": "repo-owned prep exists",
+      "path": "./claude-code/DIRECTORY_SUBMISSION.md"
+    },
+    {
+      "id": "codex-plugin-directory-submission",
+      "surface": "OpenAI Codex",
+      "claimLevel": "repo-owned prep exists",
+      "path": "./codex/PLUGIN_DIRECTORY_SUBMISSION.md"
+    },
+    {
+      "id": "openclaw-clawhub-submission-pack",
+      "surface": "OpenClaw / ClawHub",
+      "claimLevel": "repo-owned prep exists",
+      "path": "./openclaw/CLAWHUB_SUBMISSION.md"
+    },
+    {
+      "id": "official-mcp-registry-submission-pack",
+      "surface": "Official MCP Registry",
+      "claimLevel": "repo-owned prep exists",
+      "path": "../public-distribution/mcp-registry/README.md"
+    }
+  ]
+}

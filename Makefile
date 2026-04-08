@@ -199,8 +199,8 @@ docker-runtime-audit:
 
 cleanup-operator-dry-run:
 	@echo "🧪 Provenote cleanup operator path (dry-run)"
-	@echo "1) audit repo-owned runtime surfaces"
-	bash tooling/scripts/ops/audit_space_surfaces.sh --cleanup-owner cleanup_runtime_cache.sh --action-filter safe_clear,cautious_clear
+	@echo "1) audit repo-managed cleanup candidates (repo-local + repo-owned machine cache)"
+	bash tooling/scripts/ops/audit_space_surfaces.sh --inventory-class repo_managed_candidate --action-filter safe_clear,cautious_clear
 	@echo ""
 	@echo "2) audit repo-related machine cache candidates"
 	bash tooling/scripts/ops/cleanup_machine_cache.sh --mode audit-only

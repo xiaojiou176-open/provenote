@@ -11,6 +11,8 @@ They exist to make Provenote easier to verify and install from real host-facing 
 
 Treat them like public-ready starter packages you can copy from this public repository.
 
+Machine-readable packet metadata now lives in [packet-index.json](./packet-index.json). Use that index and the per-bundle `manifest.yaml` files when you need one authoritative map of every host bundle without re-reading every README by hand.
+
 That still does **not** mean:
 
 - an official marketplace or directory listing is live
@@ -28,6 +30,8 @@ That still does **not** mean:
 | `openclaw/provenote-claude-bundle` | A public-ready Claude-style OpenClaw-compatible bundle install pack with plugin markers, `.mcp.json`, commands, and a local skill |
 | `openclaw/provenote-cursor-bundle` | A public-ready Cursor-style OpenClaw-compatible bundle install pack with `.cursor-plugin`, `.cursor/commands`, and `.mcp.json` |
 | `openclaw/provenote-codex-bundle` | A public-ready Codex-style OpenClaw-compatible bundle install pack with `.codex-plugin`, `skills/`, and `.mcp.json` |
+
+Every bundle above now also carries a `manifest.yaml` packet descriptor so host packet identity, placement, smoke flow, and claim level stay machine-readable instead of living only in prose.
 
 If you want the narrowest OpenClaw-specific inventory before touching a host, use [openclaw/README.md](openclaw/README.md) and [openclaw/CLAWHUB_SUBMISSION.md](openclaw/CLAWHUB_SUBMISSION.md).
 

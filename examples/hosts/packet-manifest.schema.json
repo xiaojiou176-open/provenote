@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/xiaojiou176-open/provenote/tree/main/examples/hosts/packet-manifest.schema.json",
+  "title": "Provenote host packet manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kind",
+    "id",
+    "name",
+    "description",
+    "version",
+    "license",
+    "homepage",
+    "repository",
+    "supportTier",
+    "publicationStatus",
+    "host",
+    "placement",
+    "packetArtifacts",
+    "capabilities",
+    "smoke",
+    "claimBoundary"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string"
+    },
+    "kind": {
+      "const": "host_packet"
+    },
+    "id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "license": {
+      "type": "string"
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri"
+    },
+    "repository": {
+      "type": "object",
+      "required": ["type", "url", "directory"],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "directory": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "supportTier": {
+      "type": "string"
+    },
+    "publicationStatus": {
+      "type": "string"
+    },
+    "host": {
+      "type": "string"
+    },
+    "placement": {
+      "type": "object",
+      "required": ["relativePath", "discoveryRoots"],
+      "properties": {
+        "relativePath": {
+          "type": "string"
+        },
+        "discoveryRoots": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "packetArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "smoke": {
+      "type": "object",
+      "required": ["path", "minimalFlow", "preferredFlow"],
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "minimalFlow": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        },
+        "preferredFlow": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "claimBoundary": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

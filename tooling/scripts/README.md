@@ -139,8 +139,8 @@ Read-only disk audit entrypoint for repo-local and repo-related space surfaces.
 ```bash
 bash tooling/scripts/ops/audit_space_surfaces.sh
 bash tooling/scripts/ops/audit_space_surfaces.sh --format json
-bash tooling/scripts/ops/audit_space_surfaces.sh --cleanup-owner cleanup_runtime_cache.sh --action-filter safe_clear,cautious_clear
 bash tooling/scripts/ops/audit_space_surfaces.sh --inventory-class repo_managed_candidate --action-filter safe_clear,cautious_clear
+bash tooling/scripts/ops/audit_space_surfaces.sh --cleanup-owner cleanup_runtime_cache.sh --action-filter safe_clear,cautious_clear
 ```
 
 ### What It Does

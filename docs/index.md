@@ -1,10 +1,10 @@
 # Documentation
 
-Provenote now uses a layered public docs entrypoint.
+Provenote now uses a layered public docs entrypoint, and this page is the second-ring atlas rather than the first screen.
 
 The idea is simple: do not make first-time visitors walk through a governance maze just to decide whether the product is worth their time.
 
-In plain language: the front door should answer "what is this, why should I care, and where do I start" before it asks you to think about bundles, listings, or maintenance pages.
+In plain language: the README should answer "what is this, why should I care, and where do I start" before it asks you to think about bundles, listings, or maintenance pages. This page takes over only after that first decision is already made.
 
 The shortest honest order is:
 
