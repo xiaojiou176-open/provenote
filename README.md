@@ -129,13 +129,16 @@ Think of these surfaces like rooms around the main workshop:
 | --- | --- | --- |
 | Claude Code / Codex / Cursor / OpenCode pages | repo-backed compatibility guides through the first-party MCP server, with public-ready starter bundles under `examples/hosts/` | official partnership, bundled integration, plugin, or marketplace listing |
 | `provenote` CLI | a first-party local operator surface for outcome inspection and `research_thread -> draft -> verify/download` workflows | a separate distributed product line or a renamed MCP server |
-| public skills surface | not currently a shipped public product surface in this repository | a skills catalog, skills marketplace, or host-specific skills program claim |
+| public skills surface | tracked public-ready skill packets now exist under `public-skills/` for host-specific submission flows | a public skills catalog, live marketplace listing, or host-specific skills program endorsement |
 | OpenClaw | public-ready OpenClaw-compatible bundles and a ClawHub submission pack live under `examples/hosts/openclaw` | an official ClawHub or community listing that is already live |
 | release / listing / domain / trademark / partnership | external decision and publication work | completed repo-side truth |
 
 If you want the shortest public page that keeps those boundaries honest, start with [docs/project-status.md](./docs/project-status.md).
 
 If you want repo-owned install artifacts instead of prose-only setup pages, start with [examples/hosts/README.md](./examples/hosts/README.md). That index points to the public-ready Claude Code, Codex, Cursor, and OpenCode starter bundles plus the OpenClaw-compatible bundles and the ClawHub submission pack.
+
+If you want the standalone host-facing skill folders used for OpenHands/extensions
+or ClawHub-style submissions, start with [public-skills/README.md](./public-skills/README.md).
 
 If you want the full claim ladder instead of inferring it from scattered host pages, use [docs/distribution.md](./docs/distribution.md).
 

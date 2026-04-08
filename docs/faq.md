@@ -127,6 +127,7 @@ The current public surfaces are:
 - the first-party `provenote` operator CLI
 - public-ready starter bundles under [../examples/hosts/README.md](../examples/hosts/README.md)
 - public-ready starter bundles in `examples/hosts/`
+- tracked public-ready skill packets under [../public-skills/README.md](../public-skills/README.md)
 
 What is not claimed today:
 
