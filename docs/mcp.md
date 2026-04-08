@@ -109,7 +109,7 @@ If you want the current submission packs for official discovery surfaces, start 
 | host pages under `docs/integrations/` | compatibility through the first-party MCP server, with repo-backed starter bundles where available | official partnership, bundled integration, plugin, marketplace, or directory status |
 | `provenote-mcp` | the repo-owned stdio MCP entrypoint | a universal guarantee across every host/runtime mode |
 | `provenote` | the first-party terminal/operator surface for outcome inspection and narrow outcome workflows | a host plugin, marketplace package, or MCP replacement |
-| public skills surface | no tracked public product surface exists today | a public skills catalog, skills marketplace, or host-specific skills program |
+| public skills surface | tracked public-ready skill packets now exist under `../public-skills/` for host-specific submission flows | a public skills catalog, live marketplace listing, or host-specific skills program endorsement |
 | OpenClaw | public-ready bundles and a repo-owned submission pack exist | an official ClawHub listing that is already live |
 | plugin / marketplace / directory presence | external-only or intentionally not-live today | shipped listing-live truth |
 
