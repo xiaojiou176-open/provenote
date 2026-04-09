@@ -4,6 +4,11 @@ This folder is the public, self-contained skill packet for Provenote.
 It is designed to carry install, config, capability, and demo material inside
 the skill folder instead of pushing that burden back to repo-root docs.
 
+It is the public skill companion to Provenote's first-party MCP carry-forward
+lane. Reviewers should still understand the product in this order:
+outcome-first workbench first, first-party MCP second, then this standalone
+skill packet for host-native submission flows.
+
 ## Purpose
 
 Use it when you want one portable skill folder that teaches four things clearly:
@@ -29,6 +34,8 @@ Use it when you want one portable skill folder that teaches four things clearly:
   - host config snippet for `mcpServers`
 - `references/OPENCLAW_MCP_CONFIG.json`
   - host config snippet for `mcp.servers`
+- `references/TROUBLESHOOTING.md`
+  - first-failure checks for launch, empty workspaces, and narrow write steps
 
 ## Best-fit hosts
 
@@ -37,10 +44,19 @@ Use it when you want one portable skill folder that teaches four things clearly:
 - repo-local skill import flows that expect a standalone folder with its own
   install and demo references
 
+## Current repo-backed state
+
+- this packet keeps install, config, capability, demo, and troubleshooting
+  material inside one portable folder around the first-party `provenote-mcp`
+- the OpenHands/extensions submission is currently review-pending at
+  `OpenHands/extensions#154`
+- ClawHub and Official MCP Registry listing claims stay outside this packet
+  until separate host-side or registry read-back is attached
+
 ## What this packet must not claim
 
 - no live OpenHands/extensions listing without fresh PR/read-back
-- no live ClawHub listing without fresh host-side read-back
+- no live ClawHub or Official MCP Registry listing inferred from this folder alone
 - no official marketplace or directory listing by itself
 - no replacement of the first-party `provenote-mcp` server
 

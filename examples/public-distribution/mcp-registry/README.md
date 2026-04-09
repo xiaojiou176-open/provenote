@@ -4,6 +4,10 @@ This folder keeps the repo-owned submission materials for the official MCP Regis
 
 In plain language: Provenote already ships the first-party `provenote-mcp` server, proof loops, and a registry submission-pack stub, but no official MCP Registry listing is claimed as live yet.
 
+Treat this as a companion registry lane around the outcome-first workbench. It
+exists after the main product path is already clear; it is not the first door
+for understanding Provenote.
+
 ## Current Claim Ladder
 
 | Ladder step | Current status |

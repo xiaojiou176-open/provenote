@@ -1,6 +1,11 @@
-# Host Examples
+# Companion Host Examples
 
 These examples are tracked, repo-owned host artifacts.
+
+They are companion carry-forward surfaces around the first-party Provenote MCP
+server. They help reviewers and operators bring notebook, draft, research
+thread, and auditable-run workflows into host-specific setups after the main
+outcome-workbench story is already clear.
 
 They exist to make Provenote easier to verify and install from real host-facing surfaces without overclaiming:
 
@@ -9,7 +14,7 @@ They exist to make Provenote easier to verify and install from real host-facing 
 - public skills distribution
 - universal support across every host/runtime mode
 
-Treat them like public-ready starter packages you can copy from this public repository.
+Treat them like public-ready starter packages you can copy from this public repository, not as formal product roots or proof that a host-specific plugin lane is already live.
 
 Machine-readable packet metadata now lives in [packet-index.json](./packet-index.json). Use that index and the per-bundle `manifest.yaml` files when you need one authoritative map of every host bundle without re-reading every README by hand.
 
