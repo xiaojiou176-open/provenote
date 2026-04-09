@@ -14,7 +14,7 @@ registry_targets:
     package_shape: skill-folder
     submit_via: clawhub publish . --slug provenote-mcp-outcome-workflows --name "Provenote MCP Outcome Workflows" --version 1.1.1 --tags mcp,notes,research,outcomes,provenote
   openhands-extensions:
-    status: review-pending
+    status: changes-requested
     package_shape: skill-folder
     submission_url: https://github.com/OpenHands/extensions/pull/154
     submit_via: submit this folder as skills/provenote-mcp-outcome-workflows/ in OpenHands/extensions
@@ -22,7 +22,7 @@ registry_targets:
 boundaries:
   product_identity: Outcome-first Provenote companion skill for the first-party MCP server.
   canonical_repo_version: 1.8.5
-  official_listing_state: openhands-review-pending-only
+  official_listing_state: openhands-changes-requested-only
   not_claimed:
     - No live OpenHands/extensions listing exists yet
     - No live ClawHub listing is claimed from this packet alone

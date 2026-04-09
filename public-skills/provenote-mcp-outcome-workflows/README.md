@@ -48,7 +48,7 @@ Use it when you want one portable skill folder that teaches four things clearly:
 
 - this packet keeps install, config, capability, demo, and troubleshooting
   material inside one portable folder around the first-party `provenote-mcp`
-- the OpenHands/extensions submission is currently review-pending at
+- the OpenHands/extensions submission currently has reviewer-requested changes at
   `OpenHands/extensions#154`
 - ClawHub and Official MCP Registry listing claims stay outside this packet
   until separate host-side or registry read-back is attached

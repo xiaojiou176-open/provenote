@@ -2,7 +2,7 @@
 
 This folder keeps the repo-owned submission materials for the official MCP Registry lane.
 
-In plain language: Provenote already ships the first-party `provenote-mcp` server, proof loops, and a registry submission-pack stub, but no official MCP Registry listing is claimed as live yet.
+In plain language: Provenote already ships the first-party `provenote-mcp` server, proof loops, and a registry submission pack, and the Official MCP Registry now returns a live active entry for `io.github.xiaojiou176-open/provenote-mcp`.
 
 Treat this as a companion registry lane around the outcome-first workbench. It
 exists after the main product path is already clear; it is not the first door
@@ -14,8 +14,8 @@ for understanding Provenote.
 | --- | --- |
 | `repo-owned prep exists` | yes |
 | `public-ready package available` | no |
-| `publicly discoverable listing live` | no |
-| `official marketplace listing live` | no |
+| `publicly discoverable listing live` | yes |
+| `official marketplace listing live` | yes |
 
 ## Repo-Owned Submission Materials
 
@@ -36,37 +36,40 @@ for understanding Provenote.
 - MCP Registry generic `server.json` reference:
   - `https://github.com/modelcontextprotocol/registry/blob/main/docs/reference/server-json/generic-server-json.md`
 
-## What Still Blocks A Live Registry Entry
+## Current Live Read-Back
 
-- the official quickstart still assumes a real published package before registry publish
-- the official registry requirements still enforce package-ownership verification for registry-backed artifacts
-- authenticated registry publish access
-- a registry-compatible public package or public remote-server artifact path and release flow
-- the external publish step itself
+- registry query returns `io.github.xiaojiou176-open/provenote-mcp`
+- status is `active`
+- published version is `1.8.5`
 
-Those are not repository-code blockers.
+## What Still Remains A Later Upgrade
 
-In the official quickstart, the blocking public-artifact step is explicit:
+- a package-backed public install artifact is still a separate packaging improvement
+- the `mcp-publisher` flow is still relevant if the maintainer wants to move from websiteUrl-based install guidance to a package-backed install surface
+- host-specific directory and marketplace lanes still require their own external submission/read-back
+
+For that later package-backed upgrade, the official quickstart still assumes a real published package before registry publish, and the official registry requirements still enforce package-ownership verification for registry-backed artifacts.
+
+In exact terms, the official quickstart still assumes a real published package before registry publish.
+
+The later upgrade path still looks like:
 
 - publish the install artifact to a public package registry first
 - add `mcpName` to the package metadata
 - add a `packages` entry to `server.json`
-- authenticate with `mcp-publisher login`
+- authenticate with `mcp-publisher login github`
 - publish with `mcp-publisher publish`
 
-This repo currently stops before those steps because the public artifact itself is not yet published.
-
-## Exact Unblock Pack
+## Exact Later-Upgrade Pack
 
 | Item | Current repo-side state | Minimum external action |
 | --- | --- | --- |
 | first-party MCP docs and server identity | ready in `docs/mcp.md`, `server.json`, and `examples/public-distribution/mcp-registry/server.json` | none |
-| registry-facing metadata shell | ready | none |
-| public artifact publish | not done | owner publishes the supported install artifact to a public registry first |
-| registry auth | not done | owner runs `mcp-publisher login github` with a valid account |
-| registry publish | not done | owner runs `mcp-publisher publish` after the public artifact exists |
+| live registry entry | already live | keep read-back attached when future docs change |
+| package-backed public artifact | not done | owner publishes the supported install artifact to a public registry if a package-backed install surface is desired later |
+| package-backed registry upgrade | not done | owner runs the future `mcp-publisher` flow only if the maintainer wants that richer install path later |
 
-This pack is intentionally one rung below a real listing:
+This pack now sits next to a real listing:
 
-- it records the candidate registry name and website URL
+- it records the live registry identity and the repo-owned install docs that back it
 - it does **not** claim that a supported public package or public remote-server artifact is already published

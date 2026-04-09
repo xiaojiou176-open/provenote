@@ -24,14 +24,16 @@ def test_distribution_doc_exists_and_keeps_claim_ladder() -> None:
 
 def test_distribution_doc_keeps_mcp_registry_boundary() -> None:
     text = _read("docs/distribution.md")
-    assert "official MCP Registry already exists" in text
+    assert "live Official MCP Registry entry for `provenote-mcp`" in text
     assert "public-distribution/mcp-registry/server.json" in text
-    assert "official registry requirements" in text
+    assert "Fresh registry read-back now returns" in text
+    assert "status `active`" in text
+    assert "version `1.8.5`" in text
     assert (
-        "registry-specific publication is still blocked by external publish/auth work"
+        "package-backed public artifact is still a later packaging upgrade"
         in text
     )
-    assert "supported public package or public remote-server artifact" in text
+    assert "live registry entry points back to the repo-owned MCP docs/install surface" in text
 
 
 def test_registry_prep_files_exist_for_mcp_registry_lane() -> None:
@@ -69,12 +71,11 @@ def test_codex_integration_keeps_listing_truth_below_directory_live() -> None:
 
 def test_registry_submission_pack_keeps_public_artifact_boundary() -> None:
     text = _read("examples/public-distribution/mcp-registry/README.md")
-    assert "official quickstart still assumes a real published package" in text
-    assert (
-        "official registry requirements still enforce package-ownership verification"
-        in text
-    )
-    assert "public package or public remote-server artifact" in text
+    assert "Official MCP Registry now returns a live active entry" in text
+    assert "status is `active`" in text
+    assert "published version is `1.8.5`" in text
+    assert "package-backed public install artifact is still a separate packaging improvement" in text
+    assert "does **not** claim that a supported public package or public remote-server artifact is already published" in text
 
 
 def test_pyproject_exposes_public_package_metadata() -> None:
