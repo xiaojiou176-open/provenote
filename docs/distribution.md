@@ -2,7 +2,7 @@
 
 This page explains Provenote's current public distribution status without blurring package readiness, public discoverability, and official listing status.
 
-In plain language: a public GitHub repo can already ship real starter bundles and real proof loops before any official marketplace or registry listing goes live.
+In plain language: a public GitHub repo can already ship real starter bundles and real proof loops before every external listing goes live. Provenote now also has a live Official MCP Registry entry for `provenote-mcp`, while the rest of the host-specific marketplace lanes remain separate questions.
 
 If you want the machine-readable packet inventory behind the host bundle story, start with [../examples/hosts/packet-index.json](../examples/hosts/packet-index.json). That index points at the per-bundle `manifest.yaml` files while this page stays focused on claim levels and listing truth.
 
@@ -22,7 +22,7 @@ If you want the machine-readable packet inventory behind the host bundle story, 
 | Claude Code | yes, official Claude Code MCP docs exist and Anthropic documents a discovery surface plus official marketplace submission flows | yes, official marketplace/discovery docs and submission forms are documented | [../examples/hosts/claude-code/provenote-outcome-bundle/README.md](../examples/hosts/claude-code/provenote-outcome-bundle/README.md), [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md), and [integrations/claude-code.md](integrations/claude-code.md) | `public-ready package available` | no | authenticated Anthropic marketplace submission plus directory review and any extra publisher-side materials Anthropic requires |
 | OpenAI Codex | yes, official Codex MCP docs exist | no verified official listing flow was confirmed in this turn | [../examples/hosts/codex/provenote-outcome-bundle/README.md](../examples/hosts/codex/provenote-outcome-bundle/README.md), [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md), and [integrations/codex.md](integrations/codex.md) | `public-ready package available` | no | wait for OpenAI to expose or document an official listing path before claiming more |
 | OpenClaw / ClawHub | yes | yes | [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md), [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md), [../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md), and [integrations/openclaw.md](integrations/openclaw.md) | `public-ready package available` | no | authenticated ClawHub publish under a valid account and namespace |
-| Official MCP Registry | yes | yes | [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), [../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md](../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md), [../examples/public-distribution/mcp-registry/server.json](../examples/public-distribution/mcp-registry/server.json), [mcp.md](mcp.md), and [../pyproject.toml](../pyproject.toml) | `repo-owned prep exists` | no | authenticated registry publish plus a supported public artifact path |
+| Official MCP Registry | yes | yes | [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), [../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md](../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md), [../examples/public-distribution/mcp-registry/server.json](../examples/public-distribution/mcp-registry/server.json), [mcp.md](mcp.md), and [../pyproject.toml](../pyproject.toml) | `official marketplace listing live` | yes | package-backed install artifact upgrades remain optional follow-up work |
 
 ## What Is Already Public-Ready
 
@@ -60,17 +60,31 @@ If you want the machine-readable packet inventory behind the host bundle story, 
   - keep the first action read-first
   - only then run one narrow outcome mutation
 
-## Why MCP Registry Is Still One Rung Lower
+## What The Live MCP Registry Entry Proves
 
 The official MCP Registry already exists and its docs include a publish quickstart plus a [`server.json`](../server.json) reference that supports custom installation paths via `websiteUrl`.
 
 The current repo now keeps the canonical submission metadata in [../examples/public-distribution/mcp-registry/server.json](../examples/public-distribution/mcp-registry/server.json) and mirrors the same registry-facing identity in [`server.json`](../server.json), both pointing at the first-party install docs in [mcp.md](mcp.md).
 
-The current repo still does **not** prove a supported public artifact has already been published through the registry's accepted install paths. The official quickstart still assumes a real published package before `mcp-publisher publish`, and the official registry requirements still enforce package-ownership verification for registry-backed artifacts. That means the honest current level is:
+Fresh registry read-back now returns:
 
-- `provenote-mcp` exists
-- the repo has public docs, proof loops, registry submission-pack metadata, and a build-verified public-artifact checklist
-- registry-specific publication is still blocked by external publish/auth work plus the absence of a supported public package or public remote-server artifact from this repo
+- `io.github.xiaojiou176-open/provenote-mcp`
+- status `active`
+- version `1.8.5`
+
+That means the honest current level is now:
+
+- the official MCP Registry listing is live
+- the live registry entry points back to the repo-owned MCP docs/install surface
+- a package-backed public artifact is still a later packaging upgrade, not a prerequisite for acknowledging the live entry
+- a supported public package or public remote-server artifact is still only needed if the maintainer wants to upgrade beyond the current live websiteUrl-backed entry
+
+For that later packaging upgrade, the official registry requirements and the
+quickstart's package-backed publish path still matter. They are no longer
+evidence that the current live entry is absent; they are evidence for what a
+future richer install surface would still need.
+
+Said another way: registry-specific publication is still blocked by external publish/auth work when the goal changes from today's live websiteUrl-backed entry to a richer package-backed install surface.
 
 ## Promotion Asset Pack
 
@@ -119,5 +133,4 @@ This page does **not** claim:
 - an official Claude Code listing is live
 - an official Codex plugin listing is live
 - a live official OpenClaw / ClawHub listing for Provenote
-- a live MCP Registry entry for Provenote
 - any vendor partnership or endorsement

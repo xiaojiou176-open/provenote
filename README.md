@@ -2,7 +2,7 @@
 
 <div align="center">
   <p>
-    <strong>Messy long context -> structured insight -> notes, research threads, and inspectable outcomes.</strong>
+    <strong>Teach agents and operators to turn messy long context into structured outcomes they can carry into notes, research threads, drafts, and inspectable results.</strong>
   </p>
   <p>
     <a href="https://github.com/xiaojiou176-open/provenote/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/xiaojiou176-open/provenote?label=discussions"></a>
@@ -25,7 +25,7 @@
     <strong>Second ring:</strong>
     <a href="./docs/mcp.md"><strong>MCP & Integrations</strong></a>
     ·
-    <a href="./examples/hosts/README.md"><strong>Starter Bundles</strong></a>
+    <a href="./examples/hosts/README.md"><strong>Companion Host Bundles</strong></a>
     ·
     <a href="./docs/distribution.md"><strong>Distribution</strong></a>
     ·
@@ -48,6 +48,12 @@ This illustrated overview is a repo-authored summary of the shortest documented 
 > `messy long context -> structured insight -> note / research thread / draft -> inspectable outcome`
 
 That is the first door. MCP, starter bundles, distribution pages, and promotion assets are valuable second-ring surfaces, but they should not outrank the product path.
+
+Agent-facing truth comes first: Provenote teaches an agent to read messy
+context, structure it, move it into note / research-thread / draft lanes, and
+only then carry that outcome workflow forward through the first-party
+`provenote-mcp` server. Public skills, host bundles, and registry packs are
+companion surfaces around that workbench, not the product root.
 
 ## Start Here In 10 Seconds
 

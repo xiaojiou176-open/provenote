@@ -163,7 +163,7 @@ Current repo-side preparation can go far, but these steps are still outside pure
 - registering a custom domain or redirect
 - trademark and naming clearance for a stronger public brand move
 - marketplace, directory, or partner-program submissions
-- Official MCP Registry submission once a supported public package or public remote-server artifact exists
+- package-backed Official MCP Registry upgrade once a supported public package or public remote-server artifact exists
 
 In plain language: the workshop can be swept and labeled before someone unlocks the storefront.
 

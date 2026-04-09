@@ -1,20 +1,12 @@
 # Publishable Public Artifact Prep
 
-This file records the repo-owned work that must be true before a maintainer performs the final public package publish for the official MCP Registry lane.
+This file records the repo-owned work that would be needed to upgrade Provenote's live Official MCP Registry entry into a package-backed install surface later.
 
-In plain language: the registry still needs a real published install artifact, but the repo can already prepare the package metadata, build commands, and release checklist so the final publish is only one human login plus one publish step.
+In plain language: the Official MCP Registry entry is already live, but the repo can still prepare package metadata, build commands, and release checklist so a future package-backed install path is only one human login plus one publish step.
 
 ## Current Goal
 
-Move Provenote from:
-
-- `repo-owned prep exists`
-
-to:
-
-- build-verified public-artifact prep
-
-without overclaiming that a public package is already published.
+Keep the live registry entry truthful while preparing a later package-backed public artifact path without overclaiming that a public package is already published.
 
 ## Repo-Owned Prep That Is Already In Place
 
@@ -61,11 +53,11 @@ These are build artifacts only. They do **not** prove that a public package regi
 
 Safe now:
 
-- the repo keeps publishable public-artifact prep for the official MCP Registry lane
+- the repo keeps package-backed public-artifact prep for a future Official MCP Registry upgrade
+- the official MCP Registry entry is already live for `io.github.xiaojiou176-open/provenote-mcp`
 - the package metadata and build path are prepared in-tree
-- official registry publish still requires a real public package plus authenticated publish
 
 Not safe now:
 
 - a public package registry entry already exists
-- Provenote is already listed in the official MCP Registry
+- the live registry entry guarantees a package-backed install path
