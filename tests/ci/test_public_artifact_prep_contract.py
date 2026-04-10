@@ -16,7 +16,10 @@ def test_pyproject_keeps_publishable_public_metadata() -> None:
     project = data["project"]
     assert project["name"] == "provenote"
     assert "mcp" in project["keywords"]
-    assert project["urls"]["Documentation"] == "https://xiaojiou176-open.github.io/provenote/"
+    assert (
+        project["urls"]["Documentation"]
+        == "https://xiaojiou176-open.github.io/provenote/"
+    )
     assert project["urls"]["Source"] == "https://github.com/xiaojiou176-open/provenote"
 
 

@@ -123,7 +123,10 @@ def test_local_preflight_can_opt_into_repo_fast_container_profile() -> None:
     script_text = (
         REPO_ROOT / "tooling/scripts/ci/local_preflight_before_push.sh"
     ).read_text(encoding="utf-8")
-    assert 'OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"' in script_text
+    assert (
+        'OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"'
+        in script_text
+    )
     assert 'CONTAINER_PROFILE="repo-fast"' in script_text
     assert '--profile "${CONTAINER_PROFILE}"' in script_text
     assert '"${OPEN_NOTEBOOK_CI_FORCE_CONTAINER}" == "1"' in script_text
@@ -138,10 +141,13 @@ def test_make_ci_local_preflight_defaults_to_fast_mode() -> None:
 
 
 def test_unified_test_gate_can_opt_into_repo_fast_container_profile() -> None:
-    script_text = (
-        REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
-    ).read_text(encoding="utf-8")
-    assert 'OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"' in script_text
+    script_text = (REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh").read_text(
+        encoding="utf-8"
+    )
+    assert (
+        'OPEN_NOTEBOOK_CI_FORCE_CONTAINER="${OPEN_NOTEBOOK_CI_FORCE_CONTAINER:-0}"'
+        in script_text
+    )
     assert 'CONTAINER_PROFILE="repo-fast"' in script_text
     assert 'if [[ "${MODE}" == "fast" ]]; then' in script_text
     assert '"${OPEN_NOTEBOOK_CI_FORCE_CONTAINER}" == "1"' in script_text
@@ -156,17 +162,20 @@ def test_quality_full_defaults_to_host_execution() -> None:
 
 
 def test_unified_test_gate_can_skip_duplicate_prepush_guards_for_hook_context() -> None:
-    script_text = (
-        REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
-    ).read_text(encoding="utf-8")
-    assert 'OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-0}"' in script_text
+    script_text = (REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh").read_text(
+        encoding="utf-8"
+    )
+    assert (
+        'OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT="${OPEN_NOTEBOOK_PREPUSH_HOOK_CONTEXT:-0}"'
+        in script_text
+    )
     assert "skip duplicated dedicated pre-push guards before fast smoke" in script_text
 
 
 def test_unified_test_gate_runs_navigation_docs_guard_as_single_step() -> None:
-    script_text = (
-        REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh"
-    ).read_text(encoding="utf-8")
+    script_text = (REPO_ROOT / "tooling/scripts/ci/run_unified_test_gate.sh").read_text(
+        encoding="utf-8"
+    )
     assert (
         'run_step "navigation-docs-pair-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py'
         in script_text
