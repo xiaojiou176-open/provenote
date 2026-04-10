@@ -1261,7 +1261,9 @@ describe("SourceDetailContent", () => {
     await screen.findByText("ID: source:1");
 
     expect(screen.getByTestId("tabs-root")).toHaveAttribute("data-value", "content");
-    fireEvent.click(screen.getByRole("button", { name: "sources.detailRail.detailsActionFallback" }));
+    fireEvent.click(
+      screen.getByRole("button", { name: "sources.detailRail.detailsActionFallback" }),
+    );
 
     expect(screen.getByTestId("tabs-root")).toHaveAttribute("data-value", "details");
   });
