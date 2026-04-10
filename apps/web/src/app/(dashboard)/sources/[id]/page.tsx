@@ -58,13 +58,13 @@ export default function SourceDetailPage() {
               <p className="mt-1 text-sm font-semibold text-foreground">
                 {t(
                   "sources.detailPage.title",
-                  "Verify the source first, then move into auditable output or chat."
+                  "Verify the source first, then move into auditable output or chat.",
                 )}
               </p>
               <p className="mt-1 text-sm text-muted-foreground">
                 {t(
                   "sources.detailPage.body",
-                  "This page is split into three next-step lanes so you do not have to guess where to go after opening a source."
+                  "This page is split into three next-step lanes so you do not have to guess where to go after opening a source.",
                 )}
               </p>
             </div>

@@ -107,6 +107,17 @@ describe("SourceDetailPage", () => {
     expect(screen.getByTestId("chat-panel")).toBeInTheDocument();
   });
 
+  it("renders source next-step content before the auditable panel", () => {
+    render(<SourceDetailPage />);
+
+    const sourceDetail = screen.getByTestId("source-detail-content");
+    const auditablePanel = screen.getByTestId("auditable-panel");
+
+    expect(sourceDetail.compareDocumentPosition(auditablePanel)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+  });
+
   it("navigates back and clears return target", () => {
     render(<SourceDetailPage />);
 

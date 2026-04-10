@@ -10,6 +10,7 @@ const listMock = vi.fn();
 const deleteMock = vi.fn();
 const toastErrorMock = vi.fn();
 const toastSuccessMock = vi.fn();
+const openSourceDialogMock = vi.fn();
 let consoleErrorSpy: ReturnType<typeof vi.spyOn>;
 
 function buildSource(id: string, overrides: Partial<Record<string, unknown>> = {}) {
@@ -60,6 +61,17 @@ const t = Object.assign((key: string) => `translated:${key}`, {
     allSourcesDescShort: "Add your first source",
     allSources: "All sources",
     allSourcesDesc: "All sources description",
+    outcomePathTitle: "Outcome path",
+    outcomePathDescription: "Outcome path description",
+    outcomeNotebookDraft: "Notebook draft",
+    outcomeCreateDraftDescription: "Draft description",
+    processDescription: "Process description",
+    insightsDesc: "Insights description",
+    viewSource: "View Source",
+    notEmbedded: "Not Embedded",
+    insightsCount: "{count} insights",
+    addSource: "Add Source",
+    createFirstSource: "Create first source",
     loadingMore: "Loading more",
     insights: "Insights",
     embedded: "Embedded",
@@ -83,6 +95,14 @@ vi.mock("date-fns", () => ({
 
 vi.mock("@/components/layout/AppShell", () => ({
   AppShell: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+}));
+
+vi.mock("@/components/providers/CreateDialogsProvider", () => ({
+  useCreateDialogs: () => ({
+    openSourceDialog: openSourceDialogMock,
+    openNotebookDialog: vi.fn(),
+    openPodcastDialog: vi.fn(),
+  }),
 }));
 
 vi.mock("@/components/common/LoadingSpinner", () => ({
@@ -166,6 +186,7 @@ describe("SourcesPage", () => {
     pushMock.mockReset();
     toastErrorMock.mockReset();
     toastSuccessMock.mockReset();
+    openSourceDialogMock.mockReset();
   });
 
   afterEach(() => {
@@ -294,6 +315,37 @@ describe("SourcesPage", () => {
     });
 
     expect(toastErrorMock).toHaveBeenCalledWith("Failed to load");
+  });
+
+  it("opens the add-source dialog from the first-success shell", async () => {
+    listMock.mockResolvedValue([buildSource("source-1", { title: "Shell source" })]);
+
+    render(<SourcesPage />);
+
+    await screen.findByTestId("source-row-source-1");
+    fireEvent.click(screen.getByRole("button", { name: "Add Source" }));
+
+    expect(openSourceDialogMock).toHaveBeenCalledTimes(1);
+  });
+
+  it("opens the latest updated source from the first-success shell", async () => {
+    listMock.mockResolvedValue([
+      buildSource("source-1", {
+        title: "Older source",
+        updated: "2026-01-02T00:00:00.000Z",
+      }),
+      buildSource("source-2", {
+        title: "Latest source",
+        updated: "2026-01-05T00:00:00.000Z",
+      }),
+    ]);
+
+    render(<SourcesPage />);
+
+    await screen.findByTestId("source-row-source-1");
+    fireEvent.click(screen.getByRole("button", { name: "View Source: Latest source" }));
+
+    expect(pushMock).toHaveBeenCalledWith("/sources/source-2");
   });
 
   it("reports delete errors via translated api key", async () => {

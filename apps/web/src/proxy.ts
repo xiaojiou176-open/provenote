@@ -4,9 +4,9 @@ import { NextResponse } from "next/server";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Redirect root to notebooks
+  // Keep the first-entry path aligned with app/page.tsx.
   if (pathname === "/") {
-    return NextResponse.redirect(new URL("/notebooks", request.url));
+    return NextResponse.redirect(new URL("/sources", request.url));
   }
 
   return NextResponse.next();

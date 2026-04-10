@@ -362,7 +362,7 @@ export default function SourcesPage() {
         title: sources[newestIndex]?.title || t.sources.untitledSource,
         body: t(
           "sources.nextRail.newestBody",
-          "Open the source with the newest activity first so you can verify whether the latest import actually produced usable evidence."
+          "Open the source with the newest activity first so you can verify whether the latest import actually produced usable evidence.",
         ),
         actionLabel: t("sources.nextRail.newestAction", "Open freshest source"),
         sourceId: sources[newestIndex]?.id,
@@ -374,7 +374,7 @@ export default function SourcesPage() {
         title: sources[richestInsightIndex]?.title || t.sources.untitledSource,
         body: t(
           "sources.nextRail.insightsBody",
-          "Jump to the source that already has the strongest model output when you want a quick path from evidence to a reusable note or draft."
+          "Jump to the source that already has the strongest model output when you want a quick path from evidence to a reusable note or draft.",
         ),
         actionLabel: t("sources.nextRail.insightsAction", "Open insight-rich source"),
         sourceId: sources[richestInsightIndex]?.id,
@@ -387,7 +387,7 @@ export default function SourcesPage() {
             title: sources[embeddingFocusIndex]?.title || t.sources.untitledSource,
             body: t(
               "sources.nextRail.embeddingBody",
-              "This source still needs embedding. Opening it now keeps the sources-first path honest before you move into notebook or draft lanes."
+              "This source still needs embedding. Opening it now keeps the sources-first path honest before you move into notebook or draft lanes.",
             ),
             actionLabel: t("sources.nextRail.embeddingAction", "Open source that needs embedding"),
             sourceId: sources[embeddingFocusIndex]?.id,
@@ -399,7 +399,7 @@ export default function SourcesPage() {
             title: t("sources.nextRail.collectTitle", "Bring in the next source"),
             body: t(
               "sources.nextRail.collectBody",
-              "Your current sources are already embedded. Add one more source if you want a broader evidence base before drafting."
+              "Your current sources are already embedded. Add one more source if you want a broader evidence base before drafting.",
             ),
             actionLabel: t.sources.addSource,
             sourceId: null,

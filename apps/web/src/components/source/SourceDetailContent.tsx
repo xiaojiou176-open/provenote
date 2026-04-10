@@ -543,11 +543,11 @@ export function SourceDetailContent({
         eyebrow: t("sources.detailRail.contentEyebrow", "Start with evidence"),
         title: t(
           "sources.detailRail.contentTitle",
-          "Review the raw source before trusting the summary"
+          "Review the raw source before trusting the summary",
         ),
         body: t(
           "sources.detailRail.contentBody",
-          "Open the content tab first when you need to verify what actually came in, especially before you carry insights into a notebook draft."
+          "Open the content tab first when you need to verify what actually came in, especially before you carry insights into a notebook draft.",
         ),
         actionLabel: t("sources.detailRail.contentAction", "Open content"),
         action: () => setActiveTab("content"),
@@ -558,11 +558,11 @@ export function SourceDetailContent({
             eyebrow: t("sources.detailRail.insightsEyebrow", "Promote source understanding"),
             title: t(
               "sources.detailRail.insightsTitle",
-              "Review generated insights and decide what is reusable"
+              "Review generated insights and decide what is reusable",
             ),
             body: t(
               "sources.detailRail.insightsBody",
-              "Once the source is embedded, use the insights tab to decide whether the evidence is strong enough for a note, a research thread, or a draft lane."
+              "Once the source is embedded, use the insights tab to decide whether the evidence is strong enough for a note, a research thread, or a draft lane.",
             ),
             actionLabel: t("sources.detailRail.insightsAction", "Open insights"),
             action: () => setActiveTab("insights"),
@@ -572,11 +572,11 @@ export function SourceDetailContent({
             eyebrow: t("sources.detailRail.detailsEyebrow", "Finish source readiness"),
             title: t(
               "sources.detailRail.detailsTitle",
-              "Embed or reprocess this source before moving on"
+              "Embed or reprocess this source before moving on",
             ),
             body: t(
               "sources.detailRail.detailsBody",
-              "This source still needs processing work. Fix that in the details tab so your note and draft lanes are grounded in a ready source."
+              "This source still needs processing work. Fix that in the details tab so your note and draft lanes are grounded in a ready source.",
             ),
             actionLabel: t("sources.detailRail.detailsAction", "Open details"),
             action: () => setActiveTab("details"),
@@ -587,11 +587,11 @@ export function SourceDetailContent({
             eyebrow: t("sources.detailRail.draftEyebrow", "Carry forward"),
             title: t(
               "sources.detailRail.draftTitle",
-              "Jump into the notebook lane once this source is ready"
+              "Jump into the notebook lane once this source is ready",
             ),
             body: t(
               "sources.detailRail.draftBody",
-              "Use the linked notebook to turn this source into a reusable draft or research thread instead of leaving the result stranded at the source page."
+              "Use the linked notebook to turn this source into a reusable draft or research thread instead of leaving the result stranded at the source page.",
             ),
             actionLabel: t("sources.detailRail.draftAction", "Open linked notebook"),
             action: () => {
@@ -605,11 +605,11 @@ export function SourceDetailContent({
             eyebrow: t("sources.detailRail.detailsEyebrowFallback", "Plan the next lane"),
             title: t(
               "sources.detailRail.detailsTitleFallback",
-              "Use details to decide where this source should go next"
+              "Use details to decide where this source should go next",
             ),
             body: t(
               "sources.detailRail.detailsBodyFallback",
-              "If this source is not linked to a notebook yet, details is the safest place to inspect readiness before you attach it to a longer-lived lane."
+              "If this source is not linked to a notebook yet, details is the safest place to inspect readiness before you attach it to a longer-lived lane.",
             ),
             actionLabel: t("sources.detailRail.detailsActionFallback", "Review details"),
             action: () => setActiveTab("details"),
