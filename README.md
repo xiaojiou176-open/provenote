@@ -197,7 +197,7 @@ In plain language: this is a **5 to 10 minute local proof loop**, not a hosted o
 
    On this Docker fast path, Compose injects the SurrealDB connection defaults and a known-good fast-path Gemini model for you. That is why the first visible result path only asks you to set the encryption key and Gemini key up front.
 
-3. Open `http://localhost:8502`, create or import a source, and move into the source detail view.
+3. Open `http://localhost:8502`, let the app route you into the `/sources` workbench, then create or import a source and move into the source detail view.
 
 4. Run **Auditable Markdown** to generate a downloadable markdown report with integrity counters.
 5. Open a notebook and create a **Draft** if you want a reusable notebook-level outcome instead of a single-source artifact.

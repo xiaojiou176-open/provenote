@@ -706,7 +706,7 @@ jobs:
           PLAYWRIGHT_DISABLE_COLOR_CONTRAST_CHECK: "0"
         run: |
           bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
-            bash -lc 'cd apps/web && bash ../tooling/scripts/ci/with_heartbeat.sh --label e2e-chromium --interval 30 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label e2e-chromium --max-retries 1 -- npm run test:e2e -- --project=chromium --workers=6 --shard=${{ matrix.shard }}"'
+            bash -lc 'cd apps/web && bash ../../tooling/scripts/ci/with_heartbeat.sh --label e2e-chromium --interval 30 -- bash -lc "bash ../../tooling/scripts/ci/run_with_retry.sh --label e2e-chromium --max-retries 1 -- npm run test:e2e -- --project=chromium --workers=6 --shard=${{ matrix.shard }}"'
 
       - name: Upload retry classification logs
         if: always()
@@ -746,7 +746,7 @@ jobs:
           PLAYWRIGHT_DISABLE_COLOR_CONTRAST_CHECK: "0"
         run: |
           bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
-            bash -lc 'cd apps/web && bash ../tooling/scripts/ci/with_heartbeat.sh --label e2e-cross-browser-smoke --interval 30 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label e2e-cross-browser-smoke --max-retries 1 -- npm run test:e2e:cross-browser-smoke"'
+            bash -lc 'cd apps/web && bash ../../tooling/scripts/ci/with_heartbeat.sh --label e2e-cross-browser-smoke --interval 30 -- bash -lc "bash ../../tooling/scripts/ci/run_with_retry.sh --label e2e-cross-browser-smoke --max-retries 1 -- npm run test:e2e:cross-browser-smoke"'
 
       - name: Upload cross-browser Playwright report
         if: always()
@@ -800,7 +800,7 @@ jobs:
           OPEN_NOTEBOOK_PASSWORD: open-notebook-test-password
         run: |
           bash tooling/scripts/ci/run_in_consistent_container.sh --profile apps/web -- \
-            bash -lc 'cd apps/web && bash ../tooling/scripts/ci/with_heartbeat.sh --label e2e-real-backend --interval 30 -- bash -lc "bash ../tooling/scripts/ci/run_with_retry.sh --label e2e-real-backend --max-retries 1 -- npm run test:e2e:real-smoke -- --workers=1"'
+            bash -lc 'cd apps/web && bash ../../tooling/scripts/ci/with_heartbeat.sh --label e2e-real-backend --interval 30 -- bash -lc "bash ../../tooling/scripts/ci/run_with_retry.sh --label e2e-real-backend --max-retries 1 -- npm run test:e2e:real-smoke -- --workers=1"'
 
       - name: Dump Surreal logs
         if: always()

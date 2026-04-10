@@ -237,13 +237,28 @@ vi.mock("@/components/source/SourceInsightDialog", () => ({
 }));
 
 vi.mock("@/components/source/SourceOutcomeJourneyCard", () => ({
-  SourceOutcomeJourneyCard: ({ source }: { source: { id: string } }) => (
-    <div data-testid="source-outcome-journey-card">journey:{source.id}</div>
+  SourceOutcomeJourneyCard: ({
+    source,
+    onOpenDetails,
+  }: {
+    source: { id: string };
+    onOpenDetails?: () => void;
+  }) => (
+    <div data-testid="source-outcome-journey-card">
+      <span>journey:{source.id}</span>
+      <button onClick={() => onOpenDetails?.()} type="button">
+        open-journey-details
+      </button>
+    </div>
   ),
 }));
 
 vi.mock("@/components/ui/tabs", () => ({
-  Tabs: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  Tabs: ({ children, value }: { children: ReactNode; value?: string }) => (
+    <div data-testid="tabs-root" data-value={value}>
+      {children}
+    </div>
+  ),
   TabsList: ({ children }: { children: ReactNode }) => <div>{children}</div>,
   TabsTrigger: ({ children }: { children: ReactNode }) => <button type="button">{children}</button>,
   TabsContent: ({ children }: { children: ReactNode }) => <div>{children}</div>,
@@ -740,6 +755,18 @@ describe("SourceDetailContent", () => {
     expect(mockState.openModal).toHaveBeenCalledWith("note", "note-1");
   });
 
+  it("opens the details tab from the outcome journey card CTA", async () => {
+    render(<SourceDetailContent sourceId="source:1" />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("tabs-root")).toHaveAttribute("data-value", "content");
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "open-journey-details" }));
+
+    expect(screen.getByTestId("tabs-root")).toHaveAttribute("data-value", "details");
+  });
+
   it("blocks saving an insight as note when the source is not linked to a notebook", async () => {
     const { insightsApi } = await import("@/lib/api/insights");
 
@@ -792,6 +819,60 @@ describe("SourceDetailContent", () => {
     fireEvent.click(await screen.findByRole("button", { name: "Delete" }));
     await waitFor(() => {
       expect(insightsApi.delete).toHaveBeenCalledWith("ins-1");
+    });
+  });
+
+  it("saves an insight as note from the dialog callback path", async () => {
+    const { insightsApi } = await import("@/lib/api/insights");
+    const { sourcesApi } = await import("@/lib/api/sources");
+    const { toast } = await import("sonner");
+
+    vi.mocked(sourcesApi.get).mockResolvedValueOnce(
+      buildSource({ notebooks: ["notebook:dialog"] }) as never,
+    );
+    vi.mocked(insightsApi.saveAsNote).mockResolvedValueOnce({
+      id: "note:dialog",
+      title: "Dialog note",
+      content: "Saved from dialog",
+      note_type: "ai",
+      created: "2026-04-01T00:00:00.000Z",
+      updated: "2026-04-01T00:00:00.000Z",
+    } as never);
+
+    render(<SourceDetailContent sourceId="source:1" />);
+    await waitFor(() => {
+      expect(screen.getByText("ID: source:1")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "open-insight-dialog" }));
+    await waitFor(() => {
+      expect(screen.getByTestId("source-insight-dialog")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "save-note-from-dialog" }));
+
+    await waitFor(() => {
+      expect(insightsApi.saveAsNote).toHaveBeenCalledWith("ins-1", {
+        notebook_id: "notebook:dialog",
+      });
+    });
+    expect(toast.success).toHaveBeenCalledWith("Insight saved as a notebook note");
+    expect(mockState.openModal).toHaveBeenCalledWith("note", "note:dialog");
+  });
+
+  it("opens and dismisses the insight delete confirmation dialog", async () => {
+    render(<SourceDetailContent sourceId="source:1" />);
+    await waitFor(() => {
+      expect(screen.getByText("ID: source:1")).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("button", { name: "request-insight-delete" }));
+    expect(screen.getByText("Delete this insight?")).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole("button", { name: "alert-close" }));
+
+    await waitFor(() => {
+      expect(screen.queryByText("Delete this insight?")).not.toBeInTheDocument();
     });
   });
 
@@ -1163,6 +1244,44 @@ describe("SourceDetailContent", () => {
 
     fireEvent.click(screen.getAllByRole("button", { name: /Embed content/i })[0]);
     await waitFor(() => {
+      expect(toast.error).toHaveBeenCalledWith("Error");
+    });
+  });
+
+  it("uses the fallback details CTA when the source is not linked to a notebook", async () => {
+    const { sourcesApi } = await import("@/lib/api/sources");
+
+    vi.mocked(sourcesApi.get).mockResolvedValueOnce(
+      buildSource({
+        notebooks: [],
+      }) as never,
+    );
+
+    render(<SourceDetailContent sourceId="source:1" />);
+    await screen.findByText("ID: source:1");
+
+    expect(screen.getByTestId("tabs-root")).toHaveAttribute("data-value", "content");
+    fireEvent.click(
+      screen.getByRole("button", { name: "sources.detailRail.detailsActionFallback" }),
+    );
+
+    expect(screen.getByTestId("tabs-root")).toHaveAttribute("data-value", "details");
+  });
+
+  it("reports a toast when source deletion fails after confirmation", async () => {
+    const { sourcesApi } = await import("@/lib/api/sources");
+    const { toast } = await import("sonner");
+
+    (window.confirm as unknown as ReturnType<typeof vi.fn>).mockReturnValueOnce(true);
+    vi.mocked(sourcesApi.delete).mockRejectedValueOnce(new Error("delete source failed"));
+
+    render(<SourceDetailContent sourceId="source:1" />);
+    await screen.findByText("ID: source:1");
+
+    fireEvent.click(screen.getByRole("button", { name: /Delete source/i }));
+
+    await waitFor(() => {
+      expect(sourcesApi.delete).toHaveBeenCalledWith("source:1");
       expect(toast.error).toHaveBeenCalledWith("Error");
     });
   });

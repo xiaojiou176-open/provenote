@@ -29,11 +29,11 @@ def test_distribution_doc_keeps_mcp_registry_boundary() -> None:
     assert "Fresh registry read-back now returns" in text
     assert "status `active`" in text
     assert "version `1.8.5`" in text
+    assert "package-backed public artifact is still a later packaging upgrade" in text
     assert (
-        "package-backed public artifact is still a later packaging upgrade"
+        "live registry entry points back to the repo-owned MCP docs/install surface"
         in text
     )
-    assert "live registry entry points back to the repo-owned MCP docs/install surface" in text
 
 
 def test_registry_prep_files_exist_for_mcp_registry_lane() -> None:
@@ -74,8 +74,14 @@ def test_registry_submission_pack_keeps_public_artifact_boundary() -> None:
     assert "Official MCP Registry now returns a live active entry" in text
     assert "status is `active`" in text
     assert "published version is `1.8.5`" in text
-    assert "package-backed public install artifact is still a separate packaging improvement" in text
-    assert "does **not** claim that a supported public package or public remote-server artifact is already published" in text
+    assert (
+        "package-backed public install artifact is still a separate packaging improvement"
+        in text
+    )
+    assert (
+        "does **not** claim that a supported public package or public remote-server artifact is already published"
+        in text
+    )
 
 
 def test_pyproject_exposes_public_package_metadata() -> None:
@@ -84,8 +90,13 @@ def test_pyproject_exposes_public_package_metadata() -> None:
     assert project["name"] == "provenote"
     assert "mcp" in project["keywords"]
     assert "long-context" in project["keywords"]
-    assert project["urls"]["Homepage"] == "https://xiaojiou176-open.github.io/provenote/"
-    assert project["urls"]["Documentation"] == "https://xiaojiou176-open.github.io/provenote/"
+    assert (
+        project["urls"]["Homepage"] == "https://xiaojiou176-open.github.io/provenote/"
+    )
+    assert (
+        project["urls"]["Documentation"]
+        == "https://xiaojiou176-open.github.io/provenote/"
+    )
     assert project["urls"]["Source"] == "https://github.com/xiaojiou176-open/provenote"
 
 
