@@ -1,16 +1,26 @@
 "use client";
 
 import { formatDistanceToNow } from "date-fns";
-import { AlignLeft, ArrowUpDown, FileText, Link as LinkIcon, Trash2, Upload } from "lucide-react";
+import {
+  AlignLeft,
+  ArrowRight,
+  ArrowUpDown,
+  FileText,
+  Link as LinkIcon,
+  Trash2,
+  Upload,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
-import { type KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/common/ConfirmDialog";
 import { EmptyState } from "@/components/common/EmptyState";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { AppShell } from "@/components/layout/AppShell";
+import { useCreateDialogs } from "@/components/providers/CreateDialogsProvider";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { sourcesApi } from "@/lib/api/sources";
 import { useTranslation } from "@/lib/hooks/use-translation";
 import { appLog } from "@/lib/log";
@@ -43,10 +53,29 @@ export default function SourcesPage() {
     source: null,
   });
   const router = useRouter();
+  const { openSourceDialog } = useCreateDialogs();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const offsetRef = useRef(0);
   const loadingMoreRef = useRef(false);
   const hasMoreRef = useRef(true);
+
+  const firstSuccessSteps = [
+    {
+      number: "01",
+      title: t.sources.addSource,
+      detail: t.sources.processDescription,
+    },
+    {
+      number: "02",
+      title: t.sources.insights,
+      detail: t.sources.insightsDesc,
+    },
+    {
+      number: "03",
+      title: t.sources.outcomeNotebookDraft,
+      detail: t.sources.outcomeCreateDraftDescription,
+    },
+  ];
 
   const fetchSources = useCallback(
     async (reset = false) => {
@@ -261,19 +290,123 @@ export default function SourcesPage() {
     return t.sources.type.text;
   };
 
-  const handleRowClick = useCallback(
-    (index: number, sourceId: string) => {
-      setSelectedIndex(index);
+  const openSource = useCallback(
+    (sourceId: string, index?: number) => {
+      if (typeof index === "number") {
+        setSelectedIndex(index);
+      }
       setOpeningSourceId(sourceId);
       router.push(`/sources/${sourceId}`);
     },
     [router],
   );
 
+  const handleRowClick = useCallback(
+    (index: number, sourceId: string) => {
+      openSource(sourceId, index);
+    },
+    [openSource],
+  );
+
   const handleDeleteClick = useCallback((e: React.MouseEvent, source: SourceListResponse) => {
     e.stopPropagation(); // Prevent row click
     setDeleteDialog({ open: true, source });
   }, []);
+
+  const latestSourceSummary = useMemo(() => {
+    if (sources.length === 0) {
+      return null;
+    }
+
+    let latestIndex = 0;
+    let latestTimestamp = new Date(sources[0].updated || sources[0].created).getTime();
+
+    sources.forEach((source, index) => {
+      const candidateTimestamp = new Date(source.updated || source.created).getTime();
+      if (candidateTimestamp > latestTimestamp) {
+        latestTimestamp = candidateTimestamp;
+        latestIndex = index;
+      }
+    });
+
+    return {
+      source: sources[latestIndex],
+      index: latestIndex,
+      latestActivityAt:
+        sources[latestIndex].updated || sources[latestIndex].created || new Date().toISOString(),
+      embeddedCount: sources.filter((item) => item.embedded).length,
+      insightCount: sources.filter((item) => (item.insights_count || 0) > 0).length,
+    };
+  }, [sources]);
+  const sourceActionRail = useMemo(() => {
+    if (sources.length === 0) {
+      return [];
+    }
+
+    const newestIndex = sources.reduce((latest, source, index, items) => {
+      const candidate = new Date(source.updated || source.created).getTime();
+      const current = new Date(items[latest].updated || items[latest].created).getTime();
+      return candidate > current ? index : latest;
+    }, 0);
+    const richestInsightIndex = sources.reduce((best, source, index, items) => {
+      const candidate = source.insights_count || 0;
+      const current = items[best].insights_count || 0;
+      return candidate > current ? index : best;
+    }, 0);
+    const embeddingFocusIndex = sources.findIndex((source) => !source.embedded);
+
+    return [
+      {
+        id: "newest",
+        eyebrow: t("sources.nextRail.newestEyebrow", "Inspect freshest source"),
+        title: sources[newestIndex]?.title || t.sources.untitledSource,
+        body: t(
+          "sources.nextRail.newestBody",
+          "Open the source with the newest activity first so you can verify whether the latest import actually produced usable evidence."
+        ),
+        actionLabel: t("sources.nextRail.newestAction", "Open freshest source"),
+        sourceId: sources[newestIndex]?.id,
+        index: newestIndex,
+      },
+      {
+        id: "insights",
+        eyebrow: t("sources.nextRail.insightsEyebrow", "Review richest insight lane"),
+        title: sources[richestInsightIndex]?.title || t.sources.untitledSource,
+        body: t(
+          "sources.nextRail.insightsBody",
+          "Jump to the source that already has the strongest model output when you want a quick path from evidence to a reusable note or draft."
+        ),
+        actionLabel: t("sources.nextRail.insightsAction", "Open insight-rich source"),
+        sourceId: sources[richestInsightIndex]?.id,
+        index: richestInsightIndex,
+      },
+      embeddingFocusIndex >= 0
+        ? {
+            id: "embedding",
+            eyebrow: t("sources.nextRail.embeddingEyebrow", "Finish source readiness"),
+            title: sources[embeddingFocusIndex]?.title || t.sources.untitledSource,
+            body: t(
+              "sources.nextRail.embeddingBody",
+              "This source still needs embedding. Opening it now keeps the sources-first path honest before you move into notebook or draft lanes."
+            ),
+            actionLabel: t("sources.nextRail.embeddingAction", "Open source that needs embedding"),
+            sourceId: sources[embeddingFocusIndex]?.id,
+            index: embeddingFocusIndex,
+          }
+        : {
+            id: "collect",
+            eyebrow: t("sources.nextRail.collectEyebrow", "Add another source"),
+            title: t("sources.nextRail.collectTitle", "Bring in the next source"),
+            body: t(
+              "sources.nextRail.collectBody",
+              "Your current sources are already embedded. Add one more source if you want a broader evidence base before drafting."
+            ),
+            actionLabel: t.sources.addSource,
+            sourceId: null,
+            index: null,
+          },
+    ];
+  }, [sources, t, t.sources.addSource, t.sources.untitledSource]);
 
   const handleDeleteConfirm = async () => {
     if (!deleteDialog.source) {
@@ -324,21 +457,226 @@ export default function SourcesPage() {
   if (sources.length === 0) {
     return (
       <AppShell>
-        <EmptyState
-          icon={FileText}
-          title={t.sources.noSourcesYet}
-          description={t.sources.allSourcesDescShort}
-        />
+        <div className="ui-page-shell flex h-full w-full max-w-none flex-col px-6 py-6">
+          <div className="ui-section-enter mb-6">
+            <Card className="overflow-hidden border-border/60 bg-gradient-to-br from-background via-background to-muted/30">
+              <CardContent className="space-y-6 p-6">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="max-w-3xl space-y-3">
+                    <Badge variant="secondary" className="w-fit">
+                      {t.sources.outcomePathTitle}
+                    </Badge>
+                    <div className="space-y-2">
+                      <h1 className="text-3xl font-bold tracking-tight">{t.sources.allSources}</h1>
+                      <p className="text-sm text-muted-foreground md:text-base">
+                        {t.sources.outcomePathDescription}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {`${t.sources.addSource} -> ${t.sources.insights} -> ${t.sources.outcomeNotebookDraft}`}
+                      </p>
+                    </div>
+                  </div>
+
+                  <Button type="button" className="cursor-pointer" onClick={openSourceDialog}>
+                    <Upload className="mr-2 h-4 w-4" />
+                    {t.sources.addSource}
+                  </Button>
+                </div>
+
+                <div className="grid gap-3 lg:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))]">
+                  <div className="rounded-xl border border-border/70 bg-background/90 p-4">
+                    <p className="text-sm font-semibold">{t.sources.noSourcesYet}</p>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {t.sources.createFirstSource}
+                    </p>
+                  </div>
+
+                  {firstSuccessSteps.map((step) => (
+                    <div
+                      key={step.number}
+                      className="rounded-xl border border-border/70 bg-background/80 p-4"
+                    >
+                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        {step.number}
+                      </p>
+                      <p className="mt-2 text-sm font-semibold">{step.title}</p>
+                      <p className="mt-2 text-sm text-muted-foreground">{step.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          <Card className="ui-section-enter flex-1 border-dashed">
+            <CardContent className="flex h-full items-center justify-center p-6">
+              <EmptyState
+                icon={FileText}
+                title={t.sources.noSourcesYet}
+                description={t.sources.allSourcesDescShort}
+              />
+            </CardContent>
+          </Card>
+        </div>
       </AppShell>
     );
   }
 
+  const sourceSummary = latestSourceSummary ?? {
+    source: sources[0],
+    index: 0,
+    latestActivityAt: sources[0].updated || sources[0].created || new Date().toISOString(),
+    embeddedCount: sources.filter((item) => item.embedded).length,
+    insightCount: sources.filter((item) => (item.insights_count || 0) > 0).length,
+  };
+
   return (
     <AppShell>
-      <div className="ui-page-shell flex flex-col h-full w-full max-w-none px-6 py-6">
-        <div className="ui-section-enter mb-6 flex-shrink-0">
-          <h1 className="text-3xl font-bold">{t.sources.allSources}</h1>
-          <p className="mt-2 text-muted-foreground">{t.sources.allSourcesDesc}</p>
+      <div className="ui-page-shell flex h-full w-full max-w-none flex-col px-6 py-6">
+        <div className="ui-section-enter mb-6 flex-shrink-0 space-y-4">
+          <Card className="overflow-hidden border-border/60 bg-gradient-to-br from-background via-background to-muted/30">
+            <CardContent className="space-y-6 p-6">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                <div className="max-w-3xl space-y-3">
+                  <Badge variant="secondary" className="w-fit">
+                    {t.sources.outcomePathTitle}
+                  </Badge>
+                  <div className="space-y-2">
+                    <h1 className="text-3xl font-bold tracking-tight">{t.sources.allSources}</h1>
+                    <p className="text-sm text-muted-foreground md:text-base">
+                      {t.sources.outcomePathDescription}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {`${t.sources.addSource} -> ${t.sources.insights} -> ${t.sources.outcomeNotebookDraft}`}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+                  <Button type="button" className="cursor-pointer" onClick={openSourceDialog}>
+                    <Upload className="mr-2 h-4 w-4" />
+                    {t.sources.addSource}
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="cursor-pointer"
+                    aria-label={`${t.sources.viewSource}: ${sourceSummary.source.title || t.sources.untitledSource}`}
+                    onClick={() => openSource(sourceSummary.source.id, sourceSummary.index)}
+                  >
+                    <ArrowRight className="mr-2 h-4 w-4" />
+                    {t.sources.viewSource}
+                  </Button>
+                </div>
+              </div>
+
+              <div className="grid gap-3 xl:grid-cols-[minmax(0,1.25fr)_repeat(3,minmax(0,1fr))]">
+                <div className="rounded-xl border border-border/70 bg-background/90 p-4">
+                  <p className="text-sm font-semibold">
+                    {sourceSummary.source.title || t.sources.untitledSource}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    <span suppressHydrationWarning>
+                      {formatDistanceToNow(new Date(sourceSummary.latestActivityAt), {
+                        addSuffix: true,
+                        locale: getDateLocale(language),
+                      })}
+                    </span>
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Badge
+                      variant={sourceSummary.source.embedded ? "default" : "secondary"}
+                      className="text-xs"
+                    >
+                      {sourceSummary.source.embedded ? t.sources.embedded : t.sources.notEmbedded}
+                    </Badge>
+                    <Badge variant="outline" className="text-xs">
+                      {t("sources.insightsCount", {
+                        count: sourceSummary.source.insights_count || 0,
+                      })}
+                    </Badge>
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-border/70 bg-background/80 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    01
+                  </p>
+                  <p className="mt-2 text-sm font-semibold">{t.sources.addSource}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t.sources.processDescription}
+                  </p>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {t.sources.allSources}: {sources.length}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border/70 bg-background/80 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    02
+                  </p>
+                  <p className="mt-2 text-sm font-semibold">{t.sources.insights}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">{t.sources.insightsDesc}</p>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {t.sources.insights}: {sourceSummary.insightCount}
+                  </p>
+                </div>
+
+                <div className="rounded-xl border border-border/70 bg-background/80 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    03
+                  </p>
+                  <p className="mt-2 text-sm font-semibold">{t.sources.outcomeNotebookDraft}</p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    {t.sources.outcomeCreateDraftDescription}
+                  </p>
+                  <p className="mt-3 text-xs text-muted-foreground">
+                    {t.sources.embedded}: {sourceSummary.embeddedCount}
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <div className="grid gap-3 xl:grid-cols-3">
+            {sourceActionRail.map((action) => (
+              <Card
+                key={action.id}
+                className="border-border/70 bg-background/90 shadow-sm"
+                data-testid={`sources-next-action-${action.id}`}
+              >
+                <CardContent className="space-y-3 p-4">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                    {action.eyebrow}
+                  </p>
+                  <div className="space-y-2">
+                    <h2 className="text-base font-semibold">{action.title}</h2>
+                    <p className="text-sm text-muted-foreground">{action.body}</p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant={action.id === "embedding" ? "outline" : "default"}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      if (action.sourceId && typeof action.index === "number") {
+                        openSource(action.sourceId, action.index);
+                        return;
+                      }
+                      openSourceDialog();
+                    }}
+                  >
+                    <ArrowRight className="mr-2 h-4 w-4" />
+                    {action.actionLabel}
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div>
+            <h2 className="text-lg font-semibold">{t.sources.allSources}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{t.sources.allSourcesDesc}</p>
+          </div>
         </div>
 
         <div
@@ -348,7 +686,7 @@ export default function SourcesPage() {
           tabIndex={0}
           onKeyDown={handleContainerKeyDown}
           aria-busy={loadingMore}
-          className="ui-section-enter flex-1 rounded-md border overflow-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="ui-section-enter flex-1 overflow-auto rounded-md border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <table aria-label={t.sources.allSources} className="w-full min-w-[800px] table-fixed">
             <colgroup>

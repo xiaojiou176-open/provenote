@@ -6,6 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import {
   AlertCircle,
   AlignLeft,
+  ArrowRight,
   CheckCircle,
   Copy,
   Database,
@@ -535,6 +536,86 @@ export function SourceDetailContent({
     }
     return getYouTubeVideoId(source.asset.url);
   }, [source?.asset?.url]);
+  const sourceNextSteps = useMemo(() => {
+    return [
+      {
+        id: "content",
+        eyebrow: t("sources.detailRail.contentEyebrow", "Start with evidence"),
+        title: t(
+          "sources.detailRail.contentTitle",
+          "Review the raw source before trusting the summary"
+        ),
+        body: t(
+          "sources.detailRail.contentBody",
+          "Open the content tab first when you need to verify what actually came in, especially before you carry insights into a notebook draft."
+        ),
+        actionLabel: t("sources.detailRail.contentAction", "Open content"),
+        action: () => setActiveTab("content"),
+      },
+      source?.embedded
+        ? {
+            id: "insights",
+            eyebrow: t("sources.detailRail.insightsEyebrow", "Promote source understanding"),
+            title: t(
+              "sources.detailRail.insightsTitle",
+              "Review generated insights and decide what is reusable"
+            ),
+            body: t(
+              "sources.detailRail.insightsBody",
+              "Once the source is embedded, use the insights tab to decide whether the evidence is strong enough for a note, a research thread, or a draft lane."
+            ),
+            actionLabel: t("sources.detailRail.insightsAction", "Open insights"),
+            action: () => setActiveTab("insights"),
+          }
+        : {
+            id: "details",
+            eyebrow: t("sources.detailRail.detailsEyebrow", "Finish source readiness"),
+            title: t(
+              "sources.detailRail.detailsTitle",
+              "Embed or reprocess this source before moving on"
+            ),
+            body: t(
+              "sources.detailRail.detailsBody",
+              "This source still needs processing work. Fix that in the details tab so your note and draft lanes are grounded in a ready source."
+            ),
+            actionLabel: t("sources.detailRail.detailsAction", "Open details"),
+            action: () => setActiveTab("details"),
+          },
+      primaryNotebookId
+        ? {
+            id: "draft",
+            eyebrow: t("sources.detailRail.draftEyebrow", "Carry forward"),
+            title: t(
+              "sources.detailRail.draftTitle",
+              "Jump into the notebook lane once this source is ready"
+            ),
+            body: t(
+              "sources.detailRail.draftBody",
+              "Use the linked notebook to turn this source into a reusable draft or research thread instead of leaving the result stranded at the source page."
+            ),
+            actionLabel: t("sources.detailRail.draftAction", "Open linked notebook"),
+            action: () => {
+              router.push(
+                `/notebooks/${encodeURIComponent(primaryNotebookId)}#research-threads-panel`,
+              );
+            },
+          }
+        : {
+            id: "details-link",
+            eyebrow: t("sources.detailRail.detailsEyebrowFallback", "Plan the next lane"),
+            title: t(
+              "sources.detailRail.detailsTitleFallback",
+              "Use details to decide where this source should go next"
+            ),
+            body: t(
+              "sources.detailRail.detailsBodyFallback",
+              "If this source is not linked to a notebook yet, details is the safest place to inspect readiness before you attach it to a longer-lived lane."
+            ),
+            actionLabel: t("sources.detailRail.detailsActionFallback", "Review details"),
+            action: () => setActiveTab("details"),
+          },
+    ];
+  }, [primaryNotebookId, router, source?.embedded, t]);
 
   const handleDelete = async () => {
     if (!source) {
@@ -660,6 +741,33 @@ export function SourceDetailContent({
           latestDraft={latestNotebookDraft}
           onOpenDetails={() => setActiveTab("details")}
         />
+      </div>
+
+      <div className="px-2 pb-4">
+        <div className="grid gap-3 xl:grid-cols-3">
+          {sourceNextSteps.map((step) => (
+            <Card key={step.id} className="border-border/70 bg-background/90 shadow-sm">
+              <CardContent className="space-y-3 p-4">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
+                  {step.eyebrow}
+                </p>
+                <div className="space-y-2">
+                  <h3 className="text-base font-semibold text-foreground">{step.title}</h3>
+                  <p className="text-sm leading-6 text-muted-foreground">{step.body}</p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={step.action}
+                >
+                  <ArrowRight className="mr-2 h-4 w-4" />
+                  {step.actionLabel}
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto px-2">
