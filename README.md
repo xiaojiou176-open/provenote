@@ -19,7 +19,7 @@
     ·
     <a href="./docs/project-status.md"><strong>Project Status</strong></a>
     ·
-    <a href="./docs/index.md"><strong>Docs</strong></a>
+    <a href="https://xiaojiou176-open.github.io/provenote/"><strong>Docs</strong></a>
   </p>
   <p>
     <strong>Second ring:</strong>

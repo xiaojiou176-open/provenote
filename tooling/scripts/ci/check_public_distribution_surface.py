@@ -9,6 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 
 TARGET_FILES = (
     "README.md",
+    "docs/index.html",
     "docs/distribution.md",
     "docs/index.md",
     "docs/installation.md",
