@@ -9,6 +9,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 
 TARGET_FILES = (
     "README.md",
+    "docs/index.html",
     "docs/distribution.md",
     "docs/index.md",
     "docs/installation.md",
@@ -53,6 +54,15 @@ REQUIRED_NEEDLES = {
     ),
 }
 
+PUBLIC_FRONTDOOR_FORBIDDEN_HREFS = (
+    'href="../examples/',
+    'href="./examples/',
+)
+
+PUBLIC_FRONTDOOR_REQUIRED_HREFS = (
+    'href="https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/README.md"',
+)
+
 
 def main() -> int:
     failures: list[str] = []
@@ -78,6 +88,18 @@ def main() -> int:
                 failures.append(
                     f"{rel_path} missing required distribution truth marker: {needle}"
                 )
+
+    frontdoor_text = (REPO_ROOT / "docs/index.html").read_text(encoding="utf-8")
+    for forbidden in PUBLIC_FRONTDOOR_FORBIDDEN_HREFS:
+        if forbidden in frontdoor_text:
+            failures.append(
+                f"docs/index.html exposes a repo-internal relative path on the public front door: {forbidden}"
+            )
+    for required in PUBLIC_FRONTDOOR_REQUIRED_HREFS:
+        if required not in frontdoor_text:
+            failures.append(
+                f"docs/index.html missing required public frontdoor link target: {required}"
+            )
 
     if failures:
         for failure in failures:

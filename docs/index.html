@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Provenote | Turn messy long context into inspectable outcomes</title>
+    <meta
+      name="description"
+      content="Provenote is an outcome-first, source-grounded workbench for turning messy long context into structured insight, auditable markdown, research threads, and reusable drafts."
+    />
+    <link rel="canonical" href="https://xiaojiou176-open.github.io/provenote/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Provenote | Turn messy long context into inspectable outcomes"
+    />
+    <meta
+      property="og:description"
+      content="Start from messy long context, structure it into grounded insight, then carry it into notes, research threads, drafts, and auditable outcomes without losing the source trail."
+    />
+    <meta property="og:url" content="https://xiaojiou176-open.github.io/provenote/" />
+    <meta
+      property="og:image"
+      content="https://xiaojiou176-open.github.io/provenote/assets/social/provenote-social-preview.png"
+    />
+    <meta
+      property="og:image:alt"
+      content="Provenote social preview showing source-grounded outcomes and auditable markdown."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Provenote | Turn messy long context into inspectable outcomes"
+    />
+    <meta
+      name="twitter:description"
+      content="Outcome-first, source-grounded workbench for structured insight, auditable markdown, notebook drafts, and research threads."
+    />
+    <meta
+      name="twitter:image"
+      content="https://xiaojiou176-open.github.io/provenote/assets/social/provenote-social-preview.png"
+    />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Provenote",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Docker and local browser-supported environments",
+        "description": "Outcome-first, source-grounded workbench for turning messy long context into structured insight, auditable markdown, notebook drafts, and research threads.",
+        "url": "https://xiaojiou176-open.github.io/provenote/",
+        "image": "https://xiaojiou176-open.github.io/provenote/assets/social/provenote-social-preview.png",
+        "screenshot": [
+          "https://xiaojiou176-open.github.io/provenote/assets/hero/provenote-hero.png",
+          "https://xiaojiou176-open.github.io/provenote/assets/demo/provenote-quick-result-overview.png"
+        ],
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    </script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
+      :root {
+        color-scheme: light;
+        --bg: #f8fafc;
+        --panel: rgba(255, 255, 255, 0.9);
+        --panel-strong: #ffffff;
+        --ink: #0f172a;
+        --muted: #475569;
+        --line: rgba(15, 23, 42, 0.12);
+        --brand: #0f766e;
+        --brand-strong: #115e59;
+        --accent: #2563eb;
+        --soft: #ecfeff;
+        --shadow: 0 26px 60px rgba(15, 23, 42, 0.08);
+        --display-font: 'Fraunces', Georgia, serif;
+        --body-font: 'Source Sans 3', 'Segoe UI', sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: var(--body-font);
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(15, 118, 110, 0.1), transparent 24%),
+          radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.08), transparent 18%),
+          linear-gradient(180deg, #f8fafc 0%, #ffffff 48%, #f0fdfa 100%);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      main p a,
+      main li a,
+      footer a {
+        color: var(--accent);
+        font-weight: 600;
+        text-decoration: underline;
+        text-underline-offset: 0.18em;
+        text-decoration-thickness: 2px;
+      }
+
+      .shell {
+        width: min(1160px, calc(100vw - 32px));
+        margin: 0 auto;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 22px 0;
+        flex-wrap: wrap;
+      }
+
+      .wordmark {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .nav-links,
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .nav-link,
+      .cta,
+      .ghost,
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 12px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .chip {
+        padding: 10px 14px;
+        background: var(--soft);
+        color: var(--brand-strong);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .cta {
+        border: none;
+        color: white;
+        background: linear-gradient(135deg, var(--brand), var(--brand-strong), var(--accent));
+        box-shadow: 0 16px 36px rgba(15, 118, 110, 0.18);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 1.04fr 0.96fr;
+        gap: 28px;
+        align-items: center;
+        padding: 16px 0 56px;
+      }
+
+      .hero-copy h1,
+      .section-head h2,
+      .card h3 {
+        font-family: var(--display-font);
+        letter-spacing: -0.04em;
+      }
+
+      .hero-copy h1 {
+        margin: 18px 0 0;
+        font-size: clamp(42px, 5vw, 74px);
+        line-height: 0.95;
+      }
+
+      .hero-copy p,
+      .section-head p,
+      .card p,
+      .card li {
+        color: var(--muted);
+        font-size: 19px;
+        line-height: 1.65;
+      }
+
+      .panel,
+      .card,
+      .shot {
+        border-radius: 30px;
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.88);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .panel img,
+      .shot img {
+        width: 100%;
+        display: block;
+        border-radius: 22px;
+        border: 1px solid var(--line);
+      }
+
+      .section {
+        padding: 0 0 52px;
+      }
+
+      .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .section-head h2 {
+        margin: 0;
+        font-size: 34px;
+        line-height: 1.04;
+      }
+
+      .grid {
+        display: grid;
+        gap: 16px;
+      }
+
+      .grid-two {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .grid-three {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .card {
+        padding: 24px;
+      }
+
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 24px;
+      }
+
+      .card ul,
+      .card ol {
+        margin: 14px 0 0;
+        padding-left: 22px;
+      }
+
+      .proof-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 14px;
+      }
+
+      .proof-table th,
+      .proof-table td {
+        text-align: left;
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+      }
+
+      .proof-table th {
+        color: var(--brand-strong);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .footer {
+        padding: 0 0 42px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .grid-two,
+        .grid-three {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="nav" aria-label="Primary">
+        <div class="wordmark">
+          <span>Provenote</span>
+        </div>
+        <div class="nav-links">
+          <a class="nav-link" href="./quickstart.html">Quick result</a>
+          <a class="nav-link" href="./proof.html">Proof</a>
+          <a class="nav-link" href="./project-status.html">Status</a>
+          <a class="nav-link" href="./mcp.html">MCP</a>
+          <a class="cta" href="https://github.com/xiaojiou176-open/provenote">View on GitHub</a>
+        </div>
+      </nav>
+
+      <main id="main-content">
+        <section class="hero section">
+          <div class="hero-copy">
+            <span class="chip">Outcome-first workbench</span>
+            <h1>Turn messy long context into structured, inspectable outcomes.</h1>
+            <p>
+              Provenote is a source-grounded workbench for taking long chats, copied web threads,
+              notes, files, and research piles, then turning them into structured insight, auditable
+              markdown, notebook drafts, and reusable research-thread outcomes.
+            </p>
+            <p>
+              The first door is still the same simple path: messy long context to structured insight,
+              then into note, research-thread, or draft lanes. MCP, host bundles, and distribution
+              pages are real second-ring carry-forward surfaces, but they do not outrank the product
+              path.
+            </p>
+            <div class="hero-actions">
+              <a class="cta" href="./use-cases/long-context-to-structured-notes.html">Start with long context</a>
+              <a class="ghost" href="./quickstart.html">Run the quick result path</a>
+              <a class="ghost" href="./proof.html">See the public proof</a>
+            </div>
+          </div>
+          <div class="panel">
+            <img
+              src="./assets/hero/provenote-hero.png"
+              alt="Provenote hero showing grounded sources, auditable markdown, and reusable outputs in one workbench."
+            />
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <div>
+              <h2>The shortest honest order</h2>
+              <p>
+                Provenote works best when the visitor sees the product path first, the proof second,
+                and the ecosystem surfaces only after the core workbench already makes sense.
+              </p>
+            </div>
+          </div>
+          <div class="grid grid-three">
+            <article class="card">
+              <h3>1. Start from the messy source</h3>
+              <p>
+                Begin with
+                <a href="./use-cases/long-context-to-structured-notes.html">Long Context</a>
+                when the real problem is too much raw material, not too few chat boxes.
+              </p>
+            </article>
+            <article class="card">
+              <h3>2. Get one visible result</h3>
+              <p>
+                Use the
+                <a href="./quickstart.html">Quick Result Path</a>
+                when you want one honest local proof loop from setup to auditable output.
+              </p>
+            </article>
+            <article class="card">
+              <h3>3. Verify the trust layer</h3>
+              <p>
+                Open
+                <a href="./proof.html">Public Proof</a>
+                and
+                <a href="./project-status.html">Project Status</a>
+                when you want receipts, non-claims, and current scope boundaries.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section grid grid-two">
+          <article class="card">
+            <h3>What Provenote is for</h3>
+            <ul>
+              <li>Collect text, files, audio, and web sources in one place.</li>
+              <li>Structure long context before it disappears into another chat turn.</li>
+              <li>Carry grounded insight into notes, research threads, and draft lanes.</li>
+              <li>Create auditable markdown and stronger outcome objects with receipts.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>What it is not</h3>
+            <ul>
+              <li>Not a generic hosted chat shell.</li>
+              <li>Not a bundle of vendor partnerships or official host listings.</li>
+              <li>Not a public skills marketplace by default.</li>
+              <li>Not a claim that every package-backed or marketplace lane is already live.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="section grid grid-two">
+          <article class="shot card">
+            <img
+              src="./assets/demo/provenote-quick-result-overview.png"
+              alt="Provenote quick-result overview showing the shortest repo-documented path from source import to auditable markdown download."
+            />
+            <p>
+              This is the fastest visible result loop the repo documents today: source import to
+              auditable markdown, without pretending to be a one-click hosted trial.
+            </p>
+          </article>
+          <article class="card">
+            <h3>Current truth ladder</h3>
+            <table class="proof-table" aria-label="Current truth ladder">
+              <thead>
+                <tr>
+                  <th>Surface</th>
+                  <th>Today</th>
+                  <th>Not the same as</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Official MCP Registry</td>
+                  <td>Live websiteUrl-backed entry for <code>provenote-mcp</code></td>
+                  <td>package-backed public artifact or host marketplace listing</td>
+                </tr>
+                <tr>
+                  <td>Host bundles</td>
+                  <td>Public-ready package artifacts for Claude Code, Codex, Cursor, OpenCode, and OpenClaw-compatible flows</td>
+                  <td>official marketplace or directory listing</td>
+                </tr>
+                <tr>
+                  <td>Public skills</td>
+                  <td>Repo-owned submission materials</td>
+                  <td>live OpenHands/extensions or ClawHub listing</td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </section>
+
+        <section class="section">
+          <article class="card">
+            <span class="chip">Second ring after the product path is clear</span>
+            <h3 style="margin-top: 16px">Carry the same outcomes into hosts, packets, and truth ledgers.</h3>
+            <div class="grid grid-two" style="margin-top: 18px">
+              <div>
+                <p>
+                  Once the product path is clear, use
+                  <a href="./mcp.html">MCP</a>,
+                  <a href="./distribution.html">Distribution</a>,
+                  <a href="https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/README.md">Companion Host Bundles</a>,
+                  and
+                  <a href="./faq.html">FAQ</a>
+                  as supporting rooms around the main workshop.
+                </p>
+              </div>
+              <div>
+                <p>
+                  If you want the second-ring atlas in Markdown form for repo reading, keep
+                  <a href="./index.md">docs/index.md</a>
+                  as the detailed map. This public page is the lighter front door, not the full atlas.
+                </p>
+              </div>
+            </div>
+          </article>
+        </section>
+      </main>
+
+      <footer class="footer">
+        Provenote keeps the public front door focused on messy-context input, inspectable outcome
+        lanes, and honest boundary pages. Improve the repo-owned docs surfaces through
+        <a href="https://github.com/xiaojiou176-open/provenote">GitHub</a>
+        and use
+        <a href="./project-status.html">Project Status</a>
+        when you need the current non-claims in one place.
+      </footer>
+    </div>
+  </body>
+</html>
