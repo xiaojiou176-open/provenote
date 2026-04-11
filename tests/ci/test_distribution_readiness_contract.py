@@ -60,6 +60,22 @@ def test_project_status_and_faq_link_distribution_boundary() -> None:
     assert "[distribution.md](distribution.md)" in faq
 
 
+def test_readme_project_status_distribution_and_mcp_keep_registry_truth_in_sync() -> None:
+    readme = _read("README.md")
+    project_status = _read("docs/project-status.md")
+    distribution = _read("docs/distribution.md")
+    mcp = _read("docs/mcp.md")
+
+    assert "live websiteUrl-backed `provenote-mcp` entry" in readme
+    assert "live Official MCP Registry entry for `provenote-mcp`" in project_status
+    assert "live Official MCP Registry entry for `provenote-mcp`" in distribution
+    assert "live websiteUrl-backed entry for `provenote-mcp`" in mcp
+    assert (
+        "therefore the honest boundary is `live registry entry: yes`, `package-backed public artifact: no`, and `other host marketplace listing: no`"
+        in mcp
+    )
+
+
 def test_codex_integration_keeps_listing_truth_below_directory_live() -> None:
     codex = _read("docs/integrations/codex.md")
     assert "`public-ready package available`: yes" in codex

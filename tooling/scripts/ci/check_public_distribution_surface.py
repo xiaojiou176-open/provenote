@@ -36,6 +36,23 @@ REQUIRED_FILES = (
     ".github/repo-settings/public-surface.snapshot.md",
 )
 
+REQUIRED_NEEDLES = {
+    "README.md": (
+        "live websiteUrl-backed `provenote-mcp` entry",
+    ),
+    "docs/project-status.md": (
+        "live Official MCP Registry entry for `provenote-mcp`",
+    ),
+    "docs/distribution.md": (
+        "live Official MCP Registry entry for `provenote-mcp`",
+        "package-backed public artifact is still a later packaging upgrade",
+    ),
+    "docs/mcp.md": (
+        "live websiteUrl-backed entry for `provenote-mcp`",
+        "the honest boundary is `live registry entry: yes`, `package-backed public artifact: no`, and `other host marketplace listing: no`",
+    ),
+}
+
 
 def main() -> int:
     failures: list[str] = []
@@ -53,6 +70,14 @@ def main() -> int:
             failures.append(
                 f"required public distribution boundary artifact missing: {rel_path}"
             )
+
+    for rel_path, needles in REQUIRED_NEEDLES.items():
+        text = (REPO_ROOT / rel_path).read_text(encoding="utf-8")
+        for needle in needles:
+            if needle not in text:
+                failures.append(
+                    f"{rel_path} missing required distribution truth marker: {needle}"
+                )
 
     if failures:
         for failure in failures:

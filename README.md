@@ -137,6 +137,7 @@ Think of these surfaces like rooms around the main workshop:
 | `provenote` CLI | a first-party local operator surface for outcome inspection and `research_thread -> draft -> verify/download` workflows | a separate distributed product line or a renamed MCP server |
 | public skills surface | tracked public-ready skill packets now exist under `public-skills/` for host-specific submission flows | a public skills catalog, live marketplace listing, or host-specific skills program endorsement |
 | OpenClaw | public-ready OpenClaw-compatible bundles and a ClawHub submission pack live under `examples/hosts/openclaw` | an official ClawHub or community listing that is already live |
+| Official MCP Registry | a live websiteUrl-backed `provenote-mcp` entry already points to the repo-owned MCP docs/install surface | a package-backed public artifact, official host marketplace listing, or vendor endorsement |
 | release / listing / domain / trademark / partnership | external decision and publication work | completed repo-side truth |
 
 If you want the shortest public page that keeps those boundaries honest, start with [docs/project-status.md](./docs/project-status.md).

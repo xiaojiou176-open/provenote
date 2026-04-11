@@ -286,6 +286,7 @@ if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
 fi
 run_step "snapshot-freshness-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_snapshot_freshness.py
 run_step "open-source-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_open_source_surface.py
+run_step "public-distribution-surface-guard" python3 tooling/scripts/ci/check_public_distribution_surface.py
 if [[ "${SKIP_DUPLICATE_PREPUSH_GATES}" != "1" ]]; then
   run_step "public-identity-surface-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_public_identity_surface.py
   run_step "provider-surface-truth-guard" bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_provider_surface_truth.py

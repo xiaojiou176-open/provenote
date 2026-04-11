@@ -41,7 +41,7 @@ Vendor names on the linked integration pages are descriptive compatibility targe
 | Operator CLI | the terminal-facing first-party operator surface | not a renamed MCP server or plugin package |
 | Public Skills language | a boundary question, not a shipped public product line | not a catalog or marketplace surface today |
 | OpenClaw | public-ready OpenClaw-compatible bundles and a ClawHub submission pack live under `examples/hosts/openclaw` | not an official listing that is already live |
-| Official MCP Registry | the official registry and publish path exist, but no supported public package or public remote-server artifact from this repo is published yet | not a live Provenote registry entry |
+| Official MCP Registry | the official registry already returns a live websiteUrl-backed entry for `provenote-mcp`, while no supported public package or public remote-server artifact from this repo is published yet | not a package-backed public artifact or a broader marketplace-live claim beyond that entry |
 | Plugin / marketplace / directory | a separate publication question even when repo-owned starter bundles exist | not implied by the current MCP server |
 
 If you need the full boundary map before opening a host-specific page, start with [project-status.md](project-status.md) and [distribution.md](distribution.md).
@@ -73,8 +73,9 @@ OpenClaw now has a stronger repo-owned rung even though it still sits below list
 The same honesty rule applies to the official MCP Registry:
 
 - the registry and publish quickstart exist
+- the official MCP Registry already returns a live websiteUrl-backed entry for `provenote-mcp`
 - this repository does not yet publish a supported public package or public remote-server artifact for `provenote-mcp`
-- therefore no live Provenote MCP Registry entry is claimed today
+- therefore the honest boundary is `live registry entry: yes`, `package-backed public artifact: no`, and `other host marketplace listing: no`
 
 ## Before You Connect A Host
 
