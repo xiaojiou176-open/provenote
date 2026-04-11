@@ -3,6 +3,9 @@ from __future__ import annotations
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+PUBLIC_HOST_BUNDLE_INDEX = (
+    "https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/README.md"
+)
 
 
 def _read(rel_path: str) -> str:
@@ -33,3 +36,10 @@ def test_public_docs_frontdoor_styles_inline_links_for_readability() -> None:
     assert "main li a," in text
     assert "text-decoration: underline;" in text
     assert "text-underline-offset" in text
+
+
+def test_public_docs_frontdoor_keeps_second_ring_links_pages_safe() -> None:
+    text = _read("docs/index.html")
+    assert f'href="{PUBLIC_HOST_BUNDLE_INDEX}"' in text
+    assert 'href="../examples/' not in text
+    assert 'href="./examples/' not in text
