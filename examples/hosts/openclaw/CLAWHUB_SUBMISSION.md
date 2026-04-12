@@ -80,6 +80,7 @@ The same docs also note that:
 
 - ClawHub is a public discovery surface for skills and plugins
 - a GitHub account must be at least one week old to publish
+- authenticated OpenClaw / ClawHub access is still required for publish and sync flows
 - `clawhub` is the separate CLI used for authenticated publish and sync flows
 
 ## Exact Unblock Pack
