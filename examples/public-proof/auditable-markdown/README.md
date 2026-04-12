@@ -4,6 +4,11 @@ This folder is the canonical public proof pack for Provenote's auditable markdow
 
 In plain language: if you want one fixed, reusable demonstration instead of reading repo prose, start here.
 
+If you want the wider workspace route first, start with
+[../README.md](../README.md). That pack keeps the `/sources -> source detail ->
+Auditable Markdown` journey explicit before you run this narrower lane-level
+proof.
+
 ## What This Pack Proves
 
 - the repo can accept one text source through the public API

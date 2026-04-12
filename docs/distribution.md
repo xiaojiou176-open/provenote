@@ -5,6 +5,7 @@ This page explains Provenote's current public distribution status without blurri
 In plain language: a public GitHub repo can already ship real starter bundles and real proof loops before every external listing goes live. Provenote now also has a live Official MCP Registry entry for `provenote-mcp`, while the rest of the host-specific marketplace lanes remain separate questions.
 
 If you want the machine-readable packet inventory behind the host bundle story, start with [../examples/hosts/packet-index.json](../examples/hosts/packet-index.json). That index points at the per-bundle `manifest.yaml` files while this page stays focused on claim levels and listing truth.
+If you need the product-first path, start with [../examples/public-proof/README.md](../examples/public-proof/README.md). That pack keeps the `/sources -> source detail -> Auditable Markdown` workbench route explicit so this page does not accidentally turn Provenote into a registry-first story.
 
 ## Claim Ladder
 

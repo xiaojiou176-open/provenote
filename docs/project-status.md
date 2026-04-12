@@ -88,7 +88,7 @@ The current repo can already prepare the storefront materials without claiming t
 | --- | --- | --- |
 | GitHub repository description | already synced to the current public positioning | only change it if the public brand story changes again |
 | GitHub homepage field | currently points to the GitHub Pages front door at `https://xiaojiou176-open.github.io/provenote/` | decide later whether the long-term homepage should stay on GitHub Pages, move to a custom docs site, or move to a custom domain |
-| Release surface | `Provenote v1.8.5` is published and reflects the current canonical release line | owner decides later whether to publish newer releases or adjust future release copy/assets |
+| Release surface | `Provenote v1.8.5` is the latest published release tag; current `main` is the working branch and should be described separately from that release line | owner decides later whether to publish a newer release or adjust future release copy/assets |
 | Claude Code / Codex starter bundles | public-ready package artifacts already exist in the repo | Claude Code now has an official marketplace/discovery surface, but live submission and review remain external; Codex official listing status remains separate and unclaimed |
 | OpenClaw bundle family | public-ready bundle artifacts and a ClawHub submission pack already exist in the repo | live ClawHub/community submission still needs platform action |
 | Official MCP Registry | the public registry now returns an active `provenote-mcp` entry | package-backed install artifact upgrades remain optional follow-up work |

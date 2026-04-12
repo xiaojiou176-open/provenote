@@ -273,7 +273,9 @@ The current UI and API evidence behind that lane is already public:
 
 Start from [docs/proof.md](./docs/proof.md) if you want the file-and-route evidence behind those claims.
 
-If you want a fixed, reproducible local proof loop, use the [public proof pack](./examples/public-proof/auditable-markdown/README.md).
+If you want the full sources-first workspace proof pack, use [examples/public-proof/README.md](./examples/public-proof/README.md).
+
+If you want a fixed, reproducible local proof loop inside that route, use the [Auditable Markdown proof pack](./examples/public-proof/auditable-markdown/README.md).
 
 ### Sanitized result shape
 

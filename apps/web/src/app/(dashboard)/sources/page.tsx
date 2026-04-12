@@ -529,6 +529,32 @@ export default function SourcesPage() {
     embeddedCount: sources.filter((item) => item.embedded).length,
     insightCount: sources.filter((item) => (item.insights_count || 0) > 0).length,
   };
+  const sourceFirstSuccessRail = [
+    {
+      number: "01",
+      title: t("sources.firstSuccess.openTitle", "Open the freshest source"),
+      detail: t(
+        "sources.firstSuccess.openDetail",
+        "Treat the newest source like the front door. Confirm that the latest import produced evidence you can actually trust.",
+      ),
+    },
+    {
+      number: "02",
+      title: t("sources.firstSuccess.verifyTitle", "Stay on source evidence first"),
+      detail: t(
+        "sources.firstSuccess.verifyDetail",
+        "Read the source detail page before you branch into markdown, drafts, or chat. That keeps the sources-first promise real.",
+      ),
+    },
+    {
+      number: "03",
+      title: t("sources.firstSuccess.nextTitle", "Only then pick the narrow next step"),
+      detail: t(
+        "sources.firstSuccess.nextDetail",
+        "Once the source looks solid, move into auditable markdown, notebook draft work, or source chat one lane at a time.",
+      ),
+    },
+  ];
 
   return (
     <AppShell>
@@ -596,6 +622,23 @@ export default function SourcesPage() {
                       })}
                     </Badge>
                   </div>
+                  <div className="mt-4 rounded-xl border border-primary/15 bg-primary/5 p-3">
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                      {t("sources.firstSuccess.nowHeading", "Current next move")}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold text-foreground">
+                      {t(
+                        "sources.firstSuccess.nowTitle",
+                        "Open this source, then keep the first pass on evidence.",
+                      )}
+                    </p>
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      {t(
+                        "sources.firstSuccess.nowDetail",
+                        "The intended path is simple: /sources -> source detail -> auditable markdown or source chat.",
+                      )}
+                    </p>
+                  </div>
                 </div>
 
                 <div className="rounded-xl border border-border/70 bg-background/80 p-4">
@@ -634,6 +677,21 @@ export default function SourcesPage() {
                     {t.sources.embedded}: {sourceSummary.embeddedCount}
                   </p>
                 </div>
+              </div>
+
+              <div className="grid gap-3 md:grid-cols-3">
+                {sourceFirstSuccessRail.map((step) => (
+                  <div
+                    key={step.number}
+                    className="rounded-xl border border-border/70 bg-background/80 p-4"
+                  >
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                      {step.number}
+                    </p>
+                    <p className="mt-2 text-sm font-semibold">{step.title}</p>
+                    <p className="mt-2 text-sm text-muted-foreground">{step.detail}</p>
+                  </div>
+                ))}
               </div>
             </CardContent>
           </Card>

@@ -68,6 +68,9 @@ This lane is the fastest way to feel what Provenote is really trying to do:
 - attach integrity counters
 - keep stronger traceability than ordinary chat alone
 
+If you want the repo-authored public contract for this exact UI route, inspect
+[../examples/public-proof/README.md](../examples/public-proof/README.md).
+
 ## What Good Looks Like
 
 You are in a strong first-run state if you can answer "yes" to all four:
@@ -95,5 +98,6 @@ If you cannot say yes yet, that usually means you are still in the local setup p
 | --- | --- |
 | Full install and contributor setup | [installation.md](installation.md) |
 | Environment contract and required variables | [configuration.md](configuration.md) |
+| Public workspace proof for `/sources -> source detail -> Auditable Markdown` | [../examples/public-proof/README.md](../examples/public-proof/README.md) |
 | Product proof and inspectable evidence | [proof.md](proof.md) |
 | Positioning and scope questions | [faq.md](faq.md) |

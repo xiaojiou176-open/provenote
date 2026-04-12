@@ -68,7 +68,19 @@ export default function SourceDetailPage() {
                 )}
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col gap-3">
+              <div className="flex flex-wrap gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                <span className="rounded-full border border-border/70 bg-background px-3 py-1.5">
+                  {t("sources.detailPage.stepEvidence", "1. Source evidence")}
+                </span>
+                <span className="rounded-full border border-border/70 bg-background px-3 py-1.5">
+                  {t("sources.detailPage.stepMarkdown", "2. Auditable markdown")}
+                </span>
+                <span className="rounded-full border border-border/70 bg-background px-3 py-1.5">
+                  {t("sources.detailPage.stepChat", "3. Source chat")}
+                </span>
+              </div>
+              <div className="flex flex-wrap gap-2">
               <Button
                 type="button"
                 variant="outline"
@@ -93,6 +105,7 @@ export default function SourceDetailPage() {
               >
                 {t("sources.detailPage.chatAction", "Source chat")}
               </Button>
+            </div>
             </div>
           </div>
         </div>

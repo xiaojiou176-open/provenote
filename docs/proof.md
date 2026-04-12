@@ -16,7 +16,9 @@ If you only want one short evaluation loop, use this sequence:
 2. scan [project-status.md](project-status.md) so the scope boundary is clear
 3. review the repo-authored [quick-result overview](./assets/demo/provenote-quick-result-overview.png)
 4. follow the [quickstart](quickstart.md)
-5. inspect the UI and API surfaces linked below
+5. inspect the repo-authored [workspace proof pack](../examples/public-proof/README.md)
+6. use the runnable [Auditable Markdown proof pack](../examples/public-proof/auditable-markdown/README.md) if you want the narrow reproducible loop
+7. inspect the UI and API surfaces linked below
 
 This is the shortest **repo-documented local proof loop** today. It is not a hosted one-click demo claim.
 
@@ -53,7 +55,9 @@ The repo now also exposes a sanitized result shape in [../README.md](../README.m
 
 If you want the shortest scope-and-readiness summary before reading deeper proof, start with [project-status.md](project-status.md).
 
-For a fixed, reproducible local proof loop, use [../examples/public-proof/auditable-markdown/README.md](../examples/public-proof/auditable-markdown/README.md).
+For the full sources-first workspace route, use [../examples/public-proof/README.md](../examples/public-proof/README.md).
+
+For a fixed, reproducible local proof loop inside that route, use [../examples/public-proof/auditable-markdown/README.md](../examples/public-proof/auditable-markdown/README.md).
 
 ## Workflow Proof
 
