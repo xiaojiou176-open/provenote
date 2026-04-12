@@ -22,7 +22,7 @@ If you need the product-first path, start with [../examples/public-proof/README.
 | --- | --- | --- | --- | --- | --- | --- |
 | Claude Code | yes, official Claude Code MCP docs exist and Anthropic documents a discovery surface plus official marketplace submission flows | yes, official marketplace/discovery docs and submission forms are documented | [../examples/hosts/claude-code/provenote-outcome-bundle/README.md](../examples/hosts/claude-code/provenote-outcome-bundle/README.md), [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md), and [integrations/claude-code.md](integrations/claude-code.md) | `public-ready package available` | no | authenticated Anthropic marketplace submission plus directory review and any extra publisher-side materials Anthropic requires |
 | OpenAI Codex | yes, official Codex MCP docs exist | no verified official listing flow was confirmed in this turn | [../examples/hosts/codex/provenote-outcome-bundle/README.md](../examples/hosts/codex/provenote-outcome-bundle/README.md), [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md), and [integrations/codex.md](integrations/codex.md) | `public-ready package available` | no | wait for OpenAI to expose or document an official listing path before claiming more |
-| OpenClaw / ClawHub | yes | yes | [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md), [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md), [../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md), and [integrations/openclaw.md](integrations/openclaw.md) | `public-ready package available` | no | authenticated ClawHub publish under a valid account and namespace |
+| OpenClaw / ClawHub | yes | yes | [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md), [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md), [../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md), and [integrations/openclaw.md](integrations/openclaw.md) | `ClawHub skill page live` | yes, on ClawHub | broader OpenClaw bundle/plugin validation beyond the live ClawHub skill page remains optional later work |
 | Official MCP Registry | yes | yes | [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), [../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md](../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md), [../examples/public-distribution/mcp-registry/server.json](../examples/public-distribution/mcp-registry/server.json), [mcp.md](mcp.md), and [../pyproject.toml](../pyproject.toml) | `official marketplace listing live` | yes | package-backed install artifact upgrades remain optional follow-up work |
 
 ## What Is Already Public-Ready
@@ -55,6 +55,7 @@ If you need the product-first path, start with [../examples/public-proof/README.
 - public bundle family: [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md)
 - public submission pack: [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md)
 - canonical publish root: [../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md)
+- fresh live read-back: `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
 - public verify loop:
   - install one checked-in OpenClaw-compatible bundle from the public repo
   - inspect it through OpenClaw's plugin commands
@@ -133,5 +134,5 @@ This page does **not** claim:
 
 - an official Claude Code listing is live
 - an official Codex plugin listing is live
-- a live official OpenClaw / ClawHub listing for Provenote
+- every OpenClaw bundle/plugin surface beyond the live ClawHub skill page
 - any vendor partnership or endorsement

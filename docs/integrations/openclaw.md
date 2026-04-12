@@ -2,7 +2,7 @@
 
 This page documents the current repo-owned public-ready path for using Provenote with OpenClaw-compatible bundles.
 
-In plain language: Provenote now ships checked-in OpenClaw-compatible bundle layouts so developers can wire `provenote-mcp`, local skills, and plugin markers into an OpenClaw install from this public repository without pretending that an official ClawHub listing is already live.
+In plain language: Provenote now ships checked-in OpenClaw-compatible bundle layouts so developers can wire `provenote-mcp`, local skills, and plugin markers into an OpenClaw install from this public repository, and the matching ClawHub skill listing is already live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`.
 
 ## Current Claim Ladder
 
@@ -12,14 +12,14 @@ That is the right truth layer today:
 
 - `repo-owned prep exists`: yes
 - `public-ready package available`: yes
-- `publicly discoverable listing live`: no live ClawHub or community listing is claimed here
-- `official marketplace listing live`: no
+- `publicly discoverable listing live`: yes, on ClawHub
+- `official marketplace listing live`: yes, on ClawHub
 
 This page does **not** claim:
 
 - current public OpenClaw compatibility support
 - an official partnership or endorsement
-- a marketplace, directory, or registry listing
+- every other OpenClaw marketplace, directory, or registry surface
 - a public Skills catalog or separate public plugin package from this repo
 
 ## Why This Page Exists
@@ -30,7 +30,7 @@ That makes it reasonable for Provenote to provide a repo-owned local install pat
 
 - OpenClaw owns the runtime and plugin loading rules
 - Provenote owns the `provenote-mcp` entrypoint plus the checked-in local bundle examples
-- a public-ready bundle path is not the same as a live official listing
+- a live ClawHub skill page is not the same as every OpenClaw marketplace surface being live
 
 ## Bundle Map
 
@@ -84,13 +84,13 @@ That pack keeps three things separate:
 
 - the public-ready bundle install path that already exists in this repository
 - the official OpenClaw/ClawHub surface that exists in the platform docs
-- the external account/tooling step still required before any listing can go live
+- the broader OpenClaw account/tooling work that would still be required if the maintainer wants more than the current live ClawHub page
 
 ## Boundary
 
 | Safe now | Not claimed |
 | --- | --- |
-| checked-in public-ready OpenClaw-compatible bundles exist | official ClawHub or community listing live |
+| checked-in public-ready OpenClaw-compatible bundles exist and the ClawHub skill page is live | every other OpenClaw marketplace surface being live |
 | the bundles target the first-party `provenote-mcp` entrypoint | official OpenClaw endorsement or partnership |
 | local skills and plugin markers are present in repo-owned artifacts | plugin marketplace, directory, or registry listing |
 | the install path is suitable for public-ready bundle distribution from this repository | public Skills program or universal host guarantee |

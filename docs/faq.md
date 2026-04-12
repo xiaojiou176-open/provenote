@@ -83,7 +83,7 @@ Those artifacts now reach a stronger rung:
 
 - repo-owned public-ready OpenClaw-compatible bundles exist in this repository
 - the repo includes a ClawHub submission pack
-- an official ClawHub or community listing is still **not** live
+- the ClawHub skill listing is now live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
 
 The same caution applies to plugin, marketplace, and public Skills language:
 
