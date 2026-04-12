@@ -2,7 +2,7 @@
 
 These are tracked public-ready OpenClaw-compatible bundle artifacts for Provenote.
 
-In plain language: this folder is the repo-owned shelf for "install it from the public repo, verify it locally, and prepare a ClawHub submission" without pretending an official listing is already live.
+In plain language: this folder is the repo-owned shelf for "install it from the public repo, verify it locally, and reuse the same bundle family that now backs the live ClawHub skill listing" without pretending every OpenClaw storefront is already live.
 
 ## Included Bundles
 
@@ -42,6 +42,6 @@ In plain language: this folder is the repo-owned shelf for "install it from the 
 ## Boundary
 
 - public-ready OpenClaw-compatible bundle install path is available from this repository
-- official ClawHub or community-plugin listing is not live
-- not a marketplace, directory, or registry listing claim for Provenote today
+- the ClawHub skill listing is now live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
+- not every OpenClaw marketplace, directory, or registry surface is live for Provenote today
 - not a public Skills distribution claim

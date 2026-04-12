@@ -2,7 +2,7 @@
 
 This file keeps the OpenClaw public-distribution truth in one place.
 
-In plain language: the bundle install path is ready in this repository, but an official ClawHub or community-plugin listing is **not** live yet.
+In plain language: the bundle install path is ready in this repository, and the ClawHub skill listing is now live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`.
 
 ## Current Claim Ladder
 
@@ -10,8 +10,8 @@ In plain language: the bundle install path is ready in this repository, but an o
 | --- | --- |
 | `repo-owned prep exists` | yes |
 | `public-ready package available` | yes |
-| `publicly discoverable listing live` | no |
-| `official marketplace listing live` | no |
+| `publicly discoverable listing live` | yes |
+| `official marketplace listing live` | yes, on ClawHub |
 
 ## Official Surface Evidence
 
@@ -56,15 +56,16 @@ Use those official pages together with:
 | `../../../tests/ci/test_host_surface_contract.py` | docs surface guard |
 | `../../../tests/test_mcp_server.py` | skill and MCP boundary guard |
 
-## What Still Blocks A Live Listing
+## Current Live Listing Boundary
 
-An official ClawHub or community-plugin listing still needs an external platform step:
+The ClawHub skill page is already live:
 
-- authenticated OpenClaw / ClawHub access
-- the operator tooling or web session used for submission
-- a final owner decision on package name, listing target, and submit account
+- `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
 
-Those are not repository-code blockers.
+That means the earlier publish/auth step is no longer a blocker for this exact
+skill lane. What still remains outside the repo is any later choice to expand
+beyond this live ClawHub page into other OpenClaw bundle, plugin, or
+marketplace surfaces.
 
 ## Official Command Card
 
@@ -87,26 +88,29 @@ The same docs also note that:
 | --- | --- | --- | --- |
 | OpenClaw-compatible install package | ready | three compatible bundle families plus docs and proof loop | none |
 | Listing metadata and proof | ready | this pack plus the bundle READMEs and host docs | none |
-| Live ClawHub/community listing | not live | repo-owned package and docs are ready | authenticated submission in OpenClaw / ClawHub using the official docs above and the canonical publish root below |
+| Live ClawHub/community listing | live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows` | repo-owned package and docs are already backed by a public page | broader OpenClaw bundle/plugin storefront work only if the maintainer wants more than the current live ClawHub page |
 
 ## Canonical Publish Target
 
-Use the canonical ClawHub publish root when the submit account is ready:
+Use the canonical ClawHub publish root when you need to trace or republish the
+same live skill lane:
 
 - `examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/`
 
-This repository does **not** claim that Provenote has already been published. The safe truth is only that the canonical publish root is ready once the official OpenClaw / ClawHub tooling and account path are available.
+This repository can now truthfully claim that the canonical ClawHub skill page
+is already published. The safe remaining boundary is smaller: broader OpenClaw
+bundle/plugin storefront work is still optional later work, not part of the
+current live ClawHub receipt.
 
 ## Safe Current Wording
 
 Safe now:
 
 - public-ready OpenClaw-compatible bundles are available from this repository
-- the repo includes a submission-ready ClawHub pack
-- the repo includes a canonical ClawHub skill publish target
+- the repo includes a live ClawHub skill listing at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
+- the repo includes a canonical ClawHub skill publish target that matches the live page
 
 Not safe now:
 
-- official OpenClaw listing live
 - official partnership or endorsement
 - public skills catalog

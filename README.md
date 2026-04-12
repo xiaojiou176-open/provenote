@@ -136,7 +136,7 @@ Think of these surfaces like rooms around the main workshop:
 | Claude Code / Codex / Cursor / OpenCode pages | repo-backed compatibility guides through the first-party MCP server, with public-ready starter bundles under `examples/hosts/` | official partnership, bundled integration, plugin, or marketplace listing |
 | `provenote` CLI | a first-party local operator surface for outcome inspection and `research_thread -> draft -> verify/download` workflows | a separate distributed product line or a renamed MCP server |
 | public skills surface | tracked public-ready skill packets now exist under `public-skills/` for host-specific submission flows | a public skills catalog, live marketplace listing, or host-specific skills program endorsement |
-| OpenClaw | public-ready OpenClaw-compatible bundles and a ClawHub submission pack live under `examples/hosts/openclaw` | an official ClawHub or community listing that is already live |
+| OpenClaw | a live ClawHub skill listing now exists at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`, and public-ready OpenClaw-compatible bundles still live under `examples/hosts/openclaw` | official OpenClaw partnership, vendor endorsement, or every other marketplace surface being live |
 | Official MCP Registry | a live websiteUrl-backed `provenote-mcp` entry already points to the repo-owned MCP docs/install surface | a package-backed public artifact, official host marketplace listing, or vendor endorsement |
 | release / listing / domain / trademark / partnership | external decision and publication work | completed repo-side truth |
 

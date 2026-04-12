@@ -40,7 +40,7 @@ Vendor names on the linked integration pages are descriptive compatibility targe
 | MCP | the host-facing integration layer for Provenote outcome objects | not the product center and not a partnership claim |
 | Operator CLI | the terminal-facing first-party operator surface | not a renamed MCP server or plugin package |
 | Public Skills language | a boundary question, not a shipped public product line | not a catalog or marketplace surface today |
-| OpenClaw | public-ready OpenClaw-compatible bundles and a ClawHub submission pack live under `examples/hosts/openclaw` | not an official listing that is already live |
+| OpenClaw | a live ClawHub skill listing now exists at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`, and public-ready OpenClaw-compatible bundles still live under `examples/hosts/openclaw` | not an official partnership claim or proof that every OpenClaw marketplace surface is live |
 | Official MCP Registry | the official registry already returns a live websiteUrl-backed entry for `provenote-mcp`, while no supported public package or public remote-server artifact from this repo is published yet | not a package-backed public artifact or a broader marketplace-live claim beyond that entry |
 | Plugin / marketplace / directory | a separate publication question even when repo-owned starter bundles exist | not implied by the current MCP server |
 
@@ -68,7 +68,7 @@ The server also keeps a few controlled utility surfaces such as `knowledge.searc
 
 If you want the narrowest host-specific verification loop instead of a generic overview, start with [Use Provenote with OpenCode](integrations/opencode.md). That page now links the host setup step back to the repo-owned MCP entrypoint and the concrete outcome-tool families.
 
-OpenClaw now has a stronger repo-owned rung even though it still sits below listing-live truth. The repo ships public-ready OpenClaw-compatible bundles plus a ClawHub submission pack under [../examples/hosts/README.md](../examples/hosts/README.md), but that still does not mean a ClawHub listing is already live.
+OpenClaw now has crossed into listing-live truth on the ClawHub skill lane. The repo ships public-ready OpenClaw-compatible bundles plus a live ClawHub skill page at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`, but that still does not mean every other OpenClaw marketplace or bundle surface is also live.
 
 The same honesty rule applies to the official MCP Registry:
 
@@ -111,7 +111,7 @@ If you want the current submission packs for official discovery surfaces, start 
 | `provenote-mcp` | the repo-owned stdio MCP entrypoint | a universal guarantee across every host/runtime mode |
 | `provenote` | the first-party terminal/operator surface for outcome inspection and narrow outcome workflows | a host plugin, marketplace package, or MCP replacement |
 | public skills surface | tracked public-ready skill packets now exist under `../public-skills/` for host-specific submission flows | a public skills catalog, live marketplace listing, or host-specific skills program endorsement |
-| OpenClaw | public-ready bundles and a repo-owned submission pack exist | an official ClawHub listing that is already live |
+| OpenClaw | a live ClawHub skill page now exists and the repo-owned bundles remain available | official partnership or every other OpenClaw marketplace surface being live |
 | plugin / marketplace / directory presence | external-only or intentionally not-live today | shipped listing-live truth |
 
 ## Repo-Owned Host Proof Loop
