@@ -121,7 +121,7 @@ export function ChatColumn({
   // Show loading state while sources/notes are being fetched
   if (sourcesLoading || notesLoading) {
     return (
-      <Card className="h-full flex flex-col">
+      <Card className="ui-elevated-panel h-full flex flex-col shadow-none">
         <CardContent className="flex-1 flex items-center justify-center">
           <LoadingSpinner size="lg" />
         </CardContent>
@@ -132,7 +132,7 @@ export function ChatColumn({
   // Show error state if data fetch failed (unlikely but good to handle)
   if (sourcesError || notesError) {
     return (
-      <Card className="h-full flex flex-col">
+      <Card className="ui-elevated-panel h-full flex flex-col shadow-none">
         <CardContent className="flex-1 flex items-center justify-center">
           <div className="text-center text-muted-foreground">
             <AlertCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
@@ -161,6 +161,7 @@ export function ChatColumn({
             type="button"
             variant="outline"
             size="sm"
+            className="rounded-2xl"
             onClick={() => void handleSaveChatToThread()}
             disabled={createResearchThread.isPending}
           >

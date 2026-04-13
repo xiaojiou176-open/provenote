@@ -62,6 +62,7 @@ export function SourcesColumn({
   const [sourceToDelete, setSourceToDelete] = useState<string | null>(null);
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [sourceToRemove, setSourceToRemove] = useState<string | null>(null);
+  const collectLabel = t.navigation?.collect ?? "Collect";
 
   const { openModal } = useModalManager();
   const deleteSource = useDeleteSource();
@@ -173,14 +174,19 @@ export function SourcesColumn({
         collapsedIcon={FileText}
         collapsedLabel={t.navigation.sources}
       >
-        <Card className="h-full flex flex-col flex-1 overflow-hidden">
-          <CardHeader className="pb-3 flex-shrink-0">
+        <Card className="ui-elevated-panel h-full flex flex-col flex-1 overflow-hidden shadow-none">
+          <CardHeader className="pb-4 flex-shrink-0">
             <div className="flex items-center justify-between gap-2">
-              <CardTitle className="text-lg">{t.navigation.sources}</CardTitle>
+              <div className="space-y-1">
+                <p className="ui-metric-label">{collectLabel}</p>
+                <CardTitle className="font-serif text-2xl leading-none tracking-[-0.03em]">
+                  {t.navigation.sources}
+                </CardTitle>
+              </div>
               <div className="flex items-center gap-2">
                 <DropdownMenu open={dropdownOpen} onOpenChange={setDropdownOpen}>
                   <DropdownMenuTrigger asChild>
-                    <Button size="sm">
+                    <Button size="sm" className="rounded-2xl">
                       <Plus className="h-4 w-4 mr-2" />
                       {t.sources.addSource}
                       <ChevronDown className="h-4 w-4 ml-2" />

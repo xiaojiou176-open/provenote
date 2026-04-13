@@ -269,24 +269,26 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
       >
         <div
           className={cn(
-            "flex h-16 items-center group",
-            effectiveCollapsed ? "justify-center px-2" : "justify-between px-4",
+            "group border-b border-sidebar-border/80",
+            effectiveCollapsed ? "px-2 py-3" : "px-4 py-4",
           )}
         >
           {effectiveCollapsed ? (
-            <div className="relative flex items-center justify-center w-full">
-              <Image
-                src="/logo.svg"
-                alt="Provenote"
-                width={32}
-                height={32}
-                className="transition-opacity group-hover:opacity-0"
-              />
+            <div className="relative flex w-full items-center justify-center">
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-sidebar-border/80 bg-sidebar-accent/70 shadow-[0_14px_28px_oklch(18%_0.02_45deg_/10%)]">
+                <Image
+                  src="/logo.svg"
+                  alt="Provenote"
+                  width={28}
+                  height={28}
+                  className="transition-opacity group-hover:opacity-0"
+                />
+              </div>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={toggleCollapse}
-                className="absolute text-sidebar-foreground hover:bg-sidebar-accent opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
+                className="absolute rounded-xl text-sidebar-foreground hover:bg-sidebar-accent opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity"
                 aria-label={expandSidebarLabel}
               >
                 <Menu className="h-4 w-4" />
@@ -294,18 +296,25 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
             </div>
           ) : (
             <>
-              <div className="flex items-center gap-2">
-                <Image src="/logo.svg" alt={t.common.appName} width={32} height={32} />
-                <span className="text-base font-medium text-sidebar-foreground">
-                  {t.common.appName}
-                </span>
+              <div className="flex min-w-0 items-center gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-sidebar-border/80 bg-sidebar-accent/70 shadow-[0_14px_28px_oklch(18%_0.02_45deg_/10%)]">
+                  <Image src="/logo.svg" alt={t.common.appName} width={28} height={28} />
+                </div>
+                <div className="min-w-0">
+                  <span className="block truncate font-serif text-xl leading-none tracking-[-0.03em] text-sidebar-foreground">
+                    {t.common.appName}
+                  </span>
+                  <span className="mt-1 block truncate text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                    {t.navigation.process}
+                  </span>
+                </div>
               </div>
               {isDesktop && (
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={toggleCollapse}
-                  className="text-sidebar-foreground hover:bg-sidebar-accent"
+                  className="rounded-xl text-sidebar-foreground hover:bg-sidebar-accent"
                   data-testid="sidebar-toggle"
                   aria-label={collapseSidebarLabel}
                 >
@@ -327,7 +336,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
         </div>
 
         <nav className={cn("flex-1 space-y-1 py-4", effectiveCollapsed ? "px-2" : "px-3")}>
-          <div className={cn("mb-4", effectiveCollapsed ? "px-0" : "px-3")}>
+          <div className={cn("mb-4", effectiveCollapsed ? "px-0" : "px-1")}>
             <DropdownMenu open={createMenuOpen} onOpenChange={setCreateMenuOpen}>
               {effectiveCollapsed ? (
                 <Tooltip>
@@ -337,7 +346,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
                         onClick={() => setCreateMenuOpen(true)}
                         variant="default"
                         size="sm"
-                        className="w-full justify-center px-2 bg-primary hover:bg-primary/90 text-primary-foreground border-0 hover:-translate-y-px active:translate-y-0 motion-reduce:transform-none"
+                        className="w-full justify-center rounded-2xl px-2 bg-primary hover:bg-primary/90 text-primary-foreground border-0 shadow-[0_12px_24px_oklch(18%_0.02_45deg_/14%)] hover:-translate-y-px active:translate-y-0 motion-reduce:transform-none"
                         aria-label={t.common.create}
                         aria-haspopup="menu"
                         aria-expanded={createMenuOpen}
@@ -354,7 +363,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
                     onClick={() => setCreateMenuOpen(true)}
                     variant="default"
                     size="sm"
-                    className="w-full justify-start bg-primary hover:bg-primary/90 text-primary-foreground border-0 hover:-translate-y-px active:translate-y-0 motion-reduce:transform-none"
+                    className="w-full justify-start rounded-2xl bg-primary hover:bg-primary/90 px-4 py-5 text-primary-foreground border-0 shadow-[0_12px_24px_oklch(18%_0.02_45deg_/14%)] hover:-translate-y-px active:translate-y-0 motion-reduce:transform-none"
                     aria-haspopup="menu"
                     aria-expanded={createMenuOpen}
                   >
@@ -405,10 +414,10 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
 
           {navigation.map((section, index) => (
             <div key={section.title}>
-              {index > 0 && <Separator className="my-3" />}
+              {index > 0 && <Separator className="my-4 bg-sidebar-border/70" />}
               <div className="space-y-1">
                 {!effectiveCollapsed && (
-                  <h3 className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-sidebar-foreground">
+                  <h3 className="mb-2 px-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                     {section.title}
                   </h3>
                 )}
@@ -431,7 +440,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
                             href={item.href}
                             className={cn(
                               linkClasses,
-                              "inline-flex h-9 items-center rounded-md text-sm font-medium transition-[background-color,transform] duration-150 hover:bg-sidebar-accent active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar",
+                              "inline-flex h-10 items-center rounded-2xl text-sm font-medium transition-[background-color,transform] duration-150 hover:bg-sidebar-accent active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar",
                             )}
                             aria-label={item.name}
                             aria-current={isActive ? "page" : undefined}
@@ -459,7 +468,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
                       href={item.href}
                       className={cn(
                         linkClasses,
-                        "inline-flex h-9 items-center rounded-md px-3 text-sm font-medium transition-[background-color,transform] duration-150 hover:bg-sidebar-accent active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar",
+                        "inline-flex h-10 items-center rounded-2xl px-3 text-sm font-medium transition-[background-color,transform] duration-150 hover:bg-sidebar-accent active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 focus-visible:ring-offset-2 focus-visible:ring-offset-sidebar",
                       )}
                       aria-current={isActive ? "page" : undefined}
                       aria-busy={isPending}
@@ -488,13 +497,13 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
 
         <div
           className={cn(
-            "border-t border-sidebar-border p-3 space-y-2",
+            "border-t border-sidebar-border/80 p-3 space-y-3",
             effectiveCollapsed && "px-2",
           )}
         >
           {/* Command Palette hint */}
           {!effectiveCollapsed && (
-            <div className="ui-quick-hint px-3 py-1.5 text-xs text-sidebar-foreground">
+            <div className="ui-quick-hint rounded-2xl border border-sidebar-border/80 bg-sidebar-accent/35 px-3 py-2 text-xs text-sidebar-foreground shadow-[0_12px_24px_oklch(18%_0.02_45deg_/6%)]">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5">
                   <Command className="h-3 w-3" />
@@ -548,7 +557,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="ui-signout-btn w-full justify-center text-sidebar-foreground hover:text-sidebar-accent-foreground"
+                  className="ui-signout-btn w-full justify-center rounded-2xl text-sidebar-foreground hover:text-sidebar-accent-foreground"
                   onClick={() => {
                     if (!isDesktop) {
                       onMobileOpenChange?.(false);
@@ -565,7 +574,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
           ) : (
             <Button
               variant="ghost"
-              className="ui-signout-btn w-full justify-start gap-3 text-sidebar-foreground hover:text-sidebar-accent-foreground"
+              className="ui-signout-btn w-full justify-start gap-3 rounded-2xl text-sidebar-foreground hover:text-sidebar-accent-foreground"
               onClick={() => {
                 if (!isDesktop) {
                   onMobileOpenChange?.(false);
