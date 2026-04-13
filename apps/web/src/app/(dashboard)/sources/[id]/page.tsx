@@ -81,31 +81,31 @@ export default function SourceDetailPage() {
                 </span>
               </div>
               <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => scrollToSection("source-evidence-section")}
-              >
-                {t("sources.detailPage.evidenceAction", "Source evidence")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => scrollToSection("auditable-markdown-section")}
-              >
-                {t("sources.detailPage.auditAction", "Auditable markdown")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => scrollToSection("source-chat-section")}
-              >
-                {t("sources.detailPage.chatAction", "Source chat")}
-              </Button>
-            </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() => scrollToSection("source-evidence-section")}
+                >
+                  {t("sources.detailPage.evidenceAction", "Source evidence")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() => scrollToSection("auditable-markdown-section")}
+                >
+                  {t("sources.detailPage.auditAction", "Auditable markdown")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer"
+                  onClick={() => scrollToSection("source-chat-section")}
+                >
+                  {t("sources.detailPage.chatAction", "Source chat")}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
