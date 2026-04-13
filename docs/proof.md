@@ -20,6 +20,18 @@ If you only want one short evaluation loop, use this sequence:
 
 This is the shortest **repo-documented local proof loop** today. It is not a hosted one-click demo claim.
 
+## Product Proof In One Minute
+
+If you only want the shortest product-level answer before reading file-level
+anchors, keep these four points:
+
+- Provenote already ships a path from messy long context to structured insight.
+- Auditable Markdown is the shortest repo-backed inspectable output lane.
+- Notes, research threads, and drafts are continuation lanes after that first
+  result exists.
+- MCP, host bundles, and distribution pages are real, but they stay second ring
+  around the product path.
+
 ## Proof Routes By Audience
 
 | If you want to check... | Start here | Then inspect |
