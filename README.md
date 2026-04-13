@@ -55,6 +55,19 @@ only then carry that outcome workflow forward through the first-party
 `provenote-mcp` server. Public skills, host bundles, and registry packs are
 companion surfaces around that workbench, not the product root.
 
+## At A Glance
+
+If you only want the shortest truthful filter before reading deeper, use this
+table first:
+
+| What you need to know | Current answer |
+| --- | --- |
+| Product thesis | turn messy long context into structured insight and inspectable outcomes you can carry into notes, research threads, and drafts |
+| Fastest result path | import one source -> run Auditable Markdown -> download one inspectable result |
+| First proof | the quick-result overview plus the public proof page |
+| Second ring only | MCP, host bundles, public skills, and distribution surfaces |
+| What it must never be reduced to | a hosted one-minute trial or a generic chat wrapper |
+
 ## Start Here In 10 Seconds
 
 If you only want the fastest honest map, use this:
@@ -85,6 +98,20 @@ Provenote is built for the opposite direction:
 Think of it like moving from a loose pile of research tabs to a workbench with labeled drawers, measuring tools, and a clean export lane.
 
 If your problem starts as "I have too much messy context," the strongest current repo-backed answer is not another empty chat box. It is the path from long context to structured notes and then into reusable outcome objects.
+
+## Fastest Result Path
+
+If you want one visible outcome before learning the whole workbench, keep the
+order this short:
+
+1. import or open one source
+2. open the source detail surface
+3. run **Auditable Markdown**
+4. download the inspectable result
+
+That is the shortest repo-documented result path today.
+MCP, starter bundles, podcasts, and distribution surfaces stay second ring
+until this outcome path already makes sense.
 
 ## If You Start With Messy Long Context
 
