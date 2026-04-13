@@ -39,7 +39,7 @@ def test_openclaw_page_keeps_local_proof_prep_boundary() -> None:
     assert "../../examples/hosts/openclaw/README.md" in text
     assert "../../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md" in text
     assert "does **not** claim" in text
-    assert "every other OpenClaw marketplace, directory, or registry surface" in text
+    assert "a live ClawHub skill page is not the same as every OpenClaw marketplace surface being live" in text
 
 
 def test_mcp_overview_points_to_tracked_host_examples() -> None:

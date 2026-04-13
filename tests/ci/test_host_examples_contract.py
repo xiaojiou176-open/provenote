@@ -41,7 +41,8 @@ def test_openclaw_examples_index_exists_and_lists_bundle_families() -> None:
     assert "provenote-claude-bundle" in text
     assert "provenote-cursor-bundle" in text
     assert "provenote-codex-bundle" in text
-    assert "the ClawHub skill listing is now live at" in text
+    assert "the ClawHub skill listing is now live" in text
+    assert "not every OpenClaw marketplace, directory, or registry surface is live" in text
 
 
 def test_openclaw_clawhub_submission_pack_exists() -> None:
@@ -50,7 +51,7 @@ def test_openclaw_clawhub_submission_pack_exists() -> None:
     text = submission_pack.read_text(encoding="utf-8")
     assert "public-ready package available" in text
     assert "official marketplace listing live" in text
-    assert "the ClawHub skill listing is now live at" in text
+    assert "authenticated publish and sync flows" in text
 
 
 def test_openclaw_submission_pack_exists_and_keeps_claim_ladder() -> None:
@@ -60,7 +61,7 @@ def test_openclaw_submission_pack_exists_and_keeps_claim_ladder() -> None:
     assert "public-ready package available" in text
     assert "publicly discoverable listing live" in text
     assert "official marketplace listing live" in text
-    assert "broader OpenClaw bundle/plugin storefront work only" in text
+    assert "authenticated publish and sync flows" in text
 
 
 def test_openclaw_bundle_example_contains_expected_roots() -> None:
@@ -164,7 +165,8 @@ def test_openclaw_submission_pack_exists() -> None:
     text = submission.read_text(encoding="utf-8")
     assert "ClawHub Submission Pack" in text
     assert "`public-ready package available`" in text
-    assert "the ClawHub skill listing is now live at" in text
+    assert "the ClawHub skill listing is now live" in text
+    assert "broader OpenClaw bundle/plugin storefront work only if the maintainer wants more than the current live ClawHub page" in text
 
 
 def test_direct_bundle_readmes_keep_public_ready_not_listing_boundary() -> None:
