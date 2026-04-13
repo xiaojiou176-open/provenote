@@ -8,6 +8,7 @@ In plain language: Provenote already has a strong repo-documented local proof lo
 
 The current repository already documents and proves these product layers:
 
+- a refreshed notebook/search/source workbench shell, last tightened on 2026-04-13 so the notebook detail, source detail, search, and shared dashboard shell read as one outcome-first workspace instead of separate page islands
 - a first-entry path for long messy context:
   - source import
   - built-in `Chat Knowledgeization`
