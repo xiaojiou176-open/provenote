@@ -230,7 +230,7 @@ export function SourceCard({
   return (
     <Card
       className={cn(
-        "ui-card-surface transition-all duration-200 hover:shadow-md group relative border border-border/60 dark:border-border/40",
+        "ui-card-surface group relative rounded-[1.25rem] border border-border/70 bg-card/95 shadow-none transition-all duration-200 hover:shadow-md dark:border-border/40",
         onClick && "focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
         isProcessing && "ui-loading-pulse",
         className,
@@ -248,7 +248,7 @@ export function SourceCard({
           <span className="sr-only">{openSourceLabel}</span>
         </button>
       ) : null}
-      <CardContent className="px-3 py-1">
+      <CardContent className="px-4 py-3">
         {/* Header with status indicator */}
         <div className="flex items-start justify-between gap-3 mb-1">
           <div className="flex-1 min-w-0">
@@ -257,7 +257,7 @@ export function SourceCard({
               <div className="flex items-center gap-2 mb-2">
                 <div
                   className={cn(
-                    "ui-status-badge flex items-center gap-1.5 px-2 py-1 rounded-md",
+                    "ui-status-badge flex items-center gap-1.5 rounded-full px-2.5 py-1",
                     statusConfig.badgeClassName,
                   )}
                 >
@@ -273,7 +273,9 @@ export function SourceCard({
                 {/* Source type indicator */}
                 <div className="flex items-center gap-1 text-muted-foreground">
                   <SourceTypeIcon className="h-3 w-3" />
-                  <span className="text-xs capitalize">{t.common.source}</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.14em] capitalize">
+                    {t.common.source}
+                  </span>
                 </div>
               </div>
             )}
@@ -281,7 +283,7 @@ export function SourceCard({
             {/* Title */}
             <div className={cn("mb-1.5", !isCompleted && "mb-1")}>
               <h4
-                className="text-sm font-medium leading-tight line-clamp-2 break-all"
+                className="font-serif text-lg leading-tight tracking-[-0.02em] line-clamp-2 break-all"
                 title={title}
               >
                 {title}
@@ -298,7 +300,10 @@ export function SourceCard({
             {/* Metadata badges */}
             <div className="flex items-center gap-2 flex-wrap">
               {/* Source type badge */}
-              <Badge variant="secondary" className="text-xs flex items-center gap-1">
+              <Badge
+                variant="secondary"
+                className="flex items-center gap-1 rounded-full text-[11px] font-semibold uppercase tracking-[0.14em]"
+              >
                 <SourceTypeIcon className="h-3 w-3" />
                 {sourceType === "link"
                   ? t.sources.addUrl

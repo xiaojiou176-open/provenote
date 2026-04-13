@@ -9,7 +9,7 @@ import {
   Settings,
 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { LoadingSpinner } from "@/components/common/LoadingSpinner";
 import { AppShell } from "@/components/layout/AppShell";
 import { AdvancedModelsDialog } from "@/components/search/AdvancedModelsDialog";
@@ -241,17 +241,40 @@ export default function SearchPage() {
 
   return (
     <AppShell>
-      <div className="ui-page-shell p-4 md:p-6">
-        <h1 className="ui-section-enter text-xl md:text-2xl font-bold mb-4 md:mb-6">
-          {t.searchPage.askAndSearch}
-        </h1>
+      <div className="ui-page-shell space-y-6 p-4 md:p-6">
+        <section className="ui-section-enter" style={{ "--enter-index": 0 } as CSSProperties}>
+          <div className="ui-workbench-hero rounded-[1.5rem] p-6 md:p-8">
+            <div className="ui-workbench-grid xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] xl:items-start">
+              <div className="space-y-4">
+                <span className="ui-workbench-kicker">{t.searchPage.chooseAMode}</span>
+                <div className="space-y-3">
+                  <h1 className="ui-page-title">{t.searchPage.askAndSearch}</h1>
+                  <p className="ui-page-lede">{t.searchPage.askYourKbDesc}</p>
+                </div>
+              </div>
+
+              <div className="ui-metric-grid">
+                <div className="ui-metric-card">
+                  <p className="ui-metric-label">{t.searchPage.askBeta}</p>
+                  <p className="mt-3 text-base font-semibold">{t.searchPage.askYourKb}</p>
+                  <p className="ui-metric-detail">{t.searchPage.askYourKbDesc}</p>
+                </div>
+                <div className="ui-metric-card">
+                  <p className="ui-metric-label">{t.searchPage.search}</p>
+                  <p className="mt-3 text-base font-semibold">{t.searchPage.searchType}</p>
+                  <p className="ui-metric-detail">{t.searchPage.searchDesc}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         <Tabs
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as "ask" | "search")}
           className="ui-section-enter w-full space-y-6"
         >
-          <div className="space-y-2">
+          <div className="ui-toolbar-surface space-y-3 p-4">
             <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
               {t.searchPage.chooseAMode}
             </p>
@@ -268,9 +291,11 @@ export default function SearchPage() {
           </div>
 
           <TabsContent value="ask" className="mt-6">
-            <Card>
+            <Card className="ui-elevated-panel shadow-none">
               <CardHeader>
-                <CardTitle className="text-lg">{t.searchPage.askYourKb}</CardTitle>
+                <CardTitle className="font-serif text-[1.6rem] leading-none tracking-[-0.03em]">
+                  {t.searchPage.askYourKb}
+                </CardTitle>
                 <p className="text-sm text-muted-foreground">{t.searchPage.askYourKbDesc}</p>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -324,7 +349,7 @@ export default function SearchPage() {
                           size="sm"
                           onClick={() => setShowAdvancedModels(true)}
                           disabled={ask.isStreaming}
-                          className="h-auto py-1 px-2"
+                          className="ui-icon-button h-auto rounded-xl px-2 py-1"
                         >
                           <Settings className="h-3 w-3 mr-1" />
                           {t.searchPage.advanced}
@@ -356,7 +381,7 @@ export default function SearchPage() {
                       <Button
                         onClick={handleAsk}
                         disabled={ask.isStreaming || !askQuestion.trim()}
-                        className="w-full"
+                        className="ui-primary-cta w-full"
                       >
                         {ask.isStreaming ? (
                           <>
@@ -369,7 +394,11 @@ export default function SearchPage() {
                       </Button>
 
                       {ask.isStreaming && (
-                        <Button variant="outline" onClick={ask.cancel} className="w-full sm:w-auto">
+                        <Button
+                          variant="outline"
+                          onClick={ask.cancel}
+                          className="w-full rounded-2xl sm:w-auto"
+                        >
                           {t.common.cancel}
                         </Button>
                       )}
@@ -381,7 +410,7 @@ export default function SearchPage() {
                             setSaveDialogMode("ask");
                             setShowSaveDialog(true);
                           }}
-                          className="w-full"
+                          className="w-full rounded-2xl"
                         >
                           <Save className="h-4 w-4 mr-2" />
                           {t.searchPage.saveToResearchThreadTitle}
@@ -431,9 +460,11 @@ export default function SearchPage() {
           </TabsContent>
 
           <TabsContent value="search" className="mt-6">
-            <Card>
+            <Card className="ui-elevated-panel shadow-none">
               <CardHeader>
-                <CardTitle className="text-lg">{t.searchPage.search}</CardTitle>
+                <CardTitle className="font-serif text-[1.6rem] leading-none tracking-[-0.03em]">
+                  {t.searchPage.search}
+                </CardTitle>
                 <p className="text-sm text-muted-foreground">{t.searchPage.searchDesc}</p>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -457,7 +488,7 @@ export default function SearchPage() {
                         isSearchComposingRef.current = false;
                       }}
                       disabled={searchMutation.isPending}
-                      className="flex-1"
+                      className="flex-1 rounded-2xl border-border/80 bg-card/90"
                       aria-label={t.common.accessibility.enterSearch}
                       autoComplete="off"
                     />
@@ -570,6 +601,7 @@ export default function SearchPage() {
                         <Button
                           variant="outline"
                           size="sm"
+                          className="rounded-2xl"
                           onClick={() => {
                             setSaveDialogMode("search");
                             setShowSaveDialog(true);
@@ -582,7 +614,7 @@ export default function SearchPage() {
                     </div>
 
                     {searchMutation.data.results.length === 0 ? (
-                      <Card>
+                      <Card className="ui-elevated-panel shadow-none">
                         <CardContent className="pt-6 text-center text-muted-foreground">
                           {t.searchPage.noResultsFor.replace("{query}", searchQuery)}
                         </CardContent>
@@ -659,7 +691,7 @@ export default function SearchPage() {
             </Card>
           </TabsContent>
           {showResearchCapture ? (
-            <div className="rounded-xl border border-dashed border-border/60 bg-muted/10 p-1">
+            <div className="ui-elevated-panel rounded-[1.4rem] border-dashed bg-muted/10 p-1 shadow-none">
               <ResearchCapturePanel
                 mode={activeTab}
                 query={activeTab === "ask" ? askQuestion : searchQuery}

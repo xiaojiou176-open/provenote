@@ -63,7 +63,7 @@ export function NotebookCard({ notebook }: NotebookCardProps) {
   return (
     <>
       <Card
-        className="group card-hover ui-card-surface relative"
+        className="group card-hover ui-card-surface relative rounded-[1.35rem] border-border/80 bg-card/95 shadow-none"
         data-testid={`notebook-card-${notebook.id}`}
         aria-busy={isOpening}
         onClick={handleCardClick}
@@ -88,12 +88,14 @@ export function NotebookCard({ notebook }: NotebookCardProps) {
         >
           <span className="sr-only">{openNotebookLabel}</span>
         </button>
-        <CardHeader className="pb-3">
+        <CardHeader className="pb-4">
           <div className="flex items-start justify-between">
             <div className="flex-1 min-w-0">
-              <CardTitle className="text-base truncate">{notebook.name}</CardTitle>
+              <CardTitle className="truncate font-serif text-[1.35rem] leading-none tracking-[-0.03em]">
+                {notebook.name}
+              </CardTitle>
               {notebook.archived && (
-                <Badge variant="secondary" className="mt-1">
+                <Badge variant="secondary" className="mt-2">
                   {t.notebooks.archived}
                 </Badge>
               )}
@@ -104,7 +106,7 @@ export function NotebookCard({ notebook }: NotebookCardProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="ui-actions-reveal transition-transform duration-150 ease-out active:scale-[0.98] relative z-20"
+                  className="ui-actions-reveal relative z-20 rounded-xl transition-transform duration-150 ease-out active:scale-[0.98]"
                   onClick={(e) => e.stopPropagation()}
                   aria-label={t.common.actions}
                 >
@@ -141,11 +143,11 @@ export function NotebookCard({ notebook }: NotebookCardProps) {
         </CardHeader>
 
         <CardContent>
-          <CardDescription className="line-clamp-2 text-sm">
+          <CardDescription className="line-clamp-3 text-sm leading-6">
             {notebook.description || t.chat.noDescription}
           </CardDescription>
 
-          <div className="mt-3 text-xs text-muted-foreground">
+          <div className="mt-4 border-t border-border/70 pt-4 text-xs text-muted-foreground">
             <span suppressHydrationWarning>
               {isHydrated
                 ? t.common.updated.replace(
@@ -161,17 +163,17 @@ export function NotebookCard({ notebook }: NotebookCardProps) {
           </div>
 
           {/* Item counts footer */}
-          <div className="mt-3 flex items-center gap-1.5 border-t pt-3">
+          <div className="mt-4 flex items-center gap-2">
             <Badge
-              variant="outline"
-              className="ui-data-chip text-xs flex items-center gap-1 px-1.5 py-0.5 text-primary border-primary/50"
+              variant="secondary"
+              className="ui-data-chip flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
             >
               <FileText className="h-3 w-3" />
               <span>{notebook.source_count}</span>
             </Badge>
             <Badge
-              variant="outline"
-              className="ui-data-chip text-xs flex items-center gap-1 px-1.5 py-0.5 text-primary border-primary/50"
+              variant="secondary"
+              className="ui-data-chip flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]"
             >
               <StickyNote className="h-3 w-3" />
               <span>{notebook.note_count}</span>

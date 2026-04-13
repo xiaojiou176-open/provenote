@@ -68,7 +68,7 @@ function JourneyStep({
   stateLabel: string;
 }) {
   return (
-    <div className="flex items-start gap-3 rounded-md border bg-muted/20 p-3">
+    <div className="ui-card-surface flex items-start gap-3 rounded-[1.15rem] border border-border/75 bg-card/95 p-4 shadow-none">
       <div className="mt-0.5">{getStepIcon(state)}</div>
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
@@ -230,10 +230,18 @@ export function NotebookOutcomeJourneyCard({
   }
 
   return (
-    <Card data-testid="notebook-outcome-journey-card">
+    <Card
+      className="ui-workbench-hero rounded-[1.5rem] border-0 shadow-none"
+      data-testid="notebook-outcome-journey-card"
+    >
       <CardHeader>
-        <CardTitle>{t.notebooks.outcomePathTitle}</CardTitle>
-        <CardDescription>{t.notebooks.outcomePathDescription}</CardDescription>
+        <p className="ui-workbench-kicker w-fit">{t.notebooks.outcomePathTitle}</p>
+        <CardTitle className="font-serif text-[1.9rem] leading-none tracking-[-0.03em]">
+          {t.notebooks.outcomePathTitle}
+        </CardTitle>
+        <CardDescription className="max-w-3xl text-sm leading-6">
+          {t.notebooks.outcomePathDescription}
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid gap-3 md:grid-cols-2">

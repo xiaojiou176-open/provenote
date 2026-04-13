@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Atkinson_Hyperlegible, Crimson_Pro, Geist_Mono } from "next/font/google";
 import { headers } from "next/headers";
 import "./globals.css";
 import { ConnectionGuard } from "@/components/common/ConnectionGuard";
@@ -11,9 +11,18 @@ import { Toaster } from "@/components/ui/sonner";
 import { resources } from "@/lib/locales";
 import { themeScript } from "@/lib/theme-script";
 
-const geistSans = Geist({
+const atkinsonSans = Atkinson_Hyperlegible({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  weight: ["400", "700"],
+  variable: "--font-atkinson-sans",
+  display: "swap",
+});
+
+const crimsonDisplay = Crimson_Pro({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-crimson-display",
+  display: "swap",
 });
 
 const geistMono = Geist_Mono({
@@ -127,7 +136,9 @@ export default async function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} font-sans`}>
+      <body
+        className={`${atkinsonSans.variable} ${crimsonDisplay.variable} ${geistMono.variable} font-sans`}
+      >
         <a
           href="#main-content"
           aria-label={skipToMainContentLabel}

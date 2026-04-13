@@ -42,65 +42,72 @@ export default function SourceDetailPage() {
 
   return (
     <AppShell>
-      <div className="ui-page-shell flex h-full flex-col">
+      <div className="ui-page-shell flex h-full flex-col gap-6 px-4 py-6 md:px-6">
         {/* Back button */}
-        <div className="ui-section-enter px-6 pb-4 pt-6">
-          <Button variant="ghost" size="sm" onClick={handleBack} className="ui-icon-button mb-4">
+        <div className="ui-section-enter">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleBack}
+            className="ui-icon-button mb-4 rounded-2xl"
+          >
             <ArrowLeft className="mr-2 h-4 w-4" />
             {navigation.getReturnLabel(t.sources.backToSources)}
           </Button>
 
-          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border/70 bg-background/90 px-4 py-3 shadow-sm">
-            <div className="min-w-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
-                {t("sources.detailPage.eyebrow", "Sources-first workbench")}
-              </p>
-              <p className="mt-1 text-sm font-semibold text-foreground">
-                {t(
-                  "sources.detailPage.title",
-                  "Verify the source first, then move into auditable output or chat.",
-                )}
-              </p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                {t(
-                  "sources.detailPage.body",
-                  "This page is split into three next-step lanes so you do not have to guess where to go after opening a source.",
-                )}
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => scrollToSection("source-evidence-section")}
-              >
-                {t("sources.detailPage.evidenceAction", "Source evidence")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => scrollToSection("auditable-markdown-section")}
-              >
-                {t("sources.detailPage.auditAction", "Auditable markdown")}
-              </Button>
-              <Button
-                type="button"
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => scrollToSection("source-chat-section")}
-              >
-                {t("sources.detailPage.chatAction", "Source chat")}
-              </Button>
+          <div className="ui-workbench-hero rounded-[1.5rem] px-5 py-5 md:px-6 md:py-6">
+            <div className="ui-workbench-grid xl:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)] xl:items-start">
+              <div className="min-w-0 space-y-3">
+                <p className="ui-workbench-kicker">
+                  {t("sources.detailPage.eyebrow", "Sources-first workbench")}
+                </p>
+                <h1 className="ui-page-title">
+                  {t(
+                    "sources.detailPage.title",
+                    "Verify the source first, then move into auditable output or chat.",
+                  )}
+                </h1>
+                <p className="ui-page-lede">
+                  {t(
+                    "sources.detailPage.body",
+                    "This page is split into three next-step lanes so you do not have to guess where to go after opening a source.",
+                  )}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2 xl:justify-end">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer rounded-2xl"
+                  onClick={() => scrollToSection("source-evidence-section")}
+                >
+                  {t("sources.detailPage.evidenceAction", "Source evidence")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer rounded-2xl"
+                  onClick={() => scrollToSection("auditable-markdown-section")}
+                >
+                  {t("sources.detailPage.auditAction", "Auditable markdown")}
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="cursor-pointer rounded-2xl"
+                  onClick={() => scrollToSection("source-chat-section")}
+                >
+                  {t("sources.detailPage.chatAction", "Source chat")}
+                </Button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Main content: Source detail + Chat */}
-        <div className="ui-section-enter grid flex-1 gap-6 overflow-hidden px-6 lg:grid-cols-[2fr_1fr]">
+        <div className="ui-section-enter grid flex-1 gap-6 overflow-hidden lg:grid-cols-[2fr_1fr]">
           {/* Left column - Source detail */}
-          <div className="overflow-y-auto px-4 pb-6">
+          <div className="overflow-y-auto pb-6">
             <div id="source-evidence-section">
               <SourceDetailContent
                 sourceId={sourceId}
@@ -119,7 +126,7 @@ export default function SourceDetailPage() {
           </div>
 
           {/* Right column - Chat */}
-          <div id="source-chat-section" className="overflow-y-auto px-4 pb-6">
+          <div id="source-chat-section" className="overflow-y-auto pb-6">
             <ChatPanel
               messages={chat.messages}
               isStreaming={chat.isStreaming}

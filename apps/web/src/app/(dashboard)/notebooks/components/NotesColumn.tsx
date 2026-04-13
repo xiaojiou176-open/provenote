@@ -46,6 +46,7 @@ export function NotesColumn({
   const [editingNote, setEditingNote] = useState<NoteResponse | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [noteToDelete, setNoteToDelete] = useState<string | null>(null);
+  const processLabel = t.navigation?.process ?? "Process";
 
   const deleteNote = useDeleteNote();
 
@@ -83,13 +84,19 @@ export function NotesColumn({
         collapsedIcon={StickyNote}
         collapsedLabel={t.common.notes}
       >
-        <Card className="h-full flex flex-col flex-1 overflow-hidden">
-          <CardHeader className="pb-3 flex-shrink-0">
+        <Card className="ui-elevated-panel h-full flex flex-col flex-1 overflow-hidden shadow-none">
+          <CardHeader className="pb-4 flex-shrink-0">
             <div className="flex items-center justify-between gap-2">
-              <CardTitle className="text-lg">{t.common.notes}</CardTitle>
+              <div className="space-y-1">
+                <p className="ui-metric-label">{processLabel}</p>
+                <CardTitle className="font-serif text-2xl leading-none tracking-[-0.03em]">
+                  {t.common.notes}
+                </CardTitle>
+              </div>
               <div className="flex items-center gap-2">
                 <Button
                   size="sm"
+                  className="rounded-2xl"
                   onClick={() => {
                     setEditingNote(null);
                     setShowAddDialog(true);
@@ -117,7 +124,10 @@ export function NotesColumn({
             ) : (
               <div className="space-y-3">
                 {notes.map((note) => (
-                  <div key={note.id} className="p-3 border rounded-lg card-hover group relative">
+                  <div
+                    key={note.id}
+                    className="ui-card-surface group relative rounded-[1.25rem] border border-border/75 bg-card/95 p-4 shadow-none"
+                  >
                     <div className="flex items-start justify-between mb-2 gap-2">
                       <button
                         type="button"
@@ -130,7 +140,10 @@ export function NotesColumn({
                         ) : (
                           <User className="h-4 w-4 text-muted-foreground" />
                         )}
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge
+                          variant="secondary"
+                          className="rounded-full text-[11px] uppercase tracking-[0.14em]"
+                        >
                           {note.note_type === "ai" ? t.common.aiGenerated : t.common.human}
                         </Badge>
                       </button>
@@ -160,7 +173,7 @@ export function NotesColumn({
                             <Button
                               variant="ghost"
                               size="sm"
-                              className="h-8 w-8 p-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity"
+                              className="h-8 w-8 rounded-xl p-0 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus-visible:opacity-100 transition-opacity"
                               onClick={(e) => e.stopPropagation()}
                               aria-label={t.common.actions}
                             >
@@ -190,11 +203,13 @@ export function NotesColumn({
                       aria-label={note.title || t.common.notes}
                     >
                       {note.title && (
-                        <h4 className="text-sm font-medium mb-2 break-all">{note.title}</h4>
+                        <h4 className="mb-2 font-serif text-lg leading-tight tracking-[-0.02em] break-all">
+                          {note.title}
+                        </h4>
                       )}
 
                       {note.content && (
-                        <p className="text-sm text-muted-foreground line-clamp-3 break-all">
+                        <p className="text-sm leading-6 text-muted-foreground line-clamp-3 break-all">
                           {note.content}
                         </p>
                       )}

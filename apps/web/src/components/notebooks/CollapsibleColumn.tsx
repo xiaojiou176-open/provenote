@@ -34,7 +34,7 @@ export function CollapsibleColumn({
               size="sm"
               onClick={onToggle}
               className={cn(
-                "h-full min-h-0 w-12 flex-col gap-3 rounded-lg border-border/60 bg-card px-0 py-6",
+                "ui-elevated-panel h-full min-h-0 w-12 flex-col gap-3 rounded-[1.1rem] border-border/70 bg-card px-0 py-6",
                 "text-muted-foreground shadow-none transition-[background-color,color,transform] duration-150",
                 "hover:bg-accent/50 hover:text-foreground",
                 "motion-reduce:transition-none motion-reduce:transform-none",
@@ -80,7 +80,7 @@ export function createCollapseButton(onToggle: () => void, label: string) {
                 e.stopPropagation();
                 onToggle();
               }}
-              className="h-7 w-7 hover:bg-accent"
+              className="h-8 w-8 rounded-xl hover:bg-accent"
               aria-label={`Collapse ${label}`}
             >
               <ChevronLeft className="h-4 w-4" />

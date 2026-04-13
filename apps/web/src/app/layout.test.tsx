@@ -6,6 +6,8 @@ const hoisted = vi.hoisted(() => ({
 }));
 
 vi.mock("next/font/google", () => ({
+  Atkinson_Hyperlegible: () => ({ variable: "--font-atkinson-sans" }),
+  Crimson_Pro: () => ({ variable: "--font-crimson-display" }),
   Geist: () => ({ variable: "--font-geist-sans" }),
   Geist_Mono: () => ({ variable: "--font-geist-mono" }),
 }));

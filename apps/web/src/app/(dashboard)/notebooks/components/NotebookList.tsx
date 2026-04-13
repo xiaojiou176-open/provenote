@@ -82,7 +82,7 @@ export function NotebookList({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2">
+      <div className="ui-toolbar-surface flex items-center gap-2 px-4 py-3">
         {collapsible && (
           <Button
             variant="ghost"
@@ -91,6 +91,7 @@ export function NotebookList({
             aria-expanded={isExpanded}
             aria-controls={panelId}
             aria-label={title}
+            className="rounded-xl"
           >
             <ChevronDown
               className={cn(
@@ -100,8 +101,10 @@ export function NotebookList({
             />
           </Button>
         )}
-        <h2 className="text-lg font-semibold">{title}</h2>
-        <span className="text-sm text-muted-foreground">({notebooks.length})</span>
+        <h2 className="font-serif text-2xl leading-none tracking-[-0.03em]">{title}</h2>
+        <span className="rounded-full border border-border/80 bg-card/85 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          {notebooks.length}
+        </span>
       </div>
 
       <div

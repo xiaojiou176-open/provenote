@@ -457,58 +457,55 @@ export default function SourcesPage() {
   if (sources.length === 0) {
     return (
       <AppShell>
-        <div className="ui-page-shell flex h-full w-full max-w-none flex-col px-6 py-6">
+        <div className="ui-page-shell flex h-full w-full max-w-none flex-col gap-6 px-4 py-6 md:px-6">
           <div className="ui-section-enter mb-6">
-            <Card className="overflow-hidden border-border/60 bg-gradient-to-br from-background via-background to-muted/30">
-              <CardContent className="space-y-6 p-6">
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="max-w-3xl space-y-3">
-                    <Badge variant="secondary" className="w-fit">
+            <Card className="ui-workbench-hero overflow-hidden border-0 shadow-none">
+              <CardContent className="space-y-6 p-6 md:p-8">
+                <div className="ui-workbench-grid xl:grid-cols-[minmax(0,1.2fr)_minmax(320px,0.8fr)] xl:items-start">
+                  <div className="space-y-4">
+                    <Badge variant="secondary" className="ui-workbench-kicker w-fit">
                       {t.sources.outcomePathTitle}
                     </Badge>
-                    <div className="space-y-2">
-                      <h1 className="text-3xl font-bold tracking-tight">{t.sources.allSources}</h1>
-                      <p className="text-sm text-muted-foreground md:text-base">
-                        {t.sources.outcomePathDescription}
-                      </p>
+                    <div className="space-y-3">
+                      <h1 className="ui-page-title">{t.sources.allSources}</h1>
+                      <p className="ui-page-lede">{t.sources.outcomePathDescription}</p>
                       <p className="text-sm text-muted-foreground">
                         {`${t.sources.addSource} -> ${t.sources.insights} -> ${t.sources.outcomeNotebookDraft}`}
                       </p>
                     </div>
-                  </div>
-
-                  <Button type="button" className="cursor-pointer" onClick={openSourceDialog}>
-                    <Upload className="mr-2 h-4 w-4" />
-                    {t.sources.addSource}
-                  </Button>
-                </div>
-
-                <div className="grid gap-3 lg:grid-cols-[minmax(0,1.2fr)_repeat(3,minmax(0,1fr))]">
-                  <div className="rounded-xl border border-border/70 bg-background/90 p-4">
-                    <p className="text-sm font-semibold">{t.sources.noSourcesYet}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                      {t.sources.createFirstSource}
-                    </p>
-                  </div>
-
-                  {firstSuccessSteps.map((step) => (
-                    <div
-                      key={step.number}
-                      className="rounded-xl border border-border/70 bg-background/80 p-4"
-                    >
-                      <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                        {step.number}
-                      </p>
-                      <p className="mt-2 text-sm font-semibold">{step.title}</p>
-                      <p className="mt-2 text-sm text-muted-foreground">{step.detail}</p>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <Button
+                        type="button"
+                        className="ui-primary-cta cursor-pointer"
+                        onClick={openSourceDialog}
+                      >
+                        <Upload className="mr-2 h-4 w-4" />
+                        {t.sources.addSource}
+                      </Button>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="ui-metric-grid">
+                    <div className="ui-metric-card">
+                      <p className="ui-metric-label">{t.sources.noSourcesYet}</p>
+                      <p className="ui-metric-value">0</p>
+                      <p className="ui-metric-detail">{t.sources.createFirstSource}</p>
+                    </div>
+
+                    {firstSuccessSteps.map((step) => (
+                      <div key={step.number} className="ui-metric-card">
+                        <p className="ui-metric-label">{step.number}</p>
+                        <p className="mt-3 text-base font-semibold">{step.title}</p>
+                        <p className="ui-metric-detail">{step.detail}</p>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          <Card className="ui-section-enter flex-1 border-dashed">
+          <Card className="ui-section-enter ui-elevated-panel flex-1 border-dashed shadow-none">
             <CardContent className="flex h-full items-center justify-center p-6">
               <EmptyState
                 icon={FileText}
@@ -532,107 +529,84 @@ export default function SourcesPage() {
 
   return (
     <AppShell>
-      <div className="ui-page-shell flex h-full w-full max-w-none flex-col px-6 py-6">
+      <div className="ui-page-shell flex h-full w-full max-w-none flex-col gap-6 px-4 py-6 md:px-6">
         <div className="ui-section-enter mb-6 flex-shrink-0 space-y-4">
-          <Card className="overflow-hidden border-border/60 bg-gradient-to-br from-background via-background to-muted/30">
-            <CardContent className="space-y-6 p-6">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="max-w-3xl space-y-3">
-                  <Badge variant="secondary" className="w-fit">
+          <Card className="ui-workbench-hero overflow-hidden border-0 shadow-none">
+            <CardContent className="space-y-6 p-6 md:p-8">
+              <div className="ui-workbench-grid xl:grid-cols-[minmax(0,1.2fr)_minmax(340px,0.8fr)] xl:items-start">
+                <div className="space-y-4">
+                  <Badge variant="secondary" className="ui-workbench-kicker w-fit">
                     {t.sources.outcomePathTitle}
                   </Badge>
-                  <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tight">{t.sources.allSources}</h1>
-                    <p className="text-sm text-muted-foreground md:text-base">
-                      {t.sources.outcomePathDescription}
-                    </p>
+                  <div className="space-y-3">
+                    <h1 className="ui-page-title">{t.sources.allSources}</h1>
+                    <p className="ui-page-lede">{t.sources.outcomePathDescription}</p>
                     <p className="text-sm text-muted-foreground">
                       {`${t.sources.addSource} -> ${t.sources.insights} -> ${t.sources.outcomeNotebookDraft}`}
                     </p>
                   </div>
-                </div>
-
-                <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                  <Button type="button" className="cursor-pointer" onClick={openSourceDialog}>
-                    <Upload className="mr-2 h-4 w-4" />
-                    {t.sources.addSource}
-                  </Button>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    className="cursor-pointer"
-                    aria-label={`${t.sources.viewSource}: ${sourceSummary.source.title || t.sources.untitledSource}`}
-                    onClick={() => openSource(sourceSummary.source.id, sourceSummary.index)}
-                  >
-                    <ArrowRight className="mr-2 h-4 w-4" />
-                    {t.sources.viewSource}
-                  </Button>
-                </div>
-              </div>
-
-              <div className="grid gap-3 xl:grid-cols-[minmax(0,1.25fr)_repeat(3,minmax(0,1fr))]">
-                <div className="rounded-xl border border-border/70 bg-background/90 p-4">
-                  <p className="text-sm font-semibold">
-                    {sourceSummary.source.title || t.sources.untitledSource}
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    <span suppressHydrationWarning>
-                      {formatDistanceToNow(new Date(sourceSummary.latestActivityAt), {
-                        addSuffix: true,
-                        locale: getDateLocale(language),
-                      })}
-                    </span>
-                  </p>
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    <Badge
-                      variant={sourceSummary.source.embedded ? "default" : "secondary"}
-                      className="text-xs"
+                  <div className="flex flex-col gap-3 sm:flex-row">
+                    <Button
+                      type="button"
+                      className="ui-primary-cta cursor-pointer"
+                      onClick={openSourceDialog}
                     >
-                      {sourceSummary.source.embedded ? t.sources.embedded : t.sources.notEmbedded}
-                    </Badge>
-                    <Badge variant="outline" className="text-xs">
-                      {t("sources.insightsCount", {
-                        count: sourceSummary.source.insights_count || 0,
-                      })}
-                    </Badge>
+                      <Upload className="mr-2 h-4 w-4" />
+                      {t.sources.addSource}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="cursor-pointer"
+                      aria-label={`${t.sources.viewSource}: ${sourceSummary.source.title || t.sources.untitledSource}`}
+                      onClick={() => openSource(sourceSummary.source.id, sourceSummary.index)}
+                    >
+                      <ArrowRight className="mr-2 h-4 w-4" />
+                      {t.sources.viewSource}
+                    </Button>
                   </div>
                 </div>
 
-                <div className="rounded-xl border border-border/70 bg-background/80 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    01
-                  </p>
-                  <p className="mt-2 text-sm font-semibold">{t.sources.addSource}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t.sources.processDescription}
-                  </p>
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    {t.sources.allSources}: {sources.length}
-                  </p>
-                </div>
+                <div className="ui-metric-grid">
+                  <div className="ui-metric-card">
+                    <p className="ui-metric-label">{t.common.title}</p>
+                    <p className="mt-3 text-base font-semibold">
+                      {sourceSummary.source.title || t.sources.untitledSource}
+                    </p>
+                    <p className="ui-metric-detail">
+                      <span suppressHydrationWarning>
+                        {formatDistanceToNow(new Date(sourceSummary.latestActivityAt), {
+                          addSuffix: true,
+                          locale: getDateLocale(language),
+                        })}
+                      </span>
+                    </p>
+                  </div>
 
-                <div className="rounded-xl border border-border/70 bg-background/80 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    02
-                  </p>
-                  <p className="mt-2 text-sm font-semibold">{t.sources.insights}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">{t.sources.insightsDesc}</p>
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    {t.sources.insights}: {sourceSummary.insightCount}
-                  </p>
-                </div>
+                  <div className="ui-metric-card">
+                    <p className="ui-metric-label">{t.sources.addSource}</p>
+                    <p className="ui-metric-value">{sources.length}</p>
+                    <p className="ui-metric-detail">{t.sources.allSourcesDescShort}</p>
+                  </div>
 
-                <div className="rounded-xl border border-border/70 bg-background/80 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                    03
-                  </p>
-                  <p className="mt-2 text-sm font-semibold">{t.sources.outcomeNotebookDraft}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {t.sources.outcomeCreateDraftDescription}
-                  </p>
-                  <p className="mt-3 text-xs text-muted-foreground">
-                    {t.sources.embedded}: {sourceSummary.embeddedCount}
-                  </p>
+                  <div className="ui-metric-card">
+                    <p className="ui-metric-label">{t.sources.insights}</p>
+                    <p className="ui-metric-value">{sourceSummary.insightCount}</p>
+                    <p className="ui-metric-detail">{t.sources.insightsDesc}</p>
+                  </div>
+
+                  <div className="ui-metric-card">
+                    <p className="ui-metric-label">{t.sources.embedded}</p>
+                    <p className="ui-metric-value">{sourceSummary.embeddedCount}</p>
+                    <div className="mt-3">
+                      <Badge
+                        variant={sourceSummary.source.embedded ? "default" : "secondary"}
+                        className="text-xs"
+                      >
+                        {sourceSummary.source.embedded ? t.sources.embedded : t.sources.notEmbedded}
+                      </Badge>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -642,21 +616,19 @@ export default function SourcesPage() {
             {sourceActionRail.map((action) => (
               <Card
                 key={action.id}
-                className="border-border/70 bg-background/90 shadow-sm"
+                className="ui-elevated-panel shadow-none"
                 data-testid={`sources-next-action-${action.id}`}
               >
-                <CardContent className="space-y-3 p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-primary">
-                    {action.eyebrow}
-                  </p>
+                <CardContent className="space-y-4 p-5">
+                  <p className="ui-metric-label text-primary">{action.eyebrow}</p>
                   <div className="space-y-2">
-                    <h2 className="text-base font-semibold">{action.title}</h2>
-                    <p className="text-sm text-muted-foreground">{action.body}</p>
+                    <h2 className="text-lg font-semibold tracking-tight">{action.title}</h2>
+                    <p className="text-sm leading-6 text-muted-foreground">{action.body}</p>
                   </div>
                   <Button
                     type="button"
                     variant={action.id === "embedding" ? "outline" : "default"}
-                    className="cursor-pointer"
+                    className={cn("cursor-pointer", action.id !== "embedding" && "ui-primary-cta")}
                     onClick={() => {
                       if (action.sourceId && typeof action.index === "number") {
                         openSource(action.sourceId, action.index);
@@ -673,9 +645,11 @@ export default function SourcesPage() {
             ))}
           </div>
 
-          <div>
-            <h2 className="text-lg font-semibold">{t.sources.allSources}</h2>
-            <p className="mt-1 text-sm text-muted-foreground">{t.sources.allSourcesDesc}</p>
+          <div className="ui-toolbar-surface p-4">
+            <h2 className="font-serif text-2xl leading-none tracking-[-0.03em]">
+              {t.sources.allSources}
+            </h2>
+            <p className="mt-2 text-sm text-muted-foreground">{t.sources.allSourcesDesc}</p>
           </div>
         </div>
 
@@ -686,7 +660,7 @@ export default function SourcesPage() {
           tabIndex={0}
           onKeyDown={handleContainerKeyDown}
           aria-busy={loadingMore}
-          className="ui-section-enter flex-1 overflow-auto rounded-md border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          className="ui-section-enter ui-table-shell flex-1 overflow-auto focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <table aria-label={t.sources.allSources} className="w-full min-w-[800px] table-fixed">
             <colgroup>

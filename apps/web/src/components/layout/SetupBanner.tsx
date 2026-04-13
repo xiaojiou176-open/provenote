@@ -32,9 +32,14 @@ export function SetupBanner() {
   if (!encryptionReady) {
     return (
       <div className="px-4 pt-3">
-        <Alert variant="destructive" className="bg-destructive/5">
+        <Alert
+          variant="destructive"
+          className="ui-setup-banner rounded-[1.25rem] border-destructive/30 bg-destructive/5 shadow-none"
+        >
           <ShieldAlert className="h-4 w-4" />
-          <AlertTitle>{t.setupBanner.encryptionRequired}</AlertTitle>
+          <AlertTitle className="font-serif text-xl tracking-[-0.03em]">
+            {t.setupBanner.encryptionRequired}
+          </AlertTitle>
           <AlertDescription className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <span>{t.setupBanner.encryptionRequiredDescription}</span>
             {encryptionDocsUrl ? (
@@ -56,9 +61,14 @@ export function SetupBanner() {
 
   return (
     <div className="px-4 pt-3">
-      <Alert variant="destructive" className="bg-destructive/5">
+      <Alert
+        variant="destructive"
+        className="ui-setup-banner rounded-[1.25rem] border-destructive/30 bg-destructive/5 shadow-none"
+      >
         <AlertTriangle className="h-4 w-4" />
-        <AlertTitle>{t.setupBanner.legacyEnvBlockedTitle}</AlertTitle>
+        <AlertTitle className="font-serif text-xl tracking-[-0.03em]">
+          {t.setupBanner.legacyEnvBlockedTitle}
+        </AlertTitle>
         <AlertDescription className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <span>
             {t.setupBanner.legacyEnvBlockedDescription.replace(
