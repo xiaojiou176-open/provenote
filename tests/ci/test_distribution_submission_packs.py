@@ -47,7 +47,7 @@ def test_codex_directory_submission_pack_tracks_official_surface_limits() -> Non
 def test_openclaw_submission_pack_points_to_canonical_publish_skill() -> None:
     text = _read("examples/hosts/openclaw/CLAWHUB_SUBMISSION.md")
     assert "clawhub/provenote-mcp-outcome-workflows/SKILL.md" in text
-    assert "authenticated OpenClaw / ClawHub access" in text
+    assert "authenticated publish and sync flows" in text
     assert "https://docs.openclaw.ai/tools/clawhub" in text
     assert "clawhub skill publish <path>" in text
     assert "clawhub package publish <source> --dry-run" in text
