@@ -421,7 +421,7 @@ jobs:
 
       - name: Upload backend coverage data (Shard A)
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: backend-coverage-data-shard-a
           path: .coverage
@@ -447,7 +447,7 @@ jobs:
 
       - name: Upload backend coverage data (Shard B)
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: backend-coverage-data-shard-b
           path: .coverage
@@ -526,7 +526,7 @@ jobs:
 
       - name: Upload benchmark results
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: performance-benchmark-results
           path: .runtime-cache/runs/current/evidence/benchmarks/benchmark-results.json
@@ -555,7 +555,7 @@ jobs:
 
       - name: Upload mutation evidence artifacts
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: mutation-evidence-pr
           path: |
@@ -589,7 +589,7 @@ jobs:
 
       - name: Upload apps/web coverage lcov
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: apps-web-coverage-lcov
           path: .runtime-cache/test/coverage/apps/web/lcov.info
@@ -612,7 +612,7 @@ jobs:
 
       - name: Upload bundle analysis
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: bundle-size-report
           path: apps/web/.next/analyze
@@ -648,7 +648,7 @@ jobs:
 
       - name: Upload backend coverage xml
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: backend-coverage-xml
           path: .runtime-cache/test/coverage/backend/coverage.xml
@@ -710,7 +710,7 @@ jobs:
 
       - name: Upload retry classification logs
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-retry-logs-e2e-chromium-${{ matrix.shard_id }}
           path: .runtime-cache/runs/current/reports/test-retry/*.log
@@ -718,7 +718,7 @@ jobs:
 
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: playwright-report-${{ matrix.shard_id }}
           path: .runtime-cache/runs/current/evidence/playwright/report
@@ -750,7 +750,7 @@ jobs:
 
       - name: Upload cross-browser Playwright report
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: playwright-report-cross-browser-smoke
           path: .runtime-cache/runs/current/evidence/playwright/report
@@ -808,7 +808,7 @@ jobs:
 
       - name: Upload retry classification logs
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: test-retry-logs-e2e-real-backend
           path: .runtime-cache/runs/current/reports/test-retry/*.log
@@ -816,7 +816,7 @@ jobs:
 
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: playwright-report-real-backend
           path: .runtime-cache/runs/current/evidence/playwright/report
