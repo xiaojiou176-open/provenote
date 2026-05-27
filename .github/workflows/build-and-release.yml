@@ -349,7 +349,7 @@ jobs:
 
       - name: Upload raw OCI release-proof evidence artifact (regular)
         if: ${{ steps.build-regular-image.outcome == 'success' && steps.build-regular-image.outputs.digest != '' }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-proof-oci-regular-${{ github.sha }}
           path: .runtime-cache/runs/current/evidence/release-proof/oci/regular
@@ -468,7 +468,7 @@ jobs:
 
       - name: Upload raw OCI release-proof evidence artifact (single)
         if: ${{ steps.build-single-image.outcome == 'success' && steps.build-single-image.outputs.digest != '' }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-proof-oci-single-${{ github.sha }}
           path: .runtime-cache/runs/current/evidence/release-proof/oci/single
@@ -602,7 +602,7 @@ jobs:
 
       - name: Upload release proof artifact
         if: ${{ always() && (needs.build-regular.result == 'success' || needs.build-single.result == 'success') }}
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: release-proof-${{ github.sha }}
           path: .runtime-cache/runs/current/evidence/release-proof
