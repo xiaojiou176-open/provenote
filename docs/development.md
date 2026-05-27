@@ -20,35 +20,35 @@ bash tooling/scripts/ci/check_env_governance.sh
 bash tooling/scripts/ci/check_secret_leaks.sh
 bash tooling/scripts/runtime/run_uv_managed.sh run python tooling/scripts/ci/check_navigation_docs_pair.py
 bash tooling/scripts/ops/audit_space_surfaces.sh
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote status --json --require-healthy
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote research-thread-to-draft research_thread:123 --verify --download-markdown --download-bundle --output-dir ./exports --json
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab status --json --require-healthy
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab research-thread-to-draft research_thread:123 --verify --download-markdown --download-bundle --output-dir ./exports --json
 ```
 
 ## Local manual browser flow
 
-Use the real Chrome `provenote` profile only for local manual browser investigation, not for CI or the formal Playwright test runner.
+Use the real Chrome `notebooklab` profile only for local manual browser investigation, not for CI or the formal Playwright test runner.
 
 Environment contract:
 
-- `PROVENOTE_BROWSER_MODE=real_chrome_profile|managed_playwright`
+- `NOTEBOOKLAB_BROWSER_MODE=real_chrome_profile|managed_playwright`
   - default for the manual launcher: `real_chrome_profile`
-- `PROVENOTE_CHROME_USER_DATA_DIR`
-  - default: `~/.cache/provenote/browser/chrome-user-data`
-- `PROVENOTE_CHROME_PROFILE_NAME`
-  - default: `provenote`
-- `PROVENOTE_CHROME_PROFILE_KEY`
+- `NOTEBOOKLAB_CHROME_USER_DATA_DIR`
+  - default: `~/.cache/notebooklab/browser/chrome-user-data`
+- `NOTEBOOKLAB_CHROME_PROFILE_NAME`
+  - default: `notebooklab`
+- `NOTEBOOKLAB_CHROME_PROFILE_KEY`
   - default target profile key after migration: `Profile 1`
-- `PROVENOTE_SOURCE_CHROME_USER_DATA_DIR`
+- `NOTEBOOKLAB_SOURCE_CHROME_USER_DATA_DIR`
   - default migration source: `~/Library/Application Support/Google/Chrome`
-- `PROVENOTE_SOURCE_CHROME_PROFILE_KEY`
+- `NOTEBOOKLAB_SOURCE_CHROME_PROFILE_KEY`
   - optional migration override when you already know the original Chrome profile directory key
-- `PROVENOTE_CHROME_CDP_PORT`
+- `NOTEBOOKLAB_CHROME_CDP_PORT`
   - default: `9342`
-- `PROVENOTE_BROWSER_URL`
+- `NOTEBOOKLAB_BROWSER_URL`
   - optional initial URL for the manual browser launch
-- `PROVENOTE_BROWSER_IDENTITY_LABEL`
+- `NOTEBOOKLAB_BROWSER_IDENTITY_LABEL`
   - optional identity-tab label override for the repo-owned browser lane
-- `PROVENOTE_BROWSER_IDENTITY_ACCENT`
+- `NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT`
   - optional identity-tab accent override with a hex color such as `#2563eb`
 
 Initial one-time migration:
@@ -62,8 +62,8 @@ The migration command:
 - requires Chrome/Chromium to be fully stopped first
 - copies only `Local State` and the selected `Profile xxx/`
 - rewrites the target root to contain only:
-  - `~/.cache/provenote/browser/chrome-user-data/Local State`
-  - `~/.cache/provenote/browser/chrome-user-data/Profile 1/`
+  - `~/.cache/notebooklab/browser/chrome-user-data/Local State`
+  - `~/.cache/notebooklab/browser/chrome-user-data/Profile 1/`
 - removes `Singleton*` lock artifacts from the new root
 
 Manual launcher status:
@@ -112,7 +112,7 @@ Those browser-private tweaks are left manual on purpose because they are brittle
 If you want the isolated fallback instead of the real Chrome profile:
 
 ```bash
-cd apps/web && PROVENOTE_BROWSER_MODE=managed_playwright npm run browser:manual && cd ../..
+cd apps/web && NOTEBOOKLAB_BROWSER_MODE=managed_playwright npm run browser:manual && cd ../..
 ```
 
 Boundary:

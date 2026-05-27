@@ -5971,8 +5971,8 @@ export const openApiSchema = JSON.parse(
     }
   },
   "info": {
-    "description": "API for Provenote, a source-grounded and auditable research workbench.",
-    "title": "Provenote API",
+    "description": "API for Notebooklab, a source-grounded and auditable research workbench.",
+    "title": "Notebooklab API",
     "version": "0.1.0"
   },
   "openapi": "3.1.0",

@@ -49,31 +49,31 @@ EXPECTED_TOOL_NAMES = {
 
 HOST_EXAMPLE_BUNDLE_SKILL_PATHS = (
     Path(
-        "examples/hosts/claude-code/provenote-outcome-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/claude-code/notebooklab-outcome-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/codex/provenote-outcome-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/codex/notebooklab-outcome-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/cursor/provenote-outcome-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/cursor/notebooklab-outcome-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/opencode/provenote-outcome-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/opencode/notebooklab-outcome-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/openclaw/provenote-claude-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/notebooklab-claude-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/openclaw/provenote-cursor-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/notebooklab-cursor-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/openclaw/provenote-codex-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/notebooklab-codex-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
-    Path("examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md"),
+    Path("examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md"),
 )
 
 HOST_EXAMPLE_BUNDLE_SKILL_REQUIRED_SNIPPETS = (
-    "provenote-mcp",
+    "notebooklab-mcp",
     "list drafts",
     "list research threads",
     "list auditable runs",
@@ -84,13 +84,13 @@ HOST_EXAMPLE_BUNDLE_SKILL_REQUIRED_SNIPPETS = (
 
 OPENCLAW_ONLY_SKILL_PATHS = (
     Path(
-        "examples/hosts/openclaw/provenote-claude-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/notebooklab-claude-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/openclaw/provenote-cursor-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/notebooklab-cursor-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
     Path(
-        "examples/hosts/openclaw/provenote-codex-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/notebooklab-codex-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md"
     ),
 )
 
@@ -118,7 +118,7 @@ def test_openclaw_example_bundle_skills_keep_repo_owned_mcp_boundary() -> None:
     for skill_path in OPENCLAW_ONLY_SKILL_PATHS:
         content = skill_path.read_text(encoding="utf-8")
         assert (
-            "not a claim that Provenote already ships official OpenClaw support"
+            "not a claim that Notebooklab already ships official OpenClaw support"
             in content
         ), f"{skill_path} missing OpenClaw-specific boundary"
 

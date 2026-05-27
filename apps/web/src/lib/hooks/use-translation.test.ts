@@ -31,10 +31,10 @@ describe("useTranslation hook", () => {
           return {};
         }
         if (key === "common") {
-          return { appName: "Provenote" };
+          return { appName: "Notebooklab" };
         }
         if (key === "common.appName") {
-          return "Provenote";
+          return "Notebooklab";
         }
         return key;
       },
@@ -49,9 +49,9 @@ describe("useTranslation hook", () => {
     const { result } = renderHook(() => useTranslation());
 
     expect(result.current.language).toBe("en-US");
-    expect(result.current.t.common.appName).toBe("Provenote");
-    expect(result.current.t("common.appName")).toBe("Provenote");
-    expect(result.current.t.common("appName")).toBe("Provenote");
+    expect(result.current.t.common.appName).toBe("Notebooklab");
+    expect(result.current.t("common.appName")).toBe("Notebooklab");
+    expect(result.current.t.common("appName")).toBe("Notebooklab");
   });
 
   it("emits language change lifecycle events when changing language", async () => {

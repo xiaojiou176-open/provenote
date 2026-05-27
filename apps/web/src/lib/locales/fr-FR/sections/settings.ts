@@ -30,7 +30,7 @@ export const frFRSettings = {
     autoDeleteFiles: "Suppression automatique des fichiers",
     autoDeletePlaceholder: "Sélectionnez une option de suppression automatique",
     filesHelp:
-      "Une fois vos fichiers téléchargés et traités, ils ne sont plus nécessaires. La plupart des utilisateurs devraient autoriser Provenote à supprimer automatiquement les fichiers du dossier de téléchargement.",
+      "Une fois vos fichiers téléchargés et traités, ils ne sont plus nécessaires. La plupart des utilisateurs devraient autoriser Notebooklab à supprimer automatiquement les fichiers du dossier de téléchargement.",
     loadFailed: "Échec du chargement des paramètres",
   },
   advanced: {
@@ -43,7 +43,7 @@ export const frFRSettings = {
     latestVersion: "Dernière version",
     status: "État",
     updateAvailable: "Version {version} disponible",
-    updateAvailableDesc: "Une nouvelle version de Provenote est disponible.",
+    updateAvailableDesc: "Une nouvelle version de Notebooklab est disponible.",
     upToDate: "À jour",
     unknown: "Inconnu",
     viewOnGithub: "Voir sure GitHub",
@@ -135,9 +135,9 @@ export const frFRSettings = {
     deleteModel: "Supprimer le modèle",
     defaultAssignments: "Attributions des modèles par défaut",
     defaultAssignmentsDesc:
-      "Configurez quels modèles utiliser pour les différents usages d'Provenote",
+      "Configurez quels modèles utiliser pour les différents usages d'Notebooklab",
     missingRequiredModels:
-      "Modèles requis manquants : {models}. Provenote pourrait ne pas fonctionner correctement sans eux.",
+      "Modèles requis manquants : {models}. Notebooklab pourrait ne pas fonctionner correctement sans eux.",
     selectModelPlaceholder: "Sélectionnez un modèle",
     requiredModelPlaceholder: "⚠️ Requis - Sélectionnez un modèle",
     chatModelLabel: "Modèle de Chat",
@@ -187,7 +187,7 @@ export const frFRSettings = {
   apiKeys: {
     title: "Configurez votre IA avec vos propres clés API",
     description:
-      "Stockez les clés API de manière sécurisée dans la base de données pour activer les fournisseurs d'IA dans Provenote.",
+      "Stockez les clés API de manière sécurisée dans la base de données pour activer les fournisseurs d'IA dans Notebooklab.",
     encryptionRequired: "Clé de chiffrement non configurée",
     encryptionRequiredDescription:
       "Définissez la variable d'environment OPEN_NOTEBOOK_ENCRYPTION_KEY avec une chaîne secrète pour activer le stockage des clés API dans la base de données.",

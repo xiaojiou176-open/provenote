@@ -189,3 +189,33 @@ mutants/mutants/
 
 *.local.yml
 **/*.local.md
+
+# ===== 16仓1 教训：防 secret 泄漏 =====
+# Codex / Kiro / Claude rollout JSONL — 这类文件会包含 token / secret，永远不能 commit
+.archive/sessions/
+.archive/**/sessions/
+.archive/**/*.jsonl
+.codex/sessions/
+.kiro/sessions/
+.claude/sessions/
+**/rollout-*.jsonl
+**/session-*.jsonl
+
+# Environment files (secret-bearing)
+.env
+.env.local
+.env.*.local
+.env.live
+.env.*.live
+!.env.example
+
+# Common secret files
+*.key
+*.pem
+id_rsa
+id_ed25519
+*.p12
+*.pfx
+
+# .archive/ 全部 ignore（5/27 v3 加固）
+.archive/

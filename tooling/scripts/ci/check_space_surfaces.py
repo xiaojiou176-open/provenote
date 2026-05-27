@@ -138,11 +138,11 @@ REQUIRED_SURFACES = {
         "default_action": "verify_before_clear",
     },
     "repo-ci-host-python-uv-cache": {
-        "path": ".runtime-cache/ci-host/home-cache/provenote/python/uv-cache",
+        "path": ".runtime-cache/ci-host/home-cache/notebooklab/python/uv-cache",
         "default_action": "cautious_clear",
     },
     "repo-ci-host-python-uv-project-environment": {
-        "path": ".runtime-cache/ci-host/home-cache/provenote/python/uv-project-environment",
+        "path": ".runtime-cache/ci-host/home-cache/notebooklab/python/uv-project-environment",
         "default_action": "verify_before_clear",
     },
     "repo-ci-host-pre-commit-home": {
@@ -174,15 +174,15 @@ REQUIRED_SURFACES = {
         "retention_class": "shared_layer",
     },
     "machine-ci-host-npm-cache": {
-        "path": "${HOME}/.cache/provenote/ci-host/npm-cache",
+        "path": "${HOME}/.cache/notebooklab/ci-host/npm-cache",
         "default_action": "cautious_clear",
     },
     "machine-tooling-bin": {
-        "path": "${HOME}/.cache/provenote/tooling/bin",
+        "path": "${HOME}/.cache/notebooklab/tooling/bin",
         "default_action": "verify_before_clear",
     },
     "machine-browser-chrome-user-data": {
-        "path": "${HOME}/.cache/provenote/browser/chrome-user-data",
+        "path": "${HOME}/.cache/notebooklab/browser/chrome-user-data",
         "default_action": "do_not_clear",
     },
 }

@@ -102,7 +102,7 @@ async def test_individual_model_tts_voice_discovery_failure_falls_back_to_alloy(
         available_voices = BrokenVoices()
 
         async def agenerate_speech(self, text: str, voice: str):
-            assert "Provenote" in text
+            assert "Notebooklab" in text
             assert voice == "alloy"
             return SimpleNamespace()
 

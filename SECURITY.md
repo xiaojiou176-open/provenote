@@ -1,6 +1,6 @@
 # Security Policy
 
-This policy applies to the current fork of Provenote in this repository.
+This policy applies to the current fork of Notebooklab in this repository.
 
 > Think of this file like the emergency entrance sign for this checkout: it tells you where to report a problem here, not where the upstream project handles its own inbox.
 

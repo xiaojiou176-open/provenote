@@ -70,11 +70,11 @@ export function buildBrowserIdentityMetadata({
   browserProfile,
 }) {
   const resolvedRepoRoot = path.resolve(repoRoot);
-  const repoLabel = env.PROVENOTE_BROWSER_IDENTITY_LABEL?.trim() || path.basename(resolvedRepoRoot);
+  const repoLabel = env.NOTEBOOKLAB_BROWSER_IDENTITY_LABEL?.trim() || path.basename(resolvedRepoRoot);
   const accent =
-    env.PROVENOTE_BROWSER_IDENTITY_ACCENT?.trim() &&
-    HEX_COLOR_PATTERN.test(env.PROVENOTE_BROWSER_IDENTITY_ACCENT.trim())
-      ? env.PROVENOTE_BROWSER_IDENTITY_ACCENT.trim()
+    env.NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT?.trim() &&
+    HEX_COLOR_PATTERN.test(env.NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT.trim())
+      ? env.NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT.trim()
       : deriveIdentityAccent(repoLabel);
   const monogram = deriveIdentityMonogram(repoLabel);
   const identityDir = path.join(resolvedRepoRoot, ".runtime-cache", BROWSER_IDENTITY_RUNTIME_DIRNAME);

@@ -87,8 +87,8 @@ The repo also expects the workflow topology behind that gate to keep these bound
 - Review Date: 2026-04-07 00:34 PDT
 - Reviewer Surface: GitHub CLI authenticated as the active maintainer account for the reviewed `origin` repository plus fresh `Tests` job readback on the protected `main` SHA
 - Latest recorded evidence:
-  - the reviewed origin repository (`xiaojiou176-open/provenote`) remained reachable, public, admin-visible, and defaulted to `main`
-  - `gh api repos/xiaojiou176-open/provenote/branches/main/protection` succeeded and showed `required_status_checks.strict=true` with `contexts=["Required Green Gate"]`
+  - the reviewed origin repository (`xiaojiou176-open/notebooklab`) remained reachable, public, admin-visible, and defaulted to `main`
+  - `gh api repos/xiaojiou176-open/notebooklab/branches/main/protection` succeeded and showed `required_status_checks.strict=true` with `contexts=["Required Green Gate"]`
   - the latest observed `push` run of `Tests` on the current `main` SHA (`24066329016`) completed `success`, and the corresponding `Required Green Gate` job on that same SHA also completed `success`
   - the required protected mainline context on the live repository still points at `Required Green Gate`
   - the current hosted-first workflow set includes nightly maintenance lanes and manual trusted witness lanes in addition to the default required aggregate, so branch protection must continue to point only at `Required Green Gate`

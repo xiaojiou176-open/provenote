@@ -37,7 +37,7 @@ def test_single_container_compose_contract_pins_quickstart_ports_and_project_nam
         encoding="utf-8"
     )
 
-    assert "name: provenote" in compose_text
+    assert "name: notebooklab" in compose_text
     assert '"8000:8000"' not in compose_text
     assert '- "8502:8502"  # Web UI' in compose_text
     assert '- "5055:5055"  # REST API' in compose_text

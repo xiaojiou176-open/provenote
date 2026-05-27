@@ -1,18 +1,18 @@
 ---
-name: provenote-mcp-outcome-workflows
-description: Teach an agent to install Provenote's first-party MCP server, connect it in a host, and run read-first outcome workflows.
+name: notebooklab-mcp-outcome-workflows
+description: Teach an agent to install Notebooklab's first-party MCP server, connect it in a host, and run read-first outcome workflows.
 version: 1.1.1
 triggers:
-  - provenote
-  - provenote-mcp
+  - notebooklab
+  - notebooklab-mcp
   - research thread
   - auditable run
   - source-grounded notes
 ---
 
-# Provenote MCP Outcome Workflows
+# Notebooklab MCP Outcome Workflows
 
-Teach the agent how to install, connect, and use Provenote's first-party MCP
+Teach the agent how to install, connect, and use Notebooklab's first-party MCP
 server for read-first note and research workflows.
 
 ## Use this skill when
@@ -23,7 +23,7 @@ server for read-first note and research workflows.
 
 ## What this package teaches
 
-- how to launch `provenote-mcp` from a local clone
+- how to launch `notebooklab-mcp` from a local clone
 - how to wire it into OpenHands or OpenClaw
 - which read-first MCP tools to use first
 - which write actions are narrow and safe to try next
@@ -54,7 +54,7 @@ server for read-first note and research workflows.
 
 ## Suggested first prompt
 
-Use Provenote to inspect the current drafts, research threads, and auditable
+Use Notebooklab to inspect the current drafts, research threads, and auditable
 runs for this workspace. Start with `draft.list`, `research_thread.list`, and
 `auditable_run.list`. After you summarize what already exists, choose one
 narrow next step: either convert a research thread into a draft with
@@ -62,11 +62,11 @@ narrow next step: either convert a research thread into a draft with
 
 ## Success checks
 
-- the host can launch `provenote-mcp` from the provided config
+- the host can launch `notebooklab-mcp` from the provided config
 - the three read-first list calls succeed
 - one narrow mutation succeeds and maps back to an inspectable artifact
 
 ## Boundaries
 
-- Provenote stays centered on its first-party MCP server
+- Notebooklab stays centered on its first-party MCP server
 - keep outcome claims tied to inspectable repo-owned artifacts

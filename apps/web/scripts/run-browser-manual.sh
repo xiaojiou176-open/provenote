@@ -13,17 +13,17 @@ usage() {
 Usage: bash ./scripts/run-browser-manual.sh [start-or-attach|migrate|status] [--dry-run] [--start-url URL]
 
 Env:
-- PROVENOTE_BROWSER_MODE=real_chrome_profile|managed_playwright
-- PROVENOTE_BROWSER_URL=http://127.0.0.1:3100
-- PROVENOTE_CHROME_USER_DATA_DIR=~/.cache/provenote/browser/chrome-user-data
-- PROVENOTE_CHROME_PROFILE_NAME=provenote
-- PROVENOTE_CHROME_PROFILE_KEY=Profile 1
-- PROVENOTE_SOURCE_CHROME_USER_DATA_DIR=~/Library/Application Support/Google/Chrome
-- PROVENOTE_SOURCE_CHROME_PROFILE_KEY=Profile 25
-- PROVENOTE_CHROME_CDP_PORT=9342
-- PROVENOTE_BROWSER_IDENTITY_LABEL=provenote
-- PROVENOTE_BROWSER_IDENTITY_ACCENT=#2563eb
-- PROVENOTE_MANAGED_PLAYWRIGHT_PROFILE_DIR=.runtime-cache/browser/manual-playwright-profile
+- NOTEBOOKLAB_BROWSER_MODE=real_chrome_profile|managed_playwright
+- NOTEBOOKLAB_BROWSER_URL=http://127.0.0.1:3100
+- NOTEBOOKLAB_CHROME_USER_DATA_DIR=~/.cache/notebooklab/browser/chrome-user-data
+- NOTEBOOKLAB_CHROME_PROFILE_NAME=notebooklab
+- NOTEBOOKLAB_CHROME_PROFILE_KEY=Profile 1
+- NOTEBOOKLAB_SOURCE_CHROME_USER_DATA_DIR=~/Library/Application Support/Google/Chrome
+- NOTEBOOKLAB_SOURCE_CHROME_PROFILE_KEY=Profile 25
+- NOTEBOOKLAB_CHROME_CDP_PORT=9342
+- NOTEBOOKLAB_BROWSER_IDENTITY_LABEL=notebooklab
+- NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT=#2563eb
+- NOTEBOOKLAB_MANAGED_PLAYWRIGHT_PROFILE_DIR=.runtime-cache/browser/manual-playwright-profile
 EOF
 }
 
@@ -46,11 +46,11 @@ while [[ $# -gt 0 ]]; do
       shift
       ;;
     --start-url)
-      export PROVENOTE_BROWSER_URL="$2"
+      export NOTEBOOKLAB_BROWSER_URL="$2"
       shift 2
       ;;
     --start-url=*)
-      export PROVENOTE_BROWSER_URL="${1#*=}"
+      export NOTEBOOKLAB_BROWSER_URL="${1#*=}"
       shift
       ;;
     -h|--help)
@@ -69,9 +69,9 @@ MACHINE_CACHE_ROOT="$(resolve_open_notebook_machine_cache_root)"
 mkdir -p "${ROOT_DIR}/.runtime-cache/browser"
 ensure_open_notebook_machine_cache_layout "${MACHINE_CACHE_ROOT}"
 
-export PROVENOTE_CHROME_USER_DATA_DIR="${PROVENOTE_CHROME_USER_DATA_DIR:-$(resolve_open_notebook_chrome_user_data_dir "${MACHINE_CACHE_ROOT}")}"
-export PROVENOTE_BROWSER_INSTANCE_STATE_FILE="${PROVENOTE_BROWSER_INSTANCE_STATE_FILE:-$(resolve_open_notebook_browser_instance_state_file "${ROOT_DIR}")}"
-export PROVENOTE_MANAGED_PLAYWRIGHT_PROFILE_DIR="${PROVENOTE_MANAGED_PLAYWRIGHT_PROFILE_DIR:-${ROOT_DIR}/.runtime-cache/browser/manual-playwright-profile}"
+export NOTEBOOKLAB_CHROME_USER_DATA_DIR="${NOTEBOOKLAB_CHROME_USER_DATA_DIR:-$(resolve_open_notebook_chrome_user_data_dir "${MACHINE_CACHE_ROOT}")}"
+export NOTEBOOKLAB_BROWSER_INSTANCE_STATE_FILE="${NOTEBOOKLAB_BROWSER_INSTANCE_STATE_FILE:-$(resolve_open_notebook_browser_instance_state_file "${ROOT_DIR}")}"
+export NOTEBOOKLAB_MANAGED_PLAYWRIGHT_PROFILE_DIR="${NOTEBOOKLAB_MANAGED_PLAYWRIGHT_PROFILE_DIR:-${ROOT_DIR}/.runtime-cache/browser/manual-playwright-profile}"
 
 node_args=("${SCRIPT_DIR}/real-chrome-profile.mjs" "${SUBCOMMAND}")
 if [[ "${DRY_RUN}" == "1" ]]; then

@@ -1,6 +1,6 @@
 # ContextBuilder
 
-A flexible and generic ContextBuilder class for the Provenote project that can handle any parameters and build context from sources, notebooks, insights, and notes.
+A flexible and generic ContextBuilder class for the Notebooklab project that can handle any parameters and build context from sources, notebooks, insights, and notes.
 
 ## Features
 
@@ -171,7 +171,7 @@ The ContextBuilder follows these design principles:
 
 ## Integration
 
-The ContextBuilder integrates seamlessly with the existing Provenote architecture:
+The ContextBuilder integrates seamlessly with the existing Notebooklab architecture:
 
 - Uses existing domain models (`Source`, `Notebook`, `Note`)
 - Leverages the repository pattern for database access

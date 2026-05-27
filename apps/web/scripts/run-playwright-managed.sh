@@ -14,7 +14,7 @@ if [[ -z "${PLAYWRIGHT_BROWSERS_PATH:-}" ]]; then
 fi
 
 auto_cleanup_machine_cache() {
-  if [[ "${PROVENOTE_MACHINE_CACHE_AUTO_CLEAN:-1}" == "0" ]]; then
+  if [[ "${NOTEBOOKLAB_MACHINE_CACHE_AUTO_CLEAN:-1}" == "0" ]]; then
     return 0
   fi
 

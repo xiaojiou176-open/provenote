@@ -1,6 +1,6 @@
 # Quick Result Path
 
-This page is for one job: get you from zero to a visible Provenote result as quickly as possible.
+This page is for one job: get you from zero to a visible Notebooklab result as quickly as possible.
 
 If you want the shortest human path, think of this as the "open the box, plug it in, see the screen light up" guide.
 
@@ -62,7 +62,7 @@ Inside the workbench:
 
 In the source detail view, open **Auditable Markdown** and run it.
 
-This lane is the fastest way to feel what Provenote is really trying to do:
+This lane is the fastest way to feel what Notebooklab is really trying to do:
 
 - produce markdown you can inspect
 - attach integrity counters
@@ -72,7 +72,7 @@ This lane is the fastest way to feel what Provenote is really trying to do:
 
 You are in a strong first-run state if you can answer "yes" to all four:
 
-- I can open the Provenote UI
+- I can open the Notebooklab UI
 - I can add or inspect a source
 - I can see the Auditable Markdown panel
 - I can start a run or download a generated markdown report

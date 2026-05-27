@@ -110,7 +110,7 @@ function mockData({
 describe("ApiKeysPage", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    process.env.NEXT_PUBLIC_REPOSITORY_URL = "https://github.com/example/provenote";
+    process.env.NEXT_PUBLIC_REPOSITORY_URL = "https://github.com/example/notebooklab";
   });
 
   it("renders loading state while data is fetching", () => {
@@ -150,7 +150,7 @@ describe("ApiKeysPage", () => {
     expect(screen.getByTestId("provider-section-google")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Learn how to configure API keys →" })).toHaveAttribute(
       "href",
-      "https://github.com/example/provenote/blob/main/docs/configuration.md",
+      "https://github.com/example/notebooklab/blob/main/docs/configuration.md",
     );
   });
 

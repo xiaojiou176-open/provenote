@@ -1,1 +1,1 @@
-"""First-party operator surfaces for Provenote outcome lanes."""
+"""First-party operator surfaces for Notebooklab outcome lanes."""

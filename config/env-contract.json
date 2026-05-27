@@ -112,19 +112,19 @@
     },
     {
       "name": "OPEN_NOTEBOOK_PHOENIX_COLLECTOR_ENDPOINT",
-      "purpose": "Optional Provenote Phoenix collector endpoint.",
+      "purpose": "Optional Notebooklab Phoenix collector endpoint.",
       "source": "settings",
       "default": "http://127.0.0.1:6006/v1/traces"
     },
     {
       "name": "OPEN_NOTEBOOK_PHOENIX_PROJECT_NAME",
-      "purpose": "Optional Provenote Phoenix project name.",
+      "purpose": "Optional Notebooklab Phoenix project name.",
       "source": "settings",
       "default": "open-notebook"
     },
     {
       "name": "OPEN_NOTEBOOK_PHOENIX_API_KEY",
-      "purpose": "Optional Provenote Phoenix API key override.",
+      "purpose": "Optional Notebooklab Phoenix API key override.",
       "source": "settings",
       "default": null
     },

@@ -56,4 +56,4 @@ RUN rm -f /etc/apt/sources.list.d/yarn.list \
 
 USER vscode
 
-WORKDIR /workspaces/provenote
+WORKDIR /workspaces/notebooklab

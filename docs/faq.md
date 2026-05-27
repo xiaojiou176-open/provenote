@@ -1,14 +1,14 @@
 # FAQ
 
-## What is Provenote?
+## What is Notebooklab?
 
-Provenote is a long-context-first, source-grounded workbench for structured insight, auditable markdown, notebook drafts, and outcome workflows across notes, documents, audio, and web content.
+Notebooklab is a long-context-first, source-grounded workbench for structured insight, auditable markdown, notebook drafts, and outcome workflows across notes, documents, audio, and web content.
 
 The short version: it is built to help you move from "I have too much messy material" to "I can structure it, inspect it, and keep working with the result."
 
 ## What is the strongest reason to care?
 
-Provenote is not trying to be just another chat box over files.
+Notebooklab is not trying to be just another chat box over files.
 
 Its strongest hook is the combination of:
 
@@ -22,7 +22,7 @@ Its strongest hook is the combination of:
 
 Because a star is not only applause on GitHub. It is also a bookmark for projects that look likely to matter later.
 
-Good reasons to star Provenote today:
+Good reasons to star Notebooklab today:
 
 - you care about auditable AI writing and source-grounded outputs
 - you want a repo-documented research workbench to watch as it matures
@@ -32,7 +32,7 @@ Good reasons to star Provenote today:
 
 No, but provenance still matters.
 
-Provenote is a deep, productized fork of the upstream Open Notebook project. Upstream lineage remains part of the evidence story, while the current public support, release, and review boundary is repository-local to this checkout.
+Notebooklab is a deep, productized fork of the upstream Open Notebook project. Upstream lineage remains part of the evidence story, while the current public support, release, and review boundary is repository-local to this checkout.
 
 ## Do I need Gemini?
 
@@ -40,13 +40,13 @@ The current runtime contract in this repository is Gemini-first.
 
 If you are evaluating the repo today, the practical answer is yes: plan around the Gemini-first setup described in [configuration.md](configuration.md).
 
-## Can I use Provenote with Claude Code, Codex, Cursor, or OpenCode?
+## Can I use Notebooklab with Claude Code, Codex, Cursor, or OpenCode?
 
 Yes, through the first-party MCP server documented in [mcp.md](mcp.md).
 
 The short version is:
 
-- Provenote can expose notebooks, drafts, research threads, auditable runs, and a few controlled utility actions to MCP-capable hosts
+- Notebooklab can expose notebooks, drafts, research threads, auditable runs, and a few controlled utility actions to MCP-capable hosts
 - current public docs support Claude Code, OpenAI Codex, Cursor, and OpenCode as compatibility targets
 - current public starter bundles are also available for Claude Code, OpenAI Codex, Cursor, and OpenCode
 - this is still not an official partnership or marketplace claim
@@ -60,9 +60,9 @@ If you want host-specific setup and boundary notes, start with:
 - [integrations/cursor.md](integrations/cursor.md)
 - [integrations/opencode.md](integrations/opencode.md)
 
-If you want the narrowest self-verify loop instead of the full host list, start with [integrations/opencode.md](integrations/opencode.md). That page points back to the shipped `provenote-mcp` entrypoint and the concrete outcome-tool families.
+If you want the narrowest self-verify loop instead of the full host list, start with [integrations/opencode.md](integrations/opencode.md). That page points back to the shipped `notebooklab-mcp` entrypoint and the concrete outcome-tool families.
 
-## Does Provenote currently support OpenClaw?
+## Does Notebooklab currently support OpenClaw?
 
 Yes, at the repo-owned package layer, but not as a live official listing.
 
@@ -83,7 +83,7 @@ Those artifacts now reach a stronger rung:
 
 - repo-owned public-ready OpenClaw-compatible bundles exist in this repository
 - the repo includes a ClawHub submission pack
-- the ClawHub skill listing is now live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
+- the ClawHub skill listing is now live at `https://clawhub.ai/xiaojiou176/notebooklab-mcp-outcome-workflows`
 
 The same caution applies to plugin, marketplace, and public Skills language:
 
@@ -94,11 +94,11 @@ The same caution applies to plugin, marketplace, and public Skills language:
 If you want the exact boundary map, use [project-status.md](project-status.md).
 If you want the claim ladder and distribution matrix in one place, use [distribution.md](distribution.md).
 
-## Can I operate Provenote outcome lanes without staying inside the web app?
+## Can I operate Notebooklab outcome lanes without staying inside the web app?
 
 Yes.
 
-The repository now ships a first-party local operator CLI through the `provenote` command.
+The repository now ships a first-party local operator CLI through the `notebooklab` command.
 
 That surface is useful when you want to:
 
@@ -124,7 +124,7 @@ The current public surfaces are:
 
 - the web workbench
 - the first-party MCP server
-- the first-party `provenote` operator CLI
+- the first-party `notebooklab` operator CLI
 - public-ready starter bundles under [../examples/hosts/README.md](../examples/hosts/README.md)
 - public-ready starter bundles in `examples/hosts/`
 - tracked public-ready skill packets under [../public-skills/README.md](../public-skills/README.md)
@@ -138,11 +138,11 @@ What is not claimed today:
 
 In plain language: the repo already has real doors you can use, but it is not pretending there is a gift shop outside each one.
 
-## Should Provenote be renamed to `provenote.ai`?
+## Should Notebooklab be renamed to `notebooklab.ai`?
 
 Not by default.
 
-The current repo truth supports `Provenote` as the product brand and treats any future `.ai` domain as a possible landing or redirect domain, not a reason to rename the repository, package, CLI, or MCP script surface.
+The current repo truth supports `Notebooklab` as the product brand and treats any future `.ai` domain as a possible landing or redirect domain, not a reason to rename the repository, package, CLI, or MCP script surface.
 
 In plain language: a `.ai` domain can help people find the product, but it does not automatically improve the product's identity. The real differentiator is still the source-grounded, auditable outcome path.
 
@@ -180,7 +180,7 @@ If you want the shortest general proof loop, use the [quick result path](quickst
 5. run **Auditable Markdown**
 6. create a **Draft** inside a notebook if you want a reusable notebook-level outcome
 
-That path gives you the fastest feel for what Provenote is trying to make easier.
+That path gives you the fastest feel for what Notebooklab is trying to make easier.
 
 ## Where should I go if I want proof, not promises?
 

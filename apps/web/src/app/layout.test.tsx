@@ -87,21 +87,21 @@ describe("RootLayout", () => {
   it("exports long-context-first metadata with share surfaces", async () => {
     const metadata = await getMetadata();
 
-    expect(metadata.title).toBe("Provenote | Long Context To Structured Insight");
+    expect(metadata.title).toBe("Notebooklab | Long Context To Structured Insight");
     expect(metadata.description).toContain("messy long context");
-    expect(metadata.metadataBase?.toString()).toBe("https://github.com/xiaojiou176-open/provenote");
-    expect(metadata.openGraph?.title).toBe("Provenote | Long Context To Structured Insight");
+    expect(metadata.metadataBase?.toString()).toBe("https://github.com/xiaojiou176-open/notebooklab");
+    expect(metadata.openGraph?.title).toBe("Notebooklab | Long Context To Structured Insight");
     expect(metadata.openGraph?.images).toEqual([
       {
-        url: "https://raw.githubusercontent.com/xiaojiou176-open/provenote/main/docs/assets/social/provenote-social-preview.png",
+        url: "https://raw.githubusercontent.com/xiaojiou176-open/notebooklab/main/docs/assets/social/notebooklab-social-preview.png",
         width: 1280,
         height: 640,
-        alt: "Provenote social preview showing the long-context-to-structured-insight workbench story.",
+        alt: "Notebooklab social preview showing the long-context-to-structured-insight workbench story.",
       },
     ]);
     expect(metadata.twitter?.card).toBe("summary_large_image");
     expect(metadata.twitter?.images).toEqual([
-      "https://raw.githubusercontent.com/xiaojiou176-open/provenote/main/docs/assets/social/provenote-social-preview.png",
+      "https://raw.githubusercontent.com/xiaojiou176-open/notebooklab/main/docs/assets/social/notebooklab-social-preview.png",
     ]);
   });
 

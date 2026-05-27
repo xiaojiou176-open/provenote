@@ -34,7 +34,7 @@ vi.mock("@/lib/hooks/use-translation", () => ({
 describe("SystemInfo", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    process.env.NEXT_PUBLIC_REPOSITORY_URL = "https://github.com/example/provenote";
+    process.env.NEXT_PUBLIC_REPOSITORY_URL = "https://github.com/example/notebooklab";
   });
 
   it("shows update metadata and github link when an update is available", async () => {
@@ -57,7 +57,7 @@ describe("SystemInfo", () => {
     expect(screen.getByText("Update 1.1.0")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "View on GitHub" })).toHaveAttribute(
       "href",
-      "https://github.com/example/provenote",
+      "https://github.com/example/notebooklab",
     );
   });
 

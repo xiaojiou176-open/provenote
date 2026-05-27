@@ -17,20 +17,20 @@ ALLOWED_PUBLIC_ASSET_PREFIXES = (
 )
 
 ALLOWED_PUBLIC_ASSET_FILES = {
-    "docs/assets/architecture/provenote-architecture.png",
-    "docs/assets/architecture/provenote-architecture.svg",
-    "docs/assets/demo/provenote-quick-result-overview.png",
-    "docs/assets/demo/provenote-quick-result-overview.svg",
-    "docs/assets/hero/provenote-hero.png",
-    "docs/assets/hero/provenote-hero.svg",
-    "docs/assets/proof/provenote-proof-stack.png",
-    "docs/assets/proof/provenote-proof-stack.svg",
-    "docs/assets/social/provenote-social-preview.png",
-    "docs/assets/social/provenote-social-preview.svg",
+    "docs/assets/architecture/notebooklab-architecture.png",
+    "docs/assets/architecture/notebooklab-architecture.svg",
+    "docs/assets/demo/notebooklab-quick-result-overview.png",
+    "docs/assets/demo/notebooklab-quick-result-overview.svg",
+    "docs/assets/hero/notebooklab-hero.png",
+    "docs/assets/hero/notebooklab-hero.svg",
+    "docs/assets/proof/notebooklab-proof-stack.png",
+    "docs/assets/proof/notebooklab-proof-stack.svg",
+    "docs/assets/social/notebooklab-social-preview.png",
+    "docs/assets/social/notebooklab-social-preview.svg",
 }
 
 DISALLOWED_BASENAMES = {
-    "provenote-quick-result-storyboard.gif",
+    "notebooklab-quick-result-storyboard.gif",
 }
 
 

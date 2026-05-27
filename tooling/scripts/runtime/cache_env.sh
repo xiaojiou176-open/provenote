@@ -7,16 +7,16 @@ resolve_open_notebook_machine_cache_root() {
   fi
 
   if [[ -n "${XDG_CACHE_HOME:-}" ]]; then
-    printf '%s/provenote\n' "${XDG_CACHE_HOME%/}"
+    printf '%s/notebooklab\n' "${XDG_CACHE_HOME%/}"
     return 0
   fi
 
   if [[ -n "${HOME:-}" ]]; then
-    printf '%s/.cache/provenote\n' "${HOME%/}"
+    printf '%s/.cache/notebooklab\n' "${HOME%/}"
     return 0
   fi
 
-  printf '/tmp/provenote\n'
+  printf '/tmp/notebooklab\n'
 }
 
 resolve_open_notebook_repo_managed_uv_environment() {

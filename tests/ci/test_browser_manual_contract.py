@@ -21,8 +21,8 @@ def _write_source_profile(home: Path, *, profile_key: str = "Profile 25") -> Pat
         "profile": {
             "info_cache": {
                 profile_key: {
-                    "name": "provenote",
-                    "user_name": "provenote@example.test",
+                    "name": "notebooklab",
+                    "user_name": "notebooklab@example.test",
                 }
             },
             "last_used": profile_key,
@@ -39,17 +39,17 @@ def _manual_env(home: Path) -> dict[str, str]:
         "HOME": str(home),
         "XDG_CACHE_HOME": str(home / ".cache"),
         "OPEN_NOTEBOOK_MACHINE_CACHE_ROOT": "",
-        "PROVENOTE_BROWSER_MODE": "",
-        "PROVENOTE_CHROME_USER_DATA_DIR": "",
-        "PROVENOTE_CHROME_PROFILE_NAME": "",
-        "PROVENOTE_CHROME_PROFILE_KEY": "",
-        "PROVENOTE_SOURCE_CHROME_USER_DATA_DIR": "",
-        "PROVENOTE_SOURCE_CHROME_PROFILE_KEY": "",
-        "PROVENOTE_CHROME_CDP_PORT": "",
-        "PROVENOTE_BROWSER_INSTANCE_STATE_FILE": str(
+        "NOTEBOOKLAB_BROWSER_MODE": "",
+        "NOTEBOOKLAB_CHROME_USER_DATA_DIR": "",
+        "NOTEBOOKLAB_CHROME_PROFILE_NAME": "",
+        "NOTEBOOKLAB_CHROME_PROFILE_KEY": "",
+        "NOTEBOOKLAB_SOURCE_CHROME_USER_DATA_DIR": "",
+        "NOTEBOOKLAB_SOURCE_CHROME_PROFILE_KEY": "",
+        "NOTEBOOKLAB_CHROME_CDP_PORT": "",
+        "NOTEBOOKLAB_BROWSER_INSTANCE_STATE_FILE": str(
             home / ".runtime-cache" / "browser" / "chrome-instance.json"
         ),
-        "PROVENOTE_MANAGED_PLAYWRIGHT_PROFILE_DIR": "",
+        "NOTEBOOKLAB_MANAGED_PLAYWRIGHT_PROFILE_DIR": "",
     }
 
 
@@ -82,7 +82,7 @@ def test_manual_browser_script_dry_run_reports_isolated_real_chrome_defaults(
     assert payload["command"] == "start-or-attach"
     assert payload["browserMode"] == "real_chrome_profile"
     assert payload["profileKey"] == "Profile 1"
-    assert payload["userDataDir"].endswith(".cache/provenote/browser/chrome-user-data")
+    assert payload["userDataDir"].endswith(".cache/notebooklab/browser/chrome-user-data")
     assert payload["cdpPort"] == 9342
     assert payload["cdpUrl"] == "http://127.0.0.1:9342"
     assert payload["targetUrl"] == "https://example.com"
@@ -90,8 +90,8 @@ def test_manual_browser_script_dry_run_reports_isolated_real_chrome_defaults(
         ".runtime-cache/browser-identity/index.html"
     )
     assert payload["identityPageUrl"].startswith("file://")
-    assert payload["identityLabel"] == "provenote"
-    assert payload["identityPage"]["repoLabel"] == "provenote"
+    assert payload["identityLabel"] == "notebooklab"
+    assert payload["identityPage"]["repoLabel"] == "notebooklab"
     assert payload["identityPage"]["identityPath"].endswith(
         ".runtime-cache/browser-identity/index.html"
     )
@@ -111,7 +111,7 @@ def test_manual_browser_script_dry_run_reports_managed_playwright_fallback(
         check=False,
         env={
             **_manual_env(home),
-            "PROVENOTE_BROWSER_MODE": "managed_playwright",
+            "NOTEBOOKLAB_BROWSER_MODE": "managed_playwright",
         },
     )
 
@@ -143,7 +143,7 @@ def test_manual_browser_status_reports_expected_state_file_and_defaults(
     assert payload["command"] == "status"
     assert payload["stateExists"] is False
     assert payload["expectedUserDataDir"].endswith(
-        ".cache/provenote/browser/chrome-user-data"
+        ".cache/notebooklab/browser/chrome-user-data"
     )
     assert payload["expectedProfileKey"] == "Profile 1"
     assert payload["expectedCdpUrl"] == "http://127.0.0.1:9342"
@@ -151,7 +151,7 @@ def test_manual_browser_status_reports_expected_state_file_and_defaults(
         ".runtime-cache/browser-identity/index.html"
     )
     assert payload["expectedIdentityPageUrl"].startswith("file://")
-    assert payload["expectedIdentityLabel"] == "provenote"
+    assert payload["expectedIdentityLabel"] == "notebooklab"
     assert payload["statePath"].endswith(".runtime-cache/browser/chrome-instance.json")
 
 
@@ -168,14 +168,14 @@ def test_manual_browser_script_dry_run_reports_identity_overrides(
         check=False,
         env={
             **_manual_env(home),
-            "PROVENOTE_BROWSER_IDENTITY_LABEL": "provenote live",
-            "PROVENOTE_BROWSER_IDENTITY_ACCENT": "#2563eb",
+            "NOTEBOOKLAB_BROWSER_IDENTITY_LABEL": "notebooklab live",
+            "NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT": "#2563eb",
         },
     )
 
     assert result.returncode == 0, result.stderr
     payload = json.loads(result.stdout)
-    assert payload["identityLabel"] == "provenote live"
+    assert payload["identityLabel"] == "notebooklab live"
     assert payload["identityAccent"] == "#2563eb"
     assert payload["identityPagePath"].endswith(
         ".runtime-cache/browser-identity/index.html"
@@ -205,7 +205,7 @@ def test_manual_browser_migration_dry_run_reports_source_and_target_roots(
     assert payload["sourceProfileKey"] == "Profile 25"
     assert payload["targetProfileKey"] == "Profile 1"
     assert payload["targetUserDataDir"].endswith(
-        ".cache/provenote/browser/chrome-user-data"
+        ".cache/notebooklab/browser/chrome-user-data"
     )
     assert payload["removedSingletons"][-1] == "Singleton*"
 
@@ -244,7 +244,7 @@ def test_manual_browser_migration_copies_local_state_and_profile_1_only(
     rewritten = json.loads((target_root / "Local State").read_text(encoding="utf-8"))
     assert rewritten["profile"]["last_used"] == "Profile 1"
     assert rewritten["profile"]["last_active_profiles"] == ["Profile 1"]
-    assert rewritten["profile"]["info_cache"]["Profile 1"]["name"] == "provenote"
+    assert rewritten["profile"]["info_cache"]["Profile 1"]["name"] == "notebooklab"
     assert "Profile 25" not in rewritten["profile"]["info_cache"]
 
     for singleton_name in ("SingletonLock", "SingletonCookie", "SingletonSocket"):
@@ -264,7 +264,7 @@ def test_manual_browser_script_rejects_real_profile_in_ci(tmp_path: Path) -> Non
         env={
             **_manual_env(home),
             "CI": "1",
-            "PROVENOTE_BROWSER_MODE": "real_chrome_profile",
+            "NOTEBOOKLAB_BROWSER_MODE": "real_chrome_profile",
         },
     )
 
@@ -285,12 +285,12 @@ def test_manual_browser_script_dry_run_honors_identity_label_and_accent_override
         check=False,
         env={
             **_manual_env(home),
-            "PROVENOTE_BROWSER_IDENTITY_LABEL": "Provenote Lane",
-            "PROVENOTE_BROWSER_IDENTITY_ACCENT": "#2563eb",
+            "NOTEBOOKLAB_BROWSER_IDENTITY_LABEL": "Notebooklab Lane",
+            "NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT": "#2563eb",
         },
     )
 
     assert result.returncode == 0, result.stderr
     payload = json.loads(result.stdout)
-    assert payload["identityPage"]["repoLabel"] == "Provenote Lane"
+    assert payload["identityPage"]["repoLabel"] == "Notebooklab Lane"
     assert payload["identityPage"]["accent"] == "#2563eb"

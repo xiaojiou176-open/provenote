@@ -2,11 +2,11 @@
 
 This page explains the notebook draft lane in product terms.
 
-In plain language: Provenote can take multiple notebook-linked sources and turn them into one draft outcome, so you are not forced to treat every result as a one-source, one-shot export.
+In plain language: Notebooklab can take multiple notebook-linked sources and turn them into one draft outcome, so you are not forced to treat every result as a one-source, one-shot export.
 
 ## What A Draft Means Here
 
-A draft in Provenote is not just a text blob.
+A draft in Notebooklab is not just a text blob.
 
 It is a notebook-level outcome object that can carry:
 

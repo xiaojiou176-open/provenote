@@ -240,7 +240,7 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     env:
-      DOCKER_CONFIG: /tmp/provenote-build-release-regular-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+      DOCKER_CONFIG: /tmp/notebooklab-build-release-regular-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
     outputs:
       image_digest: ${{ steps.build-regular-image.outputs.digest }}
       image_metadata: ${{ steps.build-regular-image.outputs.metadata }}
@@ -363,7 +363,7 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     env:
-      DOCKER_CONFIG: /tmp/provenote-build-release-single-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+      DOCKER_CONFIG: /tmp/notebooklab-build-release-single-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
     outputs:
       image_digest: ${{ steps.build-single-image.outputs.digest }}
       image_metadata: ${{ steps.build-single-image.outputs.metadata }}

@@ -82,8 +82,8 @@ def test_status_command_reports_operator_surface(
     assert payload["api_base"] == "http://localhost:5055"
     assert payload["healthy"] is True
     assert payload["health"]["status"] == "healthy"
-    assert payload["entrypoints"]["operator"] == "provenote"
-    assert payload["entrypoints"]["mcp"] == "provenote-mcp"
+    assert payload["entrypoints"]["operator"] == "notebooklab"
+    assert payload["entrypoints"]["mcp"] == "notebooklab-mcp"
     assert payload["inspect_surfaces"] == [
         "notebook",
         "draft",

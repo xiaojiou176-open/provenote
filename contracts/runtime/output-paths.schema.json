@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Provenote Runtime Output Registry Entry",
+  "title": "Notebooklab Runtime Output Registry Entry",
   "type": "object",
   "additionalProperties": true,
   "required": [

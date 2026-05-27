@@ -1,12 +1,12 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.xiaojiou176-open/provenote-mcp",
-  "title": "Provenote MCP",
-  "description": "Outcome-first Provenote MCP for drafts, research threads, auditable runs, and search.",
+  "name": "io.github.xiaojiou176-open/notebooklab-mcp",
+  "title": "Notebooklab MCP",
+  "description": "Outcome-first Notebooklab MCP for drafts, research threads, auditable runs, and search.",
   "repository": {
-    "url": "https://github.com/xiaojiou176-open/provenote",
+    "url": "https://github.com/xiaojiou176-open/notebooklab",
     "source": "github"
   },
-  "websiteUrl": "https://github.com/xiaojiou176-open/provenote/blob/main/docs/mcp.md",
+  "websiteUrl": "https://github.com/xiaojiou176-open/notebooklab/blob/main/docs/mcp.md",
   "version": "1.8.5"
 }

@@ -2,7 +2,7 @@
 
 This page keeps the repo-owned public promotion assets in one place.
 
-In plain language: Provenote already has real proof surfaces and real starter packages. This page gathers the reusable visuals, pitch lines, and demo flow so submission packs and social surfaces do not depend on scattered notes.
+In plain language: Notebooklab already has real proof surfaces and real starter packages. This page gathers the reusable visuals, pitch lines, and demo flow so submission packs and social surfaces do not depend on scattered notes.
 
 Treat this as a second-layer asset room, not the main product front door.
 
@@ -10,11 +10,11 @@ Treat this as a second-layer asset room, not the main product front door.
 
 | Asset | Path | Best use |
 | --- | --- | --- |
-| Hero image | `docs/assets/hero/provenote-hero.png` | README first-screen framing |
-| Quick-result overview | `docs/assets/demo/provenote-quick-result-overview.png` | shortest proof-loop explainer |
-| Proof stack | `docs/assets/proof/provenote-proof-stack.png` | trust/proof storytelling |
-| Architecture image | `docs/assets/architecture/provenote-architecture.png` | system-shape explanation |
-| Social preview image | `docs/assets/social/provenote-social-preview.png` | GitHub social preview upload |
+| Hero image | `docs/assets/hero/notebooklab-hero.png` | README first-screen framing |
+| Quick-result overview | `docs/assets/demo/notebooklab-quick-result-overview.png` | shortest proof-loop explainer |
+| Proof stack | `docs/assets/proof/notebooklab-proof-stack.png` | trust/proof storytelling |
+| Architecture image | `docs/assets/architecture/notebooklab-architecture.png` | system-shape explanation |
+| Social preview image | `docs/assets/social/notebooklab-social-preview.png` | GitHub social preview upload |
 
 ## Short Pitch Set
 

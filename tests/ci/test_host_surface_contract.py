@@ -30,7 +30,7 @@ def test_cursor_page_keeps_repo_backed_proof_loop() -> None:
     assert "## Repo-Backed Proof Loop" in text
     assert "[../../tests/test_mcp_server.py]" in text
     assert "../../examples/hosts/README.md" in text
-    assert "../../examples/hosts/cursor/provenote-outcome-bundle/README.md" in text
+    assert "../../examples/hosts/cursor/notebooklab-outcome-bundle/README.md" in text
 
 
 def test_openclaw_page_keeps_local_proof_prep_boundary() -> None:
@@ -57,14 +57,14 @@ def test_readme_points_to_tracked_host_examples() -> None:
 
 def test_opencode_page_points_to_direct_starter_bundle() -> None:
     text = _read("docs/integrations/opencode.md")
-    assert "../../examples/hosts/opencode/provenote-outcome-bundle/README.md" in text
+    assert "../../examples/hosts/opencode/notebooklab-outcome-bundle/README.md" in text
 
 
 def test_host_examples_index_lists_bundle_family() -> None:
     text = _read("examples/hosts/README.md")
-    assert "provenote-claude-bundle" in text
-    assert "provenote-cursor-bundle" in text
-    assert "provenote-codex-bundle" in text
+    assert "notebooklab-claude-bundle" in text
+    assert "notebooklab-cursor-bundle" in text
+    assert "notebooklab-codex-bundle" in text
     assert "[openclaw/README.md]" in text
 
 

@@ -12,7 +12,7 @@ import {
 const tempRoots = new Set();
 
 function makeTempRoot() {
-  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "provenote-browser-identity-"));
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "notebooklab-browser-identity-"));
   tempRoots.add(tempRoot);
   return tempRoot;
 }
@@ -27,21 +27,21 @@ afterEach(() => {
 describe("browser-instance-identity", () => {
   it("renders the core repo identity fields into the html payload", () => {
     const html = buildBrowserIdentityPageHtml({
-      repoLabel: "provenote",
-      repoRoot: "/tmp/provenote",
+      repoLabel: "notebooklab",
+      repoRoot: "/tmp/notebooklab",
       cdpUrl: "http://127.0.0.1:9342",
       cdpPort: 9342,
       userDataDir: "/tmp/browser-root",
-      profileName: "provenote",
+      profileName: "notebooklab",
       profileDirectory: "Profile 1",
       accent: "#2563eb",
       monogram: "PR",
       startUrl: "http://127.0.0.1:3100/",
     });
 
-    expect(html).toContain("provenote");
+    expect(html).toContain("notebooklab");
     expect(html).toContain("http://127.0.0.1:9342");
-    expect(html).toContain("/tmp/provenote");
+    expect(html).toContain("/tmp/notebooklab");
     expect(html).toContain("/tmp/browser-root");
     expect(html).toContain("Profile 1");
     expect(html).toContain("Keep it as the left-most anchor");
@@ -58,7 +58,7 @@ describe("browser-instance-identity", () => {
       cdpUrl: "http://127.0.0.1:9342",
       browserProfile: {
         userDataDir: "/tmp/browser-root",
-        profileName: "provenote",
+        profileName: "notebooklab",
         profileDirectory: "Profile 1",
       },
       startUrl: "http://127.0.0.1:3100/",
@@ -81,20 +81,20 @@ describe("browser-instance-identity", () => {
     const result = writeBrowserIdentityPage({
       repoRoot,
       env: {
-        PROVENOTE_BROWSER_IDENTITY_LABEL: "Provenote Lane",
-        PROVENOTE_BROWSER_IDENTITY_ACCENT: "#0f766e",
+        NOTEBOOKLAB_BROWSER_IDENTITY_LABEL: "Notebooklab Lane",
+        NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT: "#0f766e",
       },
       cdpPort: 9342,
       cdpUrl: "http://127.0.0.1:9342",
       browserProfile: {
         userDataDir: "/tmp/browser-root",
-        profileName: "provenote",
+        profileName: "notebooklab",
         profileDirectory: "Profile 1",
       },
       startUrl: "http://127.0.0.1:3100/",
     });
 
-    expect(result.repoLabel).toBe("Provenote Lane");
+    expect(result.repoLabel).toBe("Notebooklab Lane");
     expect(result.accent).toBe("#0f766e");
     expect(result.monogram).toBe("PL");
   });

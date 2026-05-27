@@ -25,6 +25,6 @@ def test_public_surface_snapshot_keeps_social_preview_exact_pack() -> None:
     text = (REPO_ROOT / ".github/repo-settings/public-surface.snapshot.md").read_text(
         encoding="utf-8"
     )
-    assert "docs/assets/social/provenote-social-preview.png" in text
-    assert "https://github.com/xiaojiou176-open/provenote/settings" in text
+    assert "docs/assets/social/notebooklab-social-preview.png" in text
+    assert "https://github.com/xiaojiou176-open/notebooklab/settings" in text
     assert "General -> Social preview -> Edit / Upload image" in text

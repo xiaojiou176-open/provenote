@@ -1,8 +1,8 @@
 # Operator CLI
 
-This runbook explains Provenote's first-party local operator CLI.
+This runbook explains Notebooklab's first-party local operator CLI.
 
-In plain language: if MCP is the host-facing door for coding agents, `provenote` is the terminal-facing tool cart for humans and agents who want to inspect or run the same outcome lanes directly.
+In plain language: if MCP is the host-facing door for coding agents, `notebooklab` is the terminal-facing tool cart for humans and agents who want to inspect or run the same outcome lanes directly.
 
 ## What It Is For
 
@@ -28,13 +28,13 @@ bash tooling/scripts/runtime/run_uv_managed.sh sync
 Use this when you want to confirm that the local runtime is reachable before touching any outcome object:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote status --json
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab status --json
 ```
 
 If you want the command itself to fail when the local `/health` probe is down, use:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote status --json --require-healthy
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab status --json --require-healthy
 ```
 
 What it reports:
@@ -50,7 +50,7 @@ What it reports:
 This is the direct terminal version of the auditable markdown lane:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote auditable-markdown source:123 \
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab auditable-markdown source:123 \
   --output ./exports/ \
   --json
 ```
@@ -66,7 +66,7 @@ Expected result:
 This is the strongest current multi-object operator lane:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote research-thread-to-draft research_thread:123 \
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab research-thread-to-draft research_thread:123 \
   --verify \
   --download-markdown \
   --download-bundle \
@@ -88,13 +88,13 @@ Think of it like taking a labeled research folder, freezing it into a handoff dr
 Use this when you want operator visibility before you run a mutating workflow:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote inspect notebook notebook:123 --json
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab inspect notebook notebook:123 --json
 ```
 
 If you also want auditable-run context in the same response:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote inspect notebook notebook:123 \
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab inspect notebook notebook:123 \
   --source-id source:123 \
   --json
 ```
@@ -107,12 +107,12 @@ bash tooling/scripts/runtime/run_uv_managed.sh run provenote inspect notebook no
 
 ## What This Does Not Claim
 
-This runbook does **not** claim that Provenote now ships:
+This runbook does **not** claim that Notebooklab now ships:
 
 - a plugin marketplace surface
 - an official host partnership
 - a hosted one-click operator console
-- a separate public product line independent from the main Provenote workbench
+- a separate public product line independent from the main Notebooklab workbench
 
 ## Related Docs
 

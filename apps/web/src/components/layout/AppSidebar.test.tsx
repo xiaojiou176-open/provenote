@@ -135,7 +135,7 @@ describe("AppSidebar", () => {
   it("renders correctly when expanded", { timeout: SLOW_TEST_TIMEOUT_MS }, () => {
     render(<AppSidebar />);
 
-    expect(screen.getByText(/Provenote/i)).toBeInTheDocument();
+    expect(screen.getByText(/Notebooklab/i)).toBeInTheDocument();
     expect(screen.getByText(/Sources/i)).toBeInTheDocument();
     expect(screen.getByText(/Notebooks/i)).toBeInTheDocument();
   });
@@ -162,7 +162,7 @@ describe("AppSidebar", () => {
 
     render(<AppSidebar />);
 
-    expect(screen.queryByText(/Provenote/i)).toBeNull();
+    expect(screen.queryByText(/Notebooklab/i)).toBeNull();
   });
 
   it(

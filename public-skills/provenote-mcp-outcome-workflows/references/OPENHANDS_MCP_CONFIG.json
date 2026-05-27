@@ -1,10 +1,10 @@
 {
   "mcpServers": {
-    "provenote": {
+    "notebooklab": {
       "command": "bash",
       "args": [
         "-lc",
-        "cd /absolute/path/to/provenote && uv run provenote-mcp"
+        "cd /absolute/path/to/notebooklab && uv run notebooklab-mcp"
       ]
     }
   }

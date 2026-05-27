@@ -1,2 +1,2 @@
-[mcp_servers.provenote]
-command = ["provenote-mcp"]
+[mcp_servers.notebooklab]
+command = ["notebooklab-mcp"]

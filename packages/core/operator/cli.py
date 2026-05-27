@@ -1,4 +1,4 @@
-"""First-party operator CLI for Provenote outcome lanes."""
+"""First-party operator CLI for Notebooklab outcome lanes."""
 
 from __future__ import annotations
 
@@ -179,13 +179,13 @@ def _print_auditable_markdown(payload: dict[str, Any]) -> None:
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="provenote",
-        description="Operate Provenote outcome lanes from a first-party CLI surface.",
+        prog="notebooklab",
+        description="Operate Notebooklab outcome lanes from a first-party CLI surface.",
     )
     parser.add_argument(
         "--api-base",
         default=os.getenv("OPEN_NOTEBOOK_URL") or DEFAULT_API_BASE,
-        help="Provenote API base URL. Accepts root URL or /api URL.",
+        help="Notebooklab API base URL. Accepts root URL or /api URL.",
     )
     parser.add_argument(
         "--password",
@@ -339,8 +339,8 @@ def _run_status(args: argparse.Namespace) -> int:
             "health": health,
             "auth_configured": bool(resolved_password),
             "entrypoints": {
-                "operator": "provenote",
-                "mcp": "provenote-mcp",
+                "operator": "notebooklab",
+                "mcp": "notebooklab-mcp",
             },
             "inspect_surfaces": [
                 "notebook",

@@ -1,1 +1,1 @@
-"""First-party MCP server for Provenote."""
+"""First-party MCP server for Notebooklab."""

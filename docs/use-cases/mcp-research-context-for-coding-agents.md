@@ -1,14 +1,14 @@
 # MCP Research Context For Coding Agents
 
-This page explains the most agent-native use case in Provenote's current public surface.
+This page explains the most agent-native use case in Notebooklab's current public surface.
 
-In plain language: instead of pasting the same long research context into every coding-agent session, you can keep that context inside Provenote and let an MCP-capable host query the same notebooks, drafts, research threads, and auditable runs through one local server.
+In plain language: instead of pasting the same long research context into every coding-agent session, you can keep that context inside Notebooklab and let an MCP-capable host query the same notebooks, drafts, research threads, and auditable runs through one local server.
 
 ## Why This Is Valuable
 
 Coding agents are good at acting on context, but long copied prompts are like carrying loose papers from room to room.
 
-Provenote's MCP surface is closer to putting those papers into labeled folders and giving the agent a librarian desk instead of a single oversized clipboard.
+Notebooklab's MCP surface is closer to putting those papers into labeled folders and giving the agent a librarian desk instead of a single oversized clipboard.
 
 That matters when you want an agent to:
 
@@ -20,14 +20,14 @@ That matters when you want an agent to:
 ## The Practical Flow
 
 ```text
-Collect sources in Provenote
+Collect sources in Notebooklab
 -> Organize them into notebooks and research threads
 -> Start the first-party MCP server
 -> Connect Claude Code, OpenAI Codex, Cursor, or another MCP-capable host
 -> Let the host call outcome-first tools against the same local workbench
 ```
 
-## What Makes Provenote's Current MCP Story Different
+## What Makes Notebooklab's Current MCP Story Different
 
 The current repo-documented MCP story is not just "there is a server."
 

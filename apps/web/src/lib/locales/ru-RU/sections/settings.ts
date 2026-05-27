@@ -30,7 +30,7 @@ export const ruRUSettings = {
     autoDeleteFiles: "Автоудаление файлов",
     autoDeletePlaceholder: "Выберите опцию автоудаления",
     filesHelp:
-      "После загрузки и обработки файлы больше не нужны. Большинству пользователей следует разрешить Provenote автоматически удалять загруженные файлы из папки загрузок.",
+      "После загрузки и обработки файлы больше не нужны. Большинству пользователей следует разрешить Notebooklab автоматически удалять загруженные файлы из папки загрузок.",
     loadFailed: "Не удалось загрузить настройки",
   },
   advanced: {
@@ -43,7 +43,7 @@ export const ruRUSettings = {
     latestVersion: "Последняя версия",
     status: "Статус",
     updateAvailable: "Доступна версия {version}",
-    updateAvailableDesc: "Доступна новая версия Provenote.",
+    updateAvailableDesc: "Доступна новая версия Notebooklab.",
     upToDate: "Актуальная версия",
     unknown: "Неизвестно",
     viewOnGithub: "Посмотреть на GitHub",
@@ -134,9 +134,9 @@ export const ruRUSettings = {
       "Выберите тип для добавляемых моделей. Если нужны разные типы, добавляйте их отдельными партиями.",
     deleteModel: "Удалить модель",
     defaultAssignments: "Назначение моделей по умолчанию",
-    defaultAssignmentsDesc: "Настройте, какие модели использовать для различных задач в Provenote",
+    defaultAssignmentsDesc: "Настройте, какие модели использовать для различных задач в Notebooklab",
     missingRequiredModels:
-      "Отсутствуют необходимые модели: {models}. Provenote может работать некорректно без них.",
+      "Отсутствуют необходимые модели: {models}. Notebooklab может работать некорректно без них.",
     selectModelPlaceholder: "Выберите модель",
     requiredModelPlaceholder: "⚠️ Обязательно — выберите модель",
     chatModelLabel: "Модель чата",
@@ -184,7 +184,7 @@ export const ruRUSettings = {
   apiKeys: {
     title: "Настройте ИИ с помощью собственных API-ключей",
     description:
-      "Храните API-ключи в базе данных для безопасного подключения провайдеров ИИ в Provenote.",
+      "Храните API-ключи в базе данных для безопасного подключения провайдеров ИИ в Notebooklab.",
     encryptionRequired: "Ключ шифрования не настроен",
     encryptionRequiredDescription:
       "Установите переменную окружения OPEN_NOTEBOOK_ENCRYPTION_KEY в любую секретную строку для хранения API-ключей в базе данных.",

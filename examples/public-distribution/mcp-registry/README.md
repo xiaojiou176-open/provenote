@@ -2,11 +2,11 @@
 
 This folder keeps the repo-owned submission materials for the official MCP Registry lane.
 
-In plain language: Provenote already ships the first-party `provenote-mcp` server, proof loops, and a registry submission pack, and the Official MCP Registry now returns a live active entry for `io.github.xiaojiou176-open/provenote-mcp`.
+In plain language: Notebooklab already ships the first-party `notebooklab-mcp` server, proof loops, and a registry submission pack, and the Official MCP Registry now returns a live active entry for `io.github.xiaojiou176-open/notebooklab-mcp`.
 
 Treat this as a companion registry lane around the outcome-first workbench. It
 exists after the main product path is already clear; it is not the first door
-for understanding Provenote.
+for understanding Notebooklab.
 
 ## Current Claim Ladder
 
@@ -38,7 +38,7 @@ for understanding Provenote.
 
 ## Current Live Read-Back
 
-- registry query returns `io.github.xiaojiou176-open/provenote-mcp`
+- registry query returns `io.github.xiaojiou176-open/notebooklab-mcp`
 - status is `active`
 - published version is `1.8.5`
 

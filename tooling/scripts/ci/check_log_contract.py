@@ -74,7 +74,7 @@ FILE_REQUIRED_SNIPPETS = {
     ),
     "services/worker/__init__.py": (
         "configure_process_logging(",
-        'service="provenote-worker"',
+        'service="notebooklab-worker"',
         'component="services.worker.runner"',
         'domain="worker"',
     ),

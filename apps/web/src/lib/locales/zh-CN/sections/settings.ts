@@ -43,7 +43,7 @@ export const zhCNSettings = {
     latestVersion: "最新版本",
     status: "状态",
     updateAvailable: "版本 {version} 可用",
-    updateAvailableDesc: "Provenote 的新版本可用。",
+    updateAvailableDesc: "Notebooklab 的新版本可用。",
     upToDate: "已是最新",
     unknown: "未知",
     viewOnGithub: "在 GitHub 上查看",
@@ -152,9 +152,9 @@ export const zhCNSettings = {
     modelTypeHint: "选择要添加的模型类型。如果需要不同类型，请分批添加。",
     deleteModel: "删除模型",
     defaultAssignments: "默认模型分配",
-    defaultAssignmentsDesc: "配置用于 Provenote 不同用途的默认模型",
+    defaultAssignmentsDesc: "配置用于 Notebooklab 不同用途的默认模型",
     missingRequiredModels:
-      "缺少必需的模型：{models}。如果没有这些模型，Provenote 可能无法正常运行。",
+      "缺少必需的模型：{models}。如果没有这些模型，Notebooklab 可能无法正常运行。",
     selectModelPlaceholder: "选择一个模型",
     requiredModelPlaceholder: "⚠️ 必需 - 请选择一个模型",
     chatModelLabel: "聊天模型",
@@ -200,7 +200,7 @@ export const zhCNSettings = {
   },
   apiKeys: {
     title: "使用您自己的 API 密钥配置 AI",
-    description: "将 API 密钥安全地存储在数据库中，以在 Provenote 中启用 AI 服务商。",
+    description: "将 API 密钥安全地存储在数据库中，以在 Notebooklab 中启用 AI 服务商。",
     encryptionRequired: "未配置加密密钥",
     encryptionRequiredDescription:
       "请将 OPEN_NOTEBOOK_ENCRYPTION_KEY 环境变量设置为任意密钥字符串，以启用将 API 密钥存储到数据库。",

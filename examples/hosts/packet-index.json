@@ -1,55 +1,55 @@
 {
   "schemaVersion": "1.0.0",
   "kind": "host_packet_index",
-  "product": "Provenote",
+  "product": "Notebooklab",
   "version": "1.8.5",
   "schema": "./packet-manifest.schema.json",
   "bundles": [
     {
-      "id": "provenote-claude-code-outcome-bundle",
+      "id": "notebooklab-claude-code-outcome-bundle",
       "host": "Claude Code",
       "claimLevel": "public-ready package available",
-      "manifest": "./claude-code/provenote-outcome-bundle/manifest.yaml",
+      "manifest": "./claude-code/notebooklab-outcome-bundle/manifest.yaml",
       "submissionPack": "./claude-code/DIRECTORY_SUBMISSION.md"
     },
     {
-      "id": "provenote-codex-outcome-bundle",
+      "id": "notebooklab-codex-outcome-bundle",
       "host": "OpenAI Codex",
       "claimLevel": "public-ready package available",
-      "manifest": "./codex/provenote-outcome-bundle/manifest.yaml",
+      "manifest": "./codex/notebooklab-outcome-bundle/manifest.yaml",
       "submissionPack": "./codex/PLUGIN_DIRECTORY_SUBMISSION.md"
     },
     {
-      "id": "provenote-cursor-outcome-bundle",
+      "id": "notebooklab-cursor-outcome-bundle",
       "host": "Cursor",
       "claimLevel": "public-ready package available",
-      "manifest": "./cursor/provenote-outcome-bundle/manifest.yaml"
+      "manifest": "./cursor/notebooklab-outcome-bundle/manifest.yaml"
     },
     {
-      "id": "provenote-opencode-outcome-bundle",
+      "id": "notebooklab-opencode-outcome-bundle",
       "host": "OpenCode",
       "claimLevel": "public-ready package available",
-      "manifest": "./opencode/provenote-outcome-bundle/manifest.yaml"
+      "manifest": "./opencode/notebooklab-outcome-bundle/manifest.yaml"
     },
     {
-      "id": "provenote-openclaw-claude-bundle",
+      "id": "notebooklab-openclaw-claude-bundle",
       "host": "OpenClaw (Claude-style)",
       "claimLevel": "public-ready package available",
-      "manifest": "./openclaw/provenote-claude-bundle/manifest.yaml",
+      "manifest": "./openclaw/notebooklab-claude-bundle/manifest.yaml",
       "submissionPack": "./openclaw/CLAWHUB_SUBMISSION.md"
     },
     {
-      "id": "provenote-openclaw-cursor-bundle",
+      "id": "notebooklab-openclaw-cursor-bundle",
       "host": "OpenClaw (Cursor-style)",
       "claimLevel": "public-ready package available",
-      "manifest": "./openclaw/provenote-cursor-bundle/manifest.yaml",
+      "manifest": "./openclaw/notebooklab-cursor-bundle/manifest.yaml",
       "submissionPack": "./openclaw/CLAWHUB_SUBMISSION.md"
     },
     {
-      "id": "provenote-openclaw-codex-bundle",
+      "id": "notebooklab-openclaw-codex-bundle",
       "host": "OpenClaw (Codex-style)",
       "claimLevel": "public-ready package available",
-      "manifest": "./openclaw/provenote-codex-bundle/manifest.yaml",
+      "manifest": "./openclaw/notebooklab-codex-bundle/manifest.yaml",
       "submissionPack": "./openclaw/CLAWHUB_SUBMISSION.md"
     }
   ],

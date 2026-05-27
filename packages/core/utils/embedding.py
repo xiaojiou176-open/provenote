@@ -1,5 +1,5 @@
 """
-Unified embedding utilities for Provenote.
+Unified embedding utilities for Notebooklab.
 
 Provides centralized embedding generation with support for:
 - Single text embedding (with automatic chunking and mean pooling for large texts)

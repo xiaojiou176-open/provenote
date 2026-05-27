@@ -1,6 +1,6 @@
 # Issue Template
 
-Thanks for contributing to Provenote.
+Thanks for contributing to Notebooklab.
 
 Before opening an issue:
 
@@ -12,7 +12,7 @@ Before opening an issue:
 
 Please include:
 
-- Provenote version or commit SHA
+- Notebooklab version or commit SHA
 - Operating system and runtime environment
 - Reproduction steps
 - Expected behavior

@@ -1,9 +1,9 @@
 [project]
-name = "provenote"
+name = "notebooklab"
 version = "1.8.5"
 description = "Long-context-first workbench for structured insight, auditable markdown, and notebook outcomes"
 keywords = [
-    "provenote",
+    "notebooklab",
     "mcp",
     "long-context",
     "research-threads",
@@ -71,16 +71,16 @@ dev = [
 ]
 
 [project.scripts]
-provenote = "packages.core.operator.cli:main"
-provenote-mcp = "packages.core.mcp.server:main"
+notebooklab = "packages.core.operator.cli:main"
+notebooklab-mcp = "packages.core.mcp.server:main"
 
 [project.urls]
-Homepage = "https://xiaojiou176-open.github.io/provenote/"
-Documentation = "https://xiaojiou176-open.github.io/provenote/"
-Source = "https://github.com/xiaojiou176-open/provenote"
-Changelog = "https://github.com/xiaojiou176-open/provenote/blob/main/CHANGELOG.md"
-Discussions = "https://github.com/xiaojiou176-open/provenote/discussions"
-Issues = "https://github.com/xiaojiou176-open/provenote/issues"
+Homepage = "https://xiaojiou176-open.github.io/notebooklab/"
+Documentation = "https://xiaojiou176-open.github.io/notebooklab/"
+Source = "https://github.com/xiaojiou176-open/notebooklab"
+Changelog = "https://github.com/xiaojiou176-open/notebooklab/blob/main/CHANGELOG.md"
+Discussions = "https://github.com/xiaojiou176-open/notebooklab/discussions"
+Issues = "https://github.com/xiaojiou176-open/notebooklab/issues"
 
 [build-system]
 requires = ["setuptools>=61.0"]
@@ -204,19 +204,19 @@ upstream_provenance = "This checkout inherits from the upstream Open Notebook pr
 canonical_public_surface = "No off-repo canonical public URL is declared in-tree for this fork; use repo-local docs plus repository GitHub tabs."
 
 [tool.open_notebook.public_distribution_artifact]
-package_name = "provenote"
+package_name = "notebooklab"
 package_registry = "pypi"
-mcp_name = "io.github.xiaojiou176-open/provenote-mcp"
-entrypoints = ["provenote", "provenote-mcp"]
-homepage_url = "https://xiaojiou176-open.github.io/provenote/"
+mcp_name = "io.github.xiaojiou176-open/notebooklab-mcp"
+entrypoints = ["notebooklab", "notebooklab-mcp"]
+homepage_url = "https://xiaojiou176-open.github.io/notebooklab/"
 documentation_urls = [
-    "https://xiaojiou176-open.github.io/provenote/",
-    "https://github.com/xiaojiou176-open/provenote/blob/main/docs/mcp.md",
-    "https://github.com/xiaojiou176-open/provenote/blob/main/docs/distribution.md",
+    "https://xiaojiou176-open.github.io/notebooklab/",
+    "https://github.com/xiaojiou176-open/notebooklab/blob/main/docs/mcp.md",
+    "https://github.com/xiaojiou176-open/notebooklab/blob/main/docs/distribution.md",
 ]
 bundle_manifests = [
-    "examples/hosts/claude-code/provenote-outcome-bundle/.claude-plugin/plugin.json",
-    "examples/hosts/codex/provenote-outcome-bundle/.codex-plugin/plugin.json",
+    "examples/hosts/claude-code/notebooklab-outcome-bundle/.claude-plugin/plugin.json",
+    "examples/hosts/codex/notebooklab-outcome-bundle/.codex-plugin/plugin.json",
 ]
 registry_manifests = [
     "server.json",

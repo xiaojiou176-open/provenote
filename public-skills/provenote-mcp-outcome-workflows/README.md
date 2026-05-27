@@ -1,10 +1,10 @@
-# Provenote MCP Outcome Workflows Public Skill
+# Notebooklab MCP Outcome Workflows Public Skill
 
-This folder is the public, self-contained skill packet for Provenote.
+This folder is the public, self-contained skill packet for Notebooklab.
 It is designed to carry install, config, capability, and demo material inside
 the skill folder instead of pushing that burden back to repo-root docs.
 
-It is the public skill companion to Provenote's first-party MCP carry-forward
+It is the public skill companion to Notebooklab's first-party MCP carry-forward
 lane. Reviewers should still understand the product in this order:
 outcome-first workbench first, first-party MCP second, then this standalone
 skill packet for host-native submission flows.
@@ -13,9 +13,9 @@ skill packet for host-native submission flows.
 
 Use it when you want one portable skill folder that teaches four things clearly:
 
-- how to install and launch the first-party `provenote-mcp` server
+- how to install and launch the first-party `notebooklab-mcp` server
 - how to wire it into OpenHands or OpenClaw
-- what MCP tool families Provenote exposes
+- what MCP tool families Notebooklab exposes
 - what a read-first outcome workflow looks like in practice
 
 ## What this packet includes
@@ -47,7 +47,7 @@ Use it when you want one portable skill folder that teaches four things clearly:
 ## Current repo-backed state
 
 - this packet keeps install, config, capability, demo, and troubleshooting
-  material inside one portable folder around the first-party `provenote-mcp`
+  material inside one portable folder around the first-party `notebooklab-mcp`
 - the OpenHands/extensions submission currently has reviewer-requested changes at
   `OpenHands/extensions#154`
 - ClawHub and Official MCP Registry listing claims stay outside this packet
@@ -58,7 +58,7 @@ Use it when you want one portable skill folder that teaches four things clearly:
 - no live OpenHands/extensions listing without fresh PR/read-back
 - no live ClawHub or Official MCP Registry listing inferred from this folder alone
 - no official marketplace or directory listing by itself
-- no replacement of the first-party `provenote-mcp` server
+- no replacement of the first-party `notebooklab-mcp` server
 
 ## Source of truth
 
@@ -68,4 +68,4 @@ on repo-root docs before they can understand the skill:
 - `docs/distribution.md`
 - `docs/project-status.md`
 - `server.json`
-- `examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md`
+- `examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md`

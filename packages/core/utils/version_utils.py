@@ -1,5 +1,5 @@
 """
-Version utilities for Provenote.
+Version utilities for Notebooklab.
 Handles version comparison, GitHub version fetching, and package version management.
 """
 

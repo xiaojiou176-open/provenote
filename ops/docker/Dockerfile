@@ -100,8 +100,8 @@ COPY ops/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 RUN mkdir -p /var/log/supervisor
 
 # Run the runtime image as a non-root user once all writable surfaces exist.
-RUN groupadd --system provenote && useradd --system --gid provenote --create-home provenote \
-    && chown -R provenote:provenote /app /var/log/supervisor
+RUN groupadd --system notebooklab && useradd --system --gid notebooklab --create-home notebooklab \
+    && chown -R notebooklab:notebooklab /app /var/log/supervisor
 
 # Runtime API URL Configuration
 # The API_URL environment variable can be set at container runtime to configure
@@ -113,6 +113,6 @@ RUN groupadd --system provenote && useradd --system --gid provenote --create-hom
 #
 # Example: docker run -e API_URL=https://your-domain.com/api ...
 
-USER provenote
+USER notebooklab
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

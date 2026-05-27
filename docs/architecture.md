@@ -1,6 +1,6 @@
 # Architecture
 
-Provenote is a layered application with four practical surfaces:
+Notebooklab is a layered application with four practical surfaces:
 
 If you are looking for the fastest product overview instead of the system map, start with [../README.md](../README.md) and [quickstart.md](quickstart.md).
 

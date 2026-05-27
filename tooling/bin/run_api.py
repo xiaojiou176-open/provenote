@@ -1,5 +1,5 @@
 """
-Startup script for Provenote API server.
+Startup script for Notebooklab API server.
 """
 
 import sys
@@ -18,7 +18,7 @@ if __name__ == "__main__":
     port = settings.api_port
     reload = settings.api_reload
 
-    print(f"Starting Provenote API server on {host}:{port}")
+    print(f"Starting Notebooklab API server on {host}:{port}")
     print(f"Reload mode: {reload}")
 
     uvicorn.run(

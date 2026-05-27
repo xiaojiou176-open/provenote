@@ -149,7 +149,7 @@ async def test_test_individual_model_tts_voice_probe_error_falls_back_to_alloy(
         "Speech generation successful",
     )
     tts_model_instance.agenerate_speech.assert_awaited_once_with(
-        text="Hello from Provenote",
+        text="Hello from Notebooklab",
         voice="alloy",
     )
     log_mock.assert_called_once()

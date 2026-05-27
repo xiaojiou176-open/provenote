@@ -1,32 +1,32 @@
 {
-  "name": "provenote-codex-outcome-bundle",
+  "name": "notebooklab-codex-outcome-bundle",
   "version": "1.8.5",
-  "description": "Public-ready Codex-style bundle for Provenote MCP outcome workflows.",
+  "description": "Public-ready Codex-style bundle for Notebooklab MCP outcome workflows.",
   "author": {
-    "name": "Provenote maintainers",
-    "url": "https://github.com/xiaojiou176-open/provenote"
+    "name": "Notebooklab maintainers",
+    "url": "https://github.com/xiaojiou176-open/notebooklab"
   },
-  "homepage": "https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/openclaw/provenote-codex-bundle/README.md",
-  "repository": "https://github.com/xiaojiou176-open/provenote",
+  "homepage": "https://github.com/xiaojiou176-open/notebooklab/blob/main/examples/hosts/openclaw/notebooklab-codex-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176-open/notebooklab",
   "license": "MIT",
   "keywords": [
     "openclaw",
     "codex",
     "mcp",
-    "provenote"
+    "notebooklab"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Provenote Codex Outcome Bundle",
-    "shortDescription": "OpenClaw-compatible Codex bundle for Provenote.",
-    "longDescription": "Install Provenote MCP workflows and Codex-style markers through an OpenClaw-compatible public-ready bundle.",
-    "developerName": "Provenote",
+    "displayName": "Notebooklab Codex Outcome Bundle",
+    "shortDescription": "OpenClaw-compatible Codex bundle for Notebooklab.",
+    "longDescription": "Install Notebooklab MCP workflows and Codex-style markers through an OpenClaw-compatible public-ready bundle.",
+    "developerName": "Notebooklab",
     "category": "Productivity",
     "capabilities": [
       "Read",
       "Write"
     ],
-    "websiteURL": "https://github.com/xiaojiou176-open/provenote/blob/main/docs/integrations/openclaw.md"
+    "websiteURL": "https://github.com/xiaojiou176-open/notebooklab/blob/main/docs/integrations/openclaw.md"
   }
 }

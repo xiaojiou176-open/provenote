@@ -21,8 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added an explicit Dependabot ignore ledger for the currently unlandable `apps/web` and `evals/promptfoo` update wave so unsupported or unverified package bumps stop reopening as if they were silently accepted.
 - Aligned the app root first door with the documented source-first product path by redirecting `/` to `/sources` instead of the notebook lane, so first-run entry now matches the repo's long-context collection story.
 - Hardened local runtime host-process safety with fail-closed PID-record handling in the `start_*_local.sh` entrypoints, a new host-process safety CI/runtime gate, and contract coverage that forbids broad kill/desktop-automation primitives in tracked repo automation.
-- Required an explicit `PROVENOTE_ALLOW_DETACHED_CHROME_LAUNCH=1` operator override before detached repo-owned Chrome launches can start from the real-profile helper, keeping manual browser control inside an ownership-first boundary.
-- Tightened the tracked OpenClaw example-bundle skills so they preserve the same read-first validation loop and non-public-boundary wording as the repo-local `provenote-mcp-outcome-workflows` skill, instead of drifting into over-broad compatibility claims.
+- Required an explicit `NOTEBOOKLAB_ALLOW_DETACHED_CHROME_LAUNCH=1` operator override before detached repo-owned Chrome launches can start from the real-profile helper, keeping manual browser control inside an ownership-first boundary.
+- Tightened the tracked OpenClaw example-bundle skills so they preserve the same read-first validation loop and non-public-boundary wording as the repo-local `notebooklab-mcp-outcome-workflows` skill, instead of drifting into over-broad compatibility claims.
 - Removed the broken `cache-to: type=gha` export path from both `Development Build` and `Build and Release`; those workflows still read from shared GHA cache scopes, but no longer let optional cache export turn a successfully built GHCR image into a red build.
 - Aligned the frontend test toolchain after the `@vitest/ui` bump by moving `vitest`, `@vitest/coverage-istanbul`, and `@vitest/coverage-v8` onto the same `4.1.2` family so fresh installs stop failing peer resolution.
 - Refreshed the frontend dependency surface with `@tailwindcss/postcss 4.2.2` and `lucide-react 1.7.0`, while replacing the removed YouTube icon export in `SourceContentTab` with a stable play glyph so the existing content flow keeps rendering.
@@ -33,14 +33,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refreshed the public status and brand/domain boundary pages with the current external-window framing: repo metadata can be ready before release publication, domain moves, trademark decisions, listings, or partnership actions happen.
 - Hardened the outcome client typing surface and the MCP `research_thread.create` typed envelope so runtime type gates pass without changing the current outcome-lane behavior.
 - Fixed the runtime lint gate so template-only directories no longer get misclassified as Python source roots during `pre_commit_lint.sh --mode runtime`.
-- Added a strict-health option to `provenote status --json` so operator and agent workflows can fail fast when the local `/health` probe is down instead of only printing a degraded payload.
+- Added a strict-health option to `notebooklab status --json` so operator and agent workflows can fail fast when the local `/health` probe is down instead of only printing a degraded payload.
 - Brought the Claude Code, Codex, and Cursor integration pages up to the same repo-backed proof-loop standard as the OpenCode page, so host compatibility can be verified from repo-owned entrypoints and tests instead of resting on thin setup copy alone.
 - Aligned both Docker runtime build paths with the app-local frontend artifact contract, so `ops/docker/Dockerfile` and `ops/docker/Dockerfile.single` now copy `.runtime-cache/build/next/standalone` and `.runtime-cache/build/next/static` instead of stale `.next` assumptions.
 - Added tracked Claude Code, Codex, Cursor, and OpenCode starter bundles under `examples/hosts/`, added a dedicated OpenClaw local proof/prep page, and tightened the OpenClaw-compatible bundle family so local install artifacts, skills, and MCP config stay repo-owned without drifting into plugin-store or marketplace claims.
 - Hardened registry-auth and release-proof truth around the host bundle and image lanes: release proof now checks explicit GHCR auth linkage, and `Development Build` degrades honestly when GHCR push access is unavailable instead of turning a successful build into a misleading red publish failure.
 - Surfaced the tracked host starter bundles from the public front door so developers can reach repo-owned copy/install artifacts directly from the README instead of discovering them only through deeper docs.
 - Fixed the Gemini startup probe so SDK-thrown model-404 errors now normalize into the existing fallback semantics instead of crashing startup before the stable fast-path probe can continue.
-- Added a host-example landing guard for the Cursor bundle so `.cursor/commands/provenote-mcp-outcome-workflows.md` stays visible to Git and contract tests instead of being silently swallowed by the root `.gitignore` `.cursor/` rule.
+- Added a host-example landing guard for the Cursor bundle so `.cursor/commands/notebooklab-mcp-outcome-workflows.md` stays visible to Git and contract tests instead of being silently swallowed by the root `.gitignore` `.cursor/` rule.
 
 ## [1.8.4] - 2026-04-01
 
@@ -69,10 +69,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.8.1] - 2026-03-25
 
 ### Changed
-- Public-facing repository narrative was rewritten around a product-first Provenote identity: the README now leads with result path, proof map, why-star framing, and layered docs entrypoints instead of opening with governance-heavy boundary language.
+- Public-facing repository narrative was rewritten around a product-first Notebooklab identity: the README now leads with result path, proof map, why-star framing, and layered docs entrypoints instead of opening with governance-heavy boundary language.
 - Public docs were reorganized for first-time visitors: `docs/index.md` now routes by user goal, and new `docs/quickstart.md`, `docs/proof.md`, and `docs/faq.md` provide evaluation, onboarding, and public-proof entry surfaces.
 - Public visual assets were added for GitHub-native growth and sharing, including a hero visual, proof-stack visual, architecture visual, and a social preview image under `docs/assets/`.
-- GitHub growth surfaces were tightened around Provenote's current public identity, including repository description/topics/discussions strategy, release-note category configuration, and discussion-first support routing in the issue chooser.
+- GitHub growth surfaces were tightened around Notebooklab's current public identity, including repository description/topics/discussions strategy, release-note category configuration, and discussion-first support routing in the issue chooser.
 - Auto-assign model policy now tolerates provider naming aliases (for example `gemini-3-flash-preview` vs `gemini-3.0-flash`) in `services/services/api/routers/models.py`, and related API regression tests were aligned with current fail-closed idempotency and source-processing error semantics to keep local preflight deterministic.
 - UIUX gate hardening for shared self-hosted runners: Playwright browser install now retries with backoff in `.github/workflows/uiux-gemini-gate.yml` to tolerate transient apt lock contention (`/var/lib/apt/lists/lock`) under concurrent CI load.
 - UIUX visual baseline stability calibration: increased `maxDiffPixels` for Chromium snapshots in `search/settings/sources` E2E visual-baseline tests while keeping `maxDiffPixelRatio=0.03`, reducing cross-runner rendering false negatives without relaxing ratio-based strictness.

@@ -98,7 +98,7 @@ def test_inject_log_context_ignores_invalid_record_shapes() -> None:
     assert valid_record["extra"]["trace_id"] == "-"
     assert valid_record["extra"]["user_id"] == "-"
     assert valid_record["extra"]["component"] == "services.api.http"
-    assert valid_record["extra"]["service"] == "provenote-api"
+    assert valid_record["extra"]["service"] == "notebooklab-api"
     assert valid_record["extra"]["domain"] == "http"
     assert valid_record["extra"]["redaction_version"] == "v1"
 

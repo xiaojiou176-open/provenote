@@ -410,7 +410,7 @@ class DraftService:
                 "README.txt",
                 "\n".join(
                     [
-                        "Provenote outcome bundle",
+                        "Notebooklab outcome bundle",
                         "",
                         "Contents:",
                         "- draft.md: notebook-level markdown outcome",

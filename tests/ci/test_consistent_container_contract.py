@@ -61,7 +61,7 @@ def test_consistent_container_redirects_uv_project_environment_into_container_ho
     runner_script = RUNNER_SCRIPT.read_text(encoding="utf-8")
 
     assert (
-        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/provenote"'
+        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/notebooklab"'
         in runner_script
     ), (
         "consistent container runner must declare the container-local machine cache root under container home"
@@ -83,7 +83,7 @@ def test_consistent_container_bootstrap_uses_same_machine_uv_cache_contract_as_r
     runner_script = RUNNER_SCRIPT.read_text(encoding="utf-8")
 
     for token in (
-        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/provenote"',
+        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/notebooklab"',
         'CONTAINER_UV_CACHE_DIR="$(resolve_open_notebook_machine_uv_cache_dir "${CONTAINER_MACHINE_CACHE_ROOT}")"',
         'CI_CACHE_ROOT="$(resolve_open_notebook_repo_ci_cache_root "${ROOT_DIR}")"',
         'NPM_CACHE_DIR="$(resolve_open_notebook_machine_ci_npm_cache_dir "${HOST_MACHINE_CACHE_ROOT}")"',
@@ -94,7 +94,7 @@ def test_consistent_container_bootstrap_uses_same_machine_uv_cache_contract_as_r
         '-e PYTHONPYCACHEPREFIX="${WORKSPACE_DIR}/.runtime-cache/pycache"',
         'export OPEN_NOTEBOOK_MACHINE_CACHE_ROOT="${OPEN_NOTEBOOK_MACHINE_CACHE_ROOT:-__CONTAINER_MACHINE_CACHE_ROOT__}"',
         'export UV_CACHE_DIR="${UV_CACHE_DIR:-__CONTAINER_UV_CACHE_DIR__}"',
-        'export PYTHONPYCACHEPREFIX="${PYTHONPYCACHEPREFIX:-/workspaces/provenote/.runtime-cache/pycache}"',
+        'export PYTHONPYCACHEPREFIX="${PYTHONPYCACHEPREFIX:-/workspaces/notebooklab/.runtime-cache/pycache}"',
     ):
         assert token in runner_script, (
             "consistent container bootstrap must keep download caches on the machine-wide lane while moving repo-owned runtime/bootstrap state back under .runtime-cache/ci-host"
@@ -229,7 +229,7 @@ def test_runtime_policy_workflow_prefers_owner_supplied_security_read_token() ->
     workflow = (REPO_ROOT / ".github/workflows/test.yml").read_text(encoding="utf-8")
 
     assert (
-        "GH_TOKEN: ${{ secrets.PROVENOTE_SECURITY_READ_TOKEN || github.token }}"
+        "GH_TOKEN: ${{ secrets.NOTEBOOKLAB_SECURITY_READ_TOKEN || github.token }}"
         in workflow
     ), (
         "runtime policy gates must allow an owner-supplied read token to override github.token when hosted CI cannot read GitHub security alert surfaces with the default workflow token"

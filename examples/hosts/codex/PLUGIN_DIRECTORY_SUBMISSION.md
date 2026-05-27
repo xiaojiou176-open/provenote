@@ -32,7 +32,7 @@ In plain language: the Codex plugin package is public-ready in this repository, 
 
 Use those official pages together with:
 
-- [provenote-outcome-bundle/README.md](./provenote-outcome-bundle/README.md)
+- [notebooklab-outcome-bundle/README.md](./notebooklab-outcome-bundle/README.md)
 - [../../../docs/integrations/codex.md](../../../docs/integrations/codex.md)
 - [../../../docs/mcp.md](../../../docs/mcp.md)
 - [../../../tests/ci/test_host_examples_contract.py](../../../tests/ci/test_host_examples_contract.py)
@@ -42,10 +42,10 @@ Use those official pages together with:
 
 | Artifact | Purpose |
 | --- | --- |
-| `provenote-outcome-bundle/.codex-plugin/plugin.json` | plugin-grade bundle manifest |
-| `provenote-outcome-bundle/.mcp.json` | bundle-local MCP wiring to `provenote-mcp` |
-| `provenote-outcome-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md` | bundle-local workflow skill |
-| `provenote-outcome-bundle/README.md` | public-ready package install loop |
+| `notebooklab-outcome-bundle/.codex-plugin/plugin.json` | plugin-grade bundle manifest |
+| `notebooklab-outcome-bundle/.mcp.json` | bundle-local MCP wiring to `notebooklab-mcp` |
+| `notebooklab-outcome-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md` | bundle-local workflow skill |
+| `notebooklab-outcome-bundle/README.md` | public-ready package install loop |
 | `../../../docs/integrations/codex.md` | official-surface-facing compatibility and proof page |
 
 ## What Still Blocks An Official Directory Entry
@@ -61,7 +61,7 @@ Those are not repository-code blockers.
 
 | Item | Current repo-side state | Minimum external action |
 | --- | --- | --- |
-| starter bundle and proof loop | ready in `examples/hosts/codex/provenote-outcome-bundle/` | none |
+| starter bundle and proof loop | ready in `examples/hosts/codex/notebooklab-outcome-bundle/` | none |
 | plugin-directory submission materials | ready in this file plus `docs/integrations/codex.md` | none |
 | official Codex directory entry | no self-serve public listing flow was verified in the official docs above | owner waits for OpenAI to expose or grant an official submission path, then submits the package through that path |
 
@@ -70,7 +70,7 @@ Those are not repository-code blockers.
 Safe now:
 
 - public-ready Codex plugin package available from this repository
-- Provenote works with OpenAI Codex via MCP
+- Notebooklab works with OpenAI Codex via MCP
 - repo-owned plugin-directory submission material is ready
 
 Not safe now:

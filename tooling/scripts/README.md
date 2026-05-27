@@ -81,17 +81,17 @@ Compatibility wrapper around the first-party operator CLI auditable lane.
 Preferred surface:
 
 ```bash
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote auditable-markdown source:123 \
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab auditable-markdown source:123 \
   --output ./exports/
 ```
 
-The wrapper still exists so older operator habits and scripts keep working, but the repo-native first-party surface is now `provenote`.
+The wrapper still exists so older operator habits and scripts keep working, but the repo-native first-party surface is now `notebooklab`.
 
 ### Usage
 
 ```bash
 # Preferred
-bash tooling/scripts/runtime/run_uv_managed.sh run provenote auditable-markdown source:123 \
+bash tooling/scripts/runtime/run_uv_managed.sh run notebooklab auditable-markdown source:123 \
   --output ./exports/
 
 # Backward-compatible wrapper

@@ -42,7 +42,7 @@ mkdir -p "${PYTHONPYCACHEPREFIX}"
 cd "${ROOT_DIR}"
 
 auto_cleanup_machine_cache() {
-  if [[ "${PROVENOTE_MACHINE_CACHE_AUTO_CLEAN:-1}" == "0" ]]; then
+  if [[ "${NOTEBOOKLAB_MACHINE_CACHE_AUTO_CLEAN:-1}" == "0" ]]; then
     return 0
   fi
 
@@ -65,7 +65,7 @@ cleanup_legacy_root_outputs() {
   local egg_info_dir
   for egg_info_dir in \
     "${ROOT_DIR}/open_notebook.egg-info" \
-    "${ROOT_DIR}/provenote.egg-info" \
+    "${ROOT_DIR}/notebooklab.egg-info" \
     "${ROOT_DIR}/auditable_markdown_workbench.egg-info"; do
     find "${egg_info_dir}" -depth -delete 2>/dev/null || true
     rmdir "${egg_info_dir}" 2>/dev/null || true

@@ -30,7 +30,7 @@ export const jaJPSettings = {
     autoDeleteFiles: "ファイル自動削除",
     autoDeletePlaceholder: "自動削除オプションを選択",
     filesHelp:
-      "ファイルがアップロードされて処理されると、ファイル自体は不要になります。ほとんどのユーザーはProvenoteがアップロードフォルダから自動的にファイルを削除することを許可すべきです。",
+      "ファイルがアップロードされて処理されると、ファイル自体は不要になります。ほとんどのユーザーはNotebooklabがアップロードフォルダから自動的にファイルを削除することを許可すべきです。",
     loadFailed: "設定の読み込みに失敗しました",
   },
   advanced: {
@@ -43,7 +43,7 @@ export const jaJPSettings = {
     latestVersion: "最新バージョン",
     status: "ステータス",
     updateAvailable: "バージョン{version}が利用可能",
-    updateAvailableDesc: "Provenoteの新しいバージョンが利用可能です。",
+    updateAvailableDesc: "Notebooklabの新しいバージョンが利用可能です。",
     upToDate: "最新版です",
     unknown: "不明",
     viewOnGithub: "GitHubで表示",
@@ -132,9 +132,9 @@ export const jaJPSettings = {
       "追加するモデルのタイプを選択してください。異なるタイプが必要な場合は、別々のバッチで追加してください。",
     deleteModel: "モデルを削除",
     defaultAssignments: "デフォルトモデル割り当て",
-    defaultAssignmentsDesc: "Provenote全体で異なる目的に使用するモデルを設定",
+    defaultAssignmentsDesc: "Notebooklab全体で異なる目的に使用するモデルを設定",
     missingRequiredModels:
-      "必須モデルがありません: {models}。これらがないとProvenoteが正しく機能しない可能性があります。",
+      "必須モデルがありません: {models}。これらがないとNotebooklabが正しく機能しない可能性があります。",
     selectModelPlaceholder: "モデルを選択",
     requiredModelPlaceholder: "⚠️ 必須 - モデルを選択",
     chatModelLabel: "チャットモデル",
@@ -180,7 +180,7 @@ export const jaJPSettings = {
   },
   apiKeys: {
     title: "独自のAPIキーでAIを設定",
-    description: "APIキーをデータベースに安全に保存し、ProvenoteでAIプロバイダーを有効にします。",
+    description: "APIキーをデータベースに安全に保存し、NotebooklabでAIプロバイダーを有効にします。",
     encryptionRequired: "暗号化キーが設定されていません",
     encryptionRequiredDescription:
       "OPEN_NOTEBOOK_ENCRYPTION_KEY 環境変数に任意の秘密文字列を設定して、データベースへのAPIキーの保存を有効にしてください。",

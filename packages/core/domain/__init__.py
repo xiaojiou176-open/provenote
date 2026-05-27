@@ -1,5 +1,5 @@
 """
-Domain models for Provenote.
+Domain models for Notebooklab.
 
 This module exports the core domain models used throughout the application.
 """

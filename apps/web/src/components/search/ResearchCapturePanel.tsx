@@ -10,9 +10,9 @@ import {
 import { useTranslation } from "@/lib/hooks/use-translation";
 import type { SearchResult } from "@/lib/types/search";
 
-const AUTO_SAVE_ENABLED_KEY = "provenote:research-capture:auto-save-enabled";
-const AUTO_SAVE_NOTEBOOK_KEY = "provenote:research-capture:notebook-id";
-const AUTO_SAVE_CAPTURE_MAP_KEY = "provenote:research-capture:session-map";
+const AUTO_SAVE_ENABLED_KEY = "notebooklab:research-capture:auto-save-enabled";
+const AUTO_SAVE_NOTEBOOK_KEY = "notebooklab:research-capture:notebook-id";
+const AUTO_SAVE_CAPTURE_MAP_KEY = "notebooklab:research-capture:session-map";
 
 interface SessionCaptureEntry {
   threadId: string;

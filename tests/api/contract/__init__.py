@@ -1,4 +1,4 @@
-"""API contract tests for Provenote.
+"""API contract tests for Notebooklab.
 
 These tests verify that:
 1. OpenAPI schema is valid and complete

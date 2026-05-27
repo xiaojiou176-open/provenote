@@ -7,16 +7,16 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 HOST_EXAMPLES_ROOT = REPO_ROOT / "examples" / "hosts"
 CLAUDE_CODE_BUNDLE_ROOT = (
-    HOST_EXAMPLES_ROOT / "claude-code" / "provenote-outcome-bundle"
+    HOST_EXAMPLES_ROOT / "claude-code" / "notebooklab-outcome-bundle"
 )
-CODEX_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "codex" / "provenote-outcome-bundle"
-CURSOR_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "cursor" / "provenote-outcome-bundle"
-OPENCODE_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "opencode" / "provenote-outcome-bundle"
-OPENCLAW_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "openclaw" / "provenote-claude-bundle"
+CODEX_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "codex" / "notebooklab-outcome-bundle"
+CURSOR_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "cursor" / "notebooklab-outcome-bundle"
+OPENCODE_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "opencode" / "notebooklab-outcome-bundle"
+OPENCLAW_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "openclaw" / "notebooklab-claude-bundle"
 OPENCLAW_CURSOR_BUNDLE_ROOT = (
-    HOST_EXAMPLES_ROOT / "openclaw" / "provenote-cursor-bundle"
+    HOST_EXAMPLES_ROOT / "openclaw" / "notebooklab-cursor-bundle"
 )
-OPENCLAW_CODEX_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "openclaw" / "provenote-codex-bundle"
+OPENCLAW_CODEX_BUNDLE_ROOT = HOST_EXAMPLES_ROOT / "openclaw" / "notebooklab-codex-bundle"
 OPENCLAW_EXAMPLES_INDEX = HOST_EXAMPLES_ROOT / "openclaw" / "README.md"
 
 
@@ -38,9 +38,9 @@ def test_openclaw_examples_index_exists_and_lists_bundle_families() -> None:
     assert OPENCLAW_EXAMPLES_INDEX.exists(), "OpenClaw host index should exist"
     text = OPENCLAW_EXAMPLES_INDEX.read_text(encoding="utf-8")
     assert "tracked public-ready OpenClaw-compatible bundle artifacts" in text
-    assert "provenote-claude-bundle" in text
-    assert "provenote-cursor-bundle" in text
-    assert "provenote-codex-bundle" in text
+    assert "notebooklab-claude-bundle" in text
+    assert "notebooklab-cursor-bundle" in text
+    assert "notebooklab-codex-bundle" in text
     assert "the ClawHub skill listing is now live" in text
     assert "not every OpenClaw marketplace, directory, or registry surface is live" in text
 
@@ -69,10 +69,10 @@ def test_openclaw_bundle_example_contains_expected_roots() -> None:
     assert (OPENCLAW_BUNDLE_ROOT / ".mcp.json").exists()
     assert (OPENCLAW_BUNDLE_ROOT / ".claude-plugin" / "plugin.json").exists()
     assert (
-        OPENCLAW_BUNDLE_ROOT / "commands" / "provenote-mcp-outcome-workflows.md"
+        OPENCLAW_BUNDLE_ROOT / "commands" / "notebooklab-mcp-outcome-workflows.md"
     ).exists()
     assert (
-        OPENCLAW_BUNDLE_ROOT / "skills" / "provenote-mcp-outcome-workflows" / "SKILL.md"
+        OPENCLAW_BUNDLE_ROOT / "skills" / "notebooklab-mcp-outcome-workflows" / "SKILL.md"
     ).exists()
 
 
@@ -81,12 +81,12 @@ def test_claude_code_bundle_example_contains_expected_roots() -> None:
     assert (CLAUDE_CODE_BUNDLE_ROOT / ".mcp.json").exists()
     assert (CLAUDE_CODE_BUNDLE_ROOT / ".claude-plugin" / "plugin.json").exists()
     assert (
-        CLAUDE_CODE_BUNDLE_ROOT / "commands" / "provenote-mcp-outcome-workflows.md"
+        CLAUDE_CODE_BUNDLE_ROOT / "commands" / "notebooklab-mcp-outcome-workflows.md"
     ).exists()
     assert (
         CLAUDE_CODE_BUNDLE_ROOT
         / "skills"
-        / "provenote-mcp-outcome-workflows"
+        / "notebooklab-mcp-outcome-workflows"
         / "SKILL.md"
     ).exists()
 
@@ -97,7 +97,7 @@ def test_codex_bundle_example_contains_expected_roots() -> None:
     assert (CODEX_BUNDLE_ROOT / ".codex-plugin" / "plugin.json").exists()
     assert (CODEX_BUNDLE_ROOT / "config.toml.example").exists()
     assert (
-        CODEX_BUNDLE_ROOT / "skills" / "provenote-mcp-outcome-workflows" / "SKILL.md"
+        CODEX_BUNDLE_ROOT / "skills" / "notebooklab-mcp-outcome-workflows" / "SKILL.md"
     ).exists()
 
 
@@ -108,10 +108,10 @@ def test_cursor_bundle_example_contains_expected_roots() -> None:
         CURSOR_BUNDLE_ROOT
         / ".cursor"
         / "commands"
-        / "provenote-mcp-outcome-workflows.md"
+        / "notebooklab-mcp-outcome-workflows.md"
     ).exists()
     assert (
-        CURSOR_BUNDLE_ROOT / "skills" / "provenote-mcp-outcome-workflows" / "SKILL.md"
+        CURSOR_BUNDLE_ROOT / "skills" / "notebooklab-mcp-outcome-workflows" / "SKILL.md"
     ).exists()
 
 
@@ -120,18 +120,18 @@ def test_opencode_bundle_example_contains_expected_roots() -> None:
     assert (OPENCODE_BUNDLE_ROOT / ".mcp.json").exists()
     assert (OPENCODE_BUNDLE_ROOT / "opencode.json").exists()
     assert (
-        OPENCODE_BUNDLE_ROOT / "skills" / "provenote-mcp-outcome-workflows" / "SKILL.md"
+        OPENCODE_BUNDLE_ROOT / "skills" / "notebooklab-mcp-outcome-workflows" / "SKILL.md"
     ).exists()
 
 
-def test_openclaw_bundle_example_targets_provenote_mcp() -> None:
+def test_openclaw_bundle_example_targets_notebooklab_mcp() -> None:
     payload = json.loads(
         (OPENCLAW_BUNDLE_ROOT / ".mcp.json").read_text(encoding="utf-8")
     )
-    assert payload["mcp"]["servers"]["provenote"]["command"] == ["provenote-mcp"]
+    assert payload["mcp"]["servers"]["notebooklab"]["command"] == ["notebooklab-mcp"]
 
 
-def test_direct_host_starter_bundles_target_provenote_mcp() -> None:
+def test_direct_host_starter_bundles_target_notebooklab_mcp() -> None:
     for bundle_root in (
         CLAUDE_CODE_BUNDLE_ROOT,
         CODEX_BUNDLE_ROOT,
@@ -139,7 +139,7 @@ def test_direct_host_starter_bundles_target_provenote_mcp() -> None:
         OPENCODE_BUNDLE_ROOT,
     ):
         payload = json.loads((bundle_root / ".mcp.json").read_text(encoding="utf-8"))
-        assert payload["mcp"]["servers"]["provenote"]["command"] == ["provenote-mcp"]
+        assert payload["mcp"]["servers"]["notebooklab"]["command"] == ["notebooklab-mcp"]
 
 
 def test_opencode_bundle_keeps_repo_owned_local_config() -> None:
@@ -147,15 +147,15 @@ def test_opencode_bundle_keeps_repo_owned_local_config() -> None:
         (OPENCODE_BUNDLE_ROOT / "opencode.json").read_text(encoding="utf-8")
     )
     assert payload["$schema"] == "https://opencode.ai/config.json"
-    assert payload["mcp"]["provenote"]["type"] == "local"
-    assert payload["mcp"]["provenote"]["command"] == ["provenote-mcp"]
+    assert payload["mcp"]["notebooklab"]["type"] == "local"
+    assert payload["mcp"]["notebooklab"]["command"] == ["notebooklab-mcp"]
 
 
 def test_openclaw_bundle_skill_keeps_non_claim_boundary() -> None:
     text = (
-        OPENCLAW_BUNDLE_ROOT / "skills" / "provenote-mcp-outcome-workflows" / "SKILL.md"
+        OPENCLAW_BUNDLE_ROOT / "skills" / "notebooklab-mcp-outcome-workflows" / "SKILL.md"
     ).read_text(encoding="utf-8")
-    assert "not a claim that Provenote already ships official OpenClaw support" in text
+    assert "not a claim that Notebooklab already ships official OpenClaw support" in text
     assert "not a marketplace or directory listing" in text
 
 
@@ -186,7 +186,7 @@ def test_cursor_bundle_example_contains_expected_marker_and_command_root() -> No
         OPENCLAW_CURSOR_BUNDLE_ROOT
         / ".cursor"
         / "commands"
-        / "provenote-mcp-outcome-workflows.md"
+        / "notebooklab-mcp-outcome-workflows.md"
     ).exists()
 
 
@@ -197,7 +197,7 @@ def test_codex_bundle_example_contains_expected_marker_and_skill_root() -> None:
     assert (
         OPENCLAW_CODEX_BUNDLE_ROOT
         / "skills"
-        / "provenote-mcp-outcome-workflows"
+        / "notebooklab-mcp-outcome-workflows"
         / "SKILL.md"
     ).exists()
 
@@ -207,7 +207,7 @@ def test_cursor_bundle_command_file_is_tracked_and_not_ignored() -> None:
         OPENCLAW_CURSOR_BUNDLE_ROOT
         / ".cursor"
         / "commands"
-        / "provenote-mcp-outcome-workflows.md"
+        / "notebooklab-mcp-outcome-workflows.md"
     )
     relative_path = str(command_file.relative_to(REPO_ROOT))
 
@@ -241,5 +241,5 @@ def test_cursor_bundle_command_file_is_tracked_and_not_ignored() -> None:
         text=True,
     )
     assert (
-        "!.cursor/commands/provenote-mcp-outcome-workflows.md" in ignore_result.stdout
+        "!.cursor/commands/notebooklab-mcp-outcome-workflows.md" in ignore_result.stdout
     )

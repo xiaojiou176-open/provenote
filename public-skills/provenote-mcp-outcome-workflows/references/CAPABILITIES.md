@@ -1,4 +1,4 @@
-# Provenote MCP Capabilities
+# Notebooklab MCP Capabilities
 
 These are the MCP tool families this skill expects the host to expose.
 

@@ -300,7 +300,7 @@ def _build_derived_candidates(
         (
             item
             for item in report_surfaces
-            if item.get("name") == "historical-provenote-cache-candidates"
+            if item.get("name") == "historical-notebooklab-cache-candidates"
         ),
         None,
     )
@@ -511,7 +511,7 @@ def main() -> int:
     historical_candidate_bytes_reported = sum(
         item["size_bytes"]
         for item in derived_candidates
-        if item["source_surface"] == "historical-provenote-cache-candidates"
+        if item["source_surface"] == "historical-notebooklab-cache-candidates"
     )
 
     summary: dict[str, Any] = {
@@ -631,7 +631,7 @@ def main() -> int:
         and summary["repo_external_bytes_distinct"] == 0
     ):
         print(
-            "Filtered view note: repo-external machine caches are intentionally omitted when cleanup_owner=cleanup_runtime_cache.sh. Use --inventory-class repo_managed_candidate --action-filter safe_clear,cautious_clear to inspect repo-owned machine caches under ~/.cache/provenote."
+            "Filtered view note: repo-external machine caches are intentionally omitted when cleanup_owner=cleanup_runtime_cache.sh. Use --inventory-class repo_managed_candidate --action-filter safe_clear,cautious_clear to inspect repo-owned machine caches under ~/.cache/notebooklab."
         )
     for section in SECTIONS:
         section_rows = [item for item in report_surfaces if item["section"] == section]

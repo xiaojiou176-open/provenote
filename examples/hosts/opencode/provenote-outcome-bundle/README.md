@@ -1,26 +1,26 @@
-# Provenote OpenCode Starter Bundle
+# Notebooklab OpenCode Starter Bundle
 
 This is a tracked public-ready starter bundle for OpenCode MCP usage.
 
-It exists to make Provenote easier to wire into OpenCode without pretending there is already a public plugin, marketplace package, bundled OpenCode distribution, or official affiliation surface.
+It exists to make Notebooklab easier to wire into OpenCode without pretending there is already a public plugin, marketplace package, bundled OpenCode distribution, or official affiliation surface.
 
 ## What it contains
 
 - `opencode.json`
 - `.mcp.json`
-- `skills/provenote-mcp-outcome-workflows/SKILL.md`
+- `skills/notebooklab-mcp-outcome-workflows/SKILL.md`
 
 ## What it is for
 
 - public-ready OpenCode starter package distribution through this repository
-- read-first Provenote MCP workflows
+- read-first Notebooklab MCP workflows
 - notebook draft / research-thread / auditable-run starter actions
 
 ## How to use it
 
-1. Confirm `provenote-mcp` is available in the environment that launches OpenCode.
+1. Confirm `notebooklab-mcp` is available in the environment that launches OpenCode.
 2. Start from `opencode.json` when adding the local MCP server to your OpenCode config.
-3. Use `.mcp.json` as the repo-owned proof that the bundle still targets the same `provenote-mcp` entrypoint as the other starter bundles.
+3. Use `.mcp.json` as the repo-owned proof that the bundle still targets the same `notebooklab-mcp` entrypoint as the other starter bundles.
 4. Start with one read-first step:
    - list drafts
    - list research threads

@@ -447,14 +447,14 @@ def test_audit_space_surfaces_reports_named_candidates_and_bootstrap_snapshots(
     tmp_path: Path,
 ) -> None:
     home = tmp_path / "home"
-    candidate_dir = home / ".cache" / "provenote-rewrite-snapshot"
+    candidate_dir = home / ".cache" / "notebooklab-rewrite-snapshot"
     candidate_dir.mkdir(parents=True)
     (candidate_dir / "snapshot.txt").write_text("snapshot", encoding="utf-8")
 
     bootstrap_root = (
         home
         / ".cache"
-        / "provenote"
+        / "notebooklab"
         / "ci-host"
         / "bootstrap"
         / "apps-web-node-modules"
@@ -478,7 +478,7 @@ def test_audit_space_surfaces_reports_named_candidates_and_bootstrap_snapshots(
                 "surfaces": [
                     {
                         "name": "machine-ci-host-bootstrap-frontend-cache-root",
-                        "path": "${HOME}/.cache/provenote/ci-host/bootstrap/apps-web-node-modules",
+                        "path": "${HOME}/.cache/notebooklab/ci-host/bootstrap/apps-web-node-modules",
                         "scope": "repo_external",
                         "ownership": "exclusive",
                         "kind": "dependency",
@@ -491,8 +491,8 @@ def test_audit_space_surfaces_reports_named_candidates_and_bootstrap_snapshots(
                         "notes": "tmp",
                     },
                     {
-                        "name": "historical-provenote-cache-candidates",
-                        "path": "${HOME}/.cache/provenote-*",
+                        "name": "historical-notebooklab-cache-candidates",
+                        "path": "${HOME}/.cache/notebooklab-*",
                         "path_kind": "glob",
                         "scope": "repo_external",
                         "ownership": "historical_candidate",
