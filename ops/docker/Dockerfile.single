@@ -81,13 +81,13 @@ COPY ops/supervisor/supervisord.single.conf /etc/supervisor/conf.d/supervisord.c
 RUN mkdir -p /app/.runtime-cache/runs/current/logs/single-container
 
 # Run the single-container image as a non-root user once writable surfaces exist.
-RUN groupadd --system provenote && useradd --system --gid provenote --create-home provenote \
-    && chown -R provenote:provenote /app /mydata /var/log/supervisor
+RUN groupadd --system notebooklab && useradd --system --gid notebooklab --create-home notebooklab \
+    && chown -R notebooklab:notebooklab /app /mydata /var/log/supervisor
 
 # Expose ports
 EXPOSE 8502 5055
 
 # Set startup command
-USER provenote
+USER notebooklab
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

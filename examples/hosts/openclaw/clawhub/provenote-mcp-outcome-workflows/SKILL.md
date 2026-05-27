@@ -1,18 +1,18 @@
 ---
-name: provenote-mcp-outcome-workflows
-description: Use Provenote through the first-party MCP server from a ClawHub publish root without overclaiming a live listing or official compatibility status.
+name: notebooklab-mcp-outcome-workflows
+description: Use Notebooklab through the first-party MCP server from a ClawHub publish root without overclaiming a live listing or official compatibility status.
 ---
 
 # Purpose
 
-Use Provenote's existing first-party MCP surfaces from an OpenClaw-installed skill.
+Use Notebooklab's existing first-party MCP surfaces from an OpenClaw-installed skill.
 
 This is a public-ready ClawHub skill package and canonical publish root.
 It is not proof that the skill is already listed publicly.
 
 # Requirements
 
-Before using this skill, configure an MCP server named `provenote` that can execute `provenote-mcp`.
+Before using this skill, configure an MCP server named `notebooklab` that can execute `notebooklab-mcp`.
 
 # Read-first workflow
 
@@ -33,7 +33,7 @@ Before using this skill, configure an MCP server named `provenote` that can exec
 
 Before calling this skill working, prove all four:
 
-1. the host can execute `provenote-mcp`
+1. the host can execute `notebooklab-mcp`
 2. a read-first tool succeeds
 3. one narrow write-oriented workflow succeeds
 4. the result maps back to an inspectable repo-owned surface
@@ -42,5 +42,5 @@ Before calling this skill working, prove all four:
 
 - public-ready ClawHub skill package from this repository
 - not a live ClawHub listing yet
-- not a claim that Provenote already ships official OpenClaw listing live
+- not a claim that Notebooklab already ships official OpenClaw listing live
 - not a marketplace or directory listing

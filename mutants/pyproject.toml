@@ -1,5 +1,5 @@
 [project]
-name = "provenote"
+name = "notebooklab"
 version = "1.7.4"
 description = "An open source implementation of a research assistant, inspired by Google Notebook LM"
 authors = [
@@ -61,7 +61,7 @@ dev = [
 ]
 
 [project.scripts]
-provenote-mcp = "packages.core.mcp.server:main"
+notebooklab-mcp = "packages.core.mcp.server:main"
 
 [build-system]
 requires = ["setuptools>=61.0"]

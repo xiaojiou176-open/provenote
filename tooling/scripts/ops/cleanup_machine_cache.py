@@ -157,7 +157,7 @@ def _machine_cache_root(indexed: dict[str, dict[str, Any]]) -> Path:
         if surface_name == "machine-playwright-cache":
             return path.parents[1]
         return path.parents[1]
-    return Path.home() / ".cache" / "provenote"
+    return Path.home() / ".cache" / "notebooklab"
 
 
 def _surface_rows(indexed: dict[str, dict[str, Any]]) -> list[dict[str, Any]]:
@@ -357,7 +357,7 @@ def _select_registered_surface_rows(
 def _historical_candidate_rows(
     indexed: dict[str, dict[str, Any]], historical_max_age_days: int
 ) -> list[dict[str, Any]]:
-    surface = indexed.get("historical-provenote-cache-candidates")
+    surface = indexed.get("historical-notebooklab-cache-candidates")
     if surface is None:
         return []
     rows: list[dict[str, Any]] = []

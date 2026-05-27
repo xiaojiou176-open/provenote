@@ -17,7 +17,7 @@ from packages.core.application.commands.source_commands import process_source_co
 from packages.core.observability.logger import configure_process_logging
 
 configure_process_logging(
-    service="provenote-worker",
+    service="notebooklab-worker",
     component="services.worker.runner",
     domain="worker",
     level=os.getenv("LOG_LEVEL", "INFO").upper(),

@@ -19,11 +19,11 @@ Repo files can define the intended public surface. They cannot, by themselves, p
 - Review Date: 2026-04-07 01:24 PDT
 - Review Surface: `gh api repos/...`, `gh repo view`, GitHub live repository page routing, GitHub Docs social-preview guidance, and repo-side asset checks
 - Evidence pointer:
-  - `gh api repos/xiaojiou176-open/provenote --jq '{description:.description,homepage:.homepage,topics:.topics,open_graph_image_url:.open_graph_image_url}'`
-  - `gh repo view xiaojiou176-open/provenote --json name,description,homepageUrl,isPrivate,isFork,defaultBranchRef,repositoryTopics,hasDiscussionsEnabled,url`
-  - `gh release list --repo xiaojiou176-open/provenote`
+  - `gh api repos/xiaojiou176-open/notebooklab --jq '{description:.description,homepage:.homepage,topics:.topics,open_graph_image_url:.open_graph_image_url}'`
+  - `gh repo view xiaojiou176-open/notebooklab --json name,description,homepageUrl,isPrivate,isFork,defaultBranchRef,repositoryTopics,hasDiscussionsEnabled,url`
+  - `gh release list --repo xiaojiou176-open/notebooklab`
   - `gh run list --workflow 'Build and Release' --limit 5`
-  - `curl -L -s https://github.com/xiaojiou176-open/provenote | rg 'og:image'`
+  - `curl -L -s https://github.com/xiaojiou176-open/notebooklab | rg 'og:image'`
   - `curl -L 'https://docs.github.com/api/article/body?pathname=/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/customizing-your-repositorys-social-media-preview'`
   - repo-side social preview assets under `docs/assets/social/`
 
@@ -32,14 +32,14 @@ Repo files can define the intended public surface. They cannot, by themselves, p
 | Surface | Latest observed state |
 | --- | --- |
 | Repo visibility | public |
-| Repo identity | `provenote` |
+| Repo identity | `notebooklab` |
 | Default branch | `main` |
 | Description | `Messy long context -> structured insight -> auditable markdown, research threads, and inspectable outcomes.` |
-| Homepage | `https://xiaojiou176-open.github.io/provenote/` |
+| Homepage | `https://xiaojiou176-open.github.io/notebooklab/` |
 | Topics | `ai-notes`, `auditable-markdown`, `citations`, `knowledge-management`, `long-context`, `mcp`, `notebooks`, `research-assistant`, `research-threads`, `research-workbench`, `source-grounded-writing`, `traceable-writing` |
 | Discussions | enabled |
-| Releases | `Provenote v1.8.5` is published as the current visible GitHub release |
-| Social preview asset in repo | `docs/assets/social/provenote-social-preview.png` exists |
+| Releases | `Notebooklab v1.8.5` is published as the current visible GitHub release |
+| Social preview asset in repo | `docs/assets/social/notebooklab-social-preview.png` exists |
 | Social preview asset dimensions | `1280x640`, `502837 bytes` |
 | Social preview uploaded in GitHub Settings | not currently proven live; GitHub repository API currently reports `open_graph_image_url = null` |
 | GitHub page Open Graph tag | current GitHub API readback does not expose a custom social-preview image for this repository |
@@ -52,7 +52,7 @@ Use this checklist when refreshing the GitHub live page:
 - [ ] Homepage matches the value above
 - [ ] Topics match the value above
 - [ ] Discussions remain enabled
-- [ ] Social preview image uploaded from `docs/assets/social/provenote-social-preview.png`
+- [ ] Social preview image uploaded from `docs/assets/social/notebooklab-social-preview.png`
 - [ ] Repository Settings review confirms the uploaded image is the repo-owned custom social preview
 - [ ] Release page still matches the current `v1.8.5` public proof story
 - [ ] Latest release-event `Build and Release` wave is green and matches the current public release proof story
@@ -64,11 +64,11 @@ Use this when you want to finish the GitHub custom social preview manually witho
 
 Local asset:
 
-- `docs/assets/social/provenote-social-preview.png`
+- `docs/assets/social/notebooklab-social-preview.png`
 
 Settings URL:
 
-- `https://github.com/xiaojiou176-open/provenote/settings`
+- `https://github.com/xiaojiou176-open/notebooklab/settings`
 
 Click path:
 
@@ -78,7 +78,7 @@ Minimum manual steps:
 
 1. Open the repository settings URL above.
 2. Scroll to `Social preview`.
-3. Upload `docs/assets/social/provenote-social-preview.png`.
+3. Upload `docs/assets/social/notebooklab-social-preview.png`.
 4. Save and wait for GitHub to refresh the repository page metadata.
 5. Recheck the public surface and keep the review status at `verified` only if the uploaded image remains visible in the live repository metadata.
 

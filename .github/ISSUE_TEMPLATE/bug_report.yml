@@ -42,7 +42,7 @@ body:
         Please provide any error messages, logs, or screenshots that might help us understand the issue.
 
         **How to get logs:**
-        - Docker: `docker compose logs -f provenote`
+        - Docker: `docker compose logs -f notebooklab`
         - Check browser console (F12 → Console tab)
       placeholder: |
         Paste logs here or drag and drop screenshots.
@@ -54,7 +54,7 @@ body:
   - type: dropdown
     id: version
     attributes:
-      label: Provenote Version
+      label: Notebooklab Version
       description: Which version are you using?
       options:
         - v1-latest (Docker)

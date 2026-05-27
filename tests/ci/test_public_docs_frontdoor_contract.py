@@ -4,7 +4,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PUBLIC_HOST_BUNDLE_INDEX = (
-    "https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/README.md"
+    "https://github.com/xiaojiou176-open/notebooklab/blob/main/examples/hosts/README.md"
 )
 
 

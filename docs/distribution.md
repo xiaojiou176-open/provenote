@@ -1,8 +1,8 @@
 # Distribution Status
 
-This page explains Provenote's current public distribution status without blurring package readiness, public discoverability, and official listing status.
+This page explains Notebooklab's current public distribution status without blurring package readiness, public discoverability, and official listing status.
 
-In plain language: a public GitHub repo can already ship real starter bundles and real proof loops before every external listing goes live. Provenote now also has a live Official MCP Registry entry for `provenote-mcp`, while the rest of the host-specific marketplace lanes remain separate questions.
+In plain language: a public GitHub repo can already ship real starter bundles and real proof loops before every external listing goes live. Notebooklab now also has a live Official MCP Registry entry for `notebooklab-mcp`, while the rest of the host-specific marketplace lanes remain separate questions.
 
 If you want the machine-readable packet inventory behind the host bundle story, start with [../examples/hosts/packet-index.json](../examples/hosts/packet-index.json). That index points at the per-bundle `manifest.yaml` files while this page stays focused on claim levels and listing truth.
 
@@ -19,9 +19,9 @@ If you want the machine-readable packet inventory behind the host bundle story, 
 
 | Surface | Official public surface exists? | Public submission path verified? | Current repo-owned artifact | Current claim level | Official listing live? | Remaining blocker |
 | --- | --- | --- | --- | --- | --- | --- |
-| Claude Code | yes, official Claude Code MCP docs exist and Anthropic documents a discovery surface plus official marketplace submission flows | yes, official marketplace/discovery docs and submission forms are documented | [../examples/hosts/claude-code/provenote-outcome-bundle/README.md](../examples/hosts/claude-code/provenote-outcome-bundle/README.md), [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md), and [integrations/claude-code.md](integrations/claude-code.md) | `public-ready package available` | no | authenticated Anthropic marketplace submission plus directory review and any extra publisher-side materials Anthropic requires |
-| OpenAI Codex | yes, official Codex MCP docs exist | no verified official listing flow was confirmed in this turn | [../examples/hosts/codex/provenote-outcome-bundle/README.md](../examples/hosts/codex/provenote-outcome-bundle/README.md), [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md), and [integrations/codex.md](integrations/codex.md) | `public-ready package available` | no | wait for OpenAI to expose or document an official listing path before claiming more |
-| OpenClaw / ClawHub | yes | yes | [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md), [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md), [../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md), and [integrations/openclaw.md](integrations/openclaw.md) | `ClawHub skill page live` | yes, on ClawHub | broader OpenClaw bundle/plugin validation beyond the live ClawHub skill page remains optional later work |
+| Claude Code | yes, official Claude Code MCP docs exist and Anthropic documents a discovery surface plus official marketplace submission flows | yes, official marketplace/discovery docs and submission forms are documented | [../examples/hosts/claude-code/notebooklab-outcome-bundle/README.md](../examples/hosts/claude-code/notebooklab-outcome-bundle/README.md), [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md), and [integrations/claude-code.md](integrations/claude-code.md) | `public-ready package available` | no | authenticated Anthropic marketplace submission plus directory review and any extra publisher-side materials Anthropic requires |
+| OpenAI Codex | yes, official Codex MCP docs exist | no verified official listing flow was confirmed in this turn | [../examples/hosts/codex/notebooklab-outcome-bundle/README.md](../examples/hosts/codex/notebooklab-outcome-bundle/README.md), [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md), and [integrations/codex.md](integrations/codex.md) | `public-ready package available` | no | wait for OpenAI to expose or document an official listing path before claiming more |
+| OpenClaw / ClawHub | yes | yes | [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md), [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md), [../examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md), and [integrations/openclaw.md](integrations/openclaw.md) | `ClawHub skill page live` | yes, on ClawHub | broader OpenClaw bundle/plugin validation beyond the live ClawHub skill page remains optional later work |
 | Official MCP Registry | yes | yes | [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), [../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md](../examples/public-distribution/mcp-registry/PUBLISHABLE_ARTIFACT.md), [../examples/public-distribution/mcp-registry/server.json](../examples/public-distribution/mcp-registry/server.json), [mcp.md](mcp.md), and [../pyproject.toml](../pyproject.toml) | `official marketplace listing live` | yes | package-backed install artifact upgrades remain optional follow-up work |
 
 ## What Is Already Public-Ready
@@ -29,10 +29,10 @@ If you want the machine-readable packet inventory behind the host bundle story, 
 ### Claude Code
 
 - public setup page: [integrations/claude-code.md](integrations/claude-code.md)
-- public starter bundle: [../examples/hosts/claude-code/provenote-outcome-bundle/README.md](../examples/hosts/claude-code/provenote-outcome-bundle/README.md)
+- public starter bundle: [../examples/hosts/claude-code/notebooklab-outcome-bundle/README.md](../examples/hosts/claude-code/notebooklab-outcome-bundle/README.md)
 - public submission pack: [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md)
 - public verify loop:
-  - confirm `provenote-mcp`
+  - confirm `notebooklab-mcp`
   - register the bundle or `.mcp.json`
   - list drafts / research threads / auditable runs
   - then do one narrow write-oriented workflow
@@ -40,10 +40,10 @@ If you want the machine-readable packet inventory behind the host bundle story, 
 ### OpenAI Codex
 
 - public setup page: [integrations/codex.md](integrations/codex.md)
-- public starter bundle: [../examples/hosts/codex/provenote-outcome-bundle/README.md](../examples/hosts/codex/provenote-outcome-bundle/README.md)
+- public starter bundle: [../examples/hosts/codex/notebooklab-outcome-bundle/README.md](../examples/hosts/codex/notebooklab-outcome-bundle/README.md)
 - public submission pack: [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md)
 - public verify loop:
-  - confirm `provenote-mcp`
+  - confirm `notebooklab-mcp`
   - register the bundle or `.mcp.json`
   - list drafts / research threads / auditable runs
   - then verify or download one concrete outcome
@@ -53,8 +53,8 @@ If you want the machine-readable packet inventory behind the host bundle story, 
 - public setup page: [integrations/openclaw.md](integrations/openclaw.md)
 - public bundle family: [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md)
 - public submission pack: [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md)
-- canonical publish root: [../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md)
-- fresh live read-back: `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`
+- canonical publish root: [../examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md](../examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md)
+- fresh live read-back: `https://clawhub.ai/xiaojiou176/notebooklab-mcp-outcome-workflows`
 - public verify loop:
   - install one checked-in OpenClaw-compatible bundle from the public repo
   - inspect it through OpenClaw's plugin commands
@@ -69,7 +69,7 @@ The current repo now keeps the canonical submission metadata in [../examples/pub
 
 Fresh registry read-back now returns:
 
-- `io.github.xiaojiou176-open/provenote-mcp`
+- `io.github.xiaojiou176-open/notebooklab-mcp`
 - status `active`
 - version `1.8.5`
 
@@ -93,11 +93,11 @@ The repo now has a reusable promotion foundation, but not a complete promotion k
 
 Current tracked assets include:
 
-- [../docs/assets/hero/provenote-hero.png](../docs/assets/hero/provenote-hero.png)
-- [../docs/assets/demo/provenote-quick-result-overview.png](../docs/assets/demo/provenote-quick-result-overview.png)
-- [../docs/assets/proof/provenote-proof-stack.png](../docs/assets/proof/provenote-proof-stack.png)
-- [../docs/assets/architecture/provenote-architecture.png](../docs/assets/architecture/provenote-architecture.png)
-- [../docs/assets/social/provenote-social-preview.png](../docs/assets/social/provenote-social-preview.png)
+- [../docs/assets/hero/notebooklab-hero.png](../docs/assets/hero/notebooklab-hero.png)
+- [../docs/assets/demo/notebooklab-quick-result-overview.png](../docs/assets/demo/notebooklab-quick-result-overview.png)
+- [../docs/assets/proof/notebooklab-proof-stack.png](../docs/assets/proof/notebooklab-proof-stack.png)
+- [../docs/assets/architecture/notebooklab-architecture.png](../docs/assets/architecture/notebooklab-architecture.png)
+- [../docs/assets/social/notebooklab-social-preview.png](../docs/assets/social/notebooklab-social-preview.png)
 
 Those assets already support README framing, proof storytelling, and social-preview upload.
 

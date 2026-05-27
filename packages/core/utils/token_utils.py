@@ -1,5 +1,5 @@
 """
-Token utilities for Provenote.
+Token utilities for Notebooklab.
 Handles token counting and cost calculations for language models.
 """
 

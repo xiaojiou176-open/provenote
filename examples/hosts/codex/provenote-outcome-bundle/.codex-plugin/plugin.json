@@ -1,33 +1,33 @@
 {
-  "name": "provenote-codex-outcome-bundle",
+  "name": "notebooklab-codex-outcome-bundle",
   "version": "1.8.5",
-  "description": "Public-ready Codex plugin bundle for Provenote MCP outcome workflows.",
+  "description": "Public-ready Codex plugin bundle for Notebooklab MCP outcome workflows.",
   "author": {
-    "name": "Provenote maintainers",
-    "url": "https://github.com/xiaojiou176-open/provenote"
+    "name": "Notebooklab maintainers",
+    "url": "https://github.com/xiaojiou176-open/notebooklab"
   },
-  "homepage": "https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/codex/provenote-outcome-bundle/README.md",
-  "repository": "https://github.com/xiaojiou176-open/provenote",
+  "homepage": "https://github.com/xiaojiou176-open/notebooklab/blob/main/examples/hosts/codex/notebooklab-outcome-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176-open/notebooklab",
   "license": "MIT",
   "keywords": [
     "codex",
     "mcp",
-    "provenote",
+    "notebooklab",
     "drafts",
     "research-threads"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Provenote Codex Outcome Bundle",
-    "shortDescription": "Bundle Provenote MCP workflows for Codex.",
-    "longDescription": "Install repo-owned Provenote MCP workflows, read-first skill guidance, and starter configuration in one Codex bundle.",
-    "developerName": "Provenote",
+    "displayName": "Notebooklab Codex Outcome Bundle",
+    "shortDescription": "Bundle Notebooklab MCP workflows for Codex.",
+    "longDescription": "Install repo-owned Notebooklab MCP workflows, read-first skill guidance, and starter configuration in one Codex bundle.",
+    "developerName": "Notebooklab",
     "category": "Productivity",
     "capabilities": [
       "Read",
       "Write"
     ],
-    "websiteURL": "https://github.com/xiaojiou176-open/provenote/blob/main/docs/integrations/codex.md"
+    "websiteURL": "https://github.com/xiaojiou176-open/notebooklab/blob/main/docs/integrations/codex.md"
   }
 }

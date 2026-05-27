@@ -1,4 +1,4 @@
-"""Validation helpers shared by the Provenote MCP server."""
+"""Validation helpers shared by the Notebooklab MCP server."""
 
 from __future__ import annotations
 

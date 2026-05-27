@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Provenote",
-    short_name: "Provenote",
+    name: "Notebooklab",
+    short_name: "Notebooklab",
     description:
       "Turn messy long context into structured insight, auditable markdown, notebook drafts, and outcome-first research workflows.",
     start_url: "/",

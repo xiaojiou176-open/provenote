@@ -1,4 +1,4 @@
-"""API client for Provenote API."""
+"""API client for Notebooklab API."""
 
 import re
 from typing import Any, Dict, List, Optional, Union
@@ -49,7 +49,7 @@ def _sanitize_url(url: str) -> str:
 
 
 class APIClient(OutcomeAPIClientMixin):
-    """Client for Provenote API."""
+    """Client for Notebooklab API."""
 
     def __init__(self, base_url: Optional[str] = None):
         settings = get_settings()

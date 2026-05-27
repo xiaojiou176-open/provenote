@@ -1,8 +1,8 @@
 # AI Notes With Receipts
 
-This page explains the most direct use-case fit for Provenote.
+This page explains the most direct use-case fit for Notebooklab.
 
-In plain language: Provenote is for moments when a normal AI note is not enough because you need to see where the result came from, what was covered, and what still needs review.
+In plain language: Notebooklab is for moments when a normal AI note is not enough because you need to see where the result came from, what was covered, and what still needs review.
 
 ## What Problem It Solves
 
@@ -14,7 +14,7 @@ They are often weaker at showing:
 - which claims are still weak or uncited
 - whether the result is ready to hand off
 
-Provenote is built to keep those questions visible instead of hiding them behind a finished-looking paragraph.
+Notebooklab is built to keep those questions visible instead of hiding them behind a finished-looking paragraph.
 
 ## The Current Outcome Path
 

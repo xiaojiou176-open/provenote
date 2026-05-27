@@ -1,6 +1,6 @@
 # Space Governance Runbook
 
-Use this runbook when you need to understand or reclaim Provenote-related disk usage without guessing.
+Use this runbook when you need to understand or reclaim Notebooklab-related disk usage without guessing.
 
 ## Classification Model
 
@@ -10,7 +10,7 @@ Space governance uses five retention classes only:
 - `rebuildable`: rebuildable output that still has a developer-time cost
 - `evidence`: current proof or diagnostics that should not be auto-cleared
 - `protected`: backup, state, or mixed surfaces that require manual review
-- `shared_layer`: machine-wide surfaces that may be related to Provenote but are not repo-exclusive
+- `shared_layer`: machine-wide surfaces that may be related to Notebooklab but are not repo-exclusive
 
 Clear actions are intentionally separate from rebuildability:
 
@@ -97,7 +97,7 @@ What each lane means:
 - `cleanup-operator-rebuildable`
   - runs `docker-buildx-clean`
   - runs `cleanup_runtime_cache.sh`
-  - applies repo-related machine-cache cleanup for stale bootstrap snapshots and legacy `~/.cache/provenote-*` roots
+  - applies repo-related machine-cache cleanup for stale bootstrap snapshots and legacy `~/.cache/notebooklab-*` roots
 - `cleanup-operator-aggressive`
   - still keeps repo-external machine caches in a repo-related operator lane
   - applies stale bootstrap snapshot cleanup and historical machine-cache
@@ -123,20 +123,20 @@ Some are repo-internal execution targets, while repo-external entries are candid
 - `apps/web/.runtime-cache/build/next/cache`
 - `.runtime-cache/local/ruff-cache`
 - `.runtime-cache/local/mypy-cache`
-- `.runtime-cache/ci-host/home-cache/provenote/python/uv-cache`
+- `.runtime-cache/ci-host/home-cache/notebooklab/python/uv-cache`
 - `.runtime-cache/ci-host/home-cache/pre-commit`
 - `.runtime-cache/ci-host/home-cache/go-build`
 - `.runtime-cache/ci-host/tmp`
-- `${HOME}/.cache/provenote/playwright/ms-playwright`
-- `${HOME}/.cache/provenote/python/uv-cache`
-- `${HOME}/.cache/provenote/ci-host/npm-cache`
+- `${HOME}/.cache/notebooklab/playwright/ms-playwright`
+- `${HOME}/.cache/notebooklab/python/uv-cache`
+- `${HOME}/.cache/notebooklab/ci-host/npm-cache`
 
 Important boundary:
 
 - `apps/web/node_modules` is a repo-local dependency root.
 - `.runtime-cache/ci-host/...` paths are repo-local runtime/bootstrap residue owned by this checkout.
-- `${HOME}/.cache/provenote/...` paths are limited to repo-specific machine download caches.
-- They may both be Provenote-related, but they are **not** the same cleanup lane and must not be collapsed into one bucket by operator docs or scripts.
+- `${HOME}/.cache/notebooklab/...` paths are limited to repo-specific machine download caches.
+- They may both be Notebooklab-related, but they are **not** the same cleanup lane and must not be collapsed into one bucket by operator docs or scripts.
 
 Boundary note:
 
@@ -155,7 +155,7 @@ These keep current proof, backup, state, or tracked worktree context:
 - `.runtime-cache/state/local/data`
 - `.runtime-cache/venv/default`
 - `.runtime-cache/ci-host/bootstrap/apps-web-node-modules`
-- `.runtime-cache/ci-host/home-cache/provenote/python/uv-project-environment`
+- `.runtime-cache/ci-host/home-cache/notebooklab/python/uv-project-environment`
 - `.runtime-cache/test/coverage/apps/web`
 - `.runtime-cache/test/coverage/apps/web-direct`
 - `.runtime-cache/test/coverage-batches/apps-web`
@@ -165,8 +165,8 @@ These keep current proof, backup, state, or tracked worktree context:
 - `.runtime-cache/runs/final-release-proof-*`
 - `.git/cursor`
 - `mutants`
-- `${HOME}/.cache/provenote/open-source-audit`
-- `${HOME}/.cache/provenote-*` historical candidates
+- `${HOME}/.cache/notebooklab/open-source-audit`
+- `${HOME}/.cache/notebooklab-*` historical candidates
 
 ### Bucket 4: Do Not Clear In Repo Automation
 
@@ -180,7 +180,7 @@ These are not repo-managed cleanup targets:
 - `${HOME}/Library/Caches/ms-playwright`
 - `${HOME}/Library/Containers/com.docker.docker`
 - `${HOME}/.docker`
-- `${HOME}/.cache/provenote/browser/chrome-user-data`
+- `${HOME}/.cache/notebooklab/browser/chrome-user-data`
 
 ## Recovery Commands
 
@@ -229,7 +229,7 @@ Current truth boundary:
 
 ## Why Shared Layers Are Not Auto-Cleared
 
-Shared layers are like a building-wide storage room: Provenote may use them, but other projects can be using the same storage at the same time.
+Shared layers are like a building-wide storage room: Notebooklab may use them, but other projects can be using the same storage at the same time.
 
 That is why these paths stay advisory-only in repo automation:
 
@@ -238,17 +238,17 @@ That is why these paths stay advisory-only in repo automation:
 - `${HOME}/Library/Containers/com.docker.docker`
 - `${HOME}/.docker`
 
-They can still appear in audits, but repo-owned cleanup scripts must not treat them as Provenote-exclusive reclaim targets.
+They can still appear in audits, but repo-owned cleanup scripts must not treat them as Notebooklab-exclusive reclaim targets.
 
 The isolated Chrome user-data root is different:
 
-- `${HOME}/.cache/provenote/browser/chrome-user-data`
+- `${HOME}/.cache/notebooklab/browser/chrome-user-data`
 
 It is repo-exclusive, but it is a **permanent browser state surface**, not a clearable download cache. Repo automation must treat it as protected browser state and keep it out of TTL/cap trimming.
 
 ## Docker Runtime Operator Path
 
-Provenote now keeps Docker/buildx cleanup explicit instead of leaving it as tribal knowledge.
+Notebooklab now keeps Docker/buildx cleanup explicit instead of leaving it as tribal knowledge.
 
 - `make docker-runtime-audit`
   - shows repo-related local `open-notebook-ci:*` images, buildx builders, and `docker system df -v` output
@@ -264,7 +264,7 @@ This split matters:
 - local `open-notebook-ci:*` and buildx residue belong to the Docker operator view
 - `apps/web/node_modules` belongs to the repo-local rebuildable dependency view
 - `.runtime-cache/venv/default` and `.runtime-cache/ci-host/...` belong to the repo-local runtime/bootstrap view
-- `~/.cache/provenote/...` belongs to the repo-related machine-cache view only when the surface is a download cache
+- `~/.cache/notebooklab/...` belongs to the repo-related machine-cache view only when the surface is a download cache
 
 ## Inventory Versus Execution
 
@@ -290,15 +290,15 @@ Until a dedicated per-repo Docker attribution lane exists, Docker Desktop should
 
 The canonical repo-specific machine cache root is:
 
-- `${HOME}/.cache/provenote`
+- `${HOME}/.cache/notebooklab`
 
 Important subtrees inside that namespace:
 
-- `${HOME}/.cache/provenote/python/uv-cache`
-- `${HOME}/.cache/provenote/playwright/ms-playwright`
-- `${HOME}/.cache/provenote/ci-host/npm-cache`
+- `${HOME}/.cache/notebooklab/python/uv-cache`
+- `${HOME}/.cache/notebooklab/playwright/ms-playwright`
+- `${HOME}/.cache/notebooklab/ci-host/npm-cache`
 
-Treat this namespace like a repo-owned download shed: it is still Provenote-related space even though it lives outside the checkout, but it should only contain reusable download caches.
+Treat this namespace like a repo-owned download shed: it is still Notebooklab-related space even though it lives outside the checkout, but it should only contain reusable download caches.
 
 ## Historical Candidates Versus Strict Confirmed Usage
 
@@ -311,7 +311,7 @@ The audit intentionally separates four ideas:
 
 This is why the distinct summary can show historical candidates separately from strict confirmed totals. It prevents parent/child double counting and keeps unresolved named candidates from being silently mixed into the confirmed repo footprint.
 
-`~/.cache/provenote-*` entries are migration-only historical candidates. The canonical machine cache root is `~/.cache/provenote`, and entrypoint-triggered machine-cache cleanup now removes stray legacy roots instead of preserving them indefinitely.
+`~/.cache/notebooklab-*` entries are migration-only historical candidates. The canonical machine cache root is `~/.cache/notebooklab`, and entrypoint-triggered machine-cache cleanup now removes stray legacy roots instead of preserving them indefinitely.
 
 ## Bootstrap Snapshot Governance
 

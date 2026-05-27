@@ -1,4 +1,4 @@
-Provenote public proof sample
+Notebooklab public proof sample
 
 This sample exists to exercise the auditable markdown lane with one fixed public input.
 

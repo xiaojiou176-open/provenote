@@ -45,11 +45,11 @@ Every review wave must record at least:
 - Review Surface: GitHub REST code-scanning endpoints plus recent CodeQL workflow history for the current `origin`
 - Reviewer context:
   - authenticated `gh` session with `repo` and `workflow` scopes
-  - current repository: `xiaojiou176-open/provenote`
+  - current repository: `xiaojiou176-open/notebooklab`
 - Evidence pointer:
-  - `gh api 'repos/xiaojiou176-open/provenote/code-scanning/alerts?state=open&per_page=1'` -> `[]`
-  - `gh api 'repos/xiaojiou176-open/provenote/code-scanning/analyses?ref=refs/heads/main&per_page=5'` -> recent `CodeQL` analyses on `refs/heads/main` with `results_count=0`
-  - `gh run list -R xiaojiou176-open/provenote --workflow CodeQL --branch main --limit 5` -> latest push CodeQL run on `main` is `success`
+  - `gh api 'repos/xiaojiou176-open/notebooklab/code-scanning/alerts?state=open&per_page=1'` -> `[]`
+  - `gh api 'repos/xiaojiou176-open/notebooklab/code-scanning/analyses?ref=refs/heads/main&per_page=5'` -> recent `CodeQL` analyses on `refs/heads/main` with `results_count=0`
+  - `gh run list -R xiaojiou176-open/notebooklab --workflow CodeQL --branch main --limit 5` -> latest push CodeQL run on `main` is `success`
 
 Interpretation:
 

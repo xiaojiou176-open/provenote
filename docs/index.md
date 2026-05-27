@@ -1,6 +1,6 @@
 # Documentation
 
-Provenote now uses a layered public docs entrypoint, and this page is the second-ring atlas rather than the first screen.
+Notebooklab now uses a layered public docs entrypoint, and this page is the second-ring atlas rather than the first screen.
 
 The idea is simple: do not make first-time visitors walk through a governance maze just to decide whether the product is worth their time.
 

@@ -1,5 +1,5 @@
 """
-Text utilities for Provenote.
+Text utilities for Notebooklab.
 Extracted from main utils to avoid circular imports.
 """
 

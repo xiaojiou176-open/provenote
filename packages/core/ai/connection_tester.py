@@ -406,7 +406,7 @@ async def test_individual_model(model) -> Tuple[bool, str]:
                 voice = "alloy"
 
             result = await tts_model.agenerate_speech(
-                text="Hello from Provenote", voice=voice
+                text="Hello from Notebooklab", voice=voice
             )
             if result and hasattr(result, "content"):
                 size = len(result.content)

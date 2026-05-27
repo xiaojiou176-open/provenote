@@ -1,4 +1,4 @@
-"""First-party MCP server for Provenote."""
+"""First-party MCP server for Notebooklab."""
 
 from __future__ import annotations
 
@@ -90,7 +90,7 @@ from packages.core.mcp.validation import (
 from packages.core.utils.encryption import get_secret_from_env
 
 MCP_INSTRUCTIONS = (
-    "Use these tools to manage Provenote resources through the local API. "
+    "Use these tools to manage Notebooklab resources through the local API. "
     "All operations are authenticated using OPEN_NOTEBOOK_PASSWORD when configured."
 )
 
@@ -108,7 +108,7 @@ class _ResearchThreadCreateKwargs(TypedDict, total=False):
     search_results: list[dict[str, Any]]
 
 
-mcp = FastMCP(name="provenote", instructions=MCP_INSTRUCTIONS)
+mcp = FastMCP(name="notebooklab", instructions=MCP_INSTRUCTIONS)
 
 # Keep historical test/import anchors stable while the implementation lives
 # in a smaller helper module.
@@ -805,7 +805,7 @@ async def computer_use_control(
 
 
 def main() -> None:
-    """Run the Provenote MCP server over stdio."""
+    """Run the Notebooklab MCP server over stdio."""
     mcp.run(transport="stdio", show_banner=False)
 
 

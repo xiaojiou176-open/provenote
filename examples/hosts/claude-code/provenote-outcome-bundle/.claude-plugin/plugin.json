@@ -1,19 +1,19 @@
 {
-  "id": "provenote-claude-outcome-bundle",
-  "name": "Provenote Claude Outcome Bundle",
+  "id": "notebooklab-claude-outcome-bundle",
+  "name": "Notebooklab Claude Outcome Bundle",
   "version": "1.8.5",
-  "description": "Public-ready Claude Code starter bundle for Provenote MCP outcome workflows.",
+  "description": "Public-ready Claude Code starter bundle for Notebooklab MCP outcome workflows.",
   "author": {
-    "name": "Provenote maintainers",
-    "url": "https://github.com/xiaojiou176-open/provenote"
+    "name": "Notebooklab maintainers",
+    "url": "https://github.com/xiaojiou176-open/notebooklab"
   },
-  "homepage": "https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/claude-code/provenote-outcome-bundle/README.md",
-  "repository": "https://github.com/xiaojiou176-open/provenote",
+  "homepage": "https://github.com/xiaojiou176-open/notebooklab/blob/main/examples/hosts/claude-code/notebooklab-outcome-bundle/README.md",
+  "repository": "https://github.com/xiaojiou176-open/notebooklab",
   "license": "MIT",
   "keywords": [
     "claude-code",
     "mcp",
-    "provenote",
+    "notebooklab",
     "drafts",
     "research-threads"
   ]

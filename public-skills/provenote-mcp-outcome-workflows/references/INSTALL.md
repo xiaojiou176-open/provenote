@@ -1,28 +1,28 @@
-# Install and Connect Provenote MCP
+# Install and Connect Notebooklab MCP
 
 This guide avoids private paths and keeps the install loop portable.
 
 ## What you need
 
-- a local clone of `https://github.com/xiaojiou176-open/provenote`
+- a local clone of `https://github.com/xiaojiou176-open/notebooklab`
 - `uv`
 - a workspace where the host can launch shell commands
 
 ## 1. Clone and install the repo
 
 ```bash
-git clone https://github.com/xiaojiou176-open/provenote.git
-cd provenote
+git clone https://github.com/xiaojiou176-open/notebooklab.git
+cd notebooklab
 uv sync
 ```
 
 ## 2. Make the MCP server launchable
 
-Provenote exposes its MCP server through the repo-owned entrypoint:
+Notebooklab exposes its MCP server through the repo-owned entrypoint:
 
 ```bash
-cd /absolute/path/to/provenote
-uv run provenote-mcp
+cd /absolute/path/to/notebooklab
+uv run notebooklab-mcp
 ```
 
 You do not need to invent a wrapper package. Reuse that command in your host

@@ -41,7 +41,7 @@ def test_each_bundle_manifest_is_present_and_self_describing() -> None:
         assert manifest["supportTier"] == bundle["claimLevel"]
         assert manifest["publicationStatus"] == "repo_owned_packet_not_listed"
         assert manifest["repository"]["type"] == "git"
-        assert manifest["repository"]["url"].endswith("provenote.git")
+        assert manifest["repository"]["url"].endswith("notebooklab.git")
         assert manifest["repository"]["directory"] in str(manifest_path.parent)
         assert manifest["placement"]["relativePath"].endswith("README.md")
         assert manifest["placement"]["discoveryRoots"]

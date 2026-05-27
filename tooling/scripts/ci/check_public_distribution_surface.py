@@ -39,17 +39,17 @@ REQUIRED_FILES = (
 
 REQUIRED_NEEDLES = {
     "README.md": (
-        "live websiteUrl-backed `provenote-mcp` entry",
+        "live websiteUrl-backed `notebooklab-mcp` entry",
     ),
     "docs/project-status.md": (
-        "live Official MCP Registry entry for `provenote-mcp`",
+        "live Official MCP Registry entry for `notebooklab-mcp`",
     ),
     "docs/distribution.md": (
-        "live Official MCP Registry entry for `provenote-mcp`",
+        "live Official MCP Registry entry for `notebooklab-mcp`",
         "package-backed public artifact is still a later packaging upgrade",
     ),
     "docs/mcp.md": (
-        "live websiteUrl-backed entry for `provenote-mcp`",
+        "live websiteUrl-backed entry for `notebooklab-mcp`",
         "the honest boundary is `live registry entry: yes`, `package-backed public artifact: no`, and `other host marketplace listing: no`",
     ),
 }
@@ -60,7 +60,7 @@ PUBLIC_FRONTDOOR_FORBIDDEN_HREFS = (
 )
 
 PUBLIC_FRONTDOOR_REQUIRED_HREFS = (
-    'href="https://github.com/xiaojiou176-open/provenote/blob/main/examples/hosts/README.md"',
+    'href="https://github.com/xiaojiou176-open/notebooklab/blob/main/examples/hosts/README.md"',
 )
 
 

@@ -2,12 +2,12 @@
 
 These examples are tracked, repo-owned host artifacts.
 
-They are companion carry-forward surfaces around the first-party Provenote MCP
+They are companion carry-forward surfaces around the first-party Notebooklab MCP
 server. They help reviewers and operators bring notebook, draft, research
 thread, and auditable-run workflows into host-specific setups after the main
 outcome-workbench story is already clear.
 
-They exist to make Provenote easier to verify and install from real host-facing surfaces without overclaiming:
+They exist to make Notebooklab easier to verify and install from real host-facing surfaces without overclaiming:
 
 - official partnership
 - marketplace publication
@@ -21,20 +21,20 @@ Machine-readable packet metadata now lives in [packet-index.json](./packet-index
 That still does **not** mean:
 
 - an official marketplace or directory listing is live
-- a host vendor endorses Provenote
+- a host vendor endorses Notebooklab
 - a public skills catalog ships from this repo
 
 ## Included now
 
 | Example | Purpose |
 | --- | --- |
-| `claude-code/provenote-outcome-bundle` | A public-ready Claude Code starter bundle with `.claude-plugin`, `.mcp.json`, command markdown, and a local skill for read-first Provenote MCP workflows |
-| `codex/provenote-outcome-bundle` | A public-ready Codex starter bundle with `.codex-plugin`, `.mcp.json`, and a local skill for read-first Provenote MCP workflows |
-| `cursor/provenote-outcome-bundle` | A public-ready Cursor starter bundle with `.mcp.json`, `.cursor/commands`, and a local skill for read-first Provenote MCP workflows |
-| `opencode/provenote-outcome-bundle` | A public-ready OpenCode starter bundle with `opencode.json`, `.mcp.json`, and a local skill for read-first Provenote MCP workflows |
-| `openclaw/provenote-claude-bundle` | A public-ready Claude-style OpenClaw-compatible bundle install pack with plugin markers, `.mcp.json`, commands, and a local skill |
-| `openclaw/provenote-cursor-bundle` | A public-ready Cursor-style OpenClaw-compatible bundle install pack with `.cursor-plugin`, `.cursor/commands`, and `.mcp.json` |
-| `openclaw/provenote-codex-bundle` | A public-ready Codex-style OpenClaw-compatible bundle install pack with `.codex-plugin`, `skills/`, and `.mcp.json` |
+| `claude-code/notebooklab-outcome-bundle` | A public-ready Claude Code starter bundle with `.claude-plugin`, `.mcp.json`, command markdown, and a local skill for read-first Notebooklab MCP workflows |
+| `codex/notebooklab-outcome-bundle` | A public-ready Codex starter bundle with `.codex-plugin`, `.mcp.json`, and a local skill for read-first Notebooklab MCP workflows |
+| `cursor/notebooklab-outcome-bundle` | A public-ready Cursor starter bundle with `.mcp.json`, `.cursor/commands`, and a local skill for read-first Notebooklab MCP workflows |
+| `opencode/notebooklab-outcome-bundle` | A public-ready OpenCode starter bundle with `opencode.json`, `.mcp.json`, and a local skill for read-first Notebooklab MCP workflows |
+| `openclaw/notebooklab-claude-bundle` | A public-ready Claude-style OpenClaw-compatible bundle install pack with plugin markers, `.mcp.json`, commands, and a local skill |
+| `openclaw/notebooklab-cursor-bundle` | A public-ready Cursor-style OpenClaw-compatible bundle install pack with `.cursor-plugin`, `.cursor/commands`, and `.mcp.json` |
+| `openclaw/notebooklab-codex-bundle` | A public-ready Codex-style OpenClaw-compatible bundle install pack with `.codex-plugin`, `skills/`, and `.mcp.json` |
 
 Every bundle above now also carries a `manifest.yaml` packet descriptor so host packet identity, placement, smoke flow, and claim level stay machine-readable instead of living only in prose.
 
@@ -62,17 +62,17 @@ Use these examples as public-ready starter packages from the public Git checkout
 
 | If you want to verify... | Start here | What you get |
 | --- | --- | --- |
-| Claude Code-style local MCP wiring | `claude-code/provenote-outcome-bundle` | `.claude-plugin`, `.mcp.json`, command markdown, and a workspace-local skill |
-| Codex-style local MCP wiring | `codex/provenote-outcome-bundle` | `.codex-plugin`, `.mcp.json`, and a workspace-local skill |
-| Cursor-style local MCP wiring | `cursor/provenote-outcome-bundle` | `.mcp.json`, `.cursor/commands`, and a workspace-local skill |
-| OpenCode local MCP wiring | `opencode/provenote-outcome-bundle` | `opencode.json`, `.mcp.json`, and a workspace-local skill |
-| Claude-style local bundle loading | `openclaw/provenote-claude-bundle` | `.claude-plugin`, `.mcp.json`, command markdown, and a workspace-local skill |
-| Cursor-style command + MCP layout | `openclaw/provenote-cursor-bundle` | `.cursor-plugin`, `.cursor/commands`, `.mcp.json`, and a workspace-local skill |
-| Codex-style MCP + skill bundle | `openclaw/provenote-codex-bundle` | `.codex-plugin`, `.mcp.json`, and a workspace-local skill |
+| Claude Code-style local MCP wiring | `claude-code/notebooklab-outcome-bundle` | `.claude-plugin`, `.mcp.json`, command markdown, and a workspace-local skill |
+| Codex-style local MCP wiring | `codex/notebooklab-outcome-bundle` | `.codex-plugin`, `.mcp.json`, and a workspace-local skill |
+| Cursor-style local MCP wiring | `cursor/notebooklab-outcome-bundle` | `.mcp.json`, `.cursor/commands`, and a workspace-local skill |
+| OpenCode local MCP wiring | `opencode/notebooklab-outcome-bundle` | `opencode.json`, `.mcp.json`, and a workspace-local skill |
+| Claude-style local bundle loading | `openclaw/notebooklab-claude-bundle` | `.claude-plugin`, `.mcp.json`, command markdown, and a workspace-local skill |
+| Cursor-style command + MCP layout | `openclaw/notebooklab-cursor-bundle` | `.cursor-plugin`, `.cursor/commands`, `.mcp.json`, and a workspace-local skill |
+| Codex-style MCP + skill bundle | `openclaw/notebooklab-codex-bundle` | `.codex-plugin`, `.mcp.json`, and a workspace-local skill |
 
 For every bundle, keep the same proof loop:
 
-1. confirm the host can execute `provenote-mcp`
+1. confirm the host can execute `notebooklab-mcp`
 2. install or point the host at the local example bundle
 3. do one read-first step:
    - list drafts
@@ -84,6 +84,6 @@ For every bundle, keep the same proof loop:
 
 - These examples are public-ready starter packages backed by tracked repo artifacts.
 - They can be copied, inspected, and installed from this public repository.
-- They do **not** mean Provenote is already listed in a marketplace or directory.
+- They do **not** mean Notebooklab is already listed in a marketplace or directory.
 - They do **not** mean an official Claude Code, Codex, Cursor, OpenCode, or OpenClaw listing is live.
 - They do **not** mean public skills distribution ships from this repo.

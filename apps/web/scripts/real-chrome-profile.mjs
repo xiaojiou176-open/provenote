@@ -10,13 +10,13 @@ import {
 } from "./shared/browser-instance-identity.mjs";
 
 const DEFAULT_BROWSER_MODE = "real_chrome_profile";
-const DEFAULT_PROFILE_NAME = "provenote";
+const DEFAULT_PROFILE_NAME = "notebooklab";
 const TARGET_PROFILE_KEY = "Profile 1";
 const DEFAULT_START_URL = "about:blank";
 const DEFAULT_CDP_PORT = 9342;
 const DEFAULT_CHROME_EXECUTABLE =
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const DETACHED_CHROME_LAUNCH_ENV = "PROVENOTE_ALLOW_DETACHED_CHROME_LAUNCH";
+const DETACHED_CHROME_LAUNCH_ENV = "NOTEBOOKLAB_ALLOW_DETACHED_CHROME_LAUNCH";
 const SINGLETON_PREFIX = "Singleton";
 const SCRIPT_FILE = fileURLToPath(import.meta.url);
 const SCRIPT_DIR = path.dirname(SCRIPT_FILE);
@@ -32,7 +32,7 @@ export function resolveRepoRoot() {
 }
 
 export function resolveChromeSourceUserDataDir(env = process.env) {
-  const configured = env.PROVENOTE_SOURCE_CHROME_USER_DATA_DIR?.trim();
+  const configured = env.NOTEBOOKLAB_SOURCE_CHROME_USER_DATA_DIR?.trim();
   if (configured) {
     return configured;
   }
@@ -46,23 +46,23 @@ export function resolveChromeSourceUserDataDir(env = process.env) {
 }
 
 export function resolveChromeUserDataDir(env = process.env) {
-  const configured = env.PROVENOTE_CHROME_USER_DATA_DIR?.trim();
+  const configured = env.NOTEBOOKLAB_CHROME_USER_DATA_DIR?.trim();
   if (configured) {
     return configured;
   }
-  return path.join(stableHomeDir(env), ".cache", "provenote", "browser", "chrome-user-data");
+  return path.join(stableHomeDir(env), ".cache", "notebooklab", "browser", "chrome-user-data");
 }
 
 export function resolveChromeProfileName(env = process.env) {
-  return env.PROVENOTE_CHROME_PROFILE_NAME?.trim() || DEFAULT_PROFILE_NAME;
+  return env.NOTEBOOKLAB_CHROME_PROFILE_NAME?.trim() || DEFAULT_PROFILE_NAME;
 }
 
 export function resolveBrowserMode(env = process.env) {
-  return env.PROVENOTE_BROWSER_MODE?.trim() || DEFAULT_BROWSER_MODE;
+  return env.NOTEBOOKLAB_BROWSER_MODE?.trim() || DEFAULT_BROWSER_MODE;
 }
 
 export function resolveChromeCdpPort(env = process.env) {
-  const configured = Number.parseInt(env.PROVENOTE_CHROME_CDP_PORT?.trim() || "", 10);
+  const configured = Number.parseInt(env.NOTEBOOKLAB_CHROME_CDP_PORT?.trim() || "", 10);
   if (Number.isInteger(configured) && configured > 0) {
     return configured;
   }
@@ -74,11 +74,11 @@ export function resolveChromeCdpUrl(env = process.env) {
 }
 
 export function resolveChromeExecutable(env = process.env) {
-  return env.PROVENOTE_CHROME_EXECUTABLE?.trim() || DEFAULT_CHROME_EXECUTABLE;
+  return env.NOTEBOOKLAB_CHROME_EXECUTABLE?.trim() || DEFAULT_CHROME_EXECUTABLE;
 }
 
 export function resolveManualPlaywrightProfileDir(env = process.env) {
-  const configured = env.PROVENOTE_MANAGED_PLAYWRIGHT_PROFILE_DIR?.trim();
+  const configured = env.NOTEBOOKLAB_MANAGED_PLAYWRIGHT_PROFILE_DIR?.trim();
   if (configured) {
     return configured;
   }
@@ -86,7 +86,7 @@ export function resolveManualPlaywrightProfileDir(env = process.env) {
 }
 
 export function resolveBrowserInstanceStateFile(env = process.env) {
-  const configured = env.PROVENOTE_BROWSER_INSTANCE_STATE_FILE?.trim();
+  const configured = env.NOTEBOOKLAB_BROWSER_INSTANCE_STATE_FILE?.trim();
   if (configured) {
     return configured;
   }
@@ -245,7 +245,7 @@ export function buildMigrationPlan(env = process.env) {
   const sourceProfileKey = resolveChromeProfileKey(
     sourceLocalState,
     profileName,
-    env.PROVENOTE_SOURCE_CHROME_PROFILE_KEY,
+    env.NOTEBOOKLAB_SOURCE_CHROME_PROFILE_KEY,
   );
   const sourceProfileDir = path.join(sourceUserDataDir, sourceProfileKey);
   const targetUserDataDir = resolveChromeUserDataDir(env);
@@ -304,16 +304,16 @@ export function buildRealChromeLaunchConfig(env = process.env) {
   const browserMode = resolveBrowserMode(env);
   if (browserMode !== "real_chrome_profile") {
     throw new Error(
-      `real Chrome launcher only supports PROVENOTE_BROWSER_MODE=real_chrome_profile (received ${browserMode})`,
+      `real Chrome launcher only supports NOTEBOOKLAB_BROWSER_MODE=real_chrome_profile (received ${browserMode})`,
     );
   }
 
   const userDataDir = resolveChromeUserDataDir(env);
-  const targetUrl = env.PROVENOTE_BROWSER_URL?.trim() || DEFAULT_START_URL;
+  const targetUrl = env.NOTEBOOKLAB_BROWSER_URL?.trim() || DEFAULT_START_URL;
   const cdpPort = resolveChromeCdpPort(env);
   const cdpUrl = resolveChromeCdpUrl(env);
   const profileName = resolveChromeProfileName(env);
-  const profileKey = env.PROVENOTE_CHROME_PROFILE_KEY?.trim() || TARGET_PROFILE_KEY;
+  const profileKey = env.NOTEBOOKLAB_CHROME_PROFILE_KEY?.trim() || TARGET_PROFILE_KEY;
   const identityPage = buildIdentityPageConfig({
     repoRoot: resolveRepoRoot(),
     env,
@@ -360,7 +360,7 @@ export function buildManagedPlaywrightLaunchConfig(env = process.env) {
   const browserMode = resolveBrowserMode(env);
   if (browserMode !== "managed_playwright") {
     throw new Error(
-      `managed Playwright launcher only supports PROVENOTE_BROWSER_MODE=managed_playwright (received ${browserMode})`,
+      `managed Playwright launcher only supports NOTEBOOKLAB_BROWSER_MODE=managed_playwright (received ${browserMode})`,
     );
   }
 
@@ -369,7 +369,7 @@ export function buildManagedPlaywrightLaunchConfig(env = process.env) {
     browserMode,
     userDataDir: resolveManualPlaywrightProfileDir(env),
     profileKey: "",
-    targetUrl: env.PROVENOTE_BROWSER_URL?.trim() || DEFAULT_START_URL,
+    targetUrl: env.NOTEBOOKLAB_BROWSER_URL?.trim() || DEFAULT_START_URL,
     headless: false,
     channel: "chromium",
     args: [],

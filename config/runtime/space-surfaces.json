@@ -7,7 +7,7 @@
     "historical_max_age_days": 0,
     "bootstrap_stale_max_age_days": 14,
     "bootstrap_keep_generations": 2,
-    "notes": "Auto-clean only applies to repo-specific external clearable caches. Historical provenote-* roots are deleted on sight, while shared layers remain advisory-only."
+    "notes": "Auto-clean only applies to repo-specific external clearable caches. Historical notebooklab-* roots are deleted on sight, while shared layers remain advisory-only."
   },
   "surfaces": [
     {
@@ -508,7 +508,7 @@
     },
     {
       "name": "repo-ci-host-python-uv-cache",
-      "path": ".runtime-cache/ci-host/home-cache/provenote/python/uv-cache",
+      "path": ".runtime-cache/ci-host/home-cache/notebooklab/python/uv-cache",
       "scope": "repo_internal",
       "ownership": "exclusive",
       "kind": "dependency",
@@ -523,7 +523,7 @@
     },
     {
       "name": "repo-ci-host-python-uv-project-environment",
-      "path": ".runtime-cache/ci-host/home-cache/provenote/python/uv-project-environment",
+      "path": ".runtime-cache/ci-host/home-cache/notebooklab/python/uv-project-environment",
       "scope": "repo_internal",
       "ownership": "exclusive",
       "kind": "dependency",
@@ -582,7 +582,7 @@
     },
     {
       "name": "machine-playwright-cache",
-      "path": "${HOME}/.cache/provenote/playwright/ms-playwright",
+      "path": "${HOME}/.cache/notebooklab/playwright/ms-playwright",
       "scope": "repo_external",
       "ownership": "exclusive",
       "kind": "dependency",
@@ -598,7 +598,7 @@
     },
     {
       "name": "machine-uv-cache",
-      "path": "${HOME}/.cache/provenote/python/uv-cache",
+      "path": "${HOME}/.cache/notebooklab/python/uv-cache",
       "scope": "repo_external",
       "ownership": "exclusive",
       "kind": "dependency",
@@ -614,7 +614,7 @@
     },
     {
       "name": "machine-ci-host-npm-cache",
-      "path": "${HOME}/.cache/provenote/ci-host/npm-cache",
+      "path": "${HOME}/.cache/notebooklab/ci-host/npm-cache",
       "scope": "repo_external",
       "ownership": "exclusive",
       "kind": "dependency",
@@ -630,7 +630,7 @@
     },
     {
       "name": "machine-browser-chrome-user-data",
-      "path": "${HOME}/.cache/provenote/browser/chrome-user-data",
+      "path": "${HOME}/.cache/notebooklab/browser/chrome-user-data",
       "scope": "repo_external",
       "ownership": "exclusive",
       "kind": "state",
@@ -644,7 +644,7 @@
     },
     {
       "name": "machine-tooling-bin",
-      "path": "${HOME}/.cache/provenote/tooling/bin",
+      "path": "${HOME}/.cache/notebooklab/tooling/bin",
       "scope": "repo_external",
       "ownership": "exclusive",
       "kind": "tooling",
@@ -659,7 +659,7 @@
     },
     {
       "name": "machine-open-source-audit",
-      "path": "${HOME}/.cache/provenote/open-source-audit",
+      "path": "${HOME}/.cache/notebooklab/open-source-audit",
       "scope": "repo_external",
       "ownership": "historical_candidate",
       "kind": "backup",
@@ -743,8 +743,8 @@
       "notes": "Docker client configuration. Shared machine-level surface, not repo-managed cleanup."
     },
     {
-      "name": "historical-provenote-cache-candidates",
-      "path": "${HOME}/.cache/provenote-*",
+      "name": "historical-notebooklab-cache-candidates",
+      "path": "${HOME}/.cache/notebooklab-*",
       "path_kind": "glob",
       "scope": "repo_external",
       "ownership": "historical_candidate",
@@ -755,7 +755,7 @@
       "inventory_class": "advisory_only",
       "owner_evidence": "tooling/scripts/runtime/cache_env.sh",
       "rebuild_command": "",
-      "notes": "Historical or ad-hoc provenote-named cache candidates outside the canonical machine cache root."
+      "notes": "Historical or ad-hoc notebooklab-named cache candidates outside the canonical machine cache root."
     }
   ]
 }

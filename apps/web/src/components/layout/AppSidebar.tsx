@@ -278,7 +278,7 @@ export function AppSidebar({ mobileOpen = false, onMobileOpenChange }: AppSideba
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-sidebar-border/80 bg-sidebar-accent/70 shadow-[0_14px_28px_oklch(18%_0.02_45deg_/10%)]">
                 <Image
                   src="/logo.svg"
-                  alt="Provenote"
+                  alt="Notebooklab"
                   width={28}
                   height={28}
                   className="transition-opacity group-hover:opacity-0"

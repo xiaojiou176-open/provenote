@@ -1,6 +1,6 @@
 # From Source To Verified Draft
 
-This page describes the shortest higher-confidence workflow in Provenote.
+This page describes the shortest higher-confidence workflow in Notebooklab.
 
 In plain language: if you want one concrete reason to try the product, it is the ability to move from one source to a verified draft with visible checkpoints along the way.
 

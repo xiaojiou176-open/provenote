@@ -73,7 +73,7 @@ from services.api.routers import (
 )
 from services.api.routers import commands as commands_router
 
-SERVICE_NAME = "provenote-api"
+SERVICE_NAME = "notebooklab-api"
 COMPONENT_NAME = "services.api.http"
 DOMAIN_NAME = "http"
 ALLOWED_LOG_LEVELS = {
@@ -213,7 +213,7 @@ def _inject_log_context(record: Any) -> None:
     extra.setdefault("test_id", test_id_ctx.get())
     extra.setdefault("artifact_group", artifact_group_ctx.get())
     extra.setdefault("component", "services.api.http")
-    extra.setdefault("service", "provenote-api")
+    extra.setdefault("service", "notebooklab-api")
     extra.setdefault("domain", "http")
     extra.setdefault("error_class", "-")
     extra.setdefault("error_stack", "-")
@@ -456,8 +456,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Provenote API",
-    description="API for Provenote, a source-grounded and auditable research workbench.",
+    title="Notebooklab API",
+    description="API for Notebooklab, a source-grounded and auditable research workbench.",
     lifespan=lifespan,
 )
 
@@ -711,7 +711,7 @@ app.include_router(computer_use.router, prefix="/api", tags=["computer-use"])
 
 @app.get("/")
 async def root():
-    return {"message": "Provenote API is running"}
+    return {"message": "Notebooklab API is running"}
 
 
 @app.get("/health")

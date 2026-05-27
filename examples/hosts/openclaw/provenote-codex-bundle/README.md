@@ -1,4 +1,4 @@
-# Provenote Codex-Style Bundle
+# Notebooklab Codex-Style Bundle
 
 This is a tracked public-ready Codex-style bundle package.
 
@@ -8,14 +8,14 @@ It exists so OpenClaw-compatible bundle detection and Codex-style bundle markers
 
 - `.codex-plugin/plugin.json`
 - `.mcp.json`
-- `skills/provenote-mcp-outcome-workflows/SKILL.md`
+- `skills/notebooklab-mcp-outcome-workflows/SKILL.md`
 
 ## Local install loop
 
 ```bash
-openclaw plugins install ./examples/hosts/openclaw/provenote-codex-bundle
+openclaw plugins install ./examples/hosts/openclaw/notebooklab-codex-bundle
 openclaw plugins list
-openclaw plugins info provenote-codex-bundle
+openclaw plugins info notebooklab-codex-bundle
 openclaw gateway restart
 ```
 

@@ -1,8 +1,8 @@
 # Project Status
 
-This page explains the current public status boundary for Provenote.
+This page explains the current public status boundary for Notebooklab.
 
-In plain language: Provenote already has a strong repo-documented local proof loop, public-ready starter packages for several hosts, and a clearer distribution matrix. It now also has a live Official MCP Registry entry for `provenote-mcp`, but that is still not the same thing as claiming a hosted product, official vendor endorsement, or every other external listing being live.
+In plain language: Notebooklab already has a strong repo-documented local proof loop, public-ready starter packages for several hosts, and a clearer distribution matrix. It now also has a live Official MCP Registry entry for `notebooklab-mcp`, but that is still not the same thing as claiming a hosted product, official vendor endorsement, or every other external listing being live.
 
 ## What Is Already Repo-Documented
 
@@ -65,8 +65,8 @@ The plain-language rule is simple: a public GitHub bundle can already be `public
 
 | Surface | Official public surface exists? | Current repo-owned artifact | Current claim level | Listing live? | What still needs owner or platform action |
 | --- | --- | --- | --- | --- | --- |
-| Claude Code | yes, official Claude Code MCP docs exist and Anthropic now documents a public discovery surface plus marketplace submission forms | [integrations/claude-code.md](integrations/claude-code.md), [../examples/hosts/claude-code/provenote-outcome-bundle/README.md](../examples/hosts/claude-code/provenote-outcome-bundle/README.md), and [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md) | `public-ready package available` | no | authenticated Anthropic submission, marketplace review, and any additional publisher-side materials Anthropic requires at submission time |
-| OpenAI Codex | yes, official Codex MCP docs exist | [integrations/codex.md](integrations/codex.md), [../examples/hosts/codex/provenote-outcome-bundle/README.md](../examples/hosts/codex/provenote-outcome-bundle/README.md), and [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md) | `public-ready package available` | no | wait for OpenAI to expose or document an official listing path before claiming more |
+| Claude Code | yes, official Claude Code MCP docs exist and Anthropic now documents a public discovery surface plus marketplace submission forms | [integrations/claude-code.md](integrations/claude-code.md), [../examples/hosts/claude-code/notebooklab-outcome-bundle/README.md](../examples/hosts/claude-code/notebooklab-outcome-bundle/README.md), and [../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md](../examples/hosts/claude-code/DIRECTORY_SUBMISSION.md) | `public-ready package available` | no | authenticated Anthropic submission, marketplace review, and any additional publisher-side materials Anthropic requires at submission time |
+| OpenAI Codex | yes, official Codex MCP docs exist | [integrations/codex.md](integrations/codex.md), [../examples/hosts/codex/notebooklab-outcome-bundle/README.md](../examples/hosts/codex/notebooklab-outcome-bundle/README.md), and [../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md) | `public-ready package available` | no | wait for OpenAI to expose or document an official listing path before claiming more |
 | OpenClaw / ClawHub | yes, OpenClaw plugin, bundle, and ClawHub docs exist | [integrations/openclaw.md](integrations/openclaw.md), [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md), and [../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md](../examples/hosts/openclaw/CLAWHUB_SUBMISSION.md) | `ClawHub skill page live` | yes, on ClawHub | broader OpenClaw bundle/plugin surfaces remain optional later validation, but the ClawHub skill page is already live |
 | Official MCP Registry | yes, the registry and publish path exist | [distribution.md](distribution.md), [../server.json](../server.json), [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), [mcp.md](mcp.md), and [../pyproject.toml](../pyproject.toml) | `official marketplace listing live` | yes | later package-backed install artifact improvements are optional, not blockers for the live entry |
 
@@ -75,11 +75,11 @@ The plain-language rule is simple: a public GitHub bundle can already be `public
 | Surface | Safe current reading | Not claimed | Strongest proof or boundary page |
 | --- | --- | --- | --- |
 | Claude Code / Codex / Cursor / OpenCode | compatibility through the first-party MCP server, with repo-backed public-ready starter bundles | official partnership, bundled integration, plugin-store or marketplace status | [mcp.md](mcp.md) plus the host pages under [integrations/](integrations/) |
-| `provenote` CLI | a first-party terminal/operator surface for current outcome objects | a separate distributed product line | [runbooks/operator-cli.md](runbooks/operator-cli.md) |
+| `notebooklab` CLI | a first-party terminal/operator surface for current outcome objects | a separate distributed product line | [runbooks/operator-cli.md](runbooks/operator-cli.md) |
 | public skills surface | tracked public-ready skill packets now exist under `../public-skills/` for host-specific submission flows | skills marketplace, public catalog, or host-specific program endorsement before a real external listing is live | this page, [faq.md](faq.md), [mcp.md](mcp.md), and [../public-skills/README.md](../public-skills/README.md) |
 | OpenClaw | a live ClawHub skill listing now exists alongside the repo-owned public-ready bundle artifacts | official partnership, vendor endorsement, or every OpenClaw marketplace surface being live | this page, [faq.md](faq.md), [integrations/openclaw.md](integrations/openclaw.md), and [../examples/hosts/openclaw/README.md](../examples/hosts/openclaw/README.md) |
-| Official MCP Registry | the official registry now returns a live active entry for `io.github.xiaojiou176-open/provenote-mcp` | vendor endorsement, hosted runtime, or a package-backed install guarantee | this page, [distribution.md](distribution.md), [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), and [mcp.md](mcp.md) |
-| plugin / marketplace / directory presence | some official host surfaces are already live for Provenote (ClawHub and Official MCP Registry), but broader plugin/directory coverage is not universally live today | shipped listing-live truth on selected lanes only | this page and the host pages' non-claim language |
+| Official MCP Registry | the official registry now returns a live active entry for `io.github.xiaojiou176-open/notebooklab-mcp` | vendor endorsement, hosted runtime, or a package-backed install guarantee | this page, [distribution.md](distribution.md), [../examples/public-distribution/mcp-registry/README.md](../examples/public-distribution/mcp-registry/README.md), and [mcp.md](mcp.md) |
+| plugin / marketplace / directory presence | some official host surfaces are already live for Notebooklab (ClawHub and Official MCP Registry), but broader plugin/directory coverage is not universally live today | shipped listing-live truth on selected lanes only | this page and the host pages' non-claim language |
 | release / domain / trademark / partnership | owner or platform decision layer | finished repo-side proof | this page and [brand-domain.md](brand-domain.md) |
 
 ## Current External Window Snapshot
@@ -89,11 +89,11 @@ The current repo can already prepare the storefront materials without claiming t
 | Surface | Fresh current state | What still needs owner or platform action |
 | --- | --- | --- |
 | GitHub repository description | already synced to the current public positioning | only change it if the public brand story changes again |
-| GitHub homepage field | currently points to the GitHub Pages front door at `https://xiaojiou176-open.github.io/provenote/` | decide later whether the long-term homepage should stay on GitHub Pages, move to a custom docs site, or move to a custom domain |
-| Release surface | `Provenote v1.8.5` is published and reflects the current canonical release line | owner decides later whether to publish newer releases or adjust future release copy/assets |
+| GitHub homepage field | currently points to the GitHub Pages front door at `https://xiaojiou176-open.github.io/notebooklab/` | decide later whether the long-term homepage should stay on GitHub Pages, move to a custom docs site, or move to a custom domain |
+| Release surface | `Notebooklab v1.8.5` is published and reflects the current canonical release line | owner decides later whether to publish newer releases or adjust future release copy/assets |
 | Claude Code / Codex starter bundles | public-ready package artifacts already exist in the repo | Claude Code now has an official marketplace/discovery surface, but live submission and review remain external; Codex official listing status remains separate and unclaimed |
-| OpenClaw bundle family | public-ready bundle artifacts exist in the repo and the ClawHub skill page is now live at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows` | broader OpenClaw bundle/plugin storefront validation remains optional later work |
-| Official MCP Registry | the public registry now returns an active `provenote-mcp` entry | package-backed install artifact upgrades remain optional follow-up work |
+| OpenClaw bundle family | public-ready bundle artifacts exist in the repo and the ClawHub skill page is now live at `https://clawhub.ai/xiaojiou176/notebooklab-mcp-outcome-workflows` | broader OpenClaw bundle/plugin storefront validation remains optional later work |
+| Official MCP Registry | the public registry now returns an active `notebooklab-mcp` entry | package-backed install artifact upgrades remain optional follow-up work |
 | custom domain / redirect | not claimed here | domain registration, DNS, and redirect setup remain external |
 | trademark / naming clearance | not claimed here | owner or counsel must decide whether a stronger public naming move is safe |
 | directory / marketplace / partnership surfaces | not claimed here | separate platform submission or agreement is required before any public claim changes |
@@ -111,7 +111,7 @@ If you only want the shortest honest evaluation loop:
 
 ## Current Non-Claims
 
-This page intentionally does **not** claim that Provenote is:
+This page intentionally does **not** claim that Notebooklab is:
 
 - a hosted SaaS by default
 - officially endorsed by Anthropic, OpenAI, Cursor, OpenCode, or OpenClaw

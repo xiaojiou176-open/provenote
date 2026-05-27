@@ -7,8 +7,8 @@ cd "${ROOT_DIR}"
 source tooling/scripts/ci/commit_governance_lib.sh
 enforce_commit_governance_env_safety
 
-CANONICAL_HUMAN_NAME="${PROVENOTE_CANONICAL_HUMAN_NAME:-}"
-CANONICAL_HUMAN_EMAIL="${PROVENOTE_CANONICAL_HUMAN_EMAIL:-}"
+CANONICAL_HUMAN_NAME="${NOTEBOOKLAB_CANONICAL_HUMAN_NAME:-}"
+CANONICAL_HUMAN_EMAIL="${NOTEBOOKLAB_CANONICAL_HUMAN_EMAIL:-}"
 if [[ -z "${CANONICAL_HUMAN_NAME}" ]]; then
   CANONICAL_HUMAN_NAME="$(git config --get user.name || true)"
 fi

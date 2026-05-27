@@ -1,8 +1,8 @@
 # Source-Grounded AI Research
 
-This page explains one of the highest-value ways to use Provenote today.
+This page explains one of the highest-value ways to use Notebooklab today.
 
-In plain language: use Provenote when you want AI-assisted research that stays tied to actual sources instead of dissolving into a long chat you cannot audit later.
+In plain language: use Notebooklab when you want AI-assisted research that stays tied to actual sources instead of dissolving into a long chat you cannot audit later.
 
 ## The Core Path
 
@@ -27,9 +27,9 @@ They are much weaker when you later need to answer questions like:
 - what changed between one draft and the next?
 - can I hand this result to another person or agent without losing the trail?
 
-Provenote's current repo-documented answer is to keep the source base, the research thread, and the outcome lane connected instead of treating them as separate products.
+Notebooklab's current repo-documented answer is to keep the source base, the research thread, and the outcome lane connected instead of treating them as separate products.
 
-## What Provenote Already Gives You
+## What Notebooklab Already Gives You
 
 Current repo truth supports:
 

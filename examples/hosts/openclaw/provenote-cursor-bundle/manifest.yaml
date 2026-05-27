@@ -1,20 +1,20 @@
 schemaVersion: "1.0.0"
 kind: host_packet
-id: provenote-openclaw-cursor-bundle
-name: Provenote outcome bundle
-description: Public-ready OpenClaw-compatible Cursor-style bundle for read-first Provenote MCP workflows.
+id: notebooklab-openclaw-cursor-bundle
+name: Notebooklab outcome bundle
+description: Public-ready OpenClaw-compatible Cursor-style bundle for read-first Notebooklab MCP workflows.
 version: "1.8.5"
 license: MIT
-homepage: https://github.com/xiaojiou176-open/provenote/tree/main/examples/hosts/openclaw/provenote-cursor-bundle
+homepage: https://github.com/xiaojiou176-open/notebooklab/tree/main/examples/hosts/openclaw/notebooklab-cursor-bundle
 repository:
   type: git
-  url: git+https://github.com/xiaojiou176-open/provenote.git
-  directory: examples/hosts/openclaw/provenote-cursor-bundle
+  url: git+https://github.com/xiaojiou176-open/notebooklab.git
+  directory: examples/hosts/openclaw/notebooklab-cursor-bundle
 supportTier: public-ready package available
 publicationStatus: repo_owned_packet_not_listed
 host: OpenClaw (Cursor-style)
 placement:
-  relativePath: examples/hosts/openclaw/provenote-cursor-bundle/README.md
+  relativePath: examples/hosts/openclaw/notebooklab-cursor-bundle/README.md
   discoveryRoots:
     - .cursor-plugin/plugin.json
     - .mcp.json
@@ -23,15 +23,15 @@ packetArtifacts:
   - .cursor-plugin/plugin.json
   - .mcp.json
 capabilities:
-  - provenote.list_drafts
-  - provenote.list_research_threads
-  - provenote.list_auditable_runs
-  - provenote.research_thread.to_draft
-  - provenote.draft.verify
+  - notebooklab.list_drafts
+  - notebooklab.list_research_threads
+  - notebooklab.list_auditable_runs
+  - notebooklab.research_thread.to_draft
+  - notebooklab.draft.verify
 smoke:
   path: README.md
   minimalFlow:
-    - Confirm provenote-mcp is installed and reachable.
+    - Confirm notebooklab-mcp is installed and reachable.
     - Register the Cursor-style bundle with OpenClaw.
     - Run one read-first MCP action such as listing drafts or research threads.
   preferredFlow:

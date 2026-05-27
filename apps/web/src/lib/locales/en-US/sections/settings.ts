@@ -30,7 +30,7 @@ export const enUSSettings = {
     autoDeleteFiles: "Auto Delete Files",
     autoDeletePlaceholder: "Select auto delete option",
     filesHelp:
-      "Once your files are uploaded and processed, they are not required anymore. Most users should allow Provenote to delete uploaded files from the upload folder automatically.",
+      "Once your files are uploaded and processed, they are not required anymore. Most users should allow Notebooklab to delete uploaded files from the upload folder automatically.",
     loadFailed: "Failed to load settings",
   },
   advanced: {
@@ -43,7 +43,7 @@ export const enUSSettings = {
     latestVersion: "Latest Version",
     status: "Status",
     updateAvailable: "Version {version} Available",
-    updateAvailableDesc: "A new version of Provenote is available.",
+    updateAvailableDesc: "A new version of Notebooklab is available.",
     upToDate: "Up to Date",
     unknown: "Unknown",
     viewOnGithub: "View on GitHub",
@@ -164,9 +164,9 @@ export const enUSSettings = {
       "Select the type for the models you want to add. If you need different types, add them in separate batches.",
     deleteModel: "Delete Model",
     defaultAssignments: "Default Model Assignments",
-    defaultAssignmentsDesc: "Configure which models to use for different purposes across Provenote",
+    defaultAssignmentsDesc: "Configure which models to use for different purposes across Notebooklab",
     missingRequiredModels:
-      "Missing required models: {models}. Provenote may not function properly without these.",
+      "Missing required models: {models}. Notebooklab may not function properly without these.",
     selectModelPlaceholder: "Select a model",
     requiredModelPlaceholder: "⚠️ Required - Select a model",
     chatModelLabel: "Chat Model",

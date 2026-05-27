@@ -1,8 +1,8 @@
 # Long Context To Structured Notes
 
-This page explains the most direct fit for messy, oversized source material in Provenote.
+This page explains the most direct fit for messy, oversized source material in Notebooklab.
 
-In plain language: when the raw material is too long to keep re-reading or re-pasting, Provenote can help you turn it into a structured knowledge asset before you continue the work.
+In plain language: when the raw material is too long to keep re-reading or re-pasting, Notebooklab can help you turn it into a structured knowledge asset before you continue the work.
 
 ## Best-Fit Inputs
 
@@ -67,11 +67,11 @@ They are weaker when you later need to answer:
 - what should be carried forward as reusable knowledge?
 - how do I turn this into the next research or writing step without starting over?
 
-Provenote's current answer is not "chat harder." It is "structure the long context first, then continue from a stronger artifact."
+Notebooklab's current answer is not "chat harder." It is "structure the long context first, then continue from a stronger artifact."
 
 ## Current Honest Boundary
 
-This page does **not** claim that Provenote already turns every long-context transformation directly into a final draft or a hosted team workflow with one click.
+This page does **not** claim that Notebooklab already turns every long-context transformation directly into a final draft or a hosted team workflow with one click.
 
 The honest current repo story is:
 
@@ -84,7 +84,7 @@ The honest current repo story is:
 - the current app starter and source-insight surfaces now point more directly at that ladder instead of leaving it buried in separate panels
 - the current source-insight list and dialog now surface that ladder more explicitly, with `Save as note` kept as the lightest next step ahead of broader research actions
 
-This page still does **not** claim that Provenote automatically turns every structured insight directly into a draft. The current bridge can persist into notes, seed the Ask lane, or capture into a notebook research thread, but it is still not a one-click all-outcomes shortcut.
+This page still does **not** claim that Notebooklab automatically turns every structured insight directly into a draft. The current bridge can persist into notes, seed the Ask lane, or capture into a notebook research thread, but it is still not a one-click all-outcomes shortcut.
 
 ## Where To Go Next
 

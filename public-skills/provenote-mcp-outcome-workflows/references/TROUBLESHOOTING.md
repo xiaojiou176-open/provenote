@@ -1,4 +1,4 @@
-# Provenote Troubleshooting
+# Notebooklab Troubleshooting
 
 Use this page when the packet looks correct but the first real read-first
 workflow still does not succeed.
@@ -9,7 +9,7 @@ Check these first:
 
 - the local clone exists and the install steps from `INSTALL.md` finished
 - the host config points at the right command, args, and working directory
-- the environment has the expected dependencies available for `provenote-mcp`
+- the environment has the expected dependencies available for `notebooklab-mcp`
 
 If launch still fails, report it as a local install or config problem instead
 of claiming the packet is attach-ready.
@@ -45,6 +45,6 @@ Point back to `DEMO.md` and verify these signals:
 
 ## 5. Boundary reminder
 
-This packet teaches a local, first-party Provenote MCP workflow. It does not
+This packet teaches a local, first-party Notebooklab MCP workflow. It does not
 claim a hosted SaaS, a live marketplace listing, or a universal always-ready
 workspace.

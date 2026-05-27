@@ -780,7 +780,7 @@ async def test_config_router_cache_and_health_branches(
     monkeypatch.setattr(
         config_router,
         "VERSION_CHECK_REPO_URL",
-        "https://github.com/example/provenote-release-channel",
+        "https://github.com/example/notebooklab-release-channel",
     )
     config_router._version_cache.update(
         {

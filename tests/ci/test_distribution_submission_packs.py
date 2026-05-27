@@ -46,24 +46,24 @@ def test_codex_directory_submission_pack_tracks_official_surface_limits() -> Non
 
 def test_openclaw_submission_pack_points_to_canonical_publish_skill() -> None:
     text = _read("examples/hosts/openclaw/CLAWHUB_SUBMISSION.md")
-    assert "clawhub/provenote-mcp-outcome-workflows/SKILL.md" in text
+    assert "clawhub/notebooklab-mcp-outcome-workflows/SKILL.md" in text
     assert "authenticated publish and sync flows" in text
     assert "https://docs.openclaw.ai/tools/clawhub" in text
     assert "clawhub skill publish <path>" in text
     assert "clawhub package publish <source> --dry-run" in text
     skill = _read(
-        "examples/hosts/openclaw/clawhub/provenote-mcp-outcome-workflows/SKILL.md"
+        "examples/hosts/openclaw/clawhub/notebooklab-mcp-outcome-workflows/SKILL.md"
     )
     assert "public-ready ClawHub skill package" in skill
     assert (
-        "not a claim that Provenote already ships official OpenClaw listing live"
+        "not a claim that Notebooklab already ships official OpenClaw listing live"
         in skill
     )
 
 
 def test_mcp_registry_submission_pack_exists_and_points_to_docs() -> None:
     payload = json.loads(_read("examples/public-distribution/mcp-registry/server.json"))
-    assert payload["name"] == "io.github.xiaojiou176-open/provenote-mcp"
+    assert payload["name"] == "io.github.xiaojiou176-open/notebooklab-mcp"
     assert payload["websiteUrl"].endswith("/docs/mcp.md")
     assert payload["version"] == "1.8.5"
     readme = _read("examples/public-distribution/mcp-registry/README.md")

@@ -87,7 +87,7 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     env:
-      DOCKER_CONFIG: /tmp/provenote-build-dev-regular-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+      DOCKER_CONFIG: /tmp/notebooklab-build-dev-regular-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
     outputs:
       push_enabled: ${{ steps.tags.outputs.push }}
       ghcr_push_allowed: ${{ steps.ghcr-access.outputs.ghcr_push_allowed }}
@@ -279,7 +279,7 @@ jobs:
       packages: write
     runs-on: ubuntu-latest
     env:
-      DOCKER_CONFIG: /tmp/provenote-build-dev-single-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
+      DOCKER_CONFIG: /tmp/notebooklab-build-dev-single-docker-config-${{ github.run_id }}-${{ github.run_attempt }}
     outputs:
       push_enabled: ${{ steps.tags.outputs.push }}
       ghcr_push_allowed: ${{ steps.ghcr-access.outputs.ghcr_push_allowed }}

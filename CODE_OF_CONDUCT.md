@@ -2,7 +2,7 @@
 
 ## Our Standard
 
-We want Provenote to be a respectful, constructive, and low-drama collaboration space.
+We want Notebooklab to be a respectful, constructive, and low-drama collaboration space.
 
 Examples of behavior that helps the project:
 

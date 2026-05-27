@@ -54,7 +54,7 @@ const LANGUAGE_FALLBACKS: Record<string, SupportedHtmlLang> = {
 };
 
 const REPO_SOCIAL_PREVIEW_IMAGE =
-  "https://raw.githubusercontent.com/xiaojiou176-open/provenote/main/docs/assets/social/provenote-social-preview.png";
+  "https://raw.githubusercontent.com/xiaojiou176-open/notebooklab/main/docs/assets/social/notebooklab-social-preview.png";
 
 function resolveHtmlLang(acceptLanguageHeader: string | null): SupportedHtmlLang {
   if (!acceptLanguageHeader) {
@@ -82,11 +82,11 @@ function resolveHtmlLang(acceptLanguageHeader: string | null): SupportedHtmlLang
 }
 
 export const metadata: Metadata = {
-  title: "Provenote | Long Context To Structured Insight",
+  title: "Notebooklab | Long Context To Structured Insight",
   description:
     "Turn messy long context into structured insight, auditable markdown, notebook drafts, and outcome-first research workflows in one source-grounded workbench.",
-  applicationName: "Provenote",
-  metadataBase: new URL("https://github.com/xiaojiou176-open/provenote"),
+  applicationName: "Notebooklab",
+  metadataBase: new URL("https://github.com/xiaojiou176-open/notebooklab"),
   keywords: [
     "long context",
     "structured insight",
@@ -97,23 +97,23 @@ export const metadata: Metadata = {
     "MCP",
   ],
   openGraph: {
-    title: "Provenote | Long Context To Structured Insight",
+    title: "Notebooklab | Long Context To Structured Insight",
     description:
       "Turn messy long context into structured insight, auditable markdown, notebook drafts, and outcome-first research workflows in one source-grounded workbench.",
-    siteName: "Provenote",
+    siteName: "Notebooklab",
     type: "website",
     images: [
       {
         url: REPO_SOCIAL_PREVIEW_IMAGE,
         width: 1280,
         height: 640,
-        alt: "Provenote social preview showing the long-context-to-structured-insight workbench story.",
+        alt: "Notebooklab social preview showing the long-context-to-structured-insight workbench story.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Provenote | Long Context To Structured Insight",
+    title: "Notebooklab | Long Context To Structured Insight",
     description:
       "Turn messy long context into structured insight, auditable markdown, notebook drafts, and outcome-first research workflows in one source-grounded workbench.",
     images: [REPO_SOCIAL_PREVIEW_IMAGE],

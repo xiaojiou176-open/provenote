@@ -1,6 +1,6 @@
 # Publishable Public Artifact Prep
 
-This file records the repo-owned work that would be needed to upgrade Provenote's live Official MCP Registry entry into a package-backed install surface later.
+This file records the repo-owned work that would be needed to upgrade Notebooklab's live Official MCP Registry entry into a package-backed install surface later.
 
 In plain language: the Official MCP Registry entry is already live, but the repo can still prepare package metadata, build commands, and release checklist so a future package-backed install path is only one human login plus one publish step.
 
@@ -28,18 +28,18 @@ uv build
 
 Expected outputs:
 
-- `dist/provenote-<version>.tar.gz`
-- `dist/provenote-<version>-py3-none-any.whl`
+- `dist/notebooklab-<version>.tar.gz`
+- `dist/notebooklab-<version>-py3-none-any.whl`
 
 These are build artifacts only. They do **not** prove that a public package registry listing already exists.
 
 ## Publish-Ready Metadata Checklist
 
-- package name remains `provenote`
+- package name remains `notebooklab`
 - version matches the current repo release line
 - project URLs point to the current public repo/docs surface
 - README is the package long description source
-- the repository still exposes the `provenote-mcp` script surface
+- the repository still exposes the `notebooklab-mcp` script surface
 
 ## What Still Needs An External Button
 
@@ -54,7 +54,7 @@ These are build artifacts only. They do **not** prove that a public package regi
 Safe now:
 
 - the repo keeps package-backed public-artifact prep for a future Official MCP Registry upgrade
-- the official MCP Registry entry is already live for `io.github.xiaojiou176-open/provenote-mcp`
+- the official MCP Registry entry is already live for `io.github.xiaojiou176-open/notebooklab-mcp`
 - the package metadata and build path are prepared in-tree
 
 Not safe now:

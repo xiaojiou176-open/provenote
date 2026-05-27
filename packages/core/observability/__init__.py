@@ -1,4 +1,4 @@
-"""Unified observability runtime for Provenote."""
+"""Unified observability runtime for Notebooklab."""
 
 from .context import (
     artifact_group_ctx,

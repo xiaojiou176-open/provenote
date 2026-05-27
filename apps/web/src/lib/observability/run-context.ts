@@ -11,7 +11,7 @@ function browserSessionId(): string {
   if (typeof window === "undefined") {
     return processRunId;
   }
-  const storageKey = "provenote-frontend-run-id";
+  const storageKey = "notebooklab-frontend-run-id";
   const existing = window.sessionStorage.getItem(storageKey);
   if (existing) {
     return existing;

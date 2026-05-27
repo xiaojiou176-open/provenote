@@ -14,7 +14,7 @@ interface AppShellProps {
 export function AppShell({ children }: AppShellProps) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const { t } = useTranslation();
-  const appName = t.common.appName ?? "Provenote";
+  const appName = t.common.appName ?? "Notebooklab";
   const mobileSectionLabel = t.navigation?.process ?? "Workbench";
 
   return (

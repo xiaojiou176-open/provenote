@@ -1,5 +1,5 @@
 """
-Chunking utilities for Provenote.
+Chunking utilities for Notebooklab.
 
 Provides content-type detection and smart text chunking for embedding operations.
 Supports HTML, Markdown, and plain text with appropriate splitters for each type.

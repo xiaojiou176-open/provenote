@@ -61,7 +61,7 @@ def test_consistent_container_redirects_uv_project_environment_into_container_ho
     runner_script = RUNNER_SCRIPT.read_text(encoding="utf-8")
 
     assert (
-        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/provenote"'
+        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/notebooklab"'
         in runner_script
     ), (
         "consistent container runner must declare the container-local machine cache root under container home"
@@ -83,7 +83,7 @@ def test_consistent_container_bootstrap_uses_same_machine_uv_cache_contract_as_r
     runner_script = RUNNER_SCRIPT.read_text(encoding="utf-8")
 
     for token in (
-        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/provenote"',
+        'CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/notebooklab"',
         'CONTAINER_UV_CACHE_DIR="$(resolve_open_notebook_machine_uv_cache_dir "${CONTAINER_MACHINE_CACHE_ROOT}")"',
         '-e OPEN_NOTEBOOK_MACHINE_CACHE_ROOT="${CONTAINER_MACHINE_CACHE_ROOT}"',
         '-e UV_CACHE_DIR="${CONTAINER_UV_CACHE_DIR}"',

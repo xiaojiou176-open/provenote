@@ -1,4 +1,4 @@
-name: provenote
+name: notebooklab
 
 services:
   surrealdb:
@@ -11,11 +11,11 @@ services:
       - SURREAL_EXPERIMENTAL_GRAPHQL=true
     restart: always
 
-  provenote:
+  notebooklab:
     build:
       context: ../..
       dockerfile: ops/docker/Dockerfile.single
-    image: provenote-local:compose
+    image: notebooklab-local:compose
     env_file:
       - .env
     ports:

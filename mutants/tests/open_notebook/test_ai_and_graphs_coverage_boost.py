@@ -231,7 +231,7 @@ async def test_test_individual_model_tts_stt_and_unsupported(
         available_voices = {"demo": "voice"}
 
         async def agenerate_speech(self, text: str, voice: str):
-            assert "Provenote" in text
+            assert "Notebooklab" in text
             assert voice == "Kore"
             return SimpleNamespace(content=b"abc")
 

@@ -1,5 +1,5 @@
 {
-  "name": "provenote-dev",
+  "name": "notebooklab-dev",
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."

@@ -1,5 +1,5 @@
 """
-Utils package for Provenote.
+Utils package for Notebooklab.
 
 To avoid circular imports, import functions directly:
 - from packages.core.utils.context_builder import ContextBuilder

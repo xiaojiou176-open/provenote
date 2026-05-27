@@ -1,4 +1,4 @@
-"""MCP request/response schema definitions for Provenote server tools."""
+"""MCP request/response schema definitions for Notebooklab server tools."""
 
 from __future__ import annotations
 

@@ -33,7 +33,7 @@ describe("useVersionCheck", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     sessionStorage.clear();
-    process.env.NEXT_PUBLIC_REPOSITORY_URL = "https://github.com/example/provenote";
+    process.env.NEXT_PUBLIC_REPOSITORY_URL = "https://github.com/example/notebooklab";
     hoisted.getConfigMock.mockResolvedValue({
       hasUpdate: true,
       latestVersion: "9.9.9",
@@ -52,7 +52,7 @@ describe("useVersionCheck", () => {
     expect(options.description).toBe("A new release is available");
 
     options.action.onClick();
-    expect(window.open).toHaveBeenCalledWith("https://github.com/example/provenote", "_blank");
+    expect(window.open).toHaveBeenCalledWith("https://github.com/example/notebooklab", "_blank");
 
     options.onDismiss();
     expect(sessionStorage.getItem("version_notification_dismissed_9.9.9")).toBe("true");

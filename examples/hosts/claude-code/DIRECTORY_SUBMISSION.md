@@ -35,7 +35,7 @@ In plain language: the Claude Code install path is public-ready in this reposito
 
 Use those official pages together with:
 
-- [provenote-outcome-bundle/README.md](./provenote-outcome-bundle/README.md)
+- [notebooklab-outcome-bundle/README.md](./notebooklab-outcome-bundle/README.md)
 - [../../../docs/integrations/claude-code.md](../../../docs/integrations/claude-code.md)
 - [../../../docs/mcp.md](../../../docs/mcp.md)
 - [../../../tests/ci/test_host_examples_contract.py](../../../tests/ci/test_host_examples_contract.py)
@@ -45,11 +45,11 @@ Use those official pages together with:
 
 | Artifact | Purpose |
 | --- | --- |
-| `provenote-outcome-bundle/.claude-plugin/plugin.json` | starter package identity plus marketplace-facing bundle metadata for Claude Code installs |
-| `provenote-outcome-bundle/.mcp.json` | bundle-local MCP wiring to `provenote-mcp` |
-| `provenote-outcome-bundle/commands/provenote-mcp-outcome-workflows.md` | read-first command surface |
-| `provenote-outcome-bundle/skills/provenote-mcp-outcome-workflows/SKILL.md` | bundle-local workflow skill |
-| `provenote-outcome-bundle/README.md` | public-ready package install loop |
+| `notebooklab-outcome-bundle/.claude-plugin/plugin.json` | starter package identity plus marketplace-facing bundle metadata for Claude Code installs |
+| `notebooklab-outcome-bundle/.mcp.json` | bundle-local MCP wiring to `notebooklab-mcp` |
+| `notebooklab-outcome-bundle/commands/notebooklab-mcp-outcome-workflows.md` | read-first command surface |
+| `notebooklab-outcome-bundle/skills/notebooklab-mcp-outcome-workflows/SKILL.md` | bundle-local workflow skill |
+| `notebooklab-outcome-bundle/README.md` | public-ready package install loop |
 | `../../../docs/integrations/claude-code.md` | official-surface-facing compatibility and proof page |
 
 ## What Still Blocks A Live Directory Listing
@@ -66,7 +66,7 @@ Those are not repository-code blockers.
 
 | Item | Current repo-side state | Minimum external action |
 | --- | --- | --- |
-| starter bundle and proof loop | ready in `examples/hosts/claude-code/provenote-outcome-bundle/` | none |
+| starter bundle and proof loop | ready in `examples/hosts/claude-code/notebooklab-outcome-bundle/` | none |
 | directory submission materials | ready in this file plus `docs/integrations/claude-code.md` | none |
 | Anthropic marketplace/directory submission entry | official docs now expose discovery and submission docs, but authenticated final submit remains external | owner opens the official submission surface above and completes the authenticated submission |
 | additional publisher-side requirements | not repo-side | owner supplies any extra package, policy, or review materials Anthropic requires at submission time |
@@ -76,7 +76,7 @@ Those are not repository-code blockers.
 Safe now:
 
 - public-ready Claude Code starter bundle available from this repository
-- Provenote works with Claude Code via MCP
+- Notebooklab works with Claude Code via MCP
 - repo-owned marketplace/directory submission material is ready
 
 Not safe now:

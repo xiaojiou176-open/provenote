@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
-  title: Provenote API
-  description: API for Provenote, a source-grounded and auditable research workbench.
+  title: Notebooklab API
+  description: API for Notebooklab, a source-grounded and auditable research workbench.
   version: 0.1.0
 paths:
   /api/auth/status:

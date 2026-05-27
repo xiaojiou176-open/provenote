@@ -137,7 +137,7 @@ async def test_lifespan_tolerates_phoenix_setup_error(
 
 @pytest.mark.asyncio
 async def test_root_and_health_routes_return_expected_payloads() -> None:
-    assert await api_main.root() == {"message": "Provenote API is running"}
+    assert await api_main.root() == {"message": "Notebooklab API is running"}
     assert await api_main.health() == {"status": "healthy"}
 
 

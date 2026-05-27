@@ -1,6 +1,6 @@
 # Quality
 
-This page explains the current honest evaluation boundary for Provenote.
+This page explains the current honest evaluation boundary for Notebooklab.
 
 ## Current Eval Positioning
 

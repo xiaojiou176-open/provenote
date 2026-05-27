@@ -2,7 +2,7 @@
 
 This repository uses a Gemini-only runtime contract.
 
-If you are still deciding whether Provenote is worth your time, do not start here. Start with [../README.md](../README.md), then [quickstart.md](quickstart.md), and come back when you need the exact environment contract.
+If you are still deciding whether Notebooklab is worth your time, do not start here. Start with [../README.md](../README.md), then [quickstart.md](quickstart.md), and come back when you need the exact environment contract.
 
 ## phase1_ssot_naming(canonical_only)
 

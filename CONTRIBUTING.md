@@ -31,10 +31,10 @@ When you need the repo-owned real Chrome lane for manual investigation, use:
 npm --prefix apps/web run browser:manual
 ```
 
-That helper launches or reuses the canonical Provenote browser lane with:
+That helper launches or reuses the canonical Notebooklab browser lane with:
 
-- `~/.cache/provenote/browser/chrome-user-data`
-- the resolved `provenote` / `Profile 1` profile
+- `~/.cache/notebooklab/browser/chrome-user-data`
+- the resolved `notebooklab` / `Profile 1` profile
 - a fixed CDP listener on `http://127.0.0.1:9342`
 - a generated local identity tab under `.runtime-cache/browser-identity/index.html`
 
@@ -42,8 +42,8 @@ Treat the identity tab as the human-facing anchor for this repo's browser lane:
 
 - keep it open on the left when possible
 - pin it manually once if you want a stable visual marker
-- use `PROVENOTE_BROWSER_IDENTITY_LABEL` to override the displayed repo label
-- use `PROVENOTE_BROWSER_IDENTITY_ACCENT` with a hex color such as `#2563eb` to override the accent
+- use `NOTEBOOKLAB_BROWSER_IDENTITY_LABEL` to override the displayed repo label
+- use `NOTEBOOKLAB_BROWSER_IDENTITY_ACCENT` with a hex color such as `#2563eb` to override the accent
 
 Do not script Chrome's private avatar/theme internals as part of the normal repo bootstrap. Manual one-time profile color or avatar customization is fine, but the tracked repo automation should stay on the stable side of Chrome's public surface.
 

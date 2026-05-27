@@ -1,4 +1,4 @@
-# Provenote Cursor-Style Bundle
+# Notebooklab Cursor-Style Bundle
 
 This is a tracked public-ready Cursor-style bundle package.
 
@@ -8,15 +8,15 @@ It exists so OpenClaw-compatible bundle detection and Cursor-style command layou
 
 - `.cursor-plugin/plugin.json`
 - `.mcp.json`
-- `.cursor/commands/provenote-mcp-outcome-workflows.md`
-- `skills/provenote-mcp-outcome-workflows/SKILL.md`
+- `.cursor/commands/notebooklab-mcp-outcome-workflows.md`
+- `skills/notebooklab-mcp-outcome-workflows/SKILL.md`
 
 ## Local install loop
 
 ```bash
-openclaw plugins install ./examples/hosts/openclaw/provenote-cursor-bundle
+openclaw plugins install ./examples/hosts/openclaw/notebooklab-cursor-bundle
 openclaw plugins list
-openclaw plugins info provenote-cursor-bundle
+openclaw plugins info notebooklab-cursor-bundle
 openclaw gateway restart
 ```
 

@@ -32,7 +32,7 @@ def _registry_payload() -> dict[str, object]:
         "surfaces": [
             {
                 "name": "machine-playwright-cache",
-                "path": "${HOME}/.cache/provenote/playwright/ms-playwright",
+                "path": "${HOME}/.cache/notebooklab/playwright/ms-playwright",
                 "scope": "repo_external",
                 "ownership": "exclusive",
                 "kind": "dependency",
@@ -48,7 +48,7 @@ def _registry_payload() -> dict[str, object]:
             },
             {
                 "name": "machine-uv-cache",
-                "path": "${HOME}/.cache/provenote/python/uv-cache",
+                "path": "${HOME}/.cache/notebooklab/python/uv-cache",
                 "scope": "repo_external",
                 "ownership": "exclusive",
                 "kind": "dependency",
@@ -64,7 +64,7 @@ def _registry_payload() -> dict[str, object]:
             },
             {
                 "name": "machine-browser-chrome-user-data",
-                "path": "${HOME}/.cache/provenote/browser/chrome-user-data",
+                "path": "${HOME}/.cache/notebooklab/browser/chrome-user-data",
                 "scope": "repo_external",
                 "ownership": "exclusive",
                 "kind": "state",
@@ -78,7 +78,7 @@ def _registry_payload() -> dict[str, object]:
             },
             {
                 "name": "machine-ci-host",
-                "path": "${HOME}/.cache/provenote/ci-host",
+                "path": "${HOME}/.cache/notebooklab/ci-host",
                 "scope": "repo_external",
                 "ownership": "exclusive",
                 "kind": "tooling",
@@ -92,7 +92,7 @@ def _registry_payload() -> dict[str, object]:
             },
             {
                 "name": "machine-ci-host-bootstrap-frontend-cache-root",
-                "path": "${HOME}/.cache/provenote/ci-host/bootstrap/apps-web-node-modules",
+                "path": "${HOME}/.cache/notebooklab/ci-host/bootstrap/apps-web-node-modules",
                 "scope": "repo_external",
                 "ownership": "exclusive",
                 "kind": "dependency",
@@ -105,8 +105,8 @@ def _registry_payload() -> dict[str, object]:
                 "notes": "tmp",
             },
             {
-                "name": "historical-provenote-cache-candidates",
-                "path": "${HOME}/.cache/provenote-*",
+                "name": "historical-notebooklab-cache-candidates",
+                "path": "${HOME}/.cache/notebooklab-*",
                 "path_kind": "glob",
                 "scope": "repo_external",
                 "ownership": "historical_candidate",
@@ -167,18 +167,18 @@ def _touch_old(path: Path) -> None:
 
 
 def _build_temp_machine_cache(home: Path) -> tuple[Path, Path, Path]:
-    playwright_cache = home / ".cache" / "provenote" / "playwright" / "ms-playwright"
+    playwright_cache = home / ".cache" / "notebooklab" / "playwright" / "ms-playwright"
     playwright_cache.mkdir(parents=True)
     (playwright_cache / "browser.bin").write_text("browser", encoding="utf-8")
-    uv_cache = home / ".cache" / "provenote" / "python" / "uv-cache"
+    uv_cache = home / ".cache" / "notebooklab" / "python" / "uv-cache"
     uv_cache.mkdir(parents=True)
     (uv_cache / "wheel.bin").write_text("uv", encoding="utf-8")
-    browser_root = home / ".cache" / "provenote" / "browser" / "chrome-user-data"
+    browser_root = home / ".cache" / "notebooklab" / "browser" / "chrome-user-data"
     browser_root.mkdir(parents=True)
     (browser_root / "Local State").write_text("{}", encoding="utf-8")
     (browser_root / "Profile 1").mkdir()
 
-    historical_candidate = home / ".cache" / "provenote-rewrite-snapshot"
+    historical_candidate = home / ".cache" / "notebooklab-rewrite-snapshot"
     historical_candidate.mkdir(parents=True)
     (historical_candidate / "payload.txt").write_text("snapshot", encoding="utf-8")
     _touch_old(historical_candidate)
@@ -186,7 +186,7 @@ def _build_temp_machine_cache(home: Path) -> tuple[Path, Path, Path]:
     bootstrap_root = (
         home
         / ".cache"
-        / "provenote"
+        / "notebooklab"
         / "ci-host"
         / "bootstrap"
         / "apps-web-node-modules"
@@ -342,7 +342,7 @@ def test_machine_cache_cleanup_apply_preserves_browser_user_data_root(
     _write_registry(registry_path)
     _build_temp_machine_cache(home)
 
-    browser_root = home / ".cache" / "provenote" / "browser" / "chrome-user-data"
+    browser_root = home / ".cache" / "notebooklab" / "browser" / "chrome-user-data"
 
     result = subprocess.run(
         [
@@ -382,7 +382,7 @@ def test_machine_cache_cleanup_apply_prunes_only_oldest_entries_when_surface_cap
     payload["surfaces"][0]["max_bytes"] = 5000
     registry_path.write_text(json.dumps(payload), encoding="utf-8")
 
-    playwright_cache = home / ".cache" / "provenote" / "playwright" / "ms-playwright"
+    playwright_cache = home / ".cache" / "notebooklab" / "playwright" / "ms-playwright"
     playwright_cache.mkdir(parents=True)
     old_entry = playwright_cache / "old-browser.bin"
     new_entry = playwright_cache / "new-browser.bin"

@@ -30,7 +30,7 @@ export const ptBRSettings = {
     autoDeleteFiles: "Excluir Arquivos Automaticamente",
     autoDeletePlaceholder: "Selecione a opção de exclusão automática",
     filesHelp:
-      "Uma vez que seus arquivos são enviados e processados, eles não são mais necessários. A maioria dos usuários deve permitir que o Provenote exclua arquivos enviados da pasta de upload automaticamente.",
+      "Uma vez que seus arquivos são enviados e processados, eles não são mais necessários. A maioria dos usuários deve permitir que o Notebooklab exclua arquivos enviados da pasta de upload automaticamente.",
     loadFailed: "Falha ao carregar configurações",
   },
   advanced: {
@@ -43,7 +43,7 @@ export const ptBRSettings = {
     latestVersion: "Última Versão",
     status: "Status",
     updateAvailable: "Versão {version} Disponível",
-    updateAvailableDesc: "Uma nova versão do Provenote está disponível.",
+    updateAvailableDesc: "Uma nova versão do Notebooklab está disponível.",
     upToDate: "Atualizado",
     unknown: "Desconhecido",
     viewOnGithub: "Ver no GitHub",
@@ -134,9 +134,9 @@ export const ptBRSettings = {
       "Selecione o tipo para os modelos que deseja adicionar. Se precisar de tipos diferentes, adicione em lotes separados.",
     deleteModel: "Excluir Modelo",
     defaultAssignments: "Atribuições de Modelo Padrão",
-    defaultAssignmentsDesc: "Configure quais modelos usar para diferentes propósitos no Provenote",
+    defaultAssignmentsDesc: "Configure quais modelos usar para diferentes propósitos no Notebooklab",
     missingRequiredModels:
-      "Modelos obrigatórios ausentes: {models}. O Provenote pode não funcionar corretamente sem eles.",
+      "Modelos obrigatórios ausentes: {models}. O Notebooklab pode não funcionar corretamente sem eles.",
     selectModelPlaceholder: "Selecione um modelo",
     requiredModelPlaceholder: "⚠️ Obrigatório - Selecione um modelo",
     chatModelLabel: "Modelo de Chat",
@@ -186,7 +186,7 @@ export const ptBRSettings = {
   apiKeys: {
     title: "Configure sua IA com suas próprias chaves de API",
     description:
-      "Armazene chaves de API com segurança no banco de dados para habilitar provedores de IA no Provenote.",
+      "Armazene chaves de API com segurança no banco de dados para habilitar provedores de IA no Notebooklab.",
     encryptionRequired: "Chave de criptografia não configurada",
     encryptionRequiredDescription:
       "Configure a variável de ambiente OPEN_NOTEBOOK_ENCRYPTION_KEY com qualquer string secreta para armazenar chaves de API no banco de dados.",

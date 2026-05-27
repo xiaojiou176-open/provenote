@@ -7,9 +7,9 @@ source "${ROOT_DIR}/tooling/scripts/runtime/cache_env.sh"
 HOST_MACHINE_CACHE_ROOT="$(resolve_open_notebook_machine_cache_root)"
 TOOLCHAIN_FILE="${ROOT_DIR}/config/ci-toolchain.env"
 DOCKERFILE_PATH="${CONSISTENT_CONTAINER_DOCKERFILE:-${ROOT_DIR}/ops/docker/Dockerfile.ci}"
-WORKSPACE_DIR="/workspaces/provenote"
-CONTAINER_HOME="/tmp/provenote-home"
-CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/provenote"
+WORKSPACE_DIR="/workspaces/notebooklab"
+CONTAINER_HOME="/tmp/notebooklab-home"
+CONTAINER_MACHINE_CACHE_ROOT="${CONTAINER_HOME}/.cache/notebooklab"
 UV_PROJECT_ENVIRONMENT="$(resolve_open_notebook_managed_uv_environment "${CONTAINER_MACHINE_CACHE_ROOT}")"
 CONTAINER_UV_CACHE_DIR="$(resolve_open_notebook_machine_uv_cache_dir "${CONTAINER_MACHINE_CACHE_ROOT}")"
 PLAYWRIGHT_BROWSERS_PATH="${CONTAINER_HOME}/playwright-browsers"
@@ -118,7 +118,7 @@ mkdir -p "${CI_CACHE_ROOT}" "${NPM_CACHE_DIR}" "${TMP_CACHE_DIR}" "${HOME_CACHE_
 mkdir -p "${REPO_PYCACHE_DIR}"
 
 auto_cleanup_machine_cache() {
-  if [[ "${PROVENOTE_MACHINE_CACHE_AUTO_CLEAN:-1}" == "0" ]]; then
+  if [[ "${NOTEBOOKLAB_MACHINE_CACHE_AUTO_CLEAN:-1}" == "0" ]]; then
     return 0
   fi
   if ! command -v python3 >/dev/null 2>&1; then
@@ -298,7 +298,7 @@ ensure_image_built
 read -r -d '' BOOTSTRAP_PREAMBLE <<'EOF' || true
 export OPEN_NOTEBOOK_MACHINE_CACHE_ROOT="${OPEN_NOTEBOOK_MACHINE_CACHE_ROOT:-__CONTAINER_MACHINE_CACHE_ROOT__}"
 export UV_CACHE_DIR="${UV_CACHE_DIR:-__CONTAINER_UV_CACHE_DIR__}"
-export PYTHONPYCACHEPREFIX="${PYTHONPYCACHEPREFIX:-/workspaces/provenote/.runtime-cache/pycache}"
+export PYTHONPYCACHEPREFIX="${PYTHONPYCACHEPREFIX:-/workspaces/notebooklab/.runtime-cache/pycache}"
 export PATH="$HOME/.local/bin:$PATH"
 source tooling/scripts/runtime/cache_env.sh
 mkdir -p "$HOME" "$HOME/.cache" "$HOME/.local" "$HOME/.local/bin" "$HOME/.npm" "$TMPDIR" "$PLAYWRIGHT_BROWSERS_PATH" "$HOME/bootstrap" "$OPEN_NOTEBOOK_MACHINE_CACHE_ROOT" "$UV_CACHE_DIR" "$PYTHONPYCACHEPREFIX" .runtime-cache/build/egg-info

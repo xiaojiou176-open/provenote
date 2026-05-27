@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Provenote Structured Log Event",
+  "title": "Notebooklab Structured Log Event",
   "type": "object",
   "additionalProperties": true,
   "required": [

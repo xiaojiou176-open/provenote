@@ -1,6 +1,6 @@
 # Public Proof Pack: Auditable Markdown
 
-This folder is the canonical public proof pack for Provenote's auditable markdown lane.
+This folder is the canonical public proof pack for Notebooklab's auditable markdown lane.
 
 In plain language: if you want one fixed, reusable demonstration instead of reading repo prose, start here.
 

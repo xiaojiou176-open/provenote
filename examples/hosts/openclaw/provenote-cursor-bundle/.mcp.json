@@ -1,8 +1,8 @@
 {
   "mcp": {
     "servers": {
-      "provenote": {
-        "command": ["provenote-mcp"]
+      "notebooklab": {
+        "command": ["notebooklab-mcp"]
       }
     }
   }

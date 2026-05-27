@@ -1,11 +1,11 @@
 # OpenHands / OpenClaw Demo Walkthrough
 
 This is the shortest concrete demo you can run to prove the skill is teaching a
-real read-first Provenote workflow instead of only describing one.
+real read-first Notebooklab workflow instead of only describing one.
 
 ## Demo prompt
 
-Use Provenote to inspect the current notes workspace. Start with
+Use Notebooklab to inspect the current notes workspace. Start with
 `draft.list`, `research_thread.list`, and `auditable_run.list`. Summarize what
 already exists. Then pick one narrow next step:
 

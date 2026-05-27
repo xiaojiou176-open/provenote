@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/xiaojiou176-open/provenote/tree/main/examples/hosts/packet-manifest.schema.json",
-  "title": "Provenote host packet manifest",
+  "$id": "https://github.com/xiaojiou176-open/notebooklab/tree/main/examples/hosts/packet-manifest.schema.json",
+  "title": "Notebooklab host packet manifest",
   "type": "object",
   "required": [
     "schemaVersion",

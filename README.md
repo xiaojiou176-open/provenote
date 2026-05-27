@@ -1,12 +1,12 @@
-# Provenote
+# Notebooklab
 
 <div align="center">
   <p>
     <strong>Teach agents and operators to turn messy long context into structured outcomes they can carry into notes, research threads, drafts, and inspectable results.</strong>
   </p>
   <p>
-    <a href="https://github.com/xiaojiou176-open/provenote/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/xiaojiou176-open/provenote?label=discussions"></a>
-    <a href="./LICENSE"><img alt="License" src="https://img.shields.io/github/license/xiaojiou176-open/provenote"></a>
+    <a href="https://github.com/xiaojiou176-open/notebooklab/discussions"><img alt="GitHub Discussions" src="https://img.shields.io/github/discussions/xiaojiou176-open/notebooklab?label=discussions"></a>
+    <a href="./LICENSE"><img alt="License" src="https://img.shields.io/github/license/xiaojiou176-open/notebooklab"></a>
     <a href="./docs/quickstart.md"><img alt="Quick Result Path" src="https://img.shields.io/badge/quickstart-result%20path-36CFC9"></a>
     <a href="./docs/proof.md"><img alt="Public Proof" src="https://img.shields.io/badge/public-proof%20map-F3C969"></a>
   </p>
@@ -19,7 +19,7 @@
     ·
     <a href="./docs/project-status.md"><strong>Project Status</strong></a>
     ·
-    <a href="https://xiaojiou176-open.github.io/provenote/"><strong>Docs</strong></a>
+    <a href="https://xiaojiou176-open.github.io/notebooklab/"><strong>Docs</strong></a>
   </p>
   <p>
     <strong>Second ring:</strong>
@@ -31,16 +31,16 @@
     ·
     <a href="./docs/faq.md"><strong>FAQ</strong></a>
     ·
-    <a href="https://github.com/xiaojiou176-open/provenote/discussions"><strong>Discussions</strong></a>
+    <a href="https://github.com/xiaojiou176-open/notebooklab/discussions"><strong>Discussions</strong></a>
   </p>
   <p>
-    Star Provenote if you want a source-heavy AI workbench that stays inspectable after the chat scrollback is gone.
+    Star Notebooklab if you want a source-heavy AI workbench that stays inspectable after the chat scrollback is gone.
   </p>
 </div>
 
-![Provenote hero showing grounded sources, auditable markdown, and reusable outputs in one workbench](./docs/assets/hero/provenote-hero.png)
+![Notebooklab hero showing grounded sources, auditable markdown, and reusable outputs in one workbench](./docs/assets/hero/notebooklab-hero.png)
 
-![Provenote quick-result overview showing the shortest repo-documented path from source import to auditable markdown download](./docs/assets/demo/provenote-quick-result-overview.png)
+![Notebooklab quick-result overview showing the shortest repo-documented path from source import to auditable markdown download](./docs/assets/demo/notebooklab-quick-result-overview.png)
 
 This illustrated overview is a repo-authored summary of the shortest documented path. It is intentionally not presented as a live product recording.
 
@@ -49,10 +49,10 @@ This illustrated overview is a repo-authored summary of the shortest documented 
 
 That is the first door. MCP, starter bundles, distribution pages, and promotion assets are valuable second-ring surfaces, but they should not outrank the product path.
 
-Agent-facing truth comes first: Provenote teaches an agent to read messy
+Agent-facing truth comes first: Notebooklab teaches an agent to read messy
 context, structure it, move it into note / research-thread / draft lanes, and
 only then carry that outcome workflow forward through the first-party
-`provenote-mcp` server. Public skills, host bundles, and registry packs are
+`notebooklab-mcp` server. Public skills, host bundles, and registry packs are
 companion surfaces around that workbench, not the product root.
 
 ## At A Glance
@@ -81,13 +81,13 @@ If you only want the fastest honest map, use this:
 
 Judge the workbench before you judge the side doors. MCP pages, starter bundles, distribution packs, and promotion assets matter, but they are second-layer surfaces around the main product path.
 
-## Why Provenote Exists
+## Why Notebooklab Exists
 
 Most AI note tools make it easy to generate words and hard to verify where those words came from.
 
 That gets even worse when the raw material is long and messy: a huge chat log, a copied forum thread, a meeting recap, or a web page pile you do not want to flatten into one more throwaway summary.
 
-Provenote is built for the opposite direction:
+Notebooklab is built for the opposite direction:
 
 - collect notes, documents, audio, and web content in one place
 - structure long context before it disappears into another chat turn
@@ -137,7 +137,7 @@ In plain language: first turn the pile into labeled folders, then decide whether
 - **Hand outcomes off cleanly**: download draft markdown when you only need the text, or export a richer draft bundle when you need metrics, claim/section review data, PID summaries, and source manifest context together.
 - **Go beyond text-only workflows**: generate podcast-ready outputs and reusable transformations from the same source base.
 - **Bring it into coding agents through MCP**: expose notebooks, sources, drafts, research threads, and auditable runs to Claude Code, OpenAI Codex, Cursor, and other MCP-capable hosts through a first-party MCP server.
-- **Run the same outcome lanes from a terminal/operator surface**: use the first-party `provenote` CLI when you want notebook outcome inspection, auditable markdown, or research-thread-to-draft handoffs without treating MCP host setup as the only operator path.
+- **Run the same outcome lanes from a terminal/operator surface**: use the first-party `notebooklab` CLI when you want notebook outcome inspection, auditable markdown, or research-thread-to-draft handoffs without treating MCP host setup as the only operator path.
 
 If you only remember one first-entry rule, make it this:
 
@@ -161,10 +161,10 @@ Think of these surfaces like rooms around the main workshop:
 | Surface | What it is today | What it is not |
 | --- | --- | --- |
 | Claude Code / Codex / Cursor / OpenCode pages | repo-backed compatibility guides through the first-party MCP server, with public-ready starter bundles under `examples/hosts/` | official partnership, bundled integration, plugin, or marketplace listing |
-| `provenote` CLI | a first-party local operator surface for outcome inspection and `research_thread -> draft -> verify/download` workflows | a separate distributed product line or a renamed MCP server |
+| `notebooklab` CLI | a first-party local operator surface for outcome inspection and `research_thread -> draft -> verify/download` workflows | a separate distributed product line or a renamed MCP server |
 | public skills surface | tracked public-ready skill packets now exist under `public-skills/` for host-specific submission flows | a public skills catalog, live marketplace listing, or host-specific skills program endorsement |
-| OpenClaw | a live ClawHub skill listing now exists at `https://clawhub.ai/xiaojiou176/provenote-mcp-outcome-workflows`, and public-ready OpenClaw-compatible bundles still live under `examples/hosts/openclaw` | official OpenClaw partnership, vendor endorsement, or every other marketplace surface being live |
-| Official MCP Registry | a live websiteUrl-backed `provenote-mcp` entry already points to the repo-owned MCP docs/install surface | a package-backed public artifact, official host marketplace listing, or vendor endorsement |
+| OpenClaw | a live ClawHub skill listing now exists at `https://clawhub.ai/xiaojiou176/notebooklab-mcp-outcome-workflows`, and public-ready OpenClaw-compatible bundles still live under `examples/hosts/openclaw` | official OpenClaw partnership, vendor endorsement, or every other marketplace surface being live |
+| Official MCP Registry | a live websiteUrl-backed `notebooklab-mcp` entry already points to the repo-owned MCP docs/install surface | a package-backed public artifact, official host marketplace listing, or vendor endorsement |
 | release / listing / domain / trademark / partnership | external decision and publication work | completed repo-side truth |
 
 If you want the shortest public page that keeps those boundaries honest, start with [docs/project-status.md](./docs/project-status.md).
@@ -239,17 +239,17 @@ If you want the ecosystem boundary before you read host pages, use [docs/project
 
 ## Runtime Cleanup Operator Path
 
-Provenote treats disk cleanup as a governed operator path, not an ad-hoc "delete big folders" exercise.
+Notebooklab treats disk cleanup as a governed operator path, not an ad-hoc "delete big folders" exercise.
 
 - Repo-local dependency root: `apps/web/node_modules`
   - This path is a repo-owned rebuildable dependency tree.
   - It is **not** a shared machine cache.
   - Clearing it is allowed only through the repo-local cleanup contract, and the rebuild command is `cd apps/web && npm ci`.
 - Repo-related machine cache examples:
-  - `${HOME}/.cache/provenote/...`
-  - `${HOME}/.cache/provenote/python/uv-cache`
-  - `${HOME}/.cache/provenote/playwright/ms-playwright`
-  - `${HOME}/.cache/provenote/ci-host/npm-cache`
+  - `${HOME}/.cache/notebooklab/...`
+  - `${HOME}/.cache/notebooklab/python/uv-cache`
+  - `${HOME}/.cache/notebooklab/playwright/ms-playwright`
+  - `${HOME}/.cache/notebooklab/ci-host/npm-cache`
   - these are the only repo-specific machine-level download caches that should remain outside the checkout.
   - entrypoint wrappers now auto-run the repo-owned machine-cache cleanup lane so stale cache roots and oversized download caches do not silently accumulate forever.
 - Repo-local CI/runtime residue:
@@ -262,7 +262,7 @@ Provenote treats disk cleanup as a governed operator path, not an ad-hoc "delete
   - `${HOME}/Library/Caches/ms-playwright`
   - `${HOME}/Library/Containers/com.docker.docker`
   - `${HOME}/.docker`
-  - these are related to the repo, but they are not repo-exclusive and must not be auto-cleared by Provenote entrypoints.
+  - these are related to the repo, but they are not repo-exclusive and must not be auto-cleared by Notebooklab entrypoints.
 - Docker runtime surfaces:
   - local `open-notebook-ci:*` images
   - buildx builders / BuildKit containers
@@ -279,7 +279,7 @@ make cleanup-operator-apply
 That operator flow is intentionally split:
 
 - `cleanup_runtime_cache.sh` handles repo-local runtime/cache surfaces
-- `cleanup_machine_cache.sh` handles the remaining repo-related download caches under `~/.cache/provenote`
+- `cleanup_machine_cache.sh` handles the remaining repo-related download caches under `~/.cache/notebooklab`
 - entrypoint wrappers (`run_uv_managed.sh`, `run-playwright-managed.sh`, and `run_in_consistent_container.sh`) invoke that machine-cache lane in apply mode so repo-specific external caches obey TTL/cap/root-cap policy by default
 - `docker-buildx-clean` / `docker-runtime-audit` cover repo-related Docker builder and image surfaces
 
@@ -325,14 +325,14 @@ If you want a fixed, reproducible local proof loop, use the [public proof pack](
 
 This is a sanitized result shape, not a copied user artifact. The concrete product evidence for the lane lives in the current UI panel and auditable-run API surface.
 
-## Why People Star Provenote Now
+## Why People Star Notebooklab Now
 
-- **You want a repo-documented workbench, not another single chat pane**. Provenote already combines sources, notebooks, search, transformations, podcasts, and an auditable output lane in one repo surface.
+- **You want a repo-documented workbench, not another single chat pane**. Notebooklab already combines sources, notebooks, search, transformations, podcasts, and an auditable output lane in one repo surface.
 - **You care about source-grounded writing that leaves receipts**. The auditable markdown lane is a stronger hook than generic "AI notes" because it points people toward inspectable output, not only generated text.
 - **You want a repo worth revisiting, not a one-time curiosity**. Releases, changelog, proof surfaces, and docs make it easier to track visible progress over time.
 - **You want a fork that acts like a real public product surface**. Provenance still matters, but the current support, review, and stewardship boundary is repository-local and documented.
 
-## Why Watch Provenote Over Time
+## Why Watch Notebooklab Over Time
 
 - **The repo exposes proof surfaces, not only roadmap language**. README, proof, changelog, release notes, and issue/discussion routing all work together as public evidence layers.
 - **The product shape is already broader than one feature spike**. The current surface spans collection, search, research threads, notebooks, transformations, podcasts, source QA, and auditable outputs.
@@ -340,7 +340,7 @@ This is a sanitized result shape, not a copied user artifact. The concrete produ
 
 ## Public Proof, Not Vibes
 
-![Provenote public proof stack showing product proof, workflow proof, trust proof, and growth proof](./docs/assets/proof/provenote-proof-stack.png)
+![Notebooklab public proof stack showing product proof, workflow proof, trust proof, and growth proof](./docs/assets/proof/notebooklab-proof-stack.png)
 
 If you want proof before commitment, start here:
 
@@ -350,7 +350,7 @@ If you want proof before commitment, start here:
 | The fastest path to a real result | [docs/quickstart.md](./docs/quickstart.md) |
 | How to use it from coding agents | [docs/mcp.md](./docs/mcp.md) |
 | The current scope and readiness boundary | [docs/project-status.md](./docs/project-status.md) |
-| The current release story | [CHANGELOG.md](./CHANGELOG.md) and [GitHub Releases](https://github.com/xiaojiou176-open/provenote/releases) |
+| The current release story | [CHANGELOG.md](./CHANGELOG.md) and [GitHub Releases](https://github.com/xiaojiou176-open/notebooklab/releases) |
 | The runtime shape | [docs/architecture.md](./docs/architecture.md) |
 | The support and security boundary | [SUPPORT.md](./SUPPORT.md) and [SECURITY.md](./SECURITY.md) |
 
@@ -360,7 +360,7 @@ Release visibility is one public signal, not automatic proof that the latest rel
 
 | If your goal is... | Start here | Then go deeper with... |
 | --- | --- | --- |
-| Evaluate whether Provenote is worth your attention | [README.md](./README.md) | [docs/proof.md](./docs/proof.md), [docs/faq.md](./docs/faq.md) |
+| Evaluate whether Notebooklab is worth your attention | [README.md](./README.md) | [docs/proof.md](./docs/proof.md), [docs/faq.md](./docs/faq.md) |
 | Get to a first visible result quickly | [docs/quickstart.md](./docs/quickstart.md) | [docs/installation.md](./docs/installation.md), [docs/configuration.md](./docs/configuration.md) |
 | Connect it to coding agents through MCP | [docs/mcp.md](./docs/mcp.md) | [docs/integrations/claude-code.md](./docs/integrations/claude-code.md), [docs/integrations/codex.md](./docs/integrations/codex.md), [docs/integrations/cursor.md](./docs/integrations/cursor.md), [docs/integrations/opencode.md](./docs/integrations/opencode.md) |
 | Understand concrete outcome-first use cases | [docs/use-cases/long-context-to-structured-notes.md](./docs/use-cases/long-context-to-structured-notes.md) | [docs/use-cases/source-grounded-ai-research.md](./docs/use-cases/source-grounded-ai-research.md), [docs/use-cases/ai-notes-with-receipts.md](./docs/use-cases/ai-notes-with-receipts.md), [docs/use-cases/source-grounded-drafts.md](./docs/use-cases/source-grounded-drafts.md), [docs/use-cases/source-to-verified-draft.md](./docs/use-cases/source-to-verified-draft.md) |
@@ -370,22 +370,22 @@ Release visibility is one public signal, not automatic proof that the latest rel
 
 ## Use It With Coding Agents
 
-Provenote ships a first-party MCP server so you can bring the same outcome objects you use in the web workbench into coding-agent hosts.
+Notebooklab ships a first-party MCP server so you can bring the same outcome objects you use in the web workbench into coding-agent hosts.
 
 If your starting problem is messy long context, start with [Long Context](./docs/use-cases/long-context-to-structured-notes.md) first and come back here when you want to carry those outcome objects into a host.
 
 Current public fit:
 
-- use Provenote with Claude Code through MCP
-- use Provenote with OpenAI Codex through MCP
-- use Provenote with Cursor through MCP
-- use Provenote with OpenCode through MCP
+- use Notebooklab with Claude Code through MCP
+- use Notebooklab with OpenAI Codex through MCP
+- use Notebooklab with Cursor through MCP
+- use Notebooklab with OpenCode through MCP
 
 Current boundary:
 
 - this is a compatibility surface, not an official vendor partnership
 - vendor names are used descriptively to show host targets
-- the product center is still Provenote's auditable/source-grounded outcome path, not the MCP control plane by itself
+- the product center is still Notebooklab's auditable/source-grounded outcome path, not the MCP control plane by itself
 
 Start with [docs/mcp.md](./docs/mcp.md) if you want the MCP overview, then choose the host-specific page that matches your agent runtime.
 
@@ -400,18 +400,18 @@ The main workbench currently spans:
 - **Create**: podcasts, notebook drafts, and auditable markdown
 - **Manage**: models, settings, advanced controls, and repo-local governance
 
-![Provenote architecture view showing the UI, API, core runtime, and verification surfaces](./docs/assets/architecture/provenote-architecture.png)
+![Notebooklab architecture view showing the UI, API, core runtime, and verification surfaces](./docs/assets/architecture/notebooklab-architecture.png)
 
 ## Best Fit And Not The Best Fit
 
-**Provenote is a strong fit if you want to:**
+**Notebooklab is a strong fit if you want to:**
 
 - turn notes, documents, audio, and web sources into inspectable markdown outputs
 - run a repository-documented research workbench instead of depending on a hosted SaaS
 - evaluate a NotebookLM-like surface that already includes notebooks, search, podcasts, and auditable output paths
 - follow a repo that publishes proof surfaces, release surfaces, and stewardship boundaries in public
 
-**Provenote is probably not the best fit if you want:**
+**Notebooklab is probably not the best fit if you want:**
 
 - a zero-setup hosted product with no local runtime or Docker involvement
 - a multi-provider runtime by default today
@@ -420,7 +420,7 @@ The main workbench currently spans:
 
 ## Brand And Lineage
 
-Provenote is the public identity of this repository.
+Notebooklab is the public identity of this repository.
 
 This repository is a deep, productized fork of the upstream Open Notebook project.
 
@@ -428,7 +428,7 @@ Upstream lineage still matters for provenance, but the current support, review, 
 
 That means two things can both be true at once:
 
-- Provenote is the brand people should remember
+- Notebooklab is the brand people should remember
 - upstream lineage still belongs in the evidence layer, not the headline
 
 The repo-local stewardship and trust boundary is anchored in [NOTICE.md](NOTICE.md), [MAINTAINERS.md](MAINTAINERS.md), [SUPPORT.md](SUPPORT.md), [SECURITY.md](SECURITY.md), and [CONTRIBUTING.md](CONTRIBUTING.md).

@@ -1,6 +1,6 @@
-# Provenote MCP Outcome Workflows
+# Notebooklab MCP Outcome Workflows
 
-Use Provenote through the first-party MCP server.
+Use Notebooklab through the first-party MCP server.
 
 Read-first workflow:
 

@@ -28,7 +28,7 @@ body:
     id: installation-method
     attributes:
       label: Installation Method
-      description: How are you trying to install Provenote?
+      description: How are you trying to install Notebooklab?
       options:
         - Docker (single container - v1-latest-single)
         - Docker (multi-container - docker-compose)
@@ -55,9 +55,9 @@ body:
         Please provide relevant logs. **This is very important for diagnosing issues!**
 
         **How to get logs:**
-        - Docker single container: `docker logs provenote`
+        - Docker single container: `docker logs notebooklab`
         - Docker Compose: `docker compose logs -f`
-        - Specific service: `docker compose logs -f provenote`
+        - Specific service: `docker compose logs -f notebooklab`
       placeholder: |
         Paste your logs here. Include the full error message and stack trace if available.
       render: shell
@@ -74,7 +74,7 @@ body:
         **⚠️ IMPORTANT: Redact any sensitive information (API keys, passwords, etc.)**
       placeholder: |
         services:
-          provenote:
+          notebooklab:
             build:
               context: .
               dockerfile: ops/docker/Dockerfile.single

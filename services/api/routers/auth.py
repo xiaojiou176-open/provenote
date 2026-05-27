@@ -1,5 +1,5 @@
 """
-Authentication router for Provenote API.
+Authentication router for Notebooklab API.
 Provides endpoints to check authentication status.
 """
 

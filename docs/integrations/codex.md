@@ -1,12 +1,12 @@
-# Use Provenote With OpenAI Codex
+# Use Notebooklab With OpenAI Codex
 
-This page documents the current compatibility story for Provenote and OpenAI Codex.
+This page documents the current compatibility story for Notebooklab and OpenAI Codex.
 
-In plain language: if you use Codex as a coding agent, Provenote can plug into that workflow through MCP so Codex can work with notebook outcomes instead of only ephemeral chat context.
+In plain language: if you use Codex as a coding agent, Notebooklab can plug into that workflow through MCP so Codex can work with notebook outcomes instead of only ephemeral chat context.
 
 ## Current Claim Ladder
 
-Provenote works with OpenAI Codex **via MCP**, and this repository now ships a **public-ready Codex starter bundle**.
+Notebooklab works with OpenAI Codex **via MCP**, and this repository now ships a **public-ready Codex starter bundle**.
 
 That is the right public claim today:
 
@@ -15,7 +15,7 @@ That is the right public claim today:
 - `publicly discoverable listing live`: no official/public Codex directory listing is claimed here
 - `official marketplace listing live`: no
 
-This page does **not** claim that Provenote is an official OpenAI integration, a listed Codex plugin, or a marketplace-ready Codex app.
+This page does **not** claim that Notebooklab is an official OpenAI integration, a listed Codex plugin, or a marketplace-ready Codex app.
 
 The public repository and docs are discoverable on the web today. That still does **not** count as a Codex directory or marketplace listing.
 
@@ -31,13 +31,13 @@ Current fit through MCP:
 
 - OpenAI's Codex docs include MCP as the supported tool/context connection path.
 - OpenAI's official Codex plugins docs expose a Plugin Directory, and the build docs explain plugin packaging and local marketplace setup while still marking official public plugin publishing as "coming soon."
-- Provenote ships a first-party stdio MCP entrypoint through `provenote-mcp`.
+- Notebooklab ships a first-party stdio MCP entrypoint through `notebooklab-mcp`.
 - The current repo keeps concrete MCP contract coverage in `tests/test_mcp_server.py`.
 - This page stays in the compatibility bucket and does not claim plugin, marketplace, or official integration status.
 
 ## Public-Ready Starter Bundle
 
-If you want a checked-in install package instead of a prose-only setup page, use [../../examples/hosts/codex/provenote-outcome-bundle/README.md](../../examples/hosts/codex/provenote-outcome-bundle/README.md).
+If you want a checked-in install package instead of a prose-only setup page, use [../../examples/hosts/codex/notebooklab-outcome-bundle/README.md](../../examples/hosts/codex/notebooklab-outcome-bundle/README.md).
 
 If you want the repo-owned plugin-directory submission materials that stop one step before listing-live truth, use [../../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md).
 
@@ -47,20 +47,20 @@ That bundle is public-ready because:
 - the install path is documented
 - the proof loop is explicit
 - the bundle now includes a repo-owned `config.toml.example` that matches Codex's documented config surface
-- the package points to the same first-party `provenote-mcp` entrypoint this page documents
+- the package points to the same first-party `notebooklab-mcp` entrypoint this page documents
 
 ## Minimal Setup
 
-1. Start Provenote locally and confirm the API is reachable.
-2. Make sure the environment used by Codex can run `provenote-mcp`.
-3. Register Provenote as an MCP server using the current official Codex MCP instructions.
-4. If you are targeting a non-local Provenote API, set `OPEN_NOTEBOOK_URL` and `OPEN_NOTEBOOK_PASSWORD` before the MCP process starts.
+1. Start Notebooklab locally and confirm the API is reachable.
+2. Make sure the environment used by Codex can run `notebooklab-mcp`.
+3. Register Notebooklab as an MCP server using the current official Codex MCP instructions.
+4. If you are targeting a non-local Notebooklab API, set `OPEN_NOTEBOOK_URL` and `OPEN_NOTEBOOK_PASSWORD` before the MCP process starts.
 
 ## Repo-Backed Proof Loop
 
 If you want to verify this page instead of trusting the wording, use this local proof loop:
 
-1. Confirm the MCP script surface exists in [../../pyproject.toml](../../pyproject.toml) as `provenote-mcp`.
+1. Confirm the MCP script surface exists in [../../pyproject.toml](../../pyproject.toml) as `notebooklab-mcp`.
 2. Confirm the server exposes outcome-first tool groups in [../../packages/core/mcp/server.py](../../packages/core/mcp/server.py):
    - `draft.*`
    - `research_thread.*`
@@ -72,20 +72,20 @@ If you want to verify this page instead of trusting the wording, use this local 
    bash tooling/scripts/runtime/run_uv_managed.sh run pytest tests/test_mcp_server.py -q
    ```
 
-5. Start Provenote locally with the repo-documented path in [../quickstart.md](../quickstart.md).
-6. In Codex, register `provenote-mcp` as an MCP server and start with one read-first step:
+5. Start Notebooklab locally with the repo-documented path in [../quickstart.md](../quickstart.md).
+6. In Codex, register `notebooklab-mcp` as an MCP server and start with one read-first step:
    - list drafts
    - list research threads
    - list auditable runs
 7. Only after the list/read step is visible, move to a write-oriented action such as creating a draft from a research thread or downloading auditable markdown.
 
-If you want a checked-in local host artifact instead of only this page, start with [../../examples/hosts/codex/provenote-outcome-bundle/README.md](../../examples/hosts/codex/provenote-outcome-bundle/README.md), continue with [../../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md), and then use [../../examples/hosts/README.md](../../examples/hosts/README.md) as the broader host-artifact index.
+If you want a checked-in local host artifact instead of only this page, start with [../../examples/hosts/codex/notebooklab-outcome-bundle/README.md](../../examples/hosts/codex/notebooklab-outcome-bundle/README.md), continue with [../../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md](../../examples/hosts/codex/PLUGIN_DIRECTORY_SUBMISSION.md), and then use [../../examples/hosts/README.md](../../examples/hosts/README.md) as the broader host-artifact index.
 
 ## What To Inspect
 
 | Surface | Why it matters |
 | --- | --- |
-| [../../pyproject.toml](../../pyproject.toml) | Proves the repo actually ships `provenote-mcp` |
+| [../../pyproject.toml](../../pyproject.toml) | Proves the repo actually ships `notebooklab-mcp` |
 | [../../packages/core/mcp/server.py](../../packages/core/mcp/server.py) | Shows the concrete outcome-tool families Codex can call |
 | [../../packages/core/mcp/schemas.py](../../packages/core/mcp/schemas.py) | Shows the typed request shapes behind those tools |
 | [../../tests/test_mcp_server.py](../../tests/test_mcp_server.py) | Shows the repo keeps a real MCP contract test |
@@ -102,7 +102,7 @@ If you want a checked-in local host artifact instead of only this page, start wi
 
 | Bucket | What this page can say |
 | --- | --- |
-| Safe now | Provenote works with OpenAI Codex via MCP; Codex can register MCP servers; Provenote ships a first-party stdio MCP entrypoint; a public-ready Codex starter bundle and plugin-directory submission pack are available in this repository |
+| Safe now | Notebooklab works with OpenAI Codex via MCP; Codex can register MCP servers; Notebooklab ships a first-party stdio MCP entrypoint; a public-ready Codex starter bundle and plugin-directory submission pack are available in this repository |
 | Not claimed | official OpenAI integration, listed Codex plugin, marketplace-ready Codex app, or OpenAI endorsement |
 | Deferred / proof gap | public Skills distribution, OpenClaw support, generic `works with every MCP host`, hosted/team/autopilot surfaces |
 

@@ -1,5 +1,5 @@
 class OpenNotebookError(Exception):
-    """Base exception class for Provenote errors."""
+    """Base exception class for Notebooklab errors."""
 
     pass
 

@@ -15,7 +15,7 @@ MANAGED_UV := bash tooling/scripts/runtime/run_uv_managed.sh
 # - local builds always tag a repo-local image name
 # - remote pushes require explicit maintainer-controlled targets
 # - Docker Hub publishing remains opt-in via DOCKERHUB_IMAGE_REPOSITORY
-LOCAL_DOCKER_IMAGE ?= provenote-local
+LOCAL_DOCKER_IMAGE ?= notebooklab-local
 CI_IMAGE_NAME ?= $(shell sed -n 's/^CI_IMAGE_NAME=//p' config/ci-toolchain.env | head -n1)
 GHCR_IMAGE ?=
 DOCKERHUB_IMAGE ?= $(DOCKERHUB_IMAGE_REPOSITORY)
@@ -56,7 +56,7 @@ BACKEND_PERF_IGNORE_ARGS := --ignore=tests/performance
 endif
 
 database:
-	docker compose -p provenote up -d surrealdb
+	docker compose -p notebooklab up -d surrealdb
 
 run:
 	@echo "⚠️  Warning: Starting apps/web only. For full functionality, use 'make start-all'"
@@ -198,7 +198,7 @@ docker-runtime-audit:
 	@docker system df -v || true
 
 cleanup-operator-dry-run:
-	@echo "🧪 Provenote cleanup operator path (dry-run)"
+	@echo "🧪 Notebooklab cleanup operator path (dry-run)"
 	@echo "1) audit repo-managed cleanup candidates (repo-local + repo-owned machine cache)"
 	bash tooling/scripts/ops/audit_space_surfaces.sh --inventory-class repo_managed_candidate --action-filter safe_clear,cautious_clear
 	@echo ""
@@ -214,7 +214,7 @@ cleanup-operator-dry-run:
 	@echo "   make docker-runtime-audit"
 
 cleanup-operator-rebuildable:
-	@echo "🧹 Provenote cleanup operator path (rebuildable)"
+	@echo "🧹 Notebooklab cleanup operator path (rebuildable)"
 	@echo "1) remove buildx builder residue"
 	$(MAKE) docker-buildx-clean
 	@echo "2) clear repo-local runtime rebuildables"
@@ -223,7 +223,7 @@ cleanup-operator-rebuildable:
 	bash tooling/scripts/ops/cleanup_machine_cache.sh --mode apply --include-stale-bootstrap-snapshots
 
 cleanup-operator-aggressive:
-	@echo "🧹 Provenote cleanup operator path (aggressive)"
+	@echo "🧹 Notebooklab cleanup operator path (aggressive)"
 	@echo "1) remove buildx builder residue"
 	$(MAKE) docker-buildx-clean
 	@echo "2) clear repo-local runtime rebuildables"
@@ -340,7 +340,7 @@ worker-restart: worker-stop
 
 # === Service Management ===
 start-all:
-	@echo "🚀 Starting Provenote (Database + API + Worker + Frontend)..."
+	@echo "🚀 Starting Notebooklab (Database + API + Worker + Frontend)..."
 	@bash tooling/scripts/dev/start_surreal_local.sh
 	@bash tooling/scripts/dev/start_api_local.sh
 	@bash tooling/scripts/dev/start_worker_local.sh
@@ -351,12 +351,12 @@ start-all:
 	@echo "📚 API Docs: http://localhost:5055/docs"
 
 stop-all:
-	@echo "🛑 Stopping all Provenote services..."
+	@echo "🛑 Stopping all Notebooklab services..."
 	@bash tooling/scripts/dev/stop_local.sh apps/web worker api surrealdb
 	@echo "✅ All services stopped!"
 
 status:
-	@echo "📊 Provenote Service Status:"
+	@echo "📊 Notebooklab Service Status:"
 	@bash tooling/scripts/dev/healthcheck_local.sh
 
 # === Documentation Export ===
