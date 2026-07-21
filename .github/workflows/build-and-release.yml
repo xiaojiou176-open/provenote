@@ -208,7 +208,7 @@ jobs:
       has_dockerhub_secrets: ${{ steps.check.outputs.has_dockerhub_secrets }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Extract version from pyproject.toml
         id: version
@@ -246,7 +246,7 @@ jobs:
       image_metadata: ${{ steps.build-regular-image.outputs.metadata }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Free up disk space
         run: |
@@ -369,7 +369,7 @@ jobs:
       image_metadata: ${{ steps.build-single-image.outputs.metadata }}
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Free up disk space
         run: |
@@ -480,7 +480,7 @@ jobs:
     if: always()
     steps:
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Download raw OCI release-proof evidence artifact (regular)
         if: ${{ needs.build-regular.result == 'success' }}
